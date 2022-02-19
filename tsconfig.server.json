@@ -1,13 +1,13 @@
 {
 	"extends": "./tsconfig.preset.json",
-	"include": ["src/**/*.ts"],
+	"include": ["src/server/**/*.ts"],
 	"exclude": ["node_modules/**", "src/**/*spec.ts", "src/**/__tests__/*", "src/**/__mocks__/*"],
 	"compilerOptions": {
 		"outDir": "./dist/server",
 		"baseUrl": "./",
 		"paths": {
 			"*": ["./node_modules/*"],
-			"{{PACKAGE-NAME}}": ["./src/server/index.ts"]
+			"{{PACKAGE-NAME}}": ["./src/server/server.ts"]
 		},
 		"types": ["node"],
 		"declaration": false,
