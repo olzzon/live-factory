@@ -3,7 +3,7 @@
 	"include": ["src/server/**/*.ts"],
 	"exclude": ["node_modules/**", "src/**/*spec.ts", "src/**/__tests__/*", "src/**/__mocks__/*"],
 	"compilerOptions": {
-		"outDir": "./dist/server",
+		"outDir": "./dist",
 		"baseUrl": "./",
 		"paths": {
 			"*": ["./node_modules/*"],

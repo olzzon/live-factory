@@ -1,0 +1,28 @@
+body {
+    background-color: black;
+    color:beige;
+    font-size: 1.2rem;
+}
+
+.header {
+    font-size: 1.6rem;
+    text-align: center;
+    width: 100wv
+}
+.pipeline {
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    width: 300px;
+    margin-left: 30vw;
+    margin-top: 30px;
+}
+
+.button {
+    color: white;
+    background-color: rgb(61, 61, 61);
+    margin: 2vh;
+    width: 20vw;
+    font-size: 1.4rem;
+}
+

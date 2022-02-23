@@ -1,14 +1,16 @@
 // const exec = require('child_process').exec
 import { exec } from 'child_process'
+import { IFFmpegCommand } from '../../interface/GenericInterfaces'
 
 export class StartFFPlay {
 	constructor() {
 	}
 
-	initFFmplay = (globalArgs: string, inputArgs: string) => {
+	initFFmplay = (cmd: IFFmpegCommand) => {
 		// ffmpegArgs = '-f lavfi -i smptehdbars=1920x1080'
+		console.log('Command :', `ffplay ${cmd.global.otherParams[0]} ${cmd.input.otherParams[0]}`)
 
-		const child = exec(`ffplay ${globalArgs} ${inputArgs}`, function (error: any, stdout: any, stderr: any) {
+		const child = exec(`ffplay ${cmd.global.otherParams[0]} ${cmd.input.otherParams[0]}`, function (error: any, stdout: any, stderr: any) {
 			if (error != null) {
 				console.log(stderr)
 				// error handling & exit

@@ -1,14 +1,15 @@
 // const exec = require('child_process').exec
 import { exec } from 'child_process'
+import { IFFmpegCommand } from '../../interface/GenericInterfaces'
 
 export class FFmepgInstance {
 	constructor() {
 	}
 
-	initFFmpeg = (globalArgs: string, inputArgs: string, filterArgs: string, outputArgs: string) => {
+	initFFmpeg = (cmd: IFFmpegCommand) => {
 		// ffmpegArgs = '-f lavfi -i smptehdbars=1920x1080'
 
-		const child = exec(`ffmpeg ${globalArgs} ${inputArgs} ${filterArgs} ${outputArgs}`, function (error: any, stdout: any, stderr: any) {
+		const child = exec(`ffmpeg ${cmd.global.otherParams[0]} ${cmd.input.otherParams[0]} ${cmd.filter.otherParams[0]} ${cmd.output.otherParams[0]}`, function (error: any, stdout: any, stderr: any) {
 			if (error != null) {
 				console.log(stderr)
 				// error handling & exit
@@ -17,9 +18,5 @@ export class FFmepgInstance {
 			}
 		})
 		console.log('FFmpeg IS STARTING', child.spawnargs)
-
-		setTimeout(() => {
-			child.kill('SIGINT')
-		}, 50000)
 	}
 }
