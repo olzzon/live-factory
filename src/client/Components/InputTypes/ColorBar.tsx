@@ -17,12 +17,11 @@ const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 		props.setCmd(next)
 	}
 	return (
-		<div>
+		<div className='options'>
 			<label className="">
 				Color bar Size :
 				<input className="" type="text" value={resolution} onChange={(event) => handleResolution(event)} />
 			</label>
-			<hr />
 		</div>
 	)
 }

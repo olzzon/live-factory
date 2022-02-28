@@ -19,22 +19,39 @@ export enum INPUT_TYPES {
 
 export enum OUTPUT_TYPES {
     NONE = 'NONE',
-    SRT = 'SRT',
-    UDP = 'UDP',
-    COLORBAR = 'COLORBAR',
     FILE = 'FILE',
+    MPEG_TS = 'MPEG_TS',
     DECKLINK = 'DECKLINK',
     NDI = 'NDI',
-    RTMP_S = 'TRMP_S', 
-    MPEG_TS = 'MPEG_TS',
+    RTMP_S = 'RTMP_S',
+}
+
+export enum OUTPUT_CONTAINER {
+    NONE = 'NONE',
+    HIDDEN = 'HIDDEN',
+    SRT = 'SRT',
+    UDP = 'UDP',
+    FILE = 'FILE',
+    DECKLINK = 'DECKLINK',
     RTP_UDP = 'RTP-UDP', 
+}
+
+export enum OUTPUT_CODEC {
+    NONE = 'NONE',
+    HIDDEN = 'HIDDEN',
+    JK2 = 'JK2',
+    H262 = 'H262',
+    H264 = 'H264',
+    H265 = 'H265'
 }
 
 export interface IFFmpegCommand {
     global: IGlobalParams
     input: IInputParams
     filter: IFilterParams
-    output: IOutputParams
+    outputType: IOutputTypeParams
+    outputContainer: IOutContainerParams
+    outputCodec: IOutCodecParams
 }
 
 export interface IGlobalParams {
@@ -53,10 +70,20 @@ export interface IFilterParams {
     otherParams: string[]
 }
 
-export interface IOutputParams {
+export interface IOutputTypeParams {
     type: OUTPUT_TYPES
     otherParams: string[]
 }
+export interface IOutContainerParams {
+    type: OUTPUT_CONTAINER
+    otherParams: string[]
+}
+export interface IOutCodecParams {
+    type: OUTPUT_CODEC
+    otherParams: string[]
+}
+
+
 
 /*
     NONE = '',

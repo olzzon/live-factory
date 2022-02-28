@@ -9,13 +9,23 @@ body {
     text-align: center;
     width: 100wv
 }
+
 .pipeline {
     display: flex;
     flex-direction: column;
     align-items: right;
-    width: 300px;
-    margin-left: 30vw;
+    width: 40vw;
+    margin-left: 20vw;
     margin-top: 30px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+}
+
+.horizontal {
+    width: 40vw
 }
 
 .button {
@@ -24,5 +34,29 @@ body {
     margin: 2vh;
     width: 20vw;
     font-size: 1.4rem;
+}
+
+.debugger {
+    position: absolute;
+    left: 30vw;
+    top: 90vh;
+    width: 50vw;
+}
+
+
+input {
+    width: 30vw;
+    color: white;
+    background-color: black;
+    font-size: 1.2rem;
+    margin-left: 10 px;
+}
+
+select {
+    width: 20vw;
+    color: white;
+    background-color: black;
+    font-size: 1.2rem;
+    margin-left: 10 px;
 }
 

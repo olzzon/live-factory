@@ -7,21 +7,20 @@ interface IMpegTsProps {
 }
 
 const MpegTsOutputOptions: React.FC<IMpegTsProps> = (props) => {
-	const [url, setUrl] = useState<string>('-vcodec libx264 -preset veryfast -pix_fmt yuv420p -strict -2 -y -f mpegts -r 25 udp://localhost:1234?pkt_size=1316')
+	const [url, setUrl] = useState<string>('-f mpegts -r 25')
 
-	const handleResolution = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleType = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setUrl(event.target.value)
 		let next = { ...props.cmd }
-		next.output.otherParams[0] = event.target.value
+		next.outputType.otherParams[0] = event.target.value
 		props.setCmd(next)
 	}
 	return (
-		<div>
+		<div className='options'>
 			<label className="">
-				Color bar Size :
-				<input className="" type="text" value={url} onChange={(event) => handleResolution(event)} />
+				URL :
+				<input className="" type="text" value={url} onChange={(event) => handleType(event)} />
 			</label>
-			<hr />
 		</div>
 	)
 }

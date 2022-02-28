@@ -12,7 +12,7 @@ const SRT_OPTIONS = {
 const SrtInputOptions: React.FC<IInputParams> = (props) => {
     console.log('SRT Input')
     return (
-        <div>
+		<div className='options'>
             InputAddress:
         {props.otherParams}
         </div>
