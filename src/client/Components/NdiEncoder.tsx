@@ -39,7 +39,6 @@ const NdiEncoder = () => {
 		setNdiName(event.target.value)
 		let next: IFFmpegCommand = { ...cmd }
 		next.outputType.type = OUTPUT_TYPES.NDI
-		next.global.otherParams[0] = `-stream_loop -1 -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0`
 		next.outputContainer.otherParams[0] = `-f libndi_newtek -pix_fmt uyvy422 ${event.target.value}`
 		setCmd(next)
 	}

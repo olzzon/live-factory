@@ -14,21 +14,21 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 	const handleFileLoop = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setFileLoop(parseInt(event.target.value))
 		let next = { ...props.cmd }
-		next.input.otherParams[0] = `-stream_loop ${event.target.value} -i -i ${filePath}${fileName}`
+		next.input.otherParams[0] = `-stream_loop ${event.target.value} -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i ${filePath}${fileName}`
 		props.setCmd(next)
 	}
 
 	const handleFileName = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setFileName(event.target.value)
 		let next = { ...props.cmd }
-		next.input.otherParams[0] = `-stream_loop ${fileLoop} -i ${filePath}${event.target.value}`
+		next.input.otherParams[0] = `-stream_loop ${fileLoop} -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i ${filePath}${event.target.value}`
 		props.setCmd(next)
 	}
 
 	const handleFilePath = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setFilePath(event.target.value)
 		let next = { ...props.cmd }
-		next.input.otherParams[0] = `-stream_loop ${fileLoop} -i ${event.target.value}${fileName}`
+		next.input.otherParams[0] = `-stream_loop ${fileLoop} -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i ${event.target.value}${fileName}`
 		props.setCmd(next)
 	}
 
