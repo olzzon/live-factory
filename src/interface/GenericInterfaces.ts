@@ -10,6 +10,7 @@ export enum INPUT_TYPES {
     UDP = 'UDP',
     COLORBAR = 'COLORBAR',
     FILE = 'FILE',
+    TWENTY_ONE_TWENTY = '2110',
     DECKLINK = 'DECKLINK',
     NDI = 'NDI',
     RTMP_S = 'TRMP_S', 
@@ -63,24 +64,24 @@ export interface IGlobalParams {
 
 export interface IInputParams {
     type: INPUT_TYPES
-    otherParams: string[]
+    params: string[]
 }
 
 export interface IFilterParams {
-    otherParams: string[]
+    params: string[]
 }
 
 export interface IOutputTypeParams {
     type: OUTPUT_TYPES
-    otherParams: string[]
+    params: string[]
 }
 export interface IOutContainerParams {
     type: OUTPUT_CONTAINER
-    otherParams: string[]
+    params: string[]
 }
 export interface IOutCodecParams {
     type: OUTPUT_CODEC
-    otherParams: string[]
+    params: string[]
 }
 
 

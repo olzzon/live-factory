@@ -9,7 +9,6 @@ import {
 	OUTPUT_TYPES,
 } from '../../interface/GenericInterfaces'
 import ColorbarInputOptions from './InputTypes/ColorBar'
-import SrtInputOptions from './InputTypes/SrtInput'
 import '../styles/app.css'
 import * as IO from '../../interface/SocketIOContants'
 import MpegTsOutputOptions from './OutputTypes/mpeg-ts'
@@ -19,14 +18,14 @@ import H264OutputCodec from './OutputCodecs/h264'
 const socketClient = io()
 
 const NdiDecoder = () => {
-	const [inputType, setInputType] = useState<IInputParams>({ type: INPUT_TYPES.NONE, otherParams: [''] })
+	const [inputType, setInputType] = useState<IInputParams>({ type: INPUT_TYPES.NONE, params: [''] })
 	const [cmd, setCmd] = useState<IFFmpegCommand>({
 		global: { otherParams: [''] },
-		input: { type: INPUT_TYPES.NONE, otherParams: [''] },
-		filter: { otherParams: [''] },
-		outputType: { type: OUTPUT_TYPES.NONE, otherParams: [''] },
-		outputContainer: { type: OUTPUT_CONTAINER.NONE, otherParams: [''] },
-		outputCodec: { type: OUTPUT_CODEC.NONE, otherParams: [''] },
+		input: { type: INPUT_TYPES.NONE, params: [''] },
+		filter: { params: [''] },
+		outputType: { type: OUTPUT_TYPES.NONE, params: [''] },
+		outputContainer: { type: OUTPUT_CONTAINER.NONE, params: [''] },
+		outputCodec: { type: OUTPUT_CODEC.NONE, params: [''] },
 	})
 
 	const handleGlobal = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,19 +35,19 @@ const NdiDecoder = () => {
 	}
 	const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		let next: IFFmpegCommand = { ...cmd }
-		next.input.otherParams = [event.target.value]
+		next.input.params = [event.target.value]
 		setCmd(next)
 	}
 
 	const handleFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
 		let next: IFFmpegCommand = { ...cmd }
-		next.filter.otherParams = [event.target.value]
+		next.filter.params = [event.target.value]
 		setCmd(next)
 	}
 
 	const handleOutput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		let next: IFFmpegCommand = { ...cmd }
-		next.outputType.otherParams = [event.target.value]
+		next.outputType.params = [event.target.value]
 		setCmd(next)
 	}
 
@@ -64,7 +63,7 @@ const NdiDecoder = () => {
 		next.outputType.type = OUTPUT_TYPES.NDI
 		next.global.otherParams[0] =
 			'-stream_loop -1 -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0'
-		next.outputContainer.otherParams[0] = '-f libndi_newtek -pix_fmt uyvy422 OUTPUT'
+		next.outputContainer.params[0] = '-f libndi_newtek -pix_fmt uyvy422 OUTPUT'
 		setCmd(next)
 		socketClient.emit(IO.START_FFMPEG, cmd)
 	}
@@ -111,7 +110,6 @@ const NdiDecoder = () => {
 						})}
 					</select>
 				</label>
-				{cmd.input.type === INPUT_TYPES.SRT ? <SrtInputOptions {...cmd.input} /> : null}
 				{cmd.input.type === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions cmd={cmd} setCmd={setCmd} /> : null}
 				{cmd.input.type === INPUT_TYPES.FILE ? <FileInputOptions cmd={cmd} setCmd={setCmd} /> : null}
 				<hr className="horizontal" />
@@ -175,7 +173,7 @@ const NdiDecoder = () => {
 
 				<label className="">
 					Factory debug :
-					{`${cmd.global.otherParams[0]} ${cmd.input.otherParams[0]} ${cmd.filter.otherParams[0]} ${cmd.outputCodec.otherParams[0]} ${cmd.outputType.otherParams[0]} ${cmd.outputContainer.otherParams[0]}`}
+					{`${cmd.global.otherParams[0]} ${cmd.input.params[0]} ${cmd.filter.params[0]} ${cmd.outputCodec.params[0]} ${cmd.outputType.params[0]} ${cmd.outputContainer.params[0]}`}
 				</label>
 				<button className="button" onClick={() => handlePlayStream()}>
 					START PLAY

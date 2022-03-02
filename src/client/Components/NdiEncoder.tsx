@@ -8,21 +8,21 @@ import {
 	OUTPUT_TYPES,
 } from '../../interface/GenericInterfaces'
 import ColorbarInputOptions from './InputTypes/ColorBar'
-import SrtInputOptions from './InputTypes/SrtInput'
 import '../styles/app.css'
 import * as IO from '../../interface/SocketIOContants'
 import FileInputOptions from './InputTypes/File'
+import MpegTsOutputOptions from './OutputTypes/mpeg-ts'
 const socketClient = io()
 
 const NdiEncoder = () => {
 	const [ndiName, setNdiName] = useState<string>('OUTPUT')
 	const [cmd, setCmd] = useState<IFFmpegCommand>({
 		global: { otherParams: [''] },
-		input: { type: INPUT_TYPES.NONE, otherParams: [''] },
-		filter: { otherParams: [''] },
-		outputType: { type: OUTPUT_TYPES.NONE, otherParams: [''] },
-		outputContainer: { type: OUTPUT_CONTAINER.NONE, otherParams: [''] },
-		outputCodec: { type: OUTPUT_CODEC.NONE, otherParams: [''] },
+		input: { type: INPUT_TYPES.NONE, params: [''] },
+		filter: { params: [''] },
+		outputType: { type: OUTPUT_TYPES.NONE, params: [''] },
+		outputContainer: { type: OUTPUT_CONTAINER.NONE, params: [''] },
+		outputCodec: { type: OUTPUT_CODEC.NONE, params: [''] },
 	})
 
 	const handleStartNdi = () => {
@@ -39,7 +39,7 @@ const NdiEncoder = () => {
 		setNdiName(event.target.value)
 		let next: IFFmpegCommand = { ...cmd }
 		next.outputType.type = OUTPUT_TYPES.NDI
-		next.outputContainer.otherParams[0] = `-f libndi_newtek -pix_fmt uyvy422 ${event.target.value}`
+		next.outputContainer.params[0] = `-f libndi_newtek -pix_fmt uyvy422 ${event.target.value}`
 		setCmd(next)
 	}
 
@@ -63,7 +63,7 @@ const NdiEncoder = () => {
 						})}
 					</select>
 				</label>
-				{cmd.input.type === INPUT_TYPES.SRT ? <SrtInputOptions {...cmd.input} /> : null}
+				{cmd.input.type === INPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions cmd={cmd} setCmd={setCmd} /> : null}
 				{cmd.input.type === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions cmd={cmd} setCmd={setCmd} /> : null}
 				{cmd.input.type === INPUT_TYPES.FILE ? <FileInputOptions cmd={cmd} setCmd={setCmd} /> : null}
 				<hr className="horizontal" />
@@ -77,7 +77,7 @@ const NdiEncoder = () => {
 				</button>
 				<label className="debugger">
 					Factory debug :
-					{`${cmd.global.otherParams[0]} ${cmd.input.otherParams[0]} ${cmd.filter.otherParams[0]} ${cmd.outputCodec.otherParams[0]} ${cmd.outputType.otherParams[0]} ${cmd.outputContainer.otherParams[0]}`}
+					{`${cmd.global.otherParams[0]} ${cmd.input.params[0]} ${cmd.filter.params[0]} ${cmd.outputCodec.params[0]} ${cmd.outputType.params[0]} ${cmd.outputContainer.params[0]}`}
 				</label>
 			</div>
 		</React.Fragment>

@@ -12,7 +12,7 @@ const UdpOutputOptions: React.FC<IMpegTsProps> = (props) => {
 	const handleResolution = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setUrl(event.target.value)
 		let next = { ...props.cmd }
-		next.outputContainer.otherParams[0] = event.target.value
+		next.outputContainer.params[0] = event.target.value
 		props.setCmd(next)
 	}
 	return (

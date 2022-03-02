@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { IFFmpegCommand } from '../../../interface/GenericInterfaces'
 
-interface IFileProps {
+interface IMpegtsProps {
 	cmd: IFFmpegCommand
 	setCmd: React.Dispatch<React.SetStateAction<IFFmpegCommand>>
 }
 
-const FileInputOptions: React.FC<IFileProps> = (props) => {
+const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 	const [fileLoop, setFileLoop] = useState<number>(1)
 	const [fileName, setFileName] = useState<string>('HDR10Jazz.mp4')
 	const [filePath, setFilePath] = useState<string>('/Users/olzzon/coding/live-factory/media/')
@@ -14,24 +14,21 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 	const handleFileLoop = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setFileLoop(parseInt(event.target.value))
 		let next = { ...props.cmd }
-		next.global.otherParams[0] = `-stream_loop ${event.target.value}`
-		next.input.params[0] = `-hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i ${filePath}${fileName}`
+		next.input.params[0] = `-stream_loop ${event.target.value} -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i ${filePath}${fileName}`
 		props.setCmd(next)
 	}
 
 	const handleFileName = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setFileName(event.target.value)
 		let next = { ...props.cmd }
-		next.global.otherParams[0] = `-stream_loop ${fileLoop}`
-		next.input.params[0] = `-hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i ${filePath}${event.target.value}`
+		next.input.params[0] = `-stream_loop ${fileLoop} -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i ${filePath}${event.target.value}`
 		props.setCmd(next)
 	}
 
 	const handleFilePath = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setFilePath(event.target.value)
 		let next = { ...props.cmd }
-		next.global.otherParams[0] = `-stream_loop ${fileLoop}`
-		next.input.params[0] = `-hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i ${event.target.value}${fileName}`
+		next.input.params[0] = `-stream_loop ${fileLoop} -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i ${event.target.value}${fileName}`
 		props.setCmd(next)
 	}
 
@@ -53,4 +50,4 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 	)
 }
 
-export default FileInputOptions
+export default MpegtsInputOptions

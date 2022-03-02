@@ -12,7 +12,7 @@ const H264OutputCodec: React.FC<IMpegTsProps> = (props) => {
 	const handleCodec = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setCodec(event.target.value)
 		let next = { ...props.cmd }
-		next.outputCodec.otherParams[0] = event.target.value
+		next.outputCodec.params[0] = event.target.value
 		props.setCmd(next)
 	}
 	return (

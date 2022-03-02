@@ -12,7 +12,7 @@ const MpegTsOutputOptions: React.FC<IMpegTsProps> = (props) => {
 	const handleType = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setUrl(event.target.value)
 		let next = { ...props.cmd }
-		next.outputType.otherParams[0] = event.target.value
+		next.outputType.params[0] = event.target.value
 		props.setCmd(next)
 	}
 	return (
