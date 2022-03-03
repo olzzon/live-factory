@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
-import { IFFmpegContainer, settings } from './containersReducer'
+import { IFactory, ffmpeg } from './containersReducer'
 
 export interface IStore {
-    settings: Array<IFFmpegContainer>
+    settings: Array<IFactory>
 }
 
 const indexReducer = combineReducers({
-    settings,
+    ffmpeg: ffmpeg,
 })
 
 export default indexReducer

@@ -43,13 +43,13 @@ body {
     width: 50vw;
 }
 
-
 input {
     width: 30vw;
     color: white;
     background-color: black;
     font-size: 1.2rem;
     margin-left: 10 px;
+    margin-top: 10 px;
 }
 
 select {
@@ -58,5 +58,6 @@ select {
     background-color: black;
     font-size: 1.2rem;
     margin-left: 10 px;
+    margin-top: 10 px;
 }
 

@@ -1,11 +1,11 @@
 // const exec = require('child_process').exec
 import { exec } from 'child_process'
-import { IFFmpegCommand } from '../../interface/GenericInterfaces'
+import { IFactory } from '../../interface/redux/containersReducer'
 
 export class FFmepgInstance {
 	constructor() {}
 
-	initFFmpeg = (cmd: IFFmpegCommand) => {
+	initFFmpeg = (cmd: IFactory) => {
 		console.log(cmd.input.type)
 /*		for (let i = 0; i < 1; i++) {
 			//const child = exec(`ffmpeg  -re -stream_loop -1 -i RedBull.ts  -c:v h264_videotoolbox -b:v 50000k -preset normal -pix_fmt yuv420p10le -strict -2 -y -f mpegts udp://localhost:${1234 + i}?pkt_size=1316 `, function (error: any, stdout: any, stderr: any) {
@@ -26,7 +26,7 @@ export class FFmepgInstance {
 		}
 		*/
 		
-		const child = exec(`${__dirname}/../ffmpegruntime ${cmd.global.otherParams[0]} ${cmd.input.otherParams[0]} ${cmd.filter.otherParams[0]} ${cmd.outputCodec.otherParams[0]} ${cmd.outputType.otherParams[0]} ${cmd.outputContainer.otherParams[0]} `, function (error: any, stdout: any, stderr: any) {
+		const child = exec(`${__dirname}/../ffmpegruntime ${cmd.global.params.join('')} ${cmd.input.params.join('')} ${cmd.filter.params.join('')} ${cmd.output.params.join('')}`, function (error: any, stdout: any, stderr: any) {
 			if (error != null) {
 				console.log(stderr)
 				// error handling & exit

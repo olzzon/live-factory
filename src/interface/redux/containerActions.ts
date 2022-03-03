@@ -1,4 +1,6 @@
-import { INPUT_TYPES, OUTPUT_CODEC, OUTPUT_CONTAINER, OUTPUT_TYPES } from "../GenericInterfaces"
+import { INPUT_TYPES, OUTPUT_TYPES } from '../GenericInterfaces'
+
+export const ADD_FACTORY = 'addFactory'
 
 export const SET_GLOBAL_PARAMS = 'setGlobalParams'
 export const SET_INPUT_TYPE = 'setInputType'
@@ -6,77 +8,62 @@ export const SET_INPUT_PARAMS = 'setInputParams'
 export const SET_FILTER_PARAMS = 'setFilterParams'
 export const SET_OUTPUT_TYPE = 'setOutputType'
 export const SET_OUTPUT_PARAMS = 'setOutputParams'
-export const SET_OUT_CONTAINER_TYPE = 'setOutContainerType'
-export const SET_OUT_CONTAINER_PARAMS = 'setOutContainerParams'
-export const SET_OUT_CODEC_TYPE = 'setOutContainerType'
-export const SET_OUT_CODEC_PARAMS = 'setOutContainerParams'
 
-export const storeSetGlobalParams = (params: string[]) => {
+
+export const addFactory = () => {
     return {
-        type: SET_GLOBAL_PARAMS,
-        params: params
+        type: ADD_FACTORY
     }
 }
 
-export const storeSetInputType = () => {
-    return {
-        type: SET_INPUT_TYPE,
-        inputType: INPUT_TYPES
-    }
+export const storeSetGlobalParams = (factoryId: number, paramIndex: number, param: string) => {
+	return {
+		type: SET_GLOBAL_PARAMS,
+		factoryId: factoryId,
+        paramIndex: paramIndex,
+		param: param,
+	}
 }
 
-export const storeSetInputParams = (params: string[]) => {
-    return {
-        type: SET_INPUT_PARAMS,
-        params: params
-    }
+export const storeSetInputType = (factoryId: number, inputType: INPUT_TYPES) => {
+	return {
+		type: SET_INPUT_TYPE,
+		factoryId: factoryId,
+		inputType: inputType,
+	}
 }
 
-export const storeSetFilterParams = (params: string[]) => {
-    return {
-        type: SET_INPUT_PARAMS,
-        params: params
-    }
+export const storeSetInputParams = (factoryId: number, paramIndex: number, param: string) => {
+	return {
+		type: SET_INPUT_PARAMS,
+		factoryId: factoryId,
+        paramIndex: paramIndex,
+		param: param,
+	}
 }
 
-export const storeSetOutputType = () => {
-    return {
-        type: SET_OUTPUT_TYPE,
-        inputType: OUTPUT_TYPES
-    }
+export const storeSetFilterParams = (factoryId: number, paramIndex: number, param: string) => {
+	return {
+		type: SET_INPUT_PARAMS,
+		factoryId: factoryId,
+        paramIndex: paramIndex,
+		param: param,
+	}
 }
 
-export const storeSetOutputParams = (params: string[]) => {
-    return {
-        type: SET_OUTPUT_PARAMS,
-        params: params
-    }
+export const storeSetOutputType = (factoryId: number, outputType: OUTPUT_TYPES) => {
+	return {
+		type: SET_OUTPUT_TYPE,
+		factoryId: factoryId,
+		outputType: outputType,
+	}
 }
 
-export const storeSetOutContainerType = () => {
-    return {
-        type: SET_OUT_CONTAINER_TYPE,
-        inputType: OUTPUT_CONTAINER
-    }
-}
-
-export const storeSetOutContainerParams = (params: string[]) => {
-    return {
-        type: SET_OUT_CONTAINER_PARAMS,
-        params: params
-    }
-}
-
-export const storeSetOutCodecType = () => {
-    return {
-        type: SET_OUT_CODEC_TYPE,
-        inputType: OUTPUT_CODEC
-    }
-}
-
-export const storeSetOutCodecParams = (params: string[]) => {
-    return {
-        type: SET_OUT_CODEC_PARAMS,
-        params: params
-    }
+export const storeSetOutputParams = (factoryId: number, paramIndex: number, param: string) => {
+	return {
+		type: SET_OUTPUT_PARAMS,
+		factoryId: factoryId,
+        paramIndex: paramIndex,
+		param: param,
+	}
 }

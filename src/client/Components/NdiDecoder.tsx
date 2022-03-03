@@ -20,17 +20,17 @@ const socketClient = io()
 const NdiDecoder = () => {
 	const [inputType, setInputType] = useState<IInputParams>({ type: INPUT_TYPES.NONE, params: [''] })
 	const [cmd, setCmd] = useState<IFFmpegCommand>({
-		global: { otherParams: [''] },
+		global: { params: [''] },
 		input: { type: INPUT_TYPES.NONE, params: [''] },
 		filter: { params: [''] },
-		outputType: { type: OUTPUT_TYPES.NONE, params: [''] },
+		output: { type: OUTPUT_TYPES.NONE, params: [''] },
 		outputContainer: { type: OUTPUT_CONTAINER.NONE, params: [''] },
 		outputCodec: { type: OUTPUT_CODEC.NONE, params: [''] },
 	})
 
 	const handleGlobal = (event: React.ChangeEvent<HTMLInputElement>) => {
 		let next: IFFmpegCommand = { ...cmd }
-		next.global.otherParams = [event.target.value]
+		next.global.params = [event.target.value]
 		setCmd(next)
 	}
 	const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +47,7 @@ const NdiDecoder = () => {
 
 	const handleOutput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		let next: IFFmpegCommand = { ...cmd }
-		next.outputType.params = [event.target.value]
+		next.output.params = [event.target.value]
 		setCmd(next)
 	}
 
@@ -60,8 +60,8 @@ const NdiDecoder = () => {
 
 	const handleStartNdi = () => {
 		let next: IFFmpegCommand = { ...cmd }
-		next.outputType.type = OUTPUT_TYPES.NDI
-		next.global.otherParams[0] =
+		next.output.type = OUTPUT_TYPES.NDI
+		next.global.params[0] =
 			'-stream_loop -1 -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0'
 		next.outputContainer.params[0] = '-f libndi_newtek -pix_fmt uyvy422 OUTPUT'
 		setCmd(next)
@@ -76,7 +76,7 @@ const NdiDecoder = () => {
 
 	const handleSelectOutputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		let next: IFFmpegCommand = { ...cmd }
-		next.outputType.type = event.target.value as unknown as OUTPUT_TYPES
+		next.output.type = event.target.value as unknown as OUTPUT_TYPES
 		setCmd(next)
 	}
 	const handleSelectOutputContainer = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -116,7 +116,7 @@ const NdiDecoder = () => {
 				<label>
 					OUTPUT TYPE :
 					<select
-						value={cmd.outputType.type}
+						value={cmd.output.type}
 						onChange={(event) => {
 							handleSelectOutputType(event)
 						}}
@@ -130,7 +130,7 @@ const NdiDecoder = () => {
 						})}
 					</select>
 				</label>
-				{cmd.outputType.type === OUTPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions cmd={cmd} setCmd={setCmd} /> : null}
+				{cmd.output.type === OUTPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions cmd={cmd} setCmd={setCmd} /> : null}
 				<hr className="horizontal" />
 				<label>
 					OUTPUT CONTAINER :
@@ -173,7 +173,7 @@ const NdiDecoder = () => {
 
 				<label className="">
 					Factory debug :
-					{`${cmd.global.otherParams[0]} ${cmd.input.params[0]} ${cmd.filter.params[0]} ${cmd.outputCodec.params[0]} ${cmd.outputType.params[0]} ${cmd.outputContainer.params[0]}`}
+					{`${cmd.global.params[0]} ${cmd.input.params[0]} ${cmd.filter.params[0]} ${cmd.outputCodec.params[0]} ${cmd.output.params[0]} ${cmd.outputContainer.params[0]}`}
 				</label>
 				<button className="button" onClick={() => handlePlayStream()}>
 					START PLAY

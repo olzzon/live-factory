@@ -10,7 +10,7 @@ export enum INPUT_TYPES {
     UDP = 'UDP',
     COLORBAR = 'COLORBAR',
     FILE = 'FILE',
-    TWENTY_ONE_TWENTY = '2110',
+    TWENTY_ONE_TEN = '2110',
     DECKLINK = 'DECKLINK',
     NDI = 'NDI',
     RTMP_S = 'TRMP_S', 
@@ -50,16 +50,11 @@ export interface IFFmpegCommand {
     global: IGlobalParams
     input: IInputParams
     filter: IFilterParams
-    outputType: IOutputTypeParams
-    outputContainer: IOutContainerParams
-    outputCodec: IOutCodecParams
+    output: IOutputParams
 }
 
 export interface IGlobalParams {
-    otherParams: string[]
-    readRateInputSync?: boolean,
-    generatePTS?: boolean,
-    filterComplex?: string
+    params: string[]
 }
 
 export interface IInputParams {
@@ -71,20 +66,10 @@ export interface IFilterParams {
     params: string[]
 }
 
-export interface IOutputTypeParams {
+export interface IOutputParams {
     type: OUTPUT_TYPES
     params: string[]
 }
-export interface IOutContainerParams {
-    type: OUTPUT_CONTAINER
-    params: string[]
-}
-export interface IOutCodecParams {
-    type: OUTPUT_CODEC
-    params: string[]
-}
-
-
 
 /*
     NONE = '',

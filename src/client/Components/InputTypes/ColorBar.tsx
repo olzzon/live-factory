@@ -13,7 +13,7 @@ const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 		setResolution(event.target.value)
 		let next = { ...props.cmd }
 		next.input.params[0] = '-i smptehdbars=' + event.target.value
-		next.global.otherParams[0] = '-f lavfi'
+		next.global.params[0] = '-f lavfi'
 		props.setCmd(next)
 	}
 	return (
