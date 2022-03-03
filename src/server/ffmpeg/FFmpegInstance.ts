@@ -1,39 +1,49 @@
 // const exec = require('child_process').exec
-import { exec } from 'child_process'
+import { ChildProcess, exec, spawn } from 'child_process'
 import { IFactory } from '../../interface/redux/containersReducer'
 
 export class FFmepgInstance {
+	child: ChildProcess | null = null
 	constructor() {}
 
 	initFFmpeg = (cmd: IFactory) => {
-		console.log(cmd.input.type)
-/*		for (let i = 0; i < 1; i++) {
-			//const child = exec(`ffmpeg  -re -stream_loop -1 -i RedBull.ts  -c:v h264_videotoolbox -b:v 50000k -preset normal -pix_fmt yuv420p10le -strict -2 -y -f mpegts udp://localhost:${1234 + i}?pkt_size=1316 `, function (error: any, stdout: any, stderr: any) {
-			// -stream_loop -1 -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i /Users/olzzon/coding/live-factory/media/RedBull.ts -f libndi_newtek -pix_fmt uyvy422 OUTPUT
-			let child = exec(
-				`${__dirname}/../ffmpegruntime -stream_loop -1 -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i /Users/olzzon/coding/live-factory/media/RedBull.ts -f libndi_newtek -pix_fmt uyvy422 OUTPUT${1234 + i} `,
-				function (error: any, stdout: any, stderr: any) {
-					//const child = exec(`ffmpeg -stream_loop -1 -i song.mov -c:v h264_videotoolbox -b:v 20000k -profile 4 -allow_sw false -c:a copy -f mpegts udp://localhost:${1234 + i}?pkt_size=1316 `, function (error: any, stdout: any, stderr: any) {
-					if (error != null) {
-						console.log(stderr)
-						// error handling & exit
-					} else {
-						console.log(stdout)
-					}
-				}
-			)
-			console.log('FFmpeg IS Running', child.spawnargs)
+		// console.log('Transcoder Child', this.child)
+		const command = `${__dirname}/ffmpegruntime`
+		const args = [
+			`${cmd.global.params.join('')} ${cmd.input.params.join('')} ${cmd.filter.params.join(
+				''
+			)} ${cmd.output.params.join('')}`,
+		]
+
+		console.log('Command :', command)
+		console.log('Args :', command)
+
+		if (this.child && this.child.pid) {
+			console.log('Transcoder already running')
+			this.child.kill()
+			this.child.unref()
+			this.child = null
+			return
 		}
-		*/
-		
-		const child = exec(`${__dirname}/../ffmpegruntime ${cmd.global.params.join('')} ${cmd.input.params.join('')} ${cmd.filter.params.join('')} ${cmd.output.params.join('')}`, function (error: any, stdout: any, stderr: any) {
-			if (error != null) {
-				console.log(stderr)
-				// error handling & exit
-			} else {
-				console.log(stdout)
-			}
+		this.child = spawn(command, args, {shell: true})
+		console.log('FFmpeg IS Running', this.child.spawnargs)
+
+		this.child.stderr?.on('data', (data) => {
+			console.log('Trancoder Response: ', data.toString('utf8'))
 		})
-		console.log('FFmpeg IS Running', child.spawnargs)
+
+		this.child
+			.on('exit', (response: number) => {
+				console.log('FFmpeg Exited :', response)
+			})
+			.on('close', (response: number) => {
+				console.log('FFmpeg Closed :', response)
+			})
+			.on('error', (response: Error) => {
+				console.log('FFmpeg Error :', response)
+			})
+			.on('disconnect', (response: any) => {
+				console.log('FFmpeg Disconnected :', response)
+			})
 	}
 }

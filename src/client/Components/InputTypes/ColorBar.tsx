@@ -1,26 +1,42 @@
-import React, { useState } from 'react'
-import { IFFmpegCommand } from '../../../interface/GenericInterfaces'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+	storeClearGlobalParams,
+	storeClearInputParams,
+	storeSetGlobalParams,
+	storeSetInputParams,
+} from '../../../interface/redux/containerActions'
+import { RootState } from '../../main'
 
 interface IColorBarProps {
-	cmd: IFFmpegCommand
-	setCmd: React.Dispatch<React.SetStateAction<IFFmpegCommand>>
+	factoryId: number
 }
 
 const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
-	const [resolution, setResolution] = useState<string>('1920x1080')
+	const dispatch = useDispatch()
+	const id = props.factoryId
 
-	const handleResolution = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setResolution(event.target.value)
-		let next = { ...props.cmd }
-		next.input.params[0] = '-i smptehdbars=' + event.target.value
-		next.global.params[0] = '-f lavfi'
-		props.setCmd(next)
-	}
+	useEffect(() => {
+		dispatch(storeClearGlobalParams(id))
+		dispatch(storeClearInputParams(id))
+
+		dispatch(storeSetGlobalParams(id, 0, '-f lavfi '))
+		dispatch(storeSetInputParams(id, 0, '-i smptehdbars='))
+		dispatch(storeSetInputParams(id, 1, '1920x1080 '))
+	}, [])
+
+	const resolution = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
+
 	return (
-		<div className='options'>
+		<div className="options">
 			<label className="">
 				Color bar Size :
-				<input className="" type="text" value={resolution} onChange={(event) => handleResolution(event)} />
+				<input
+					className=""
+					type="text"
+					value={resolution}
+					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+				/>
 			</label>
 		</div>
 	)

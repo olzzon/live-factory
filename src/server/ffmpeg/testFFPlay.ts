@@ -1,12 +1,14 @@
 // const exec = require('child_process').exec
 // import { exec } from 'child_process'
-import { IFFmpegCommand } from '../../interface/GenericInterfaces'
+
+import { IFactory } from "../../interface/redux/containersReducer"
+
 
 export class StartFFPlay {
 	constructor() {
 	}
 
-	initFFmplay = (cmd: IFFmpegCommand) => {
+	initFFmplay = (cmd: IFactory) => {
 		console.log(cmd)
 		// ffmpegArgs = '-f lavfi -i smptehdbars=1920x1080'
 /*		console.log('Command :', `ffplay ${cmd.global.otherParams[0]} ${cmd.input.otherParams[0]}`)

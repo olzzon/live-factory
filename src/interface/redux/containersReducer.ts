@@ -1,4 +1,4 @@
-import { ChildProcess } from 'child_process'
+import { FFmepgInstance } from '../../server/ffmpeg/FFmpegInstance'
 import {
 	IFilterParams,
 	IGlobalParams,
@@ -11,7 +11,7 @@ import * as CONTAINER_ACTIONS from './containerActions'
 
 export interface IFactory {
 	containerName: string
-	execInstance: ChildProcess | null
+	ffmpegInstance: FFmepgInstance | null
 	global: IGlobalParams
 	input: IInputParams
 	filter: IFilterParams
@@ -26,7 +26,7 @@ const defaultFfmpegContainerReducerState: IFFmpegReducer = {
 	factory: [
 		{
 			containerName: '',
-			execInstance: null,
+			ffmpegInstance: null,
 			global: { params: [''] },
 			input: { type: INPUT_TYPES.NONE, params: [''] },
 			filter: { params: [''] },
@@ -45,14 +45,23 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState], action: any
 		case CONTAINER_ACTIONS.SET_INPUT_TYPE:
 			nextState[0].factory[action.factoryId].input.type = action.inputType
 			return nextState
-			case CONTAINER_ACTIONS.SET_GLOBAL_PARAMS:
-				nextState[0].factory[action.factoryId].global.params[action.paramIndex] = action.param
-				return nextState
+		case CONTAINER_ACTIONS.SET_GLOBAL_PARAMS:
+			nextState[0].factory[action.factoryId].global.params[action.paramIndex] = action.param
+			return nextState
+		case CONTAINER_ACTIONS.CLEAR_GLOBAL_PARAMS:
+			nextState[0].factory[action.factoryId].global.params = ['']
+			return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_PARAMS:
 			nextState[0].factory[action.factoryId].input.params[action.paramIndex] = action.param
 			return nextState
+		case CONTAINER_ACTIONS.CLEAR_INPUT_PARAMS:
+			nextState[0].factory[action.factoryId].input.params = [''] 
+			return nextState
 		case CONTAINER_ACTIONS.SET_OUTPUT_PARAMS:
 			nextState[0].factory[action.factoryId].output.params[action.paramIndex] = action.param
+			return nextState
+		case CONTAINER_ACTIONS.CLEAR_OUTPUT_PARAMS:
+			nextState[0].factory[action.factoryId].output.params = ['']
 			return nextState
 		default:
 			return nextState

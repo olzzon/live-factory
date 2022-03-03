@@ -1,50 +1,32 @@
-import React, { useState } from 'react'
-import { IFFmpegCommand } from '../../../interface/GenericInterfaces'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { storeClearGlobalParams, storeClearInputParams, storeSetInputParams } from '../../../interface/redux/containerActions'
+import { RootState } from '../../main'
 
 interface IMpegtsProps {
-	cmd: IFFmpegCommand
-	setCmd: React.Dispatch<React.SetStateAction<IFFmpegCommand>>
+	factoryId: number
 }
 
 const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
-	const [fileLoop, setFileLoop] = useState<number>(1)
-	const [fileName, setFileName] = useState<string>('HDR10Jazz.mp4')
-	const [filePath, setFilePath] = useState<string>('/Users/olzzon/coding/live-factory/media/')
+	const dispatch = useDispatch()
+	const id = props.factoryId
 
-	const handleFileLoop = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setFileLoop(parseInt(event.target.value))
-		let next = { ...props.cmd }
-		next.input.params[0] = `-stream_loop ${event.target.value} -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i ${filePath}${fileName}`
-		props.setCmd(next)
-	}
+	useEffect(() => {
+		dispatch(storeClearGlobalParams(id))
+		dispatch(storeClearInputParams(id))
 
-	const handleFileName = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setFileName(event.target.value)
-		let next = { ...props.cmd }
-		next.input.params[0] = `-stream_loop ${fileLoop} -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i ${filePath}${event.target.value}`
-		props.setCmd(next)
-	}
+		dispatch(storeSetInputParams(id, 0, ' -i udp://'))
+		dispatch(storeSetInputParams(id, 1, 'localhost:1234'))
+	}, [])
 
-	const handleFilePath = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setFilePath(event.target.value)
-		let next = { ...props.cmd }
-		next.input.params[0] = `-stream_loop ${fileLoop} -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i ${event.target.value}${fileName}`
-		props.setCmd(next)
-	}
+	const url = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
+
 
 	return (
 		<div className='options'>
 			<label className="">
-				Path :
-				<input className="" type="text" value={filePath} onChange={(event) => handleFilePath(event)} />
-			</label>
-			<label className="">
-				Filename :
-				<input className="" type="text" value={fileName} onChange={(event) => handleFileName(event)} />
-			</label>
-			<label className="">
-				File loop (-1 = infinite) :
-				<input className="" type="number" value={fileLoop} onChange={(event) => handleFileLoop(event)} />
+				URL :
+				<input className="" type="text" value={url} onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))} />
 			</label>
 		</div>
 	)

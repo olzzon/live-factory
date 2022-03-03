@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { storeSetGlobalParams, storeSetInputParams } from '../../../interface/redux/containerActions'
+import { storeClearGlobalParams, storeClearInputParams, storeSetGlobalParams, storeSetInputParams } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
 interface IFileProps {
@@ -12,6 +12,9 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 	const id = props.factoryId
 
 	useEffect(() => {
+		dispatch(storeClearGlobalParams(id))
+		dispatch(storeClearInputParams(id))
+
 		dispatch(storeSetGlobalParams(id, 0, ` -stream_loop `))
 		dispatch(storeSetGlobalParams(id, 1, `1 `))
 		dispatch(storeSetInputParams(id, 0, `-hwaccel videotoolbox -re -vsync 0 -i `))

@@ -11,13 +11,15 @@ import { storeSetInputType, storeSetOutputParams } from '../../interface/redux/c
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../main'
 import { IFactory } from '../../interface/redux/containersReducer'
+import ColorbarInputOptions from './InputTypes/ColorBar'
+import MpegtsInputOptions from './InputTypes/Mpegts'
 const socketClient = io()
 
 const NdiEncoder = () => {
 	const dispatch = useDispatch()
 	useEffect(() => {
 		dispatch(storeSetOutputParams(0, 0, ` -f libndi_newtek -pix_fmt uyvy422 `))
-		dispatch(storeSetOutputParams(0, 1, ` NDI_PIPE_1 `))
+		dispatch(storeSetOutputParams(0, 1, `NDI_PIPE_1`))
 	}, [])
 
 	const inputType = useSelector<RootState, INPUT_TYPES>((state) => state.ffmpeg[0].factory[0].input.type)
@@ -49,6 +51,8 @@ const NdiEncoder = () => {
 					</select>
 				</label>
 				{inputType === INPUT_TYPES.FILE ? <FileInputOptions factoryId={0} /> : null}
+				{inputType === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions factoryId={0} /> : null}
+				{inputType === INPUT_TYPES.MPEG_TS ? <MpegtsInputOptions factoryId={0} /> : null}
 				<hr className="horizontal" />
 				<label>
 					NDI Name :

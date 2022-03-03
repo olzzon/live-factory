@@ -46,13 +46,6 @@ export enum OUTPUT_CODEC {
     H265 = 'H265'
 }
 
-export interface IFFmpegCommand {
-    global: IGlobalParams
-    input: IInputParams
-    filter: IFilterParams
-    output: IOutputParams
-}
-
 export interface IGlobalParams {
     params: string[]
 }
@@ -70,15 +63,3 @@ export interface IOutputParams {
     type: OUTPUT_TYPES
     params: string[]
 }
-
-/*
-    NONE = '',
-    SRT = 'srt://',
-    UDP = 'udp://',
-    COLORBAR = 'smptehdbars',
-    DECKLINK = 'xxx',
-    NDI = 'NDI???',
-    RTMP_S = 'TRMP?', 
-    MPEG_TS = 'TSxxx',
-    RTP_UDP = 'RTP-UDPxxx', 
-*/

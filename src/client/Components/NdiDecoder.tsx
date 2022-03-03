@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import io from 'socket.io-client'
 import {
-	IFFmpegCommand,
 	IInputParams,
 	INPUT_TYPES,
 	OUTPUT_CODEC,
@@ -18,6 +17,7 @@ import H264OutputCodec from './OutputCodecs/h264'
 const socketClient = io()
 
 const NdiDecoder = () => {
+	/*
 	const [inputType, setInputType] = useState<IInputParams>({ type: INPUT_TYPES.NONE, params: [''] })
 	const [cmd, setCmd] = useState<IFFmpegCommand>({
 		global: { params: [''] },
@@ -89,8 +89,11 @@ const NdiDecoder = () => {
 		next.outputCodec.type = event.target.value as unknown as OUTPUT_CODEC
 		setCmd(next)
 	}
-
+*/
 	return (
+		null 
+	)
+		/*
 		<React.Fragment>
 			<div className="pipeline">
 				<label>
@@ -186,7 +189,7 @@ const NdiDecoder = () => {
 				</button>
 			</div>
 		</React.Fragment>
-	)
+	)*/
 }
 
 export default NdiDecoder

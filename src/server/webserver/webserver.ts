@@ -12,6 +12,13 @@ import { IFactory } from '../../interface/redux/containersReducer'
 const socketIO = new Server(httpServer)
 
 const PORT = 1406
+let ffmpegFactories: IFactory[] = []
+
+const updateFactory = (index: number, cmd: IFactory) => {
+	const instance = ffmpegFactories[index]?.ffmpegInstance
+	ffmpegFactories[index] = cmd
+	ffmpegFactories[index].ffmpegInstance = instance
+}
 
 export const initializeWebServer = () => {
 	expressApp.use('/', express.static(path.resolve('dist')))
@@ -29,8 +36,11 @@ export const initializeWebServer = () => {
 			ffPlayInstance.initFFmplay(cmd)
 		})
 		client.on(IO.START_FFMPEG, (cmd: IFactory) => {
-			const ffmpegInstance = new FFmepgInstance()
-			ffmpegInstance.initFFmpeg(cmd)
+			updateFactory(0, cmd)
+			if (!ffmpegFactories[0]?.ffmpegInstance) {
+				ffmpegFactories[0].ffmpegInstance = new FFmepgInstance()
+			}
+			ffmpegFactories[0].ffmpegInstance.initFFmpeg(cmd)
 		})
     })
 

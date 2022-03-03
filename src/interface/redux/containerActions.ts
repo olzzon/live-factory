@@ -3,11 +3,15 @@ import { INPUT_TYPES, OUTPUT_TYPES } from '../GenericInterfaces'
 export const ADD_FACTORY = 'addFactory'
 
 export const SET_GLOBAL_PARAMS = 'setGlobalParams'
+export const CLEAR_GLOBAL_PARAMS = 'clearGlobalParams'
 export const SET_INPUT_TYPE = 'setInputType'
 export const SET_INPUT_PARAMS = 'setInputParams'
+export const CLEAR_INPUT_PARAMS = 'clearInputParams'
 export const SET_FILTER_PARAMS = 'setFilterParams'
+export const CLEAR_FILTER_PARAMS = 'clearFilterParams'
 export const SET_OUTPUT_TYPE = 'setOutputType'
 export const SET_OUTPUT_PARAMS = 'setOutputParams'
+export const CLEAR_OUTPUT_PARAMS = 'clearOutputParams'
 
 
 export const addFactory = () => {
@@ -25,6 +29,13 @@ export const storeSetGlobalParams = (factoryId: number, paramIndex: number, para
 	}
 }
 
+export const storeClearGlobalParams = (factoryId: number) => {
+	return {
+		type: CLEAR_GLOBAL_PARAMS,
+		factoryId: factoryId,
+	}
+}
+
 export const storeSetInputType = (factoryId: number, inputType: INPUT_TYPES) => {
 	return {
 		type: SET_INPUT_TYPE,
@@ -33,12 +44,20 @@ export const storeSetInputType = (factoryId: number, inputType: INPUT_TYPES) => 
 	}
 }
 
+
 export const storeSetInputParams = (factoryId: number, paramIndex: number, param: string) => {
 	return {
 		type: SET_INPUT_PARAMS,
 		factoryId: factoryId,
         paramIndex: paramIndex,
 		param: param,
+	}
+}
+
+export const storeClearInputParams = (factoryId: number) => {
+	return {
+		type: CLEAR_INPUT_PARAMS,
+		factoryId: factoryId,
 	}
 }
 
