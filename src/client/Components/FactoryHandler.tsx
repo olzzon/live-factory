@@ -11,25 +11,31 @@ const viewId: string | null = urlParams.get('view')
 const FactoryHandler: React.FC = () => {
 	const dispatch = useDispatch()
 	const factories = useSelector<RootState, IFactory[]>((state) => state.ffmpeg[0].factory, shallowEqual)
-		
+	const [selectedEncoder, setSelectedEncoder] = useState(0)
+
 	return (
-		<React.Fragment>
-			<div>
+		<div className="factory-handler">
+			<div className='factory-selector'>
 				{factories.map((factory: IFactory, index: number) => (
-					<div key={index}>
-						Factory Name : {factory.containerName}
-						<NdiEncoder factoryId={index} />
-					</div>
+					<button
+						key={index}
+						onClick={() => {
+							setSelectedEncoder(index)
+						}}
+					>
+						{factory.containerName}
+					</button>
 				))}
+				<button
+					onClick={() => {
+						dispatch(storeAddFactory())
+					}}
+				>
+					ADD FACTORY
+				</button>
 			</div>
-			<button
-				onClick={() => {
-					dispatch(storeAddFactory())
-				}}
-			>
-				ADD FACTORY
-			</button>
-		</React.Fragment>
+			<NdiEncoder factoryId={selectedEncoder} />
+		</div>
 	)
 }
 

@@ -26,12 +26,12 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 	return {
 		factory: [
 			{
-				containerName: '',
+				containerName: 'PIPE 1',
 				ffmpegInstance: null,
 				global: { params: [''] },
 				input: { type: INPUT_TYPES.NONE, params: [''] },
 				filter: { params: [''] },
-				output: { type: OUTPUT_TYPES.NONE, params: [''] },
+				output: { type: OUTPUT_TYPES.NONE, params: [` -f libndi_newtek -pix_fmt uyvy422 `, `NDI_PIPE_1`] },
 			},
 		],
 	}
@@ -42,7 +42,17 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 
 	switch (action.type) {
 		case CONTAINER_ACTIONS.ADD_FACTORY:
-			nextState[0].factory = [...nextState[0].factory, ...defaultFfmpegContainerReducerState().factory]
+			const newContainer = defaultFfmpegContainerReducerState().factory[0]
+			newContainer.containerName = `PIPE ${nextState[0].factory.length + 1}`
+			newContainer.output.params = [
+				` -f libndi_newtek -pix_fmt uyvy422 `,
+				`NDI_PIPE_${nextState[0].factory.length + 1}`,
+			]
+
+			nextState[0].factory = [...nextState[0].factory, newContainer]
+			return nextState
+		case CONTAINER_ACTIONS.SET_CONTAINER_NAME:
+			nextState[0].factory[action.factoryId].containerName = action.containerName
 			return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_TYPE:
 			nextState[0].factory[action.factoryId].input.type = action.inputType

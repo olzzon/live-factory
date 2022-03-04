@@ -10,6 +10,16 @@ body {
     width: 100wv
 }
 
+.factory-handler {
+    display: flex;
+    flex-direction: row;
+}
+
+.factory-selector {
+    display: flex;
+    flex-direction: column; 
+}
+
 .pipeline {
     display: flex;
     flex-direction: column;
@@ -18,6 +28,7 @@ body {
     margin-left: 20vw;
     margin-top: 30px;
 }
+
 
 .options {
     display: flex;

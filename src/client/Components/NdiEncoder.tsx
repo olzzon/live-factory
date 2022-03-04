@@ -7,7 +7,7 @@ import {
 import '../styles/app.css'
 import * as IO from '../../interface/SocketIOContants'
 import FileInputOptions from './InputTypes/File'
-import { storeSetInputType, storeSetOutputParams } from '../../interface/redux/containerActions'
+import { storeSetContainerName, storeSetInputType, storeSetOutputParams } from '../../interface/redux/containerActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../main'
 import { IFactory } from '../../interface/redux/containersReducer'
@@ -22,11 +22,8 @@ export interface IfactoryId {
 const NdiEncoder: React.FC<IfactoryId> = (props) => {
 	const id = props.factoryId
 	const dispatch = useDispatch()
-	useEffect(() => {
-		dispatch(storeSetOutputParams(id, 0, ` -f libndi_newtek -pix_fmt uyvy422 `))
-		dispatch(storeSetOutputParams(id, 1, `NDI_PIPE_1`))
-	}, [])
 
+	const factoryName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].containerName)
 	const inputType = useSelector<RootState, INPUT_TYPES>((state) => state.ffmpeg[0].factory[id].input.type)
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.params[1])
 	const fullState = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
@@ -38,6 +35,15 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 	return (
 		<React.Fragment>
 			<div className="pipeline">
+			<label>
+					Pipeline Name :
+					<input
+						className=""
+						type="text"
+						value={factoryName ?? ''}
+						onChange={(event) => dispatch(storeSetContainerName(id, event.target.value))}
+					/>
+				</label>
 				<label>
 					SELECT INPUT TYPE :
 					<select
