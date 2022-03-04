@@ -1,6 +1,5 @@
 import express from 'express'
 import path from 'path'
-import { StartFFPlay } from '../ffmpeg/testFFPlay'
 import * as IO  from '../../interface/SocketIOContants'
 
 const expressApp: express.Application = express()
@@ -30,17 +29,12 @@ export const initializeWebServer = () => {
 
 	socketIO.on('connection', (client) => {
 		console.log('a user connected')
-		client.on(IO.START_FFPLAY, (cmd: IFactory) => {
-			console.log('Parsed data :', cmd)
-			const ffPlayInstance = new StartFFPlay()
-			ffPlayInstance.initFFmplay(cmd)
-		})
-		client.on(IO.START_FFMPEG, (cmd: IFactory) => {
-			updateFactory(0, cmd)
-			if (!ffmpegFactories[0]?.ffmpegInstance) {
-				ffmpegFactories[0].ffmpegInstance = new FFmepgInstance()
+		client.on(IO.START_FFMPEG, (id: number, cmd: IFactory) => {
+			updateFactory(id, cmd)
+			if (!ffmpegFactories[id]?.ffmpegInstance) {
+				ffmpegFactories[id].ffmpegInstance = new FFmepgInstance()
 			}
-			ffmpegFactories[0].ffmpegInstance.initFFmpeg(cmd)
+			ffmpegFactories[id].ffmpegInstance?.initFFmpeg(cmd)
 		})
     })
 

@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
-import { IFFmpegCommand } from '../../../interface/GenericInterfaces'
 
 interface IMpegTsProps {
-	cmd: IFFmpegCommand
-	setCmd: React.Dispatch<React.SetStateAction<IFFmpegCommand>>
+factoryId: number
 }
 
 const MpegTsOutputOptions: React.FC<IMpegTsProps> = (props) => {
 	const [url, setUrl] = useState<string>('-f mpegts -r 25')
 
 	const handleType = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setUrl(event.target.value)
+/*		setUrl(event.target.value)
 		let next = { ...props.cmd }
 		next.output.params[0] = event.target.value
-		props.setCmd(next)
+		props.setCmd(next)*/
 	}
 	return (
 		<div className='options'>

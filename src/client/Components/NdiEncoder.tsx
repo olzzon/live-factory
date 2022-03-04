@@ -15,19 +15,24 @@ import ColorbarInputOptions from './InputTypes/ColorBar'
 import MpegtsInputOptions from './InputTypes/Mpegts'
 const socketClient = io()
 
-const NdiEncoder = () => {
+export interface IfactoryId {
+	factoryId: number
+}
+
+const NdiEncoder: React.FC<IfactoryId> = (props) => {
+	const id = props.factoryId
 	const dispatch = useDispatch()
 	useEffect(() => {
-		dispatch(storeSetOutputParams(0, 0, ` -f libndi_newtek -pix_fmt uyvy422 `))
-		dispatch(storeSetOutputParams(0, 1, `NDI_PIPE_1`))
+		dispatch(storeSetOutputParams(id, 0, ` -f libndi_newtek -pix_fmt uyvy422 `))
+		dispatch(storeSetOutputParams(id, 1, `NDI_PIPE_1`))
 	}, [])
 
-	const inputType = useSelector<RootState, INPUT_TYPES>((state) => state.ffmpeg[0].factory[0].input.type)
-	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[0].output.params[1])
-	const fullState = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[0])
+	const inputType = useSelector<RootState, INPUT_TYPES>((state) => state.ffmpeg[0].factory[id].input.type)
+	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.params[1])
+	const fullState = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
 
 	const handleStartNdi = () => {
-		socketClient.emit(IO.START_FFMPEG, fullState)
+		socketClient.emit(IO.START_FFMPEG, id, fullState)
 	}
 
 	return (
@@ -38,7 +43,7 @@ const NdiEncoder = () => {
 					<select
 						value={inputType}
 						onChange={(event) => {
-							dispatch(storeSetInputType(0, event.target.value as INPUT_TYPES))
+							dispatch(storeSetInputType(id, event.target.value as INPUT_TYPES))
 						}}
 					>
 						{Object.keys(INPUT_TYPES).map((key, index) => {
@@ -50,24 +55,23 @@ const NdiEncoder = () => {
 						})}
 					</select>
 				</label>
-				{inputType === INPUT_TYPES.FILE ? <FileInputOptions factoryId={0} /> : null}
-				{inputType === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions factoryId={0} /> : null}
-				{inputType === INPUT_TYPES.MPEG_TS ? <MpegtsInputOptions factoryId={0} /> : null}
+				{inputType === INPUT_TYPES.FILE ? <FileInputOptions factoryId={id} /> : null}
+				{inputType === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions factoryId={id} /> : null}
+				{inputType === INPUT_TYPES.MPEG_TS ? <MpegtsInputOptions factoryId={id} /> : null}
 				<hr className="horizontal" />
 				<label>
 					NDI Name :
 					<input
 						className=""
 						type="text"
-						value={outputName}
-						onChange={(event) => dispatch(storeSetOutputParams(0, 1, event.target.value))}
+						value={outputName ?? ''}
+						onChange={(event) => dispatch(storeSetOutputParams(id, 1, event.target.value))}
 					/>
 				</label>
 
 				<button className="button" onClick={() => handleStartNdi()}>
 					START NDI ENCODER
 				</button>
-				<label className="debugger">Factory debug :</label>
 			</div>
 		</React.Fragment>
 	)

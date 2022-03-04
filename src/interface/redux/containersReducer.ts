@@ -22,25 +22,27 @@ export interface IFFmpegReducer {
 	factory: IFactory[]
 }
 
-const defaultFfmpegContainerReducerState: IFFmpegReducer = {
-	factory: [
-		{
-			containerName: '',
-			ffmpegInstance: null,
-			global: { params: [''] },
-			input: { type: INPUT_TYPES.NONE, params: [''] },
-			filter: { params: [''] },
-			output: { type: OUTPUT_TYPES.NONE, params: [''] },
-		},
-	],
+const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
+	return {
+		factory: [
+			{
+				containerName: '',
+				ffmpegInstance: null,
+				global: { params: [''] },
+				input: { type: INPUT_TYPES.NONE, params: [''] },
+				filter: { params: [''] },
+				output: { type: OUTPUT_TYPES.NONE, params: [''] },
+			},
+		],
+	}
 }
 
-export const ffmpeg = (state = [defaultFfmpegContainerReducerState], action: any): Array<IFFmpegReducer> => {
-	let nextState = [Object.assign({}, state[0])]
+export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: any): Array<IFFmpegReducer> => {
+	let nextState = [...state]
 
 	switch (action.type) {
 		case CONTAINER_ACTIONS.ADD_FACTORY:
-			nextState[0].factory.push({ ...defaultFfmpegContainerReducerState.factory[0] })
+			nextState[0].factory = [...nextState[0].factory, ...defaultFfmpegContainerReducerState().factory]
 			return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_TYPE:
 			nextState[0].factory[action.factoryId].input.type = action.inputType
@@ -55,7 +57,7 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState], action: any
 			nextState[0].factory[action.factoryId].input.params[action.paramIndex] = action.param
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_INPUT_PARAMS:
-			nextState[0].factory[action.factoryId].input.params = [''] 
+			nextState[0].factory[action.factoryId].input.params = ['']
 			return nextState
 		case CONTAINER_ACTIONS.SET_OUTPUT_PARAMS:
 			nextState[0].factory[action.factoryId].output.params[action.paramIndex] = action.param

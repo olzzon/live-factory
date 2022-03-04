@@ -1,5 +1,5 @@
 // const exec = require('child_process').exec
-import { ChildProcess, exec, spawn } from 'child_process'
+import { ChildProcess, spawn } from 'child_process'
 import { IFactory } from '../../interface/redux/containersReducer'
 
 export class FFmepgInstance {
@@ -8,7 +8,7 @@ export class FFmepgInstance {
 
 	initFFmpeg = (cmd: IFactory) => {
 		// console.log('Transcoder Child', this.child)
-		const command = `${__dirname}/ffmpegruntime`
+		const command = `${__dirname}/../ffmpegruntime`
 		const args = [
 			`${cmd.global.params.join('')} ${cmd.input.params.join('')} ${cmd.filter.params.join(
 				''
@@ -21,9 +21,6 @@ export class FFmepgInstance {
 		if (this.child && this.child.pid) {
 			console.log('Transcoder already running')
 			this.child.kill()
-			this.child.unref()
-			this.child = null
-			return
 		}
 		this.child = spawn(command, args, {shell: true})
 		console.log('FFmpeg IS Running', this.child.spawnargs)

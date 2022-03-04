@@ -14,7 +14,7 @@ export const SET_OUTPUT_PARAMS = 'setOutputParams'
 export const CLEAR_OUTPUT_PARAMS = 'clearOutputParams'
 
 
-export const addFactory = () => {
+export const storeAddFactory = () => {
     return {
         type: ADD_FACTORY
     }
