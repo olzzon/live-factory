@@ -29,12 +29,15 @@ export const initializeWebServer = () => {
 
 	socketIO.on('connection', (client) => {
 		console.log('a user connected')
-		client.on(IO.START_FFMPEG, (id: number, cmd: IFactory) => {
+		client.on(IO.START_ENCODER, (id: number, cmd: IFactory) => {
 			updateFactory(id, cmd)
 			if (!ffmpegFactories[id]?.ffmpegInstance) {
 				ffmpegFactories[id].ffmpegInstance = new FFmepgInstance()
 			}
 			ffmpegFactories[id].ffmpegInstance?.initFFmpeg(cmd)
+		})
+		.on(IO.STOP_ENCODER, (id: number) => {
+			ffmpegFactories[id]?.ffmpegInstance?.killFFmpeg(id)
 		})
     })
 

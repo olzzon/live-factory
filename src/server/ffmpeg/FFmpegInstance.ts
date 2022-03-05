@@ -15,9 +15,6 @@ export class FFmepgInstance {
 			)} ${cmd.output.params.join('')}`,
 		]
 
-		console.log('Command :', command)
-		console.log('Args :', command)
-
 		if (this.child && this.child.pid) {
 			console.log('Transcoder already running')
 			this.child.kill()
@@ -25,22 +22,27 @@ export class FFmepgInstance {
 		this.child = spawn(command, args, {shell: true})
 		console.log('FFmpeg IS Running', this.child.spawnargs)
 
-		this.child.stderr?.on('data', (data) => {
-			console.log('Trancoder Response: ', data.toString('utf8'))
+		this.child.stdout?.on('data', (data) => {
+			console.log(`Encoder ${cmd.containerName} :`, data.toString('utf8'))
 		})
 
 		this.child
 			.on('exit', (response: number) => {
-				console.log('FFmpeg Exited :', response)
+				console.log(`Encoder ${cmd.containerName} Exit :`, response)
 			})
 			.on('close', (response: number) => {
-				console.log('FFmpeg Closed :', response)
+				console.log(`Encoder ${cmd.containerName} Closed :`, response)
 			})
 			.on('error', (response: Error) => {
-				console.log('FFmpeg Error :', response)
+				console.log(`Encoder ${cmd.containerName} Error :`, response)
 			})
 			.on('disconnect', (response: any) => {
-				console.log('FFmpeg Disconnected :', response)
+				console.log(`Encoder ${cmd.containerName} Disconnected :`, response)
 			})
+	}
+
+	killFFmpeg = (containerIndex: number) => {
+		console.log(`Stopping Encoder Index : ${containerIndex}`)
+		this.child?.kill()
 	}
 }

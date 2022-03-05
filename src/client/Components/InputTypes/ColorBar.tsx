@@ -29,10 +29,10 @@ const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 
 	return (
 		<div className="options">
-			<label className="">
+			<label className="pipeline-label">
 				Color bar Size :
 				<input
-					className=""
+					className="input-text"
 					type="text"
 					value={resolution}
 					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}

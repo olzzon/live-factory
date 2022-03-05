@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
 import io from 'socket.io-client'
 
-import {
-	INPUT_TYPES,
-} from '../../interface/GenericInterfaces'
+import { INPUT_TYPES } from '../../interface/GenericInterfaces'
 import '../styles/app.css'
 import * as IO from '../../interface/SocketIOContants'
 import FileInputOptions from './InputTypes/File'
@@ -28,24 +26,29 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.params[1])
 	const fullState = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
 
-	const handleStartNdi = () => {
-		socketClient.emit(IO.START_FFMPEG, id, fullState)
+	const handleStartEncoder = () => {
+		socketClient.emit(IO.START_ENCODER, id, fullState)
+	}
+
+	const handleStopEncoder = () => {
+		socketClient.emit(IO.STOP_ENCODER, id)
 	}
 
 	return (
 		<React.Fragment>
-			<div className="pipeline">
-			<label>
+			<div className='pipeline'>
+				<label className='pipeline-label'>
 					Pipeline Name :
 					<input
-						className=""
+						className="input-text"
 						type="text"
 						value={factoryName ?? ''}
 						onChange={(event) => dispatch(storeSetContainerName(id, event.target.value))}
 					/>
 				</label>
-				<label>
-					SELECT INPUT TYPE :
+				<hr className="horizontal" />
+				<label className='pipeline-label'>
+					Input Type :
 					<select
 						value={inputType}
 						onChange={(event) => {
@@ -65,19 +68,23 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 				{inputType === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.MPEG_TS ? <MpegtsInputOptions factoryId={id} /> : null}
 				<hr className="horizontal" />
-				<label>
+				<label className='pipeline-label'>
 					NDI Name :
 					<input
-						className=""
+						className="input-text"
 						type="text"
 						value={outputName ?? ''}
 						onChange={(event) => dispatch(storeSetOutputParams(id, 1, event.target.value))}
 					/>
 				</label>
-
-				<button className="button" onClick={() => handleStartNdi()}>
-					START NDI ENCODER
-				</button>
+				<div  className='pipeline-footer'>
+					<button className="button" onClick={() => handleStopEncoder()}>
+						STOP ENCODER
+					</button>
+					<button className="button" onClick={() => handleStartEncoder()}>
+						START ENCODER
+					</button>
+				</div>
 			</div>
 		</React.Fragment>
 	)

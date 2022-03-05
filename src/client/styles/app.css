@@ -18,17 +18,30 @@ body {
 .factory-selector {
     display: flex;
     flex-direction: column; 
+    background-color: rgb(34, 34, 34);
+    min-height: 80vh;
 }
 
 .pipeline {
     display: flex;
     flex-direction: column;
-    align-items: right;
-    width: 40vw;
-    margin-left: 20vw;
-    margin-top: 30px;
+    background-color: rgb(34, 34, 34);
+    height: 80vh;
+    width: 60vw;
+    margin-left: 5vw;
 }
 
+.pipeline-label {
+    margin-left: 5vw;
+    margin-top: 3vh;
+}
+
+.pipeline-footer {
+    position:fixed;
+    bottom: 12vh;
+    margin-left: 5vw;
+    margin-top: 3vh;
+}
 
 .options {
     display: flex;
@@ -36,13 +49,14 @@ body {
 }
 
 .horizontal {
-    width: 40vw
+    margin-top: 3vh;
+    width: 60vw
 }
 
 .button {
     color: white;
     background-color: rgb(61, 61, 61);
-    margin: 2vh;
+    margin: 1vh;
     width: 20vw;
     font-size: 1.4rem;
 }
@@ -54,13 +68,18 @@ body {
     width: 50vw;
 }
 
-input {
+.input-text {
     width: 30vw;
     color: white;
     background-color: black;
     font-size: 1.2rem;
-    margin-left: 10 px;
-    margin-top: 10 px;
+}
+
+.input-number {
+    width: 10vw;
+    color: white;
+    background-color: black;
+    font-size: 1.2rem;
 }
 
 select {
@@ -68,7 +87,5 @@ select {
     color: white;
     background-color: black;
     font-size: 1.2rem;
-    margin-left: 10 px;
-    margin-top: 10 px;
 }
 

@@ -15,9 +15,10 @@ const FactoryHandler: React.FC = () => {
 
 	return (
 		<div className="factory-handler">
-			<div className='factory-selector'>
+			<div className="factory-selector">
 				{factories.map((factory: IFactory, index: number) => (
 					<button
+						className="button"
 						key={index}
 						onClick={() => {
 							setSelectedEncoder(index)
@@ -27,6 +28,7 @@ const FactoryHandler: React.FC = () => {
 					</button>
 				))}
 				<button
+					className="button"
 					onClick={() => {
 						dispatch(storeAddFactory())
 					}}

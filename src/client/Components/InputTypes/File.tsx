@@ -16,9 +16,9 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 		dispatch(storeClearInputParams(id))
 
 		dispatch(storeSetGlobalParams(id, 0, ` -stream_loop `))
-		dispatch(storeSetGlobalParams(id, 1, `1 `))
-		dispatch(storeSetInputParams(id, 0, `-hwaccel videotoolbox -re -vsync 0 -i `))
-		dispatch(storeSetInputParams(id, 1, '/Users/olzzon/coding/live-factory/media/'))
+		dispatch(storeSetGlobalParams(id, 1, `1`))
+		dispatch(storeSetInputParams(id, 0, ` -hwaccel videotoolbox -re -vsync 0 -i `))
+		dispatch(storeSetInputParams(id, 1, ' /Users/olzzon/coding/live-factory/media/'))
 		dispatch(storeSetInputParams(id, 2, 'HDR10Jazz.mp4'))
 	}, [])
 
@@ -28,28 +28,28 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 
 	return (
 		<div className="options">
-			<label className="">
+			<label className='pipeline-label'>
 				Path :
 				<input
-					className=""
+					className="input-text"
 					type="text"
 					value={filePath}
 					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
 				/>
 			</label>
-			<label className="">
+			<label className='pipeline-label'>
 				Filename :
 				<input
-					className=""
+					className="input-text"
 					type="text"
 					value={fileName}
 					onChange={(event) => dispatch(storeSetInputParams(id, 2, event.target.value))}
 				/>
 			</label>
-			<label className="">
+			<label className='pipeline-label'>
 				File loop (-1 = infinite) :
 				<input
-					className=""
+					className="input-number"
 					type="number"
 					value={fileLoop}
 					onChange={(event) => dispatch(storeSetGlobalParams(id, 1, event.target.value))}
