@@ -3,6 +3,7 @@ import { INPUT_TYPES, OUTPUT_TYPES } from '../GenericInterfaces'
 export const ADD_FACTORY = 'addFactory'
 
 export const SET_CONTAINER_NAME = 'setContainerName'
+export const SET_CONTAINER_STATE = 'setContainerState'
 export const SET_GLOBAL_PARAMS = 'setGlobalParams'
 export const CLEAR_GLOBAL_PARAMS = 'clearGlobalParams'
 export const SET_INPUT_TYPE = 'setInputType'
@@ -26,6 +27,15 @@ export const storeSetContainerName = (factoryId: number, name: string) => {
 		type: SET_CONTAINER_NAME,
 		factoryId: factoryId,
 		containerName: name,
+	}
+}
+
+export const storeSetContainerState = (factoryId: number, activated: boolean, running: boolean) => {
+	return {
+		type: SET_CONTAINER_STATE,
+		factoryId: factoryId,
+		activated: activated,
+		running: running
 	}
 }
 

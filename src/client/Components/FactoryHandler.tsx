@@ -1,42 +1,62 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { storeAddFactory } from '../../interface/redux/containerActions'
+import { storeAddFactory, storeSetContainerState } from '../../interface/redux/containerActions'
 import { IFactory } from '../../interface/redux/containersReducer'
 import { RootState } from '../main'
+import * as IO from '../../interface/SocketIOContants'
+
 import NdiEncoder from './NdiEncoder'
 
-const urlParams = new URLSearchParams(window.location.search)
-const viewId: string | null = urlParams.get('view')
+import io from 'socket.io-client'
+const socketClient = io()
 
 const FactoryHandler: React.FC = () => {
 	const dispatch = useDispatch()
 	const factories = useSelector<RootState, IFactory[]>((state) => state.ffmpeg[0].factory, shallowEqual)
+	const rerender = useSelector<RootState>((state) => state.ffmpeg[0].rerender)
 	const [selectedEncoder, setSelectedEncoder] = useState(0)
+
+	useEffect(() => {
+		socketClient.on(IO.UPDATE_ENCODER_STATE, (index: number, activated: boolean, running: boolean) => {
+			console.log('Index ', index, 'Activated :', activated, 'Running :', running)
+			dispatch(storeSetContainerState(index, activated, running))
+		})
+	}, [])
 
 	return (
 		<div className="factory-handler">
 			<div className="factory-selector">
 				{factories.map((factory: IFactory, index: number) => (
-					<button
-						className="button"
-						key={index}
-						onClick={() => {
-							setSelectedEncoder(index)
-						}}
-					>
-						{factory.containerName}
-					</button>
+					<div>
+						<span style={factory.activated ? { color: 'red' } : { color: 'rgb(101, 41, 41)' }}>⬤</span>
+						<button
+							className="selector-button"
+							style={
+								selectedEncoder === index
+									? { backgroundColor: 'rgb(81, 81, 81)', borderColor: 'rgb(230, 230, 230)', color: 'white' }
+									: undefined
+							}
+							key={index}
+							onClick={() => {
+								setSelectedEncoder(index)
+							}}
+						>
+							{factory.containerName}
+						</button>
+						<span style={factory.running ? { color: 'green' } : { color: 'rgb(31, 61, 31)' }}>⬤</span>
+					</div>
 				))}
 				<button
 					className="button"
 					onClick={() => {
+						setSelectedEncoder(factories.length)
 						dispatch(storeAddFactory())
 					}}
 				>
 					ADD FACTORY
 				</button>
 			</div>
-			<NdiEncoder factoryId={selectedEncoder} />
+			<NdiEncoder factoryId={selectedEncoder} socketClient={socketClient} />
 		</div>
 	)
 }

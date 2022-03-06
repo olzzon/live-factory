@@ -22,6 +22,14 @@ body {
     min-height: 80vh;
 }
 
+.selector-button {
+    color: rgb(149, 149, 149);
+    background-color: rgb(65, 65, 65);
+    margin: 1vh;
+    width: 20vw;
+    font-size: 1.4rem;
+}
+
 .pipeline {
     display: flex;
     flex-direction: column;
@@ -55,7 +63,7 @@ body {
 
 .button {
     color: white;
-    background-color: rgb(61, 61, 61);
+    background-color: rgb(47, 39, 39);
     margin: 1vh;
     width: 20vw;
     font-size: 1.4rem;

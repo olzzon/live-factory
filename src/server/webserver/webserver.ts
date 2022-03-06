@@ -19,6 +19,11 @@ const updateFactory = (index: number, cmd: IFactory) => {
 	ffmpegFactories[index].ffmpegInstance = instance
 }
 
+export const updateEncoderState = (index: number, activated: boolean, running: boolean) => {
+	console.log('Emitting Encoder update state. Index :', index, 'activated :', activated, 'running :', running)
+	socketIO.emit(IO.UPDATE_ENCODER_STATE, index, activated, running  )
+}
+
 export const initializeWebServer = () => {
 	expressApp.use('/', express.static(path.resolve('dist')))
 
@@ -32,7 +37,7 @@ export const initializeWebServer = () => {
 		client.on(IO.START_ENCODER, (id: number, cmd: IFactory) => {
 			updateFactory(id, cmd)
 			if (!ffmpegFactories[id]?.ffmpegInstance) {
-				ffmpegFactories[id].ffmpegInstance = new FFmepgInstance()
+				ffmpegFactories[id].ffmpegInstance = new FFmepgInstance({containerIndex: id})
 			}
 			ffmpegFactories[id].ffmpegInstance?.initFFmpeg(cmd)
 		})

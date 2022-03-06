@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import io from 'socket.io-client'
+import React from 'react'
 
 import { INPUT_TYPES } from '../../interface/GenericInterfaces'
 import '../styles/app.css'
@@ -11,10 +10,10 @@ import { RootState } from '../main'
 import { IFactory } from '../../interface/redux/containersReducer'
 import ColorbarInputOptions from './InputTypes/ColorBar'
 import MpegtsInputOptions from './InputTypes/Mpegts'
-const socketClient = io()
 
 export interface IfactoryId {
 	factoryId: number
+	socketClient: any
 }
 
 const NdiEncoder: React.FC<IfactoryId> = (props) => {
@@ -27,11 +26,12 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 	const fullState = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
 
 	const handleStartEncoder = () => {
-		socketClient.emit(IO.START_ENCODER, id, fullState)
+		console.log('starting encoder index :', id)
+		props.socketClient.emit(IO.START_ENCODER, id, fullState)
 	}
 
 	const handleStopEncoder = () => {
-		socketClient.emit(IO.STOP_ENCODER, id)
+		props.socketClient.emit(IO.STOP_ENCODER, id)
 	}
 
 	return (

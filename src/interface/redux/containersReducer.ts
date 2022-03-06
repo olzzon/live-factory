@@ -12,6 +12,8 @@ import * as CONTAINER_ACTIONS from './containerActions'
 export interface IFactory {
 	containerName: string
 	ffmpegInstance: FFmepgInstance | null
+	activated: boolean
+	running: boolean
 	global: IGlobalParams
 	input: IInputParams
 	filter: IFilterParams
@@ -19,15 +21,19 @@ export interface IFactory {
 }
 
 export interface IFFmpegReducer {
+	rerender: boolean
 	factory: IFactory[]
 }
 
 const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 	return {
+		rerender: false,
 		factory: [
 			{
 				containerName: 'PIPE 1',
 				ffmpegInstance: null,
+				activated: false,
+				running: false,
 				global: { params: [''] },
 				input: { type: INPUT_TYPES.NONE, params: [''] },
 				filter: { params: [''] },
@@ -53,6 +59,11 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 			return nextState
 		case CONTAINER_ACTIONS.SET_CONTAINER_NAME:
 			nextState[0].factory[action.factoryId].containerName = action.containerName
+			return nextState
+		case CONTAINER_ACTIONS.SET_CONTAINER_STATE:
+			nextState[0].factory[action.factoryId].activated = action.activated
+			nextState[0].factory[action.factoryId].running = action.running
+			nextState[0].rerender = !nextState[0].rerender
 			return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_TYPE:
 			nextState[0].factory[action.factoryId].input.type = action.inputType
