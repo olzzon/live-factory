@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { storeAddFactory, storeSetContainerState } from '../../interface/redux/containerActions'
+import { storeAddFactory, storeSetContainerState, storeUpdateFullStore } from '../../interface/redux/containerActions'
 import { IFactory } from '../../interface/redux/containersReducer'
 import { RootState } from '../main'
 import * as IO from '../../interface/SocketIOContants'
@@ -20,6 +20,10 @@ const FactoryHandler: React.FC = () => {
 		socketClient.on(IO.UPDATE_ENCODER_STATE, (index: number, activated: boolean, running: boolean) => {
 			console.log('Index ', index, 'Activated :', activated, 'Running :', running)
 			dispatch(storeSetContainerState(index, activated, running))
+		})
+		.on(IO.FULL_STORE, (fullStore: IFactory[])=> {
+			dispatch(storeUpdateFullStore(fullStore))
+			console.log('Full store', fullStore)
 		})
 	}, [])
 

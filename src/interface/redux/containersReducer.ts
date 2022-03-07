@@ -57,6 +57,12 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 
 			nextState[0].factory = [...nextState[0].factory, newContainer]
 			return nextState
+		case CONTAINER_ACTIONS.UPDATE_FULL_STORE:
+			action.fullStore.forEach((factory: IFactory, index: number) => {
+				nextState[0].factory[index] = factory !== null ? factory : defaultFfmpegContainerReducerState().factory[0]
+			})
+			nextState[0].rerender = !nextState[0].rerender
+			return nextState
 		case CONTAINER_ACTIONS.SET_CONTAINER_NAME:
 			nextState[0].factory[action.factoryId].containerName = action.containerName
 			return nextState

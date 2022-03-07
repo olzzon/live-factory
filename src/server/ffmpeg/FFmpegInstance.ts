@@ -1,5 +1,5 @@
 // const exec = require('child_process').exec
-import { ChildProcess, spawn } from 'child_process'
+import { ChildProcess, ChildProcessWithoutNullStreams, spawn } from 'child_process'
 import { IFactory } from '../../interface/redux/containersReducer'
 import { updateEncoderState } from '../webserver/webserver'
 
@@ -12,6 +12,10 @@ export class FFmepgInstance {
 	containerIndex = 0
 	constructor(props: FFmpegInstanceProps) {
 		this.containerIndex = props.containerIndex
+	}
+
+	spawnChild = (command: string, args: string[]): ChildProcessWithoutNullStreams => {
+		return spawn(command, args, { shell: true })
 	}
 
 	initFFmpeg = (cmd: IFactory) => {
@@ -27,7 +31,7 @@ export class FFmepgInstance {
 			console.log('Transcoder already running')
 			this.child.kill()
 		}
-		this.child = spawn(command, args, {shell: true})
+		this.child = this.spawnChild(command, args)
 		console.log('FFmpeg IS Running', this.child.spawnargs)
 		updateEncoderState(this.containerIndex, true, true)
 

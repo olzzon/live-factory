@@ -1,6 +1,8 @@
 import { INPUT_TYPES, OUTPUT_TYPES } from '../GenericInterfaces'
+import { IFactory } from './containersReducer'
 
 export const ADD_FACTORY = 'addFactory'
+export const UPDATE_FULL_STORE = 'update_full_store'
 
 export const SET_CONTAINER_NAME = 'setContainerName'
 export const SET_CONTAINER_STATE = 'setContainerState'
@@ -19,6 +21,13 @@ export const CLEAR_OUTPUT_PARAMS = 'clearOutputParams'
 export const storeAddFactory = () => {
     return {
         type: ADD_FACTORY
+    }
+}
+
+export const storeUpdateFullStore = (fullStore: IFactory[]) => {
+    return {
+        type: UPDATE_FULL_STORE,
+		fullStore: fullStore
     }
 }
 

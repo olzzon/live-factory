@@ -23,14 +23,15 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 	const factoryName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].containerName)
 	const inputType = useSelector<RootState, INPUT_TYPES>((state) => state.ffmpeg[0].factory[id].input.type)
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.params[1])
-	const fullState = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
+	const factory = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
 
 	const handleStartEncoder = () => {
 		console.log('starting encoder index :', id)
-		props.socketClient.emit(IO.START_ENCODER, id, fullState)
+		props.socketClient.emit(IO.START_ENCODER, id, factory)
 	}
 
 	const handleStopEncoder = () => {
+		props.socketClient.emit(IO.UPDATE_FACTORY, id, factory)
 		props.socketClient.emit(IO.STOP_ENCODER, id)
 	}
 

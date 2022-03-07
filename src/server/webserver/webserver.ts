@@ -19,6 +19,15 @@ const updateFactory = (index: number, cmd: IFactory) => {
 	ffmpegFactories[index].ffmpegInstance = instance
 }
 
+const updateClient = (client: any) => {
+	let emitFactories: IFactory[] = ffmpegFactories.map((factory) => {
+		let strippedFactory = factory
+		factory.ffmpegInstance = null
+		return strippedFactory
+	})
+	client.emit(IO.FULL_STORE, emitFactories)
+}
+
 export const updateEncoderState = (index: number, activated: boolean, running: boolean) => {
 	console.log('Emitting Encoder update state. Index :', index, 'activated :', activated, 'running :', running)
 	socketIO.emit(IO.UPDATE_ENCODER_STATE, index, activated, running  )
@@ -34,6 +43,8 @@ export const initializeWebServer = () => {
 
 	socketIO.on('connection', (client) => {
 		console.log('a user connected')
+		updateClient(client)
+
 		client.on(IO.START_ENCODER, (id: number, cmd: IFactory) => {
 			updateFactory(id, cmd)
 			if (!ffmpegFactories[id]?.ffmpegInstance) {
@@ -43,6 +54,9 @@ export const initializeWebServer = () => {
 		})
 		.on(IO.STOP_ENCODER, (id: number) => {
 			ffmpegFactories[id]?.ffmpegInstance?.killFFmpeg(id)
+		})
+		.on(IO.UPDATE_FACTORY,(id: number, cmd: IFactory) => {
+			updateFactory(id, cmd)
 		})
     })
 
