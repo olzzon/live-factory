@@ -8,24 +8,20 @@ const httpServer = http.createServer(expressApp)
 import { Server } from 'socket.io'
 import { FFmepgInstance } from '../ffmpeg/FFmpegInstance'
 import { IFactory } from '../../interface/redux/containersReducer'
+import {loadFactories, saveFactoriesList} from '../utils/storage'
 const socketIO = new Server(httpServer)
 
 const PORT = 1406
-let ffmpegFactories: IFactory[] = []
+let ffmpegFactories: IFactory[] = loadFactories()
+let factoryInstances: FFmepgInstance[] = []
 
 const updateFactory = (index: number, cmd: IFactory) => {
-	const instance = ffmpegFactories[index]?.ffmpegInstance
 	ffmpegFactories[index] = cmd
-	ffmpegFactories[index].ffmpegInstance = instance
+	saveFactoriesList(ffmpegFactories)
 }
 
 const updateClient = (client: any) => {
-	let emitFactories: IFactory[] = ffmpegFactories.map((factory) => {
-		let strippedFactory = factory
-		factory.ffmpegInstance = null
-		return strippedFactory
-	})
-	client.emit(IO.FULL_STORE, emitFactories)
+	client.emit(IO.FULL_STORE, ffmpegFactories)
 }
 
 export const updateEncoderState = (index: number, activated: boolean, running: boolean) => {
@@ -47,13 +43,13 @@ export const initializeWebServer = () => {
 
 		client.on(IO.START_ENCODER, (id: number, cmd: IFactory) => {
 			updateFactory(id, cmd)
-			if (!ffmpegFactories[id]?.ffmpegInstance) {
-				ffmpegFactories[id].ffmpegInstance = new FFmepgInstance({containerIndex: id})
+			if (!factoryInstances[id]) {
+				factoryInstances[id] = new FFmepgInstance({containerIndex: id})
 			}
-			ffmpegFactories[id].ffmpegInstance?.initFFmpeg(cmd)
+			factoryInstances[id].initFFmpeg(cmd)
 		})
 		.on(IO.STOP_ENCODER, (id: number) => {
-			ffmpegFactories[id]?.ffmpegInstance?.killFFmpeg(id)
+			factoryInstances[id]?.killFFmpeg(id)
 		})
 		.on(IO.UPDATE_FACTORY,(id: number, cmd: IFactory) => {
 			updateFactory(id, cmd)

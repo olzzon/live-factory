@@ -11,7 +11,6 @@ import * as CONTAINER_ACTIONS from './containerActions'
 
 export interface IFactory {
 	containerName: string
-	ffmpegInstance: FFmepgInstance | null
 	activated: boolean
 	running: boolean
 	global: IGlobalParams
