@@ -1,6 +1,6 @@
 // const exec = require('child_process').exec
 import { ChildProcess, ChildProcessWithoutNullStreams, spawn } from 'child_process'
-import { IFactory } from '../../interface/redux/containersReducer'
+import { IFactory } from '../../interface/GenericInterfaces'
 import { updateEncoderState } from '../webserver/webserver'
 
 interface FFmpegInstanceProps {

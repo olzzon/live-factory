@@ -1,9 +1,5 @@
 import { combineReducers } from 'redux'
-import { IFactory, ffmpeg } from './containersReducer'
-
-export interface IStore {
-    settings: Array<IFactory>
-}
+import { ffmpeg } from './containersReducer'
 
 const indexReducer = combineReducers({
     ffmpeg: ffmpeg,

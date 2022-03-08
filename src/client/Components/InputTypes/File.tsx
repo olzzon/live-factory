@@ -12,14 +12,8 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 	const id = props.factoryId
 
 	useEffect(() => {
-		dispatch(storeClearGlobalParams(id))
-		dispatch(storeClearInputParams(id))
-
 		dispatch(storeSetGlobalParams(id, 0, ` -stream_loop `))
-		dispatch(storeSetGlobalParams(id, 1, `1`))
 		dispatch(storeSetInputParams(id, 0, ` -hwaccel videotoolbox -re -vsync 0 -i `))
-		dispatch(storeSetInputParams(id, 1, ' /Users/olzzon/coding/live-factory/media/'))
-		dispatch(storeSetInputParams(id, 2, 'HDR10Jazz.mp4'))
 	}, [])
 
 	const fileLoop = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].global.params[1])
@@ -33,7 +27,7 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={filePath}
+					value={filePath ?? '/Users/olzzon/coding/live-factory/media/'}
 					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
 				/>
 			</label>
@@ -42,7 +36,7 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={fileName}
+					value={fileName ?? 'HDR10Jazz.mp4'}
 					onChange={(event) => dispatch(storeSetInputParams(id, 2, event.target.value))}
 				/>
 			</label>
@@ -51,7 +45,7 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 				<input
 					className="input-number"
 					type="number"
-					value={fileLoop}
+					value={fileLoop ?? 1}
 					onChange={(event) => dispatch(storeSetGlobalParams(id, 1, event.target.value))}
 				/>
 			</label>

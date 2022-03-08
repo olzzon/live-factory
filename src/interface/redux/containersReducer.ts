@@ -1,23 +1,9 @@
-import { FFmepgInstance } from '../../server/ffmpeg/FFmpegInstance'
 import {
-	IFilterParams,
-	IGlobalParams,
-	IInputParams,
+	IFactory,
 	INPUT_TYPES,
-	IOutputParams,
 	OUTPUT_TYPES,
 } from '../GenericInterfaces'
 import * as CONTAINER_ACTIONS from './containerActions'
-
-export interface IFactory {
-	containerName: string
-	activated: boolean
-	running: boolean
-	global: IGlobalParams
-	input: IInputParams
-	filter: IFilterParams
-	output: IOutputParams
-}
 
 export interface IFFmpegReducer {
 	rerender: boolean
@@ -30,7 +16,6 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 		factory: [
 			{
 				containerName: 'PIPE 1',
-				ffmpegInstance: null,
 				activated: false,
 				running: false,
 				global: { params: [''] },

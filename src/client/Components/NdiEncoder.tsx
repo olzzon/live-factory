@@ -4,10 +4,16 @@ import { INPUT_TYPES } from '../../interface/GenericInterfaces'
 import '../styles/app.css'
 import * as IO from '../../interface/SocketIOContants'
 import FileInputOptions from './InputTypes/File'
-import { storeSetContainerName, storeSetInputType, storeSetOutputParams } from '../../interface/redux/containerActions'
+import {
+	storeClearGlobalParams,
+	storeClearInputParams,
+	storeSetContainerName,
+	storeSetInputType,
+	storeSetOutputParams,
+} from '../../interface/redux/containerActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../main'
-import { IFactory } from '../../interface/redux/containersReducer'
+import { IFactory } from '../../interface/GenericInterfaces'
 import ColorbarInputOptions from './InputTypes/ColorBar'
 import MpegtsInputOptions from './InputTypes/Mpegts'
 
@@ -25,6 +31,12 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.params[1])
 	const factory = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
 
+	const handleSetInputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		dispatch(storeClearGlobalParams(id))
+		dispatch(storeClearInputParams(id))
+		dispatch(storeSetInputType(id, event.target.value as INPUT_TYPES))
+	}
+
 	const handleStartEncoder = () => {
 		console.log('starting encoder index :', id)
 		props.socketClient.emit(IO.START_ENCODER, id, factory)
@@ -37,8 +49,8 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 
 	return (
 		<React.Fragment>
-			<div className='pipeline'>
-				<label className='pipeline-label'>
+			<div className="pipeline">
+				<label className="pipeline-label">
 					Pipeline Name :
 					<input
 						className="input-text"
@@ -48,12 +60,12 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 					/>
 				</label>
 				<hr className="horizontal" />
-				<label className='pipeline-label'>
+				<label className="pipeline-label">
 					Input Type :
 					<select
 						value={inputType}
 						onChange={(event) => {
-							dispatch(storeSetInputType(id, event.target.value as INPUT_TYPES))
+							handleSetInputType(event)
 						}}
 					>
 						{Object.keys(INPUT_TYPES).map((key, index) => {
@@ -69,7 +81,7 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 				{inputType === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.MPEG_TS ? <MpegtsInputOptions factoryId={id} /> : null}
 				<hr className="horizontal" />
-				<label className='pipeline-label'>
+				<label className="pipeline-label">
 					NDI Name :
 					<input
 						className="input-text"
@@ -78,7 +90,7 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 						onChange={(event) => dispatch(storeSetOutputParams(id, 1, event.target.value))}
 					/>
 				</label>
-				<div  className='pipeline-footer'>
+				<div className="pipeline-footer">
 					<button className="button" onClick={() => handleStopEncoder()}>
 						STOP ENCODER
 					</button>

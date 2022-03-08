@@ -1,5 +1,5 @@
 import { INPUT_TYPES, OUTPUT_TYPES } from '../GenericInterfaces'
-import { IFactory } from './containersReducer'
+import { IFactory } from '../GenericInterfaces'
 
 export const ADD_FACTORY = 'addFactory'
 export const UPDATE_FULL_STORE = 'update_full_store'

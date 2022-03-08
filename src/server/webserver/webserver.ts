@@ -7,7 +7,7 @@ import http from 'http'
 const httpServer = http.createServer(expressApp)
 import { Server } from 'socket.io'
 import { FFmepgInstance } from '../ffmpeg/FFmpegInstance'
-import { IFactory } from '../../interface/redux/containersReducer'
+import { IFactory } from '../../interface/GenericInterfaces'
 import {loadFactories, saveFactoriesList} from '../utils/storage'
 const socketIO = new Server(httpServer)
 

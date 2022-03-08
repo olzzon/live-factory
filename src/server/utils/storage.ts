@@ -5,7 +5,7 @@ const homeDir = require('os').homedir()
 
 const STORAGE_NAME = 'stored-setup'
 
-import { IFactory } from  '../../interface/redux/containersReducer'
+import { IFactory } from  '../../interface/GenericInterfaces'
 
 export const loadFactories = (): IFactory[] => {
     let factories: IFactory[] = []

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { storeAddFactory, storeSetContainerState, storeUpdateFullStore } from '../../interface/redux/containerActions'
-import { IFactory } from '../../interface/redux/containersReducer'
+import { IFactory } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
 import * as IO from '../../interface/SocketIOContants'
 

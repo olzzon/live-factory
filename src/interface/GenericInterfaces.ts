@@ -1,3 +1,13 @@
+export interface IFactory {
+	containerName: string
+	activated: boolean
+	running: boolean
+	global: IGlobalParams
+	input: IInputParams
+	filter: IFilterParams
+	output: IOutputParams
+}
+
 export const GLOBAL_FLAGS = {
     READ_RATE_INPUT_SYNC: '-re',
     GENERATE_PTS: '+genpts', 
