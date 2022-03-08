@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { storeClearGlobalParams, storeClearInputParams, storeSetGlobalParams, storeSetInputParams } from '../../../interface/redux/containerActions'
+import {
+	storeClearGlobalParams,
+	storeClearInputParams,
+	storeSetGlobalParams,
+	storeSetInputParams,
+} from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
 interface IFileProps {
@@ -11,41 +16,50 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
 
-	useEffect(() => {
-		dispatch(storeSetGlobalParams(id, 0, ` -stream_loop `))
-		dispatch(storeSetInputParams(id, 0, ` -hwaccel videotoolbox -re -vsync 0 -i `))
-	}, [])
-
 	const fileLoop = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].global.params[1])
 	const filePath = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
 	const fileName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[2])
 
+	useEffect(() => {
+		dispatch(storeSetGlobalParams(id, 0, ` -stream_loop `))
+		dispatch(storeSetInputParams(id, 0, ` -hwaccel videotoolbox -re -vsync 0 -i `))
+		if (!fileLoop) {
+			dispatch(storeSetGlobalParams(id, 1, '1'))
+		}
+		if (!filePath) {
+			dispatch(storeSetInputParams(id, 1, '/Users/olzzon/coding/live-factory/media/'))
+		}
+		if (!fileName) {
+			dispatch(storeSetInputParams(id, 2, 'HDR10Jazz.mp4'))
+		}
+	}, [])
+
 	return (
 		<div className="options">
-			<label className='pipeline-label'>
+			<label className="pipeline-label">
 				Path :
 				<input
 					className="input-text"
 					type="text"
-					value={filePath ?? '/Users/olzzon/coding/live-factory/media/'}
+					value={filePath ?? 'none'}
 					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
 				/>
 			</label>
-			<label className='pipeline-label'>
+			<label className="pipeline-label">
 				Filename :
 				<input
 					className="input-text"
 					type="text"
-					value={fileName ?? 'HDR10Jazz.mp4'}
+					value={fileName ?? 'none'}
 					onChange={(event) => dispatch(storeSetInputParams(id, 2, event.target.value))}
 				/>
 			</label>
-			<label className='pipeline-label'>
+			<label className="pipeline-label">
 				File loop (-1 = infinite) :
 				<input
 					className="input-number"
 					type="number"
-					value={fileLoop ?? 1}
+					value={fileLoop ?? 0}
 					onChange={(event) => dispatch(storeSetGlobalParams(id, 1, event.target.value))}
 				/>
 			</label>

@@ -15,6 +15,8 @@ export class FFmepgInstance {
 	}
 
 	spawnChild = (command: string, args: string[]): ChildProcessWithoutNullStreams => {
+		console.log('Spawning Encode index:', this.containerIndex)
+		updateEncoderState(this.containerIndex, true, true)
 		return spawn(command, args, { shell: true })
 	}
 
@@ -33,7 +35,6 @@ export class FFmepgInstance {
 		}
 		this.child = this.spawnChild(command, args)
 		console.log('FFmpeg IS Running', this.child.spawnargs)
-		updateEncoderState(this.containerIndex, true, true)
 
 		this.child.stdout?.on('data', (data) => {
 			console.log(`Encoder ${cmd.containerName} :`, data.toString('utf8'))
@@ -41,22 +42,32 @@ export class FFmepgInstance {
 
 		this.child
 			.on('exit', (response: number) => {
-				console.log(`Encoder ${cmd.containerName} Exit :`, response)
+				console.log(`Encoder ${cmd.containerName} Exited :`, response)
 			})
-			.on('close', (response: number) => {
-				updateEncoderState(this.containerIndex, true, false)
-				console.log(`Encoder ${cmd.containerName} Closed :`, response)
+			.on('close', (code: number, signal: string) => {
+				console.log('Encoder index :', this.containerIndex, 'Have been closed with code :', code, 'Signal :', signal)
+				if (signal === 'SIGSEGV' || code === 1) {
+					console.warn('Encoder stopped with SIGSEV, will try to restart')
+					updateEncoderState(this.containerIndex, true, false)
+					setTimeout(() => {
+						this.child = this.spawnChild(command, args)
+					}, 2000)
+				} else {
+					updateEncoderState(this.containerIndex, false, false)
+				}
 			})
 			.on('error', (response: Error) => {
-				console.log(`Encoder ${cmd.containerName} Error :`, response)
+				console.error(`Encoder ${cmd.containerName} Error :`, response)
 			})
 			.on('disconnect', (response: any) => {
-				console.log(`Encoder ${cmd.containerName} Disconnected :`, response)
+				updateEncoderState(this.containerIndex, false, false)
+				console.error(`Encoder ${cmd.containerName} Disconnected :`, response)
 			})
 	}
 
 	killFFmpeg = (containerIndex: number) => {
 		console.log(`Stopping Encoder Index : ${containerIndex}`)
 		this.child?.kill()
+		updateEncoderState(this.containerIndex, false, false)
 	}
 }

@@ -15,13 +15,16 @@ interface IColorBarProps {
 const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
-
+	const resolution = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
+	
 	useEffect(() => {
 		dispatch(storeSetGlobalParams(id, 0, '-f lavfi '))
 		dispatch(storeSetInputParams(id, 0, '-i smptehdbars='))
+		if (!resolution) {
+			dispatch(storeSetInputParams(id, 1, '1920x1080'))
+		}
 	}, [])
 
-	const resolution = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
 
 	return (
 		<div className="options">
@@ -30,7 +33,7 @@ const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={resolution ?? '1920x1080'}
+					value={resolution ?? 'none'}
 					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
 				/>
 			</label>

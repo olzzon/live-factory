@@ -12,7 +12,7 @@ import {loadFactories, saveFactoriesList} from '../utils/storage'
 const socketIO = new Server(httpServer)
 
 const PORT = 1406
-let ffmpegFactories: IFactory[] = loadFactories()
+let ffmpegFactories: IFactory[] = []
 let factoryInstances: FFmepgInstance[] = []
 
 const updateFactory = (index: number, cmd: IFactory) => {
@@ -25,11 +25,22 @@ const updateClient = (client: any) => {
 }
 
 export const updateEncoderState = (index: number, activated: boolean, running: boolean) => {
+	ffmpegFactories[index].activated = activated
+	ffmpegFactories[index].running = running
 	console.log('Emitting Encoder update state. Index :', index, 'activated :', activated, 'running :', running)
 	socketIO.emit(IO.UPDATE_ENCODER_STATE, index, activated, running  )
 }
 
+const initializeFactories = () => {
+	ffmpegFactories = loadFactories()
+	ffmpegFactories.forEach((factory) => {
+		factory.activated = false
+		factory.running = false
+	})
+}
+
 export const initializeWebServer = () => {
+	initializeFactories()
 	expressApp.use('/', express.static(path.resolve('dist')))
 
 	expressApp.get('/', (req: any, res: any) => {
