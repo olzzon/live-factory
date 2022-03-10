@@ -14,12 +14,6 @@ export class FFmepgInstance {
 		this.containerIndex = props.containerIndex
 	}
 
-	spawnChild = (command: string, args: string[]): ChildProcessWithoutNullStreams => {
-		console.log('Spawning Encode index:', this.containerIndex)
-		updateEncoderState(this.containerIndex, true, true)
-		return spawn(command, args, { shell: true })
-	}
-
 	initFFmpeg = (cmd: IFactory) => {
 		// console.log('Transcoder Child', this.child)
 		const command = `${__dirname}/../ffmpegruntime`
@@ -36,7 +30,7 @@ export class FFmepgInstance {
 		this.child = this.spawnChild(command, args)
 		console.log('FFmpeg IS Running', this.child.spawnargs)
 
-		this.child.stdout?.on('data', (data) => {
+		this.child.stderr?.on('data', (data) => {
 			console.log(`Encoder ${cmd.containerName} :`, data.toString('utf8'))
 		})
 
@@ -49,8 +43,9 @@ export class FFmepgInstance {
 				if (signal === 'SIGSEGV' || code === 1) {
 					console.warn('Encoder stopped with SIGSEV, will try to restart')
 					updateEncoderState(this.containerIndex, true, false)
+					this.destroySpawn()
 					setTimeout(() => {
-						this.child = this.spawnChild(command, args)
+						this.initFFmpeg(cmd)
 					}, 2000)
 				} else {
 					updateEncoderState(this.containerIndex, false, false)
@@ -65,9 +60,20 @@ export class FFmepgInstance {
 			})
 	}
 
+	spawnChild = (command: string, args: string[]): ChildProcessWithoutNullStreams => {
+		console.log('Spawning Encode index:', this.containerIndex)
+		updateEncoderState(this.containerIndex, true, true)
+		return spawn(command, args, { shell: true })
+	}
+
+	destroySpawn = () => {
+		this.child?.kill()
+		this.child?.unref()
+	}
+
 	killFFmpeg = (containerIndex: number) => {
 		console.log(`Stopping Encoder Index : ${containerIndex}`)
-		this.child?.kill()
+		this.destroySpawn()
 		updateEncoderState(this.containerIndex, false, false)
 	}
 }

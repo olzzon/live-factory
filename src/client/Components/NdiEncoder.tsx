@@ -16,6 +16,7 @@ import { RootState } from '../main'
 import { IFactory } from '../../interface/GenericInterfaces'
 import ColorbarInputOptions from './InputTypes/ColorBar'
 import MpegtsInputOptions from './InputTypes/Mpegts'
+import SrtInputOptions from './InputTypes/SrtInput'
 
 export interface IfactoryId {
 	factoryId: number
@@ -80,6 +81,7 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 				{inputType === INPUT_TYPES.FILE ? <FileInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.MPEG_TS ? <MpegtsInputOptions factoryId={id} /> : null}
+				{inputType === INPUT_TYPES.SRT ? <SrtInputOptions factoryId={id} /> : null}
 				<hr className="horizontal" />
 				<label className="pipeline-label">
 					NDI Name :

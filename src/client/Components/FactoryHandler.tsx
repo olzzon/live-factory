@@ -32,13 +32,12 @@ const FactoryHandler: React.FC = () => {
 			<div className="factory-selector">
 				{factories.map((factory: IFactory, index: number) => (
 					<div>
-						<span style={factory.activated ? { color: 'red' } : { color: 'rgb(101, 41, 41)' }}>⬤</span>
 						<button
 							className="selector-button"
 							style={
 								selectedEncoder === index
-									? { backgroundColor: 'rgb(81, 81, 81)', borderColor: 'rgb(230, 230, 230)', color: 'white' }
-									: undefined
+								? { backgroundColor: 'rgb(81, 81, 81)', borderColor: 'rgb(230, 230, 230)', color: 'white' }
+								: undefined
 							}
 							key={index}
 							onClick={() => {
@@ -47,6 +46,7 @@ const FactoryHandler: React.FC = () => {
 						>
 							{factory.containerName}
 						</button>
+						<span style={(factory.activated && !factory.running) ? { color: 'red' } : { color: 'rgb(101, 41, 41)' }}>⬤</span>
 						<span style={factory.running ? { color: 'green' } : { color: 'rgb(31, 61, 31)' }}>⬤</span>
 					</div>
 				))}
