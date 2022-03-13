@@ -21,7 +21,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(storeSetGlobalParams(id, 0, ` -re`))
-		dispatch(storeSetInputParams(id, 0, ` -i srt://`))
+		dispatch(storeSetInputParams(id, 0, ` -i "srt://`))
 		dispatch(storeSetInputParams(id, 2, `:`))
 		dispatch(storeSetInputParams(id, 4, `?pkt_size=1316&mode=`))
 		if (!ip) {
@@ -33,6 +33,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 		if (!mode) {
 			dispatch(storeSetInputParams(id, 5, 'listener'))
 		}
+		dispatch(storeSetInputParams(id, 6, '"'))
 	}, [])
 
 	return (
