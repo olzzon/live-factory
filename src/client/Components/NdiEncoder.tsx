@@ -1,19 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { INPUT_TYPES } from '../../interface/GenericInterfaces'
+import { INPUT_TYPES, IFactory } from '../../interface/GenericInterfaces'
 import '../styles/app.css'
 import * as IO from '../../interface/SocketIOContants'
 import FileInputOptions from './InputTypes/File'
 import {
 	storeClearGlobalParams,
 	storeClearInputParams,
+	storeClearOutputParams,
 	storeSetContainerName,
 	storeSetInputType,
 	storeSetOutputParams,
 } from '../../interface/redux/containerActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../main'
-import { IFactory } from '../../interface/GenericInterfaces'
 import ColorbarInputOptions from './InputTypes/ColorBar'
 import MpegtsInputOptions from './InputTypes/Mpegts'
 import SrtInputOptions from './InputTypes/SrtInput'
@@ -32,6 +32,13 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.params[1])
 	const factory = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
 
+	useEffect(() => {
+		if (!outputName) {
+			dispatch(storeClearOutputParams(id))
+			dispatch(storeSetOutputParams(id, 0, ` -f libndi_newtek -pix_fmt uyvy422 `))
+			dispatch(storeSetOutputParams(id, 1, `NDI_PIPE1`))
+		}
+	}, [])
 	const handleSetInputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		dispatch(storeClearGlobalParams(id))
 		dispatch(storeClearInputParams(id))

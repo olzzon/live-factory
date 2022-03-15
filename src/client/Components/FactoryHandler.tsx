@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { storeAddFactory, storeSetContainerState, storeUpdateFullStore } from '../../interface/redux/containerActions'
-import { IFactory } from '../../interface/GenericInterfaces'
+import { IFactory, TRANSCODER_TYPE } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
 import * as IO from '../../interface/SocketIOContants'
 
 import NdiEncoder from './NdiEncoder'
 
 import io from 'socket.io-client'
+import NdiDecoder from './NdiDecoder'
 const socketClient = io()
 
 const FactoryHandler: React.FC = () => {
@@ -17,14 +18,15 @@ const FactoryHandler: React.FC = () => {
 	const [selectedEncoder, setSelectedEncoder] = useState(0)
 
 	useEffect(() => {
-		socketClient.on(IO.UPDATE_ENCODER_STATE, (index: number, activated: boolean, running: boolean) => {
-			console.log('Index ', index, 'Activated :', activated, 'Running :', running)
-			dispatch(storeSetContainerState(index, activated, running))
-		})
-		.on(IO.FULL_STORE, (fullStore: IFactory[])=> {
-			dispatch(storeUpdateFullStore(fullStore))
-			console.log('Full store', fullStore)
-		})
+		socketClient
+			.on(IO.UPDATE_ENCODER_STATE, (index: number, activated: boolean, running: boolean) => {
+				console.log('Index ', index, 'Activated :', activated, 'Running :', running)
+				dispatch(storeSetContainerState(index, activated, running))
+			})
+			.on(IO.FULL_STORE, (fullStore: IFactory[]) => {
+				dispatch(storeUpdateFullStore(fullStore))
+				console.log('Full store', fullStore)
+			})
 	}, [])
 
 	return (
@@ -36,8 +38,8 @@ const FactoryHandler: React.FC = () => {
 							className="selector-button"
 							style={
 								selectedEncoder === index
-								? { backgroundColor: 'rgb(81, 81, 81)', borderColor: 'rgb(230, 230, 230)', color: 'white' }
-								: undefined
+									? { backgroundColor: 'rgb(81, 81, 81)', borderColor: 'rgb(230, 230, 230)', color: 'white' }
+									: undefined
 							}
 							key={index}
 							onClick={() => {
@@ -46,7 +48,9 @@ const FactoryHandler: React.FC = () => {
 						>
 							{factory.containerName}
 						</button>
-						<span style={(factory.activated && !factory.running) ? { color: 'red' } : { color: 'rgb(101, 41, 41)' }}>⬤</span>
+						<span style={factory.activated && !factory.running ? { color: 'red' } : { color: 'rgb(101, 41, 41)' }}>
+							⬤
+						</span>
 						<span style={factory.running ? { color: 'green' } : { color: 'rgb(31, 61, 31)' }}>⬤</span>
 					</div>
 				))}
@@ -54,13 +58,26 @@ const FactoryHandler: React.FC = () => {
 					className="button"
 					onClick={() => {
 						setSelectedEncoder(factories.length)
-						dispatch(storeAddFactory())
+						dispatch(storeAddFactory(TRANSCODER_TYPE.ENC))
 					}}
 				>
-					ADD FACTORY
+					ADD ENCODER FACTORY
+				</button>
+				<button
+					className="button"
+					onClick={() => {
+						setSelectedEncoder(factories.length)
+						dispatch(storeAddFactory(TRANSCODER_TYPE.DEC))
+					}}
+				>
+					ADD DECODER FACTORY
 				</button>
 			</div>
-			<NdiEncoder factoryId={selectedEncoder} socketClient={socketClient} />
+			{factories[selectedEncoder].transcoderType === TRANSCODER_TYPE.ENC ? (
+				<NdiEncoder factoryId={selectedEncoder} socketClient={socketClient} />
+			) : (
+				<NdiDecoder factoryId={selectedEncoder} socketClient={socketClient} />
+			)}
 		</div>
 	)
 }

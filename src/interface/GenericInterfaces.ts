@@ -1,4 +1,5 @@
 export interface IFactory {
+    transcoderType: TRANSCODER_TYPE
 	containerName: string
 	activated: boolean
 	running: boolean
@@ -12,6 +13,12 @@ export const GLOBAL_FLAGS = {
     READ_RATE_INPUT_SYNC: '-re',
     GENERATE_PTS: '+genpts', 
     FILTER_COMPLEX: '-lavfi'  
+}
+
+export enum TRANSCODER_TYPE {
+    ENC = 'ENC',
+    DEC = 'DEC',
+    TRANSCODER = 'TRANSCODER'
 }
 
 export enum INPUT_TYPES {
@@ -31,6 +38,7 @@ export enum INPUT_TYPES {
 export enum OUTPUT_TYPES {
     NONE = 'NONE',
     FILE = 'FILE',
+    SRT = 'SRT',
     MPEG_TS = 'MPEG_TS',
     DECKLINK = 'DECKLINK',
     NDI = 'NDI',
