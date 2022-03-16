@@ -15,7 +15,6 @@ import {
 } from '../../interface/redux/containerActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../main'
-import SrtInputOptions from './InputTypes/SrtInput'
 import SrtOutputOptions from './OutputTypes/SrtOutput'
 
 export interface IfactoryId {
@@ -35,7 +34,7 @@ const NdiDecoder: React.FC<IfactoryId> = (props) => {
 	useEffect(() => {
 		if (!ndiSource) {
 			dispatch(storeClearInputParams(id))
-			dispatch(storeSetInputParams(id, 0, ` -re -f libndi_newtek -i "`))
+			dispatch(storeSetInputParams(id, 0, ` -f libndi_newtek -i "`))
 			dispatch(storeSetInputParams(id, 1, `CASPARCG (CCG Ch1)`))
 			dispatch(storeSetInputParams(id, 2, `"`))
 		}

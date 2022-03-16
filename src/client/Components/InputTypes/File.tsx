@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeClearGlobalParams,
-	storeClearInputParams,
 	storeSetGlobalParams,
 	storeSetInputParams,
 } from '../../../interface/redux/containerActions'

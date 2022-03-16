@@ -40,7 +40,7 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 				]
 			} else if (action.transcoderType === TRANSCODER_TYPE.DEC) {
 				newContainer.containerName = `DEC PIPE ${nextState[0].factory.length + 1}`
-				newContainer.input.params = [` -re -f libndi_newtek -i "`, `CASPARCG (CCG Ch1)`, `"`]
+				newContainer.input.params = [` -f libndi_newtek -i "`, `CASPARCG (CCG Ch1)`, `"`]
 			}
 			nextState[0].factory = [...nextState[0].factory, newContainer]
 			return nextState
