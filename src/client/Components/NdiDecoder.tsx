@@ -5,12 +5,12 @@ import '../styles/app.css'
 import * as IO from '../../interface/SocketIOContants'
 import FileInputOptions from './InputTypes/File'
 import {
+	storeClearFilterParams,
 	storeClearGlobalParams,
 	storeClearInputParams,
 	storeClearOutputParams,
 	storeSetContainerName,
 	storeSetInputParams,
-	storeSetOutputParams,
 	storeSetOutputType,
 } from '../../interface/redux/containerActions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -34,8 +34,9 @@ const NdiDecoder: React.FC<IfactoryId> = (props) => {
 	useEffect(() => {
 		if (!ndiSource) {
 			dispatch(storeClearInputParams(id))
+			dispatch(storeClearFilterParams(id))
 			dispatch(storeSetInputParams(id, 0, ` -f libndi_newtek -i "`))
-			dispatch(storeSetInputParams(id, 1, `CASPARCG (CCG Ch1)`))
+			dispatch(storeSetInputParams(id, 1, `CASPARCG (CCG Ch2)`))
 			dispatch(storeSetInputParams(id, 2, `"`))
 		}
 	}, [])

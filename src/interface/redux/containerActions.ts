@@ -101,10 +101,17 @@ export const storeClearInputParams = (factoryId: number) => {
 
 export const storeSetFilterParams = (factoryId: number, paramIndex: number, param: string) => {
 	return {
-		type: SET_INPUT_PARAMS,
+		type: SET_FILTER_PARAMS,
 		factoryId: factoryId,
         paramIndex: paramIndex,
 		param: param,
+	}
+}
+
+export const storeClearFilterParams = (factoryId: number) => {
+	return {
+		type: CLEAR_FILTER_PARAMS,
+		factoryId: factoryId,
 	}
 }
 
