@@ -10,7 +10,7 @@ interface FFmpegInstanceProps {
 export class FFmepgInstance {
 	child: ChildProcess | null = null
 	containerIndex = 0
-	timeOutInstance: NodeJS.Timeout
+	timeOutInstance: NodeJS.Timeout | null = null
 	constructor(props: FFmpegInstanceProps) {
 		this.containerIndex = props.containerIndex
 	}
@@ -45,7 +45,9 @@ export class FFmepgInstance {
 					console.warn('Encoder stopped with SIGSEV, will try to restart')
 					updateEncoderState(this.containerIndex, true, false)
 					this.destroySpawn()
-					clearTimeout(this.timeOutInstance)
+					if (this.timeOutInstance) {
+						clearTimeout(this.timeOutInstance)
+					}
 					this.timeOutInstance = setTimeout(() => {
 						this.initFFmpeg(cmd)
 					}, 2000)
