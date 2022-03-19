@@ -21,8 +21,8 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalParams(id, 0, ` -r `))
-		dispatch(storeSetGlobalParams(id, 1, `50`))
+		dispatch(storeSetGlobalParams(id, 0, ``))
+		dispatch(storeSetGlobalParams(id, 1, ``))
 		dispatch(storeSetInputParams(id, 0, ` -i "srt://`))
 		dispatch(storeSetInputParams(id, 2, `:`))
 		dispatch(storeSetInputParams(id, 4, `?pkt_size=1316&mode=`))
@@ -68,11 +68,11 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 				/>
 			</label>
 			<label className="pipeline-label">
-				Frame rate :
+				Frame rate (NOT IN USE) :
 				<input
 					className="input-text"
 					type="text"
-					value={frameRate ?? '50'}
+					value={frameRate ?? 'r 50'}
 					onChange={(event) => dispatch(storeSetGlobalParams(id, 1, event.target.value))}
 				/>
 			</label>

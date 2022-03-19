@@ -23,9 +23,9 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 
 	useEffect(() => {
 		dispatch(storeSetFilterParams(id, 0, `  -c:v h264_videotoolbox -b:v 15000k -pix_fmt yuv420p `))
-		dispatch(storeSetFilterParams(id, 1, `   -c:a aac -ar 48000 `))
+		dispatch(storeSetFilterParams(id, 1, `   -acodec libopus -b:a 256k -vbr on -compression_level 10 -frame_duration 60 -application audio `))
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetOutputParams(id, 0, ` -f mpegts "srt://`))
+		dispatch(storeSetOutputParams(id, 0, ` -f matroska "srt://`))
 		dispatch(storeSetOutputParams(id, 2, `:`))
 		dispatch(storeSetOutputParams(id, 4, `?pkt_size=1316&mode=`))
 		if (!ip) {
