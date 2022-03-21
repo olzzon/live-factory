@@ -22,8 +22,6 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 
 
 	useEffect(() => {
-		dispatch(storeSetFilterParams(id, 0, `  -c:v h264_videotoolbox -b:v 15000k -pix_fmt yuv420p `))
-		dispatch(storeSetFilterParams(id, 1, `   -acodec libopus -b:a 256k `))
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(storeSetOutputParams(id, 0, ` -f matroska "srt://`))
 		dispatch(storeSetOutputParams(id, 2, `:`))
@@ -36,6 +34,12 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		}
 		if (!mode) {
 			dispatch(storeSetOutputParams(id, 5, 'listener'))
+		}
+		if (!vCodec) {
+			dispatch(storeSetFilterParams(id, 0, `  -c:v h264_videotoolbox -b:v 22000k -pix_fmt yuv420p `))
+		}
+		if (!aCodec) {
+			dispatch(storeSetFilterParams(id, 1, `   -acodec libopus -b:a 256k `))	
 		}
 		dispatch(storeSetOutputParams(id, 6, '"'))
 	}, [])
@@ -52,7 +56,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 				/>
 			</label>
 			<label className="pipeline-label">
-				IP :
+				Audio Codec :
 				<input
 					className="input-text"
 					type="text"

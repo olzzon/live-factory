@@ -8,9 +8,10 @@ interface FFmpegInstanceProps {
 }
 
 export class FFmepgInstance {
-	child: ChildProcess | null = null
+	childProcess: ChildProcess | null = null
 	containerIndex = 0
 	timeOutInstance: NodeJS.Timeout | null = null
+	keepInstanceRunning = true
 	constructor(props: FFmpegInstanceProps) {
 		this.containerIndex = props.containerIndex
 	}
@@ -24,31 +25,30 @@ export class FFmepgInstance {
 			)} ${cmd.output.params.join('')}`,
 		]
 
-		if (this.child && this.child.pid) {
-			console.log('Transcoder already running')
-			this.child.kill()
-		}
-		this.child = this.spawnChild(command, args)
-		console.log('FFmpeg IS Running', this.child.spawnargs)
+		this.keepInstanceRunning = true
 
-		this.child.stderr?.on('data', (data) => {
+		if (this.childProcess) {
+			console.log('Transcoder already running')
+			this.childProcess.kill()
+		}
+		this.childProcess = this.spawnChild(command, args)
+		console.log('FFmpeg is starting', this.childProcess.spawnargs)
+
+		this.childProcess.stderr?.on('data', (data) => {
 			console.log(`Encoder ${cmd.containerName} :`, data.toString('utf8'))
 		})
 
-		this.child
+		this.childProcess
 			.on('exit', (response: number) => {
 				console.log(`Encoder ${cmd.containerName} Exited :`, response)
 			})
 			.on('close', (code: number, signal: string) => {
 				console.log('Encoder index :', this.containerIndex, 'Have been closed with code :', code, 'Signal :', signal)
-				if (signal === 'SIGSEGV' || code === 1) {
-					console.warn('Encoder stopped with SIGSEV, will try to restart')
+				if (this.keepInstanceRunning) {
+					this.destroySpawn(this.containerIndex)
 					updateEncoderState(this.containerIndex, true, false)
-					this.destroySpawn()
-					if (this.timeOutInstance) {
-						clearTimeout(this.timeOutInstance)
-					}
 					this.timeOutInstance = setTimeout(() => {
+						console.warn('Encoder restarting')
 						this.initFFmpeg(cmd)
 					}, 2000)
 				} else {
@@ -70,14 +70,18 @@ export class FFmepgInstance {
 		return spawn(command, args, { shell: true })
 	}
 
-	destroySpawn = () => {
-		this.child?.kill()
-		this.child?.unref()
+	destroySpawn = (containerIndex: number) => {
+		console.log(`Stopping Encoder Index : ${containerIndex}`)
+		if (this.timeOutInstance) {
+			clearTimeout(this.timeOutInstance)
+		}
+		this.childProcess?.kill()
+		this.childProcess?.unref()
+		updateEncoderState(this.containerIndex, false, false)
 	}
 
-	killFFmpeg = (containerIndex: number) => {
-		console.log(`Stopping Encoder Index : ${containerIndex}`)
-		this.destroySpawn()
-		updateEncoderState(this.containerIndex, false, false)
+	stopInstance = (containerIndex: number) => {
+		this.keepInstanceRunning = false
+		this.destroySpawn(containerIndex)
 	}
 }

@@ -60,7 +60,7 @@ export const initializeWebServer = () => {
 			factoryInstances[id].initFFmpeg(cmd)
 		})
 		.on(IO.STOP_ENCODER, (id: number) => {
-			factoryInstances[id]?.killFFmpeg(id)
+			factoryInstances[id]?.stopInstance(id)
 		})
 		.on(IO.UPDATE_FACTORY,(id: number, cmd: IFactory) => {
 			updateFactory(id, cmd)
