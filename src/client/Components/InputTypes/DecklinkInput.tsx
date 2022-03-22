@@ -1,9 +1,48 @@
-export const DECKLINK_OPTIONS = {
-    LIST_DEVICES: 'list_devices',
-    LIST_FORMATS: 'list_formats',
-    INPUT_BUFFER_SIZE: 'queue_size',
-    AUDIO_CHANNELS: 'channels'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+	storeSetGlobalParams,
+	storeSetInputParams,
+} from '../../../interface/redux/containerActions'
+import { RootState } from '../../main'
+
+interface IDecklinkProps {
+	factoryId: number
 }
+
+const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
+	const dispatch = useDispatch()
+	const id = props.factoryId
+
+	const decklinkInput = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
+
+	useEffect(() => {
+		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
+		dispatch(storeSetGlobalParams(id, 0, `-err_detect explode `))
+		dispatch(storeSetInputParams(id, 0, ` -f decklink -i 'DeckLink Quad (`))
+		dispatch(storeSetInputParams(id, 2, `)' `))
+		if (!decklinkInput) {
+			dispatch(storeSetInputParams(id, 1, '1'))
+		}
+	}, [])
+
+	return (
+		<div className="options">
+			<label className="pipeline-label">
+				Decklink input :
+				<input
+					className="input-number"
+					type="number"
+					value={decklinkInput ?? 0}
+					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+				/>
+			</label>
+		</div>
+	)
+}
+
+export default DecklinkInputOptions
+
 
 /*
 list_formats

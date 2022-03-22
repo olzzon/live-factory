@@ -17,6 +17,7 @@ import { RootState } from '../main'
 import ColorbarInputOptions from './InputTypes/ColorBar'
 import MpegtsInputOptions from './InputTypes/Mpegts'
 import SrtInputOptions from './InputTypes/SrtInput'
+import DecklinkInputOptions from './InputTypes/DecklinkInput'
 
 export interface IfactoryId {
 	factoryId: number
@@ -89,6 +90,7 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 				{inputType === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.MPEG_TS ? <MpegtsInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.SRT ? <SrtInputOptions factoryId={id} /> : null}
+				{inputType === INPUT_TYPES.DECKLINK ? <DecklinkInputOptions factoryId={id} /> : null}
 				<hr className="horizontal" />
 				<label className="pipeline-label">
 					NDI Name :
