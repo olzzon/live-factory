@@ -10,6 +10,12 @@ body {
     width: 100wv
 }
 
+.logo {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+}
+
 .factory-handler {
     display: flex;
     flex-direction: row;
