@@ -15,14 +15,19 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 	const id = props.factoryId
 
 	const decklinkInput = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
+	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[3])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(storeSetGlobalParams(id, 0, `-err_detect explode `))
 		dispatch(storeSetInputParams(id, 0, ` -f decklink -i 'DeckLink Quad (`))
-		dispatch(storeSetInputParams(id, 2, `)' `))
+		dispatch(storeSetInputParams(id, 2, `)' -channels `))
+		dispatch(storeSetInputParams(id, 4, ` `))
 		if (!decklinkInput) {
 			dispatch(storeSetInputParams(id, 1, '1'))
+		}
+		if (!channels) {
+			dispatch(storeSetInputParams(id, 3, '2'))
 		}
 	}, [])
 
@@ -33,8 +38,17 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 				<input
 					className="input-number"
 					type="number"
-					value={decklinkInput ?? 0}
+					value={decklinkInput ?? 1}
 					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+				/>
+			</label>
+			<label className="pipeline-label">
+				Auduiochannels (2-16) :
+				<input
+					className="input-number"
+					type="number"
+					value={channels ?? 2}
+					onChange={(event) => dispatch(storeSetInputParams(id, 3, event.target.value))}
 				/>
 			</label>
 		</div>
