@@ -102,10 +102,10 @@ const NdiDecoder: React.FC<IfactoryId> = (props) => {
 
 				<div className="pipeline-footer">
 					<button className="button" onClick={() => handleStopEncoder()}>
-						STOP DECODER
+						STOP NDI-DECODER
 					</button>
 					<button className="button" onClick={() => handleStartEncoder()}>
-						START DECODER
+						START NDI-DECODER
 					</button>
 				</div>
 			</div>

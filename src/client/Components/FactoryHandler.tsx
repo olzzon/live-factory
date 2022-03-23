@@ -61,7 +61,7 @@ const FactoryHandler: React.FC = () => {
 						dispatch(storeAddFactory(TRANSCODER_TYPE.ENC))
 					}}
 				>
-					ADD ENCODER FACTORY
+					ADD NDI ENCODER
 				</button>
 				<button
 					className="button"
@@ -70,7 +70,7 @@ const FactoryHandler: React.FC = () => {
 						dispatch(storeAddFactory(TRANSCODER_TYPE.DEC))
 					}}
 				>
-					ADD DECODER FACTORY
+					ADD NDI DECODER
 				</button>
 			</div>
 			{factories[selectedEncoder].transcoderType === TRANSCODER_TYPE.ENC ? (

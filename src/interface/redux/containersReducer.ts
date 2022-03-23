@@ -32,14 +32,14 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 			const newContainer = defaultFfmpegContainerReducerState().factory[0]
 			newContainer.transcoderType = action.transcoderType
 			if (action.transcoderType === TRANSCODER_TYPE.ENC) {
-				newContainer.containerName = `ENC PIPE ${nextState[0].factory.length + 1}`
+				newContainer.containerName = `NDI-ENC PIPE ${nextState[0].factory.length + 1}`
 				newContainer.output.params = [
 					` -f libndi_newtek -pix_fmt uyvy422 "`,
 					`NDI_PIPE_${nextState[0].factory.length + 1}`,
 					`"`,
 				]
 			} else if (action.transcoderType === TRANSCODER_TYPE.DEC) {
-				newContainer.containerName = `DEC PIPE ${nextState[0].factory.length + 1}`
+				newContainer.containerName = `NDI-DEC PIPE ${nextState[0].factory.length + 1}`
 				newContainer.input.params = [` -f libndi_newtek -i "`, `CASPARCG (CCG Ch2)`, `"`]
 			}
 			nextState[0].factory = [...nextState[0].factory, newContainer]
