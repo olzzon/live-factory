@@ -7,8 +7,8 @@ export const UPDATE_FULL_STORE = 'update_full_store'
 export const SET_TRANSCODER_TYPE = 'setTranscoderType'
 export const SET_CONTAINER_NAME = 'setContainerName'
 export const SET_CONTAINER_STATE = 'setContainerState'
-export const SET_GLOBAL_PARAMS = 'setGlobalParams'
-export const CLEAR_GLOBAL_PARAMS = 'clearGlobalParams'
+export const SET_GLOBAL_IN_PARAMS = 'setGlobalInParams'
+export const CLEAR_GLOBAL_IN_PARAMS = 'clearGlobalInParams'
 export const SET_INPUT_TYPE = 'setInputType'
 export const SET_INPUT_PARAMS = 'setInputParams'
 export const CLEAR_INPUT_PARAMS = 'clearInputParams'
@@ -58,18 +58,18 @@ export const storeSetContainerState = (factoryId: number, activated: boolean, ru
 	}
 }
 
-export const storeSetGlobalParams = (factoryId: number, paramIndex: number, param: string) => {
+export const storeSetGlobalInParams = (factoryId: number, paramIndex: number, param: string) => {
 	return {
-		type: SET_GLOBAL_PARAMS,
+		type: SET_GLOBAL_IN_PARAMS,
 		factoryId: factoryId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearGlobalParams = (factoryId: number) => {
+export const storeClearGlobalInParams = (factoryId: number) => {
 	return {
-		type: CLEAR_GLOBAL_PARAMS,
+		type: CLEAR_GLOBAL_IN_PARAMS,
 		factoryId: factoryId,
 	}
 }

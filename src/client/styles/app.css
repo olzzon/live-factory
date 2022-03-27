@@ -41,8 +41,9 @@ body {
     flex-direction: column;
     background-color: rgb(34, 34, 34);
     height: 80vh;
-    width: 60vw;
+    width: 40vw;
     margin-left: 5vw;
+    margin-right: 5vw;
 }
 
 .pipeline-label {

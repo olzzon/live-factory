@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetGlobalParams,
+	storeSetGlobalInParams,
 	storeSetInputParams,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
@@ -19,7 +19,7 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 	const fifoSize = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[5])
 
 	useEffect(() => {
-		dispatch(storeSetGlobalParams(id, 0, ' -re '))
+		dispatch(storeSetGlobalInParams(id, 0, ' -re '))
 		dispatch(storeSetInputParams(id, 0, '-hwaccel videotoolbox -vsync 0 -i udp://'))
 		if (!ip) {
 			dispatch(storeSetInputParams(id, 1, 'localhost'))

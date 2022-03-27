@@ -6,7 +6,7 @@ import * as IO from '../../interface/SocketIOContants'
 import FileInputOptions from './InputTypes/File'
 import {
 	storeClearFilterParams,
-	storeClearGlobalParams,
+	storeClearGlobalInParams,
 	storeClearInputParams,
 	storeClearOutputParams,
 	storeSetContainerName,
@@ -42,7 +42,7 @@ const NdiDecoder: React.FC<IfactoryId> = (props) => {
 	}, [])
 
 	const handleSetOutputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(storeClearGlobalParams(id))
+		dispatch(storeClearGlobalInParams(id))
 		dispatch(storeClearOutputParams(id))
 		dispatch(storeSetOutputType(id, event.target.value as OUTPUT_TYPES))
 	}

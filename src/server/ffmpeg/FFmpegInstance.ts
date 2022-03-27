@@ -20,7 +20,7 @@ export class FFmepgInstance {
 		// console.log('Transcoder Child', this.child)
 		const command = `${__dirname}/../ffmpegruntime`
 		const args = [
-			`${cmd.global.params.join('')} ${cmd.input.params.join('')} ${cmd.filter.params.join(
+			`${cmd.globalInput.params.join('')} ${cmd.globalInput.params.join('')} ${cmd.input.params.join('')} ${cmd.filter.params.join(
 				''
 			)} ${cmd.output.params.join('')}`,
 		]

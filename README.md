@@ -42,7 +42,7 @@ https://github.com/olzzon/ffmpeg-ndi
 ```
 
 ```
-./configure  --prefix=/usr/local --enable-libsrt --enable-gpl --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-videotoolbox --enable-libndi_newtek 
+./configure  --prefix=/usr/local --enable-libsrt --enable-gpl --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-videotoolbox --enable-libndi_newtek --enable-shared
 ```
 
 ```
@@ -59,7 +59,7 @@ Rename ffmpeg to ffmpegruntime and copy it to "dist/server" folder
 
 ### Get dependencies:
 ```
-sudo apt update -qq && sudo apt -y install autoconf automake build-essential cmake libass-dev libfreetype6-dev libgnutls28-dev libmp3lame-dev libsdl2-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev meson ninja-build pkg-config texinfo wget yasm zlib1g-dev libunistring-dev libaom-dev nasm libx264-dev libx265-dev libnuma-dev libvpx-dev libfdk-aac-dev libopus-dev 
+sudo apt update -qq && sudo apt -y install autoconf automake build-essential cmake git libssl-dev libass-dev libfreetype6-dev libgnutls28-dev libmp3lame-dev libsdl2-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev meson ninja-build pkg-config texinfo wget yasm zlib1g-dev libunistring-dev libaom-dev nasm libx264-dev libx265-dev libnuma-dev libvpx-dev libfdk-aac-dev libopus-dev 
 ```
 
 ### Get source and set path:
@@ -74,11 +74,11 @@ PKG_CONFIG_PATH="$HOME/ffmpeg-ndi/lib/pkgconfig"
 
 ### Install Decklink:
 install both Software AND SDK from blackmagicdesign.com
-extract SDK and copy the libndi.so.5 files to /usr/lib
-
+copy SDK lib files to ffmpeg-ndi/include
 ### Install NDI SDK:
 https://downloads.ndi.tv/SDK/NDI_SDK_Linux/Install_NDI_SDK_v5_Linux.tar.gz
 copy x86 libndi.so files to ffmpeg-ndi/lib
+(HACK: extract SDK and copy the libndi.so.5 files to /usr/lib )
 
 ### Compile SRT:
 ```
@@ -93,11 +93,18 @@ make install
 
 ### Prepare and compile
 ```
-./configure --prefix="$HOME/ffmpeg-ndi" \
-  --pkg-config-flags="--static" --extra-cflags="-I$HOME/ffmpeg-ndi/include" --extra-ldflags="-L$HOME/ffmpeg-ndi/lib" --extra-libs="-lpthread -lm" --ld="g++" --bindir="$HOME/bin" --enable-libsrt --enable-gpl --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-libndi_newtek --enable-decklink
+cd ~/ffmpeg-ndi
+./configure --prefix="$HOME/ffmpeg-ndi" --enable-pic --pkg-config-flags="--static" --extra-cflags="-I$HOME/ffmpeg-ndi/include" --extra-ldflags="-L$HOME/ffmpeg-ndi/lib" --extra-libs="-lpthread -lm" --ld="g++" --bindir="$HOME/bin" --enable-shared --enable-libsrt --enable-gpl --enable-gnutls --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-libndi_newtek --enable-decklink
 make
-make install
+sudo make install
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/ffmpeg-ndi/lib
 source ~/.profile
+```
+
+Rebuild remember:
+```
+make distclean 
+
 ```
 
 ## FFmpeg Examples

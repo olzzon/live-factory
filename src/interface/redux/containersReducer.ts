@@ -15,7 +15,8 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 				containerName: 'PIPE 1',
 				activated: false,
 				running: false,
-				global: { params: [''] },
+				globalInput: { params: [''] },
+				globalOutput: { params: [''] },
 				input: { type: INPUT_TYPES.NONE, params: [''] },
 				filter: { params: [''] },
 				output: { type: OUTPUT_TYPES.NONE, params: [` -f libndi_newtek -pix_fmt uyvy422 `, `NDI_PIPE_1`] },
@@ -67,11 +68,11 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.SET_OUTPUT_TYPE:
 			nextState[0].factory[action.factoryId].output.type = action.outputType
 			return nextState
-		case CONTAINER_ACTIONS.SET_GLOBAL_PARAMS:
-			nextState[0].factory[action.factoryId].global.params[action.paramIndex] = action.param
+		case CONTAINER_ACTIONS.SET_GLOBAL_IN_PARAMS:
+			nextState[0].factory[action.factoryId].globalInput.params[action.paramIndex] = action.param
 			return nextState
-		case CONTAINER_ACTIONS.CLEAR_GLOBAL_PARAMS:
-			nextState[0].factory[action.factoryId].global.params = ['']
+		case CONTAINER_ACTIONS.CLEAR_GLOBAL_IN_PARAMS:
+			nextState[0].factory[action.factoryId].globalInput.params = ['']
 			return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_PARAMS:
 			nextState[0].factory[action.factoryId].input.params[action.paramIndex] = action.param

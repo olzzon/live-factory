@@ -3,7 +3,8 @@ export interface IFactory {
 	containerName: string
 	activated: boolean
 	running: boolean
-	global: IGlobalParams
+	globalInput: IGlobalParams
+	globalOutput: IGlobalParams
 	input: IInputParams
 	filter: IFilterParams
 	output: IOutputParams

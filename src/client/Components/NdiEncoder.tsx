@@ -5,7 +5,7 @@ import '../styles/app.css'
 import * as IO from '../../interface/SocketIOContants'
 import FileInputOptions from './InputTypes/File'
 import {
-	storeClearGlobalParams,
+	storeClearGlobalInParams,
 	storeClearInputParams,
 	storeClearOutputParams,
 	storeSetContainerName,
@@ -41,7 +41,7 @@ const NdiEncoder: React.FC<IfactoryId> = (props) => {
 		}
 	}, [])
 	const handleSetInputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(storeClearGlobalParams(id))
+		dispatch(storeClearGlobalInParams(id))
 		dispatch(storeClearInputParams(id))
 		dispatch(storeSetInputType(id, event.target.value as INPUT_TYPES))
 	}

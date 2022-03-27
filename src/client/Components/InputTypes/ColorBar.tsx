@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetGlobalParams,
+	storeSetGlobalInParams,
 	storeSetInputParams,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
@@ -16,7 +16,7 @@ const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 	const resolution = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
 	
 	useEffect(() => {
-		dispatch(storeSetGlobalParams(id, 0, '-f lavfi '))
+		dispatch(storeSetGlobalInParams(id, 0, '-f lavfi '))
 		dispatch(storeSetInputParams(id, 0, '-i smptehdbars='))
 		if (!resolution) {
 			dispatch(storeSetInputParams(id, 1, '1920x1080'))
