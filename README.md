@@ -56,10 +56,15 @@ Rename ffmpeg to ffmpegruntime and copy it to "dist/server" folder
 
 # Build FFmpeg Ubuntu x86
 
+## Install TeamViewer AFTER adding dependencies
 
 ### Get dependencies:
 ```
-sudo apt update -qq && sudo apt -y install autoconf automake build-essential cmake git libssl-dev libass-dev libfreetype6-dev libgnutls28-dev libmp3lame-dev libsdl2-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev meson ninja-build pkg-config texinfo wget yasm zlib1g-dev libunistring-dev libaom-dev nasm libx264-dev libx265-dev libnuma-dev libvpx-dev libfdk-aac-dev libopus-dev 
+# These two had problems when installed later:
+sudo apt install libsdl2-dev libass-dev 
+
+sudo apt update -qq && sudo apt -y install autoconf automake build-essential cmake git libssl-dev libfreetype6-dev libgnutls28-dev libmp3lame-dev  libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev meson ninja-build pkg-config texinfo wget yasm zlib1g-dev libunistring-dev libaom-dev nasm libx264-dev libx265-dev libnuma-dev libvpx-dev libfdk-aac-dev libopus-dev nvidia-cuda-toolkit
+
 ```
 
 ### Get source and set path:
@@ -77,6 +82,7 @@ install both Software AND SDK from blackmagicdesign.com
 copy SDK lib files to ffmpeg-ndi/include
 ### Install NDI SDK:
 https://downloads.ndi.tv/SDK/NDI_SDK_Linux/Install_NDI_SDK_v5_Linux.tar.gz
+unpack with GUI
 copy x86 libndi.so files to ffmpeg-ndi/lib
 (HACK: extract SDK and copy the libndi.so.5 files to /usr/lib )
 
@@ -88,16 +94,25 @@ mkdir srt/build
 cd ~/ffmpeg-ndi/srt/build
 cmake -DENABLE_C_DEPS=ON -DENABLE_SHARED=ON -DENABLE_STATIC=OFF -fPIC ..
 make
-make install
+sudo make install
 ```
+
+### Compile CUDA support:
+```
+cd ~/ffmpeg-ndi
+git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
+cd nv-codec-headers && sudo make install && cd ..
 
 ### Prepare and compile
 ```
 cd ~/ffmpeg-ndi
-./configure --prefix="$HOME/ffmpeg-ndi" --enable-pic --pkg-config-flags="--static" --extra-cflags="-I$HOME/ffmpeg-ndi/include" --extra-ldflags="-L$HOME/ffmpeg-ndi/lib" --extra-libs="-lpthread -lm" --ld="g++" --bindir="$HOME/bin" --enable-shared --enable-libsrt --enable-gpl --enable-gnutls --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-libndi_newtek --enable-decklink
+./configure --prefix="$HOME/ffmpeg-ndi" --enable-pic --pkg-config-flags="--static" --extra-cflags="-I$HOME/ffmpeg-ndi/include -I/usr/local/cuda/include" --extra-ldflags="-L/usr/local/cuda/lib64 -L$HOME/ffmpeg-ndi/lib" --extra-libs="-lpthread -lm" --ld="g++" --bindir="$HOME/bin" --enable-shared --enable-libsrt --enable-gpl --enable-gnutls --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-libndi_newtek --enable-decklink --enable-cuda-nvcc 
+
+??? --enable-cuda --enable-cuvid --enable-nvdec --enable-nvenc
+
 make
 sudo make install
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/ffmpeg-ndi/lib
+export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib/:/home/ubuntu/ffmpeg-ndi/lib
 source ~/.profile
 ```
 

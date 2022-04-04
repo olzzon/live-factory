@@ -5,10 +5,8 @@ import { IFactory, TRANSCODER_TYPE } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
 import * as IO from '../../interface/SocketIOContants'
 
-import NdiEncoder from './NdiEncoder'
-
 import io from 'socket.io-client'
-import NdiDecoder from './NdiDecoder'
+import Transcoder from './Transcoder'
 const socketClient = io()
 
 const FactoryHandler: React.FC = () => {
@@ -29,40 +27,39 @@ const FactoryHandler: React.FC = () => {
 			})
 	}, [])
 
-	const factoryList = (type: TRANSCODER_TYPE) => {
+	const factoryList = () => {
 		return (
 			<div className="factory-selector">
+				<span className="header">TRANSCODERS :</span>
 				{factories.map((factory: IFactory, index: number) => {
-					if (factory.transcoderType === type) {
-						return (
-							<div>
-								<button
-									className="selector-button"
-									style={
-										selectedEncoder === index
-											? { backgroundColor: 'rgb(81, 81, 81)', borderColor: 'rgb(230, 230, 230)', color: 'white' }
-											: undefined
-									}
-									key={index}
-									onClick={() => {
-										setSelectedEncoder(index)
-									}}
-								>
-									{factory.containerName}
-								</button>
-								<span style={factory.activated && !factory.running ? { color: 'red' } : { color: 'rgb(101, 41, 41)' }}>
-									⬤
-								</span>
-								<span style={factory.running ? { color: 'green' } : { color: 'rgb(31, 61, 31)' }}>⬤</span>
-							</div>
-						)
-					}
+					return (
+						<div>
+							<button
+								className="selector-button"
+								style={
+									selectedEncoder === index
+										? { backgroundColor: 'rgb(81, 81, 81)', borderColor: 'rgb(230, 230, 230)', color: 'white' }
+										: undefined
+								}
+								key={index}
+								onClick={() => {
+									setSelectedEncoder(index)
+								}}
+							>
+								{factory.containerName}
+							</button>
+							<span style={factory.activated && !factory.running ? { color: 'red' } : { color: 'rgb(101, 41, 41)' }}>
+								⬤
+							</span>
+							<span style={factory.running ? { color: 'green' } : { color: 'rgb(31, 61, 31)' }}>⬤</span>
+						</div>
+					)
 				})}
 				<button
 					className="button"
 					onClick={() => {
 						setSelectedEncoder(factories.length)
-						dispatch(storeAddFactory(type))
+						dispatch(storeAddFactory(TRANSCODER_TYPE.TRANSCODER))
 					}}
 				>
 					ADD PIPELINE
@@ -73,14 +70,8 @@ const FactoryHandler: React.FC = () => {
 
 	return (
 		<div className="factory-handler">
-			{factoryList(TRANSCODER_TYPE.ENC)}
-
-			{factories[selectedEncoder].transcoderType === TRANSCODER_TYPE.ENC ? (
-				<NdiEncoder factoryId={selectedEncoder} socketClient={socketClient} />
-			) : (
-				<NdiDecoder factoryId={selectedEncoder} socketClient={socketClient} />
-			)}
-			{factoryList(TRANSCODER_TYPE.DEC)}
+			{factoryList()}
+			<Transcoder factoryId={selectedEncoder} socketClient={socketClient} />
 		</div>
 	)
 }

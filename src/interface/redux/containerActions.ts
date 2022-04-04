@@ -19,10 +19,9 @@ export const SET_OUTPUT_PARAMS = 'setOutputParams'
 export const CLEAR_OUTPUT_PARAMS = 'clearOutputParams'
 
 
-export const storeAddFactory = (transcoderType: TRANSCODER_TYPE) => {
+export const storeAddFactory = () => {
     return {
-        type: ADD_FACTORY,
-		transcoderType: transcoderType
+        type: ADD_FACTORY
     }
 }
 

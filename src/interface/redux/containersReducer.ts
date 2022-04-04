@@ -19,7 +19,7 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 				globalOutput: { params: [''] },
 				input: { type: INPUT_TYPES.NONE, params: [''] },
 				filter: { params: [''] },
-				output: { type: OUTPUT_TYPES.NONE, params: [` -f libndi_newtek -pix_fmt uyvy422 `, `NDI_PIPE_1`] },
+				output: { type: OUTPUT_TYPES.NONE, params: [``] },
 			},
 		],
 	}
@@ -31,18 +31,6 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 	switch (action.type) {
 		case CONTAINER_ACTIONS.ADD_FACTORY:
 			const newContainer = defaultFfmpegContainerReducerState().factory[0]
-			newContainer.transcoderType = action.transcoderType
-			if (action.transcoderType === TRANSCODER_TYPE.ENC) {
-				newContainer.containerName = `NDI-ENC PIPE ${nextState[0].factory.length + 1}`
-				newContainer.output.params = [
-					` -f libndi_newtek -pix_fmt uyvy422 "`,
-					`NDI_PIPE_${nextState[0].factory.length + 1}`,
-					`"`,
-				]
-			} else if (action.transcoderType === TRANSCODER_TYPE.DEC) {
-				newContainer.containerName = `NDI-DEC PIPE ${nextState[0].factory.length + 1}`
-				newContainer.input.params = [` -f libndi_newtek -i "`, `CASPARCG (CCG Ch2)`, `"`]
-			}
 			nextState[0].factory = [...nextState[0].factory, newContainer]
 			return nextState
 		case CONTAINER_ACTIONS.UPDATE_FULL_STORE:

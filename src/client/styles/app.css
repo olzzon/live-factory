@@ -32,18 +32,40 @@ body {
     color: rgb(149, 149, 149);
     background-color: rgb(65, 65, 65);
     margin: 1vh;
-    width: 20vw;
+    width: 16vw;
     font-size: 1.4rem;
+}
+
+.pipeline-group {
+    display: flex;
+    flex-direction: column;
+    height: 81vh;
+    width: 80vw;
+    background-color: rgb(23, 23, 23);
+    margin-left: 1vw;
+}
+
+.pipeline-header {
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    margin-left: 10vw;
+    margin-bottom: 1vh;
+}
+
+.pipeline-box {
+    display: flex;
+    flex-direction: row;
+    width: 80vw;
 }
 
 .pipeline {
     display: flex;
     flex-direction: column;
     background-color: rgb(34, 34, 34);
-    height: 80vh;
+    height: 60vh;
     width: 40vw;
-    margin-left: 5vw;
-    margin-right: 5vw;
+    margin-right: 1vw;
 }
 
 .pipeline-label {
@@ -65,14 +87,14 @@ body {
 
 .horizontal {
     margin-top: 3vh;
-    width: 60vw
+    width: 40vw
 }
 
 .button {
     color: white;
     background-color: rgb(47, 39, 39);
     margin: 1vh;
-    width: 20vw;
+    width: 15vw;
     font-size: 1.4rem;
 }
 
