@@ -37,12 +37,11 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 
 	const factoryName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].containerName)
 	const inputType = useSelector<RootState, INPUT_TYPES>((state) => state.ffmpeg[0].factory[id].input.type)
-	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.params[1])
 	const factory = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
 	const outputType = useSelector<RootState, OUTPUT_TYPES>((state) => state.ffmpeg[0].factory[id].output.type)
 
 	useEffect(() => {
-		if (inputType === INPUT_TYPES.NONE) {
+/*		if (inputType === INPUT_TYPES.NONE) {
 			dispatch(storeClearInputParams(id))
 			dispatch(storeClearFilterParams(id))
 			dispatch(storeSetInputParams(id, 0, ` -f libndi_newtek -i "`))
@@ -55,6 +54,7 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 			dispatch(storeSetOutputParams(id, 0, ` -f libndi_newtek -pix_fmt uyvy422 `))
 			dispatch(storeSetOutputParams(id, 1, `NDI_PIPE1`))
 		}
+		*/
 	}, [])
 
 	const handleSetInputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -141,10 +141,10 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 						})}
 					</select>
 				</label>
+				<hr className="horizontal" />
 				{outputType === OUTPUT_TYPES.FILE ? <FileInputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.SRT ? <SrtOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.NDI ? <NdiOutputOptions factoryId={id} /> : null}
-				<hr className="horizontal" />
 			</div>
 		)
 	}

@@ -14,7 +14,7 @@ ReactDOM.render(
 		<div className="header">
 			<hr />
 			<img className={'logo'} src={logo} width="110" height="45" />
-			NDI FACTORY
+			LIVE FACTORY
 			<hr />
 		</div>
 		<FactoryHandler />

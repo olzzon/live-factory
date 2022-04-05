@@ -5,11 +5,11 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
-interface ISrtProps {
+interface INdiProps {
 	factoryId: number
 }
 
-const NdiOutputOptions: React.FC<ISrtProps> = (props) => {
+const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
 
@@ -17,11 +17,10 @@ const NdiOutputOptions: React.FC<ISrtProps> = (props) => {
 
 
 	useEffect(() => {
+		dispatch(storeSetOutputParams(id, 0, ` -f libndi_newtek -pix_fmt uyvy422 `))
 		if (!outputName) {
-			dispatch(storeSetOutputParams(id, 0, ` -f libndi_newtek -pix_fmt uyvy422 `))
 			dispatch(storeSetOutputParams(id, 1, `NDI_PIPE${id + 1}`))
 		}
-
 	}, [])
 
 	return (

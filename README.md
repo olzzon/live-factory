@@ -127,5 +127,11 @@ Decode HW:
 ```
 ./ffmpeg -stream_loop -1 -hwaccel videotoolbox -hwaccel_output_format videotoolbox -re -vsync 0 -i /Users/olzzon/coding/live-factory/media/RedBull.ts -f libndi_newtek -pix_fmt uyvy422 OUTPUT
 ```
+Linux CUDA srt encoder:
+```
+./ffmpeg -hwaccel cuda -re -stream_loop -1 -i ~/mediefiler/Jazz.mp4 -c:v h264_nvenc -preset llhp -b:v 20M -maxrate:v 30M -bufsize 1M -zerolatency 1 -pix_fmt uyvy422 -f matroska "srt://0.0.0.0:9998?pkt_size=1316&mode=listener"
+```
+
 ### Patch NDI - FFMPEG:
 https://gist.github.com/pabloko/8affc8157a83e201503c326a28d17bf2
+

@@ -10,37 +10,25 @@ export interface IFactory {
 }
 
 export enum INPUT_TYPES {
-    NONE = 'NONE',
+    COLORBAR = 'COLORBAR',
     SRT = 'SRT',
     UDP = 'UDP',
-    COLORBAR = 'COLORBAR',
     FILE = 'FILE',
-    TWENTY_ONE_TEN = '2110',
-    DECKLINK = 'DECKLINK',
     NDI = 'NDI',
+    DECKLINK = 'DECKLINK',
+    TWENTY_ONE_TEN = '2110',
     RTMP_S = 'TRMP_S', 
     MPEG_TS = 'MPEG_TS',
     RTP_UDP = 'RTP-UDP', 
 }
 
 export enum OUTPUT_TYPES {
-    NONE = 'NONE',
-    FILE = 'FILE',
-    SRT = 'SRT',
-    MPEG_TS = 'MPEG_TS',
-    DECKLINK = 'DECKLINK',
     NDI = 'NDI',
-    RTMP_S = 'RTMP_S',
-}
-
-export enum OUTPUT_CONTAINER {
-    NONE = 'NONE',
-    HIDDEN = 'HIDDEN',
-    SRT = 'SRT',
-    UDP = 'UDP',
     FILE = 'FILE',
+    SRT = 'SRT',
     DECKLINK = 'DECKLINK',
-    RTP_UDP = 'RTP-UDP', 
+    MPEG_TS = 'MPEG_TS',
+    RTMP_S = 'RTMP_S',
 }
 
 export enum OUTPUT_ENCODER {
