@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { storeAddFactory, storeSetContainerState, storeUpdateFullStore } from '../../interface/redux/containerActions'
-import { IFactory, TRANSCODER_TYPE } from '../../interface/GenericInterfaces'
+import { IFactory } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
 import * as IO from '../../interface/SocketIOContants'
 
@@ -59,7 +59,7 @@ const FactoryHandler: React.FC = () => {
 					className="button"
 					onClick={() => {
 						setSelectedEncoder(factories.length)
-						dispatch(storeAddFactory(TRANSCODER_TYPE.TRANSCODER))
+						dispatch(storeAddFactory())
 					}}
 				>
 					ADD PIPELINE
