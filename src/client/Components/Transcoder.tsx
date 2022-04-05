@@ -7,6 +7,7 @@ import FileInputOptions from './InputTypes/File'
 import {
 	storeClearFilterParams,
 	storeClearGlobalInParams,
+	storeClearGlobalOutParams,
 	storeClearInputParams,
 	storeClearOutputParams,
 	storeSetContainerName,
@@ -49,6 +50,7 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 			dispatch(storeSetInputParams(id, 2, `"`))
 		}
 		if (outputType === OUTPUT_TYPES.NONE) {
+			dispatch(storeClearFilterParams(id))
 			dispatch(storeClearOutputParams(id))
 			dispatch(storeSetOutputParams(id, 0, ` -f libndi_newtek -pix_fmt uyvy422 `))
 			dispatch(storeSetOutputParams(id, 1, `NDI_PIPE1`))
@@ -62,7 +64,8 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 	}
 
 	const handleSetOutputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(storeClearGlobalInParams(id))
+		dispatch(storeClearFilterParams(id))
+		dispatch(storeClearGlobalOutParams(id))
 		dispatch(storeClearOutputParams(id))
 		dispatch(storeSetOutputType(id, event.target.value as OUTPUT_TYPES))
 	}

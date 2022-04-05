@@ -25,21 +25,21 @@ body {
     display: flex;
     flex-direction: column; 
     background-color: rgb(34, 34, 34);
-    min-height: 80vh;
+    min-height: 90vh;
 }
 
 .selector-button {
     color: rgb(149, 149, 149);
     background-color: rgb(65, 65, 65);
     margin: 1vh;
-    width: 16vw;
+    width: 14vw;
     font-size: 1.4rem;
 }
 
 .pipeline-group {
     display: flex;
     flex-direction: column;
-    height: 81vh;
+    height: 91vh;
     width: 80vw;
     background-color: rgb(23, 23, 23);
     margin-left: 1vw;
@@ -63,8 +63,8 @@ body {
     display: flex;
     flex-direction: column;
     background-color: rgb(34, 34, 34);
-    height: 60vh;
-    width: 40vw;
+    height: 80vh;
+    width: 39vw;
     margin-right: 1vw;
 }
 
@@ -87,7 +87,7 @@ body {
 
 .horizontal {
     margin-top: 3vh;
-    width: 40vw
+    width: 39vw
 }
 
 .button {

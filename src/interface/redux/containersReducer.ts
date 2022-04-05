@@ -1,4 +1,4 @@
-import { IFactory, INPUT_TYPES, OUTPUT_TYPES, TRANSCODER_TYPE } from '../GenericInterfaces'
+import { IFactory, INPUT_TYPES, OUTPUT_TYPES } from '../GenericInterfaces'
 import * as CONTAINER_ACTIONS from './containerActions'
 
 export interface IFFmpegReducer {
@@ -11,7 +11,6 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 		rerender: false,
 		factory: [
 			{
-				transcoderType: TRANSCODER_TYPE.ENC,
 				containerName: 'PIPE 1',
 				activated: false,
 				running: false,
@@ -42,9 +41,6 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.SET_CONTAINER_NAME:
 			nextState[0].factory[action.factoryId].containerName = action.containerName
 			return nextState
-		case CONTAINER_ACTIONS.SET_TRANSCODER_TYPE:
-			nextState[0].factory[action.factoryId].transcoderType = action.transcoderType
-			return nextState
 		case CONTAINER_ACTIONS.SET_CONTAINER_STATE:
 			nextState[0].factory[action.factoryId].activated = action.activated
 			nextState[0].factory[action.factoryId].running = action.running
@@ -62,6 +58,12 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.CLEAR_GLOBAL_IN_PARAMS:
 			nextState[0].factory[action.factoryId].globalInput.params = ['']
 			return nextState
+			case CONTAINER_ACTIONS.SET_GLOBAL_OUT_PARAMS:
+				nextState[0].factory[action.factoryId].globalOutput.params[action.paramIndex] = action.param
+				return nextState
+			case CONTAINER_ACTIONS.CLEAR_GLOBAL_OUT_PARAMS:
+				nextState[0].factory[action.factoryId].globalOutput.params = ['']
+				return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_PARAMS:
 			nextState[0].factory[action.factoryId].input.params[action.paramIndex] = action.param
 			return nextState

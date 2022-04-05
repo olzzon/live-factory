@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeClearOutputParams,
-	storeSetFilterParams,
 	storeSetOutputParams,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
@@ -21,7 +19,7 @@ const NdiOutputOptions: React.FC<ISrtProps> = (props) => {
 	useEffect(() => {
 		if (!outputName) {
 			dispatch(storeSetOutputParams(id, 0, ` -f libndi_newtek -pix_fmt uyvy422 `))
-			dispatch(storeSetOutputParams(id, 1, `NDI_PIPE1`))
+			dispatch(storeSetOutputParams(id, 1, `NDI_PIPE${id + 1}`))
 		}
 
 	}, [])

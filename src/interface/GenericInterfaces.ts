@@ -1,5 +1,4 @@
 export interface IFactory {
-    transcoderType: TRANSCODER_TYPE
 	containerName: string
 	activated: boolean
 	running: boolean
@@ -8,18 +7,6 @@ export interface IFactory {
 	input: IInputParams
 	filter: IFilterParams
 	output: IOutputParams
-}
-
-export const GLOBAL_FLAGS = {
-    READ_RATE_INPUT_SYNC: '-re',
-    GENERATE_PTS: '+genpts', 
-    FILTER_COMPLEX: '-lavfi'  
-}
-
-export enum TRANSCODER_TYPE {
-    ENC = 'ENC',
-    DEC = 'DEC',
-    TRANSCODER = 'TRANSCODER'
 }
 
 export enum INPUT_TYPES {
@@ -56,13 +43,13 @@ export enum OUTPUT_CONTAINER {
     RTP_UDP = 'RTP-UDP', 
 }
 
-export enum OUTPUT_CODEC {
-    NONE = 'NONE',
-    HIDDEN = 'HIDDEN',
-    JK2 = 'JK2',
-    H262 = 'H262',
-    H264 = 'H264',
-    H265 = 'H265'
+export enum OUTPUT_ENCODER {
+    H264_NATIVE = 'x264',
+    HEVC_NATIVE = 'x265',
+    H264_MAC = 'h264_videotoolbox',
+    HEVC_MAC = 'hevc_videotoolbox',
+    H264_NVIDIA = 'h264_nvenc',
+    HEVC_NVIDIA = 'hevc_nvenc',
 }
 
 export interface IGlobalParams {

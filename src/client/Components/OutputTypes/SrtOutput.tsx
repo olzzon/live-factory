@@ -37,9 +37,9 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		}
 		if (!vCodec) {
 			// MAC M1 : 
-			// dispatch(storeSetFilterParams(id, 0, `  -c:v h264_videotoolbox -b:v 22000k -pix_fmt yuv420p `))
+			dispatch(storeSetFilterParams(id, 0, `  -c:v h264_videotoolbox -b:v 22000k -pix_fmt yuv420p `))
 			// CUDA Linux:
-			dispatch(storeSetFilterParams(id, 0, `  -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
+			// dispatch(storeSetFilterParams(id, 0, `  -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 		}
 		if (!aCodec) {
 			dispatch(storeSetFilterParams(id, 1, `   -acodec libopus -b:a 256k `))	

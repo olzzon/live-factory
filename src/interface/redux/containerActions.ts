@@ -1,4 +1,4 @@
-import { INPUT_TYPES, OUTPUT_TYPES, TRANSCODER_TYPE } from '../GenericInterfaces'
+import { INPUT_TYPES, OUTPUT_TYPES } from '../GenericInterfaces'
 import { IFactory } from '../GenericInterfaces'
 
 export const ADD_FACTORY = 'addFactory'
@@ -9,6 +9,8 @@ export const SET_CONTAINER_NAME = 'setContainerName'
 export const SET_CONTAINER_STATE = 'setContainerState'
 export const SET_GLOBAL_IN_PARAMS = 'setGlobalInParams'
 export const CLEAR_GLOBAL_IN_PARAMS = 'clearGlobalInParams'
+export const SET_GLOBAL_OUT_PARAMS = 'setGlobalOutParams'
+export const CLEAR_GLOBAL_OUT_PARAMS = 'clearGlobalOutParams'
 export const SET_INPUT_TYPE = 'setInputType'
 export const SET_INPUT_PARAMS = 'setInputParams'
 export const CLEAR_INPUT_PARAMS = 'clearInputParams'
@@ -29,14 +31,6 @@ export const storeUpdateFullStore = (fullStore: IFactory[]) => {
     return {
         type: UPDATE_FULL_STORE,
 		fullStore: fullStore
-    }
-}
-
-export const storeSetTranscoderType = (factoryId: number, transcoderType: TRANSCODER_TYPE) => {
-    return {
-        type: UPDATE_FULL_STORE,
-		factoryId: factoryId,
-		transcoderType: transcoderType
     }
 }
 
@@ -69,6 +63,22 @@ export const storeSetGlobalInParams = (factoryId: number, paramIndex: number, pa
 export const storeClearGlobalInParams = (factoryId: number) => {
 	return {
 		type: CLEAR_GLOBAL_IN_PARAMS,
+		factoryId: factoryId,
+	}
+}
+
+export const storeSetGlobalOutParams = (factoryId: number, paramIndex: number, param: string) => {
+	return {
+		type: SET_GLOBAL_OUT_PARAMS,
+		factoryId: factoryId,
+        paramIndex: paramIndex,
+		param: param,
+	}
+}
+
+export const storeClearGlobalOutParams = (factoryId: number) => {
+	return {
+		type: CLEAR_GLOBAL_OUT_PARAMS,
 		factoryId: factoryId,
 	}
 }
