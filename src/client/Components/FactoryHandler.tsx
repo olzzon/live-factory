@@ -27,6 +27,12 @@ const FactoryHandler: React.FC = () => {
 			})
 	}, [])
 
+	const addFactory = () => {
+		dispatch(storeAddFactory())
+		setSelectedEncoder(factories.length)
+		socketClient.emit(IO.UPDATE_FACTORY, factories.length, factories[factories.length])
+	}
+
 	const factoryList = () => {
 		return (
 			<div className="factory-selector">
@@ -58,8 +64,7 @@ const FactoryHandler: React.FC = () => {
 				<button
 					className="button"
 					onClick={() => {
-						setSelectedEncoder(factories.length)
-						dispatch(storeAddFactory())
+						addFactory()
 					}}
 				>
 					ADD PIPELINE
@@ -71,7 +76,7 @@ const FactoryHandler: React.FC = () => {
 	return (
 		<div className="factory-handler">
 			{factoryList()}
-			<Transcoder factoryId={selectedEncoder} socketClient={socketClient} />
+			<Transcoder factoryId={(selectedEncoder < factories.length ? selectedEncoder : 0)} socketClient={socketClient} />
 		</div>
 	)
 }

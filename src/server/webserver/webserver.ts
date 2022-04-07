@@ -20,8 +20,18 @@ const updateFactory = (index: number, cmd: IFactory) => {
 	saveFactoriesList(ffmpegFactories)
 }
 
+const deleteFactory = (index: number) => {
+	ffmpegFactories.splice(index,1)
+	saveFactoriesList(ffmpegFactories)
+	updateClients()
+}
+
 const updateClient = (client: any) => {
 	client.emit(IO.FULL_STORE, ffmpegFactories)
+}
+
+const updateClients = () => {
+	socketIO.emit(IO.FULL_STORE, ffmpegFactories)
 }
 
 export const updateEncoderState = (index: number, activated: boolean, running: boolean) => {
@@ -34,8 +44,10 @@ export const updateEncoderState = (index: number, activated: boolean, running: b
 const initializeFactories = () => {
 	ffmpegFactories = loadFactories()
 	ffmpegFactories.forEach((factory) => {
-		factory.activated = false
-		factory.running = false
+		if (factory) {
+			factory.activated = false
+			factory.running = false
+		}
 	})
 }
 
@@ -64,6 +76,10 @@ export const initializeWebServer = () => {
 		})
 		.on(IO.UPDATE_FACTORY,(id: number, cmd: IFactory) => {
 			updateFactory(id, cmd)
+			updateClients()
+		})
+		.on(IO.DELETE_FACTORY,(id: number) => {
+			deleteFactory(id)
 		})
     })
 

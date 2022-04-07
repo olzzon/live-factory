@@ -76,8 +76,8 @@ body {
 
 .pipeline-footer {
     position:fixed;
-    bottom: 12vh;
-    margin-left: 5vw;
+    bottom: 0.5vh;
+    margin-left: 15vw;
     margin-top: 3vh;
 }
 

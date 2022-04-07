@@ -33,8 +33,9 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 			nextState[0].factory = [...nextState[0].factory, newContainer]
 			return nextState
 		case CONTAINER_ACTIONS.UPDATE_FULL_STORE:
+			nextState[0].factory = []
 			action.fullStore.forEach((factory: IFactory, index: number) => {
-				nextState[0].factory[index] = factory !== null ? factory : defaultFfmpegContainerReducerState().factory[0]
+				nextState[0].factory.push(factory !== null ? factory : defaultFfmpegContainerReducerState().factory[0])
 			})
 			nextState[0].rerender = !nextState[0].rerender
 			return nextState
@@ -59,12 +60,12 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.CLEAR_GLOBAL_IN_PARAMS:
 			nextState[0].factory[action.factoryId].globalInput.params = ['']
 			return nextState
-			case CONTAINER_ACTIONS.SET_GLOBAL_OUT_PARAMS:
-				nextState[0].factory[action.factoryId].globalOutput.params[action.paramIndex] = action.param
-				return nextState
-			case CONTAINER_ACTIONS.CLEAR_GLOBAL_OUT_PARAMS:
-				nextState[0].factory[action.factoryId].globalOutput.params = ['']
-				return nextState
+		case CONTAINER_ACTIONS.SET_GLOBAL_OUT_PARAMS:
+			nextState[0].factory[action.factoryId].globalOutput.params[action.paramIndex] = action.param
+			return nextState
+		case CONTAINER_ACTIONS.CLEAR_GLOBAL_OUT_PARAMS:
+			nextState[0].factory[action.factoryId].globalOutput.params = ['']
+			return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_PARAMS:
 			nextState[0].factory[action.factoryId].input.params[action.paramIndex] = action.param
 			return nextState

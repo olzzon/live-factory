@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { INPUT_TYPES, IFactory, OUTPUT_TYPES } from '../../interface/GenericInterfaces'
 import '../styles/app.css'
@@ -11,9 +11,7 @@ import {
 	storeClearInputParams,
 	storeClearOutputParams,
 	storeSetContainerName,
-	storeSetInputParams,
 	storeSetInputType,
-	storeSetOutputParams,
 	storeSetOutputType,
 } from '../../interface/redux/containerActions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -40,23 +38,6 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 	const factory = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
 	const outputType = useSelector<RootState, OUTPUT_TYPES>((state) => state.ffmpeg[0].factory[id].output.type)
 
-	useEffect(() => {
-/*		if (inputType === INPUT_TYPES.NONE) {
-			dispatch(storeClearInputParams(id))
-			dispatch(storeClearFilterParams(id))
-			dispatch(storeSetInputParams(id, 0, ` -f libndi_newtek -i "`))
-			dispatch(storeSetInputParams(id, 1, `CASPARCG (CCG Ch2)`))
-			dispatch(storeSetInputParams(id, 2, `"`))
-		}
-		if (outputType === OUTPUT_TYPES.NONE) {
-			dispatch(storeClearFilterParams(id))
-			dispatch(storeClearOutputParams(id))
-			dispatch(storeSetOutputParams(id, 0, ` -f libndi_newtek -pix_fmt uyvy422 `))
-			dispatch(storeSetOutputParams(id, 1, `NDI_PIPE1`))
-		}
-		*/
-	}, [])
-
 	const handleSetInputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		dispatch(storeClearGlobalInParams(id))
 		dispatch(storeClearInputParams(id))
@@ -68,6 +49,11 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 		dispatch(storeClearGlobalOutParams(id))
 		dispatch(storeClearOutputParams(id))
 		dispatch(storeSetOutputType(id, event.target.value as OUTPUT_TYPES))
+	}
+
+	const handleDeleteEncoder = () => {
+		console.log('Delete encoder index :', id)
+		props.socketClient.emit(IO.DELETE_FACTORY, id)
 	}
 
 	const handleStartEncoder = () => {
@@ -108,15 +94,6 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				{inputType === INPUT_TYPES.SRT ? <SrtInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.DECKLINK ? <DecklinkInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.NDI ? <NdiInputOptions factoryId={id} /> : null}
-
-				<div className="pipeline-footer">
-					<button className="button" onClick={() => handleStopEncoder()}>
-						STOP TRANSCODER
-					</button>
-					<button className="button" onClick={() => handleStartEncoder()}>
-						START TRANSCODER
-					</button>
-				</div>
 			</div>
 		)
 	}
@@ -166,6 +143,18 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				<DecoderSide />
 				<EncoderSide />
 			</div>
+			<div className="pipeline-footer">
+					<button className="button" onClick={() => handleDeleteEncoder()}>
+						DELETE
+					</button>
+
+					<button className="button" onClick={() => handleStopEncoder()}>
+						STOP
+					</button>
+					<button className="button" onClick={() => handleStartEncoder()}>
+						START
+					</button>
+				</div>
 		</div>
 	)
 }

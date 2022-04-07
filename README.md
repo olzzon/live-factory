@@ -36,18 +36,19 @@ brew install automake fdk-aac git lame libass libtool libvorbis libvpx opus sdl 
 install: http://new.tk/NDIRedistV5Apple
 ```
 
-#### Clone NDI-FFMPEG:
+#### Clone FFMPEG-NDI repository:
 ```
 https://github.com/olzzon/ffmpeg-ndi
 ```
 
+### Configure
 ```
+make distclean 
 ./configure  --prefix=/usr/local --enable-libsrt --enable-gpl --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-videotoolbox --enable-libndi_newtek --enable-shared
 ```
 
 ```
-make distclean 
-make
+make -j10
 sudo make install
 ```
 
@@ -103,7 +104,7 @@ cd ~/ffmpeg-ndi
 git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
 cd nv-codec-headers && sudo make install && cd ..
 
-### Prepare and compile
+### Prepare and compile:
 ```
 cd ~/ffmpeg-ndi
 ./configure --prefix="$HOME/ffmpeg-ndi" --enable-pic --pkg-config-flags="--static" --extra-cflags="-I$HOME/ffmpeg-ndi/include -I/usr/local/cuda/include" --extra-ldflags="-L/usr/local/cuda/lib64 -L$HOME/ffmpeg-ndi/lib" --extra-libs="-lpthread -lm" --ld="g++" --bindir="$HOME/bin" --enable-shared --enable-libsrt --enable-gpl --enable-gnutls --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-libndi_newtek --enable-decklink --enable-cuda-nvcc 
@@ -121,6 +122,14 @@ Rebuild remember:
 make distclean 
 
 ```
+
+### Files for a Linux installation:
+Compress lib:
+```
+tar -czvf lib.tar.gz lib/*
+```
+Transfer together with ffmpeg
+
 
 ## FFmpeg Examples
 Decode HW:
