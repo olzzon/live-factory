@@ -7,3 +7,10 @@ export const DELETE_FACTORY = 'delete_factory'
 // Server to clients:
 export const FULL_STORE = 'full_store'
 export const UPDATE_ENCODER_STATE = 'update_encoder_state'
+
+// Server to Node
+export const STOP_NODE_ENCODER = 'stop_encoder'
+export const START_NODE_ENCODER = 'start_encoder'
+
+// Node to Server
+export const UPDATE_NODE_ACTIVE = 'update_node_active'

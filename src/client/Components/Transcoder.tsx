@@ -23,6 +23,7 @@ import DecklinkInputOptions from './InputTypes/DecklinkInput'
 import SrtOutputOptions from './OutputTypes/SrtOutput'
 import NdiInputOptions from './InputTypes/NdiInput'
 import NdiOutputOptions from './OutputTypes/NdiOutput'
+import MpegTsOutputOptions from './OutputTypes/mpeg-tsOutput'
 
 export interface IfactoryId {
 	factoryId: number
@@ -121,6 +122,7 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				<hr className="horizontal" />
 				{outputType === OUTPUT_TYPES.FILE ? <FileInputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.SRT ? <SrtOutputOptions factoryId={id} /> : null}
+				{outputType === OUTPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.NDI ? <NdiOutputOptions factoryId={id} /> : null}
 			</div>
 		)
