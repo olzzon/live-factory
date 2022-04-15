@@ -25,6 +25,7 @@ export enum OUTPUT_TYPES {
     NDI = 'NDI',
     FILE = 'FILE',
     SRT = 'SRT',
+    RIST = 'RIST',
     DECKLINK = 'DECKLINK',
     MPEG_TS = 'MPEG_TS',
     RTMP_S = 'RTMP_S',
