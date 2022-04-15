@@ -12,14 +12,13 @@ export interface IFactory {
 export enum INPUT_TYPES {
     COLORBAR = 'COLORBAR',
     SRT = 'SRT',
+    RIST = 'RIST',
     UDP = 'UDP',
     FILE = 'FILE',
     NDI = 'NDI',
     DECKLINK = 'DECKLINK',
     TWENTY_ONE_TEN = '2110',
-    RTMP_S = 'TRMP_S', 
     MPEG_TS = 'MPEG_TS',
-    RTP_UDP = 'RTP-UDP', 
 }
 
 export enum OUTPUT_TYPES {

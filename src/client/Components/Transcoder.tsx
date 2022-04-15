@@ -24,6 +24,7 @@ import SrtOutputOptions from './OutputTypes/SrtOutput'
 import NdiInputOptions from './InputTypes/NdiInput'
 import NdiOutputOptions from './OutputTypes/NdiOutput'
 import MpegTsOutputOptions from './OutputTypes/mpeg-tsOutput'
+import RistInputOptions from './InputTypes/RistInput'
 
 export interface IfactoryId {
 	factoryId: number
@@ -93,6 +94,7 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				{inputType === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.MPEG_TS ? <MpegtsInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.SRT ? <SrtInputOptions factoryId={id} /> : null}
+				{inputType === INPUT_TYPES.RIST ? <RistInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.DECKLINK ? <DecklinkInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.NDI ? <NdiInputOptions factoryId={id} /> : null}
 			</div>
