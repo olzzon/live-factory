@@ -10,6 +10,9 @@
     "watch-server": "tsc -p tsconfig.server.json --watch",
     "watch-client": "cross-env NODE_ENV=development TS_NODE_PROJECT=\".src/client/tsconfig.json\" webpack --watch",
     "build-watch": "yarn watch-server && yarn watch-client",
+    "build": "yarn build-client && yarn build-server",
+    "build-client": "cross-env NODE_ENV=development TS_NODE_PROJECT=\".src/client/tsconfig.json\" webpack",
+    "build-server": "tsc -p tsconfig.server.json",
     "start": "node ./dist/server/server.js",
     "start-dev": "node --inspect ./dist/server/server.js"
   },
