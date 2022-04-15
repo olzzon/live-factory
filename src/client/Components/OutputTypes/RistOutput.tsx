@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetFilterParams,
 	storeSetFilterParamString,
+	storeSetGlobalOutParamString,
 	storeSetOutputParams,
 	storeSetOutputParamString,
 } from '../../../interface/redux/containerActions'
@@ -31,6 +32,7 @@ const RistOutputOptions: React.FC<IRistProps> = (props) => {
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 		// 'rist://123.123.123.123:8200?cname=SENDER01&bandwidth=2560000' 
 
+		dispatch(storeSetGlobalOutParamString(id, ` `))
 		dispatch(storeSetFilterParamString(id, ` -c:v h264_videotoolbox -b:v {arg0}k -pix_fmt yuv420p -acodec libopus -b:a {arg1}k`))
 		dispatch(storeSetOutputParamString(id, ` -f matroska "rist://{arg0}:{arg1}?pkt_size=1316&cname={arg2}" `))
 
@@ -45,6 +47,9 @@ const RistOutputOptions: React.FC<IRistProps> = (props) => {
 		}
 		if (!vBandwidth) {
 			dispatch(storeSetFilterParams(id, 0, `22000`))
+		}
+		if (!aBandwidth) {
+			dispatch(storeSetFilterParams(id, 1, `256`))	
 		}
 	}, [])
 

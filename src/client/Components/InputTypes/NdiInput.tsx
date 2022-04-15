@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+	storeSetGlobalInParamString,
 	storeSetInputParams,
 	storeSetInputParamString,
 } from '../../../interface/redux/containerActions'
@@ -17,7 +18,8 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 	const ndiName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 
 	useEffect(() => {
-		dispatch(storeSetInputParamString(id, ` -f libndi_newtek -i "{arg0}`))
+		dispatch(storeSetGlobalInParamString(id, ``))
+		dispatch(storeSetInputParamString(id, ` -f libndi_newtek -i "{arg0}"`))
 		if (!ndiName) {
 			dispatch(storeSetInputParams(id, 0, `CASPARCG (CCG Ch2)`))			
 		}

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetFilterParams,
 	storeSetFilterParamString,
+	storeSetGlobalOutParamString,
 	storeSetOutputParams,
 	storeSetOutputParamString,
 } from '../../../interface/redux/containerActions'
@@ -30,7 +31,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		// CUDA Linux:
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 
-
+		dispatch(storeSetGlobalOutParamString(id, ` `))
 		dispatch(storeSetFilterParamString(id, ` -c:v h264_videotoolbox -b:v {arg0}k -pix_fmt yuv420p -acodec libopus -b:a {arg1}k`))
 		dispatch(storeSetOutputParamString(id, ` -f matroska "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}" `))
 

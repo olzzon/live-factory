@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetOutputParams, storeSetOutputParamString,
+	storeSetFilterParamString,
+	storeSetGlobalOutParamString,
+	storeSetOutputParams,
+	storeSetOutputParamString,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -15,8 +18,9 @@ const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
 
-
 	useEffect(() => {
+		dispatch(storeSetGlobalOutParamString(id, ` `))
+		dispatch(storeSetFilterParamString(id, ` `))
 		dispatch(storeSetOutputParamString(id, ` -f libndi_newtek -pix_fmt uyvy422 {arg0}`))
 		if (!outputName) {
 			dispatch(storeSetOutputParams(id, 0, `NDI_PIPE${id + 1}`))
