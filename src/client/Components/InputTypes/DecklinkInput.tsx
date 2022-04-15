@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetGlobalInParams,
+	storeSetGlobalInParamString,
 	storeSetInputParams,
+	storeSetInputParamString,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -14,20 +15,18 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
 
-	const decklinkInput = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
-	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[3])
+	const decklinkInput = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
+	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalInParams(id, 0, `-err_detect explode `))
-		dispatch(storeSetInputParams(id, 0, ` -f decklink -i 'DeckLink Quad (`))
-		dispatch(storeSetInputParams(id, 2, `)' -channels `))
-		dispatch(storeSetInputParams(id, 4, ` `))
+		dispatch(storeSetGlobalInParamString(id, `-err_detect explode `))
+		dispatch(storeSetInputParamString(id, ` -f decklink -i 'DeckLink Quad ({arg0}) -channels {arg1} `))
 		if (!decklinkInput) {
-			dispatch(storeSetInputParams(id, 1, '1'))
+			dispatch(storeSetInputParams(id, 0, '1'))
 		}
 		if (!channels) {
-			dispatch(storeSetInputParams(id, 3, '2'))
+			dispatch(storeSetInputParams(id, 1, '2'))
 		}
 	}, [])
 
@@ -39,7 +38,7 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 					className="input-number"
 					type="number"
 					value={decklinkInput ?? 1}
-					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -48,7 +47,7 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 					className="input-number"
 					type="number"
 					value={channels ?? 2}
-					onChange={(event) => dispatch(storeSetInputParams(id, 3, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
 				/>
 			</label>
 		</div>

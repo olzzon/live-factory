@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetGlobalInParams,
+	storeSetGlobalInParamString,
 	storeSetInputParams,
+	storeSetInputParamString,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -13,13 +14,13 @@ interface IColorBarProps {
 const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
-	const resolution = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
+	const resolution = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 	
 	useEffect(() => {
-		dispatch(storeSetGlobalInParams(id, 0, '-f lavfi '))
-		dispatch(storeSetInputParams(id, 0, '-i smptehdbars='))
+		dispatch(storeSetGlobalInParamString(id, '-f lavfi '))
+		dispatch(storeSetInputParamString(id, '-i smptehdbars={arg0} '))
 		if (!resolution) {
-			dispatch(storeSetInputParams(id, 1, '1920x1080'))
+			dispatch(storeSetInputParams(id, 0, '1920x1080'))
 		}
 	}, [])
 
@@ -32,7 +33,7 @@ const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={resolution ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
 				/>
 			</label>
 		</div>

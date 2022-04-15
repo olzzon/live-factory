@@ -22,8 +22,10 @@ const FactoryHandler: React.FC = () => {
 				dispatch(storeSetContainerState(index, activated, running))
 			})
 			.on(IO.FULL_STORE, (fullStore: IFactory[]) => {
-				dispatch(storeUpdateFullStore(fullStore))
-				console.log('Full store', fullStore)
+				if (fullStore.length > 0 ) {
+					dispatch(storeUpdateFullStore(fullStore))
+					console.log('Full store', fullStore)
+				}
 			})
 	}, [])
 

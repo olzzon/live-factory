@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetOutputParams,
+	storeSetOutputParams, storeSetOutputParamString,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -13,13 +13,13 @@ const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
 
-	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.params[1])
+	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
 
 
 	useEffect(() => {
-		dispatch(storeSetOutputParams(id, 0, ` -f libndi_newtek -pix_fmt uyvy422 `))
+		dispatch(storeSetOutputParamString(id, ` -f libndi_newtek -pix_fmt uyvy422 {arg0}`))
 		if (!outputName) {
-			dispatch(storeSetOutputParams(id, 1, `NDI_PIPE${id + 1}`))
+			dispatch(storeSetOutputParams(id, 0, `NDI_PIPE${id + 1}`))
 		}
 	}, [])
 
@@ -31,7 +31,7 @@ const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={outputName ?? 'none'}
-					onChange={(event) => dispatch(storeSetOutputParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
 				/>
 			</label>
 		</div>

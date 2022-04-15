@@ -2,7 +2,9 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetGlobalInParams,
+	storeSetGlobalInParamString,
 	storeSetInputParams,
+	storeSetInputParamString,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -14,28 +16,23 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
 
-	const frameRate = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].globalInput.params[1])
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[3])
-	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[5])
+	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
+	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
+	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[2])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalInParams(id, 0, ``))
-		dispatch(storeSetGlobalInParams(id, 1, ``))
-		dispatch(storeSetInputParams(id, 0, ` -hwaccel videotoolbox -i "srt://`))
-		dispatch(storeSetInputParams(id, 2, `:`))
-		dispatch(storeSetInputParams(id, 4, `?pkt_size=1316&mode=`))
+		dispatch(storeSetGlobalInParamString(id, ` -hwaccel videotoolbox `))
+		dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}`))
 		if (!ip) {
-			dispatch(storeSetInputParams(id, 1, '0.0.0.0'))
+			dispatch(storeSetInputParams(id, 0, '0.0.0.0'))
 		}
 		if (!port) {
-			dispatch(storeSetInputParams(id, 3, '9998'))
+			dispatch(storeSetInputParams(id, 1, '9998'))
 		}
 		if (!mode) {
-			dispatch(storeSetInputParams(id, 5, 'caller'))
+			dispatch(storeSetInputParams(id, 2, 'caller'))
 		}
-		dispatch(storeSetInputParams(id, 6, '"'))
 	}, [])
 
 	return (
@@ -46,7 +43,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={ip ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -55,7 +52,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={port ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 3, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -64,16 +61,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={mode ?? 0}
-					onChange={(event) => dispatch(storeSetInputParams(id, 5, event.target.value))}
-				/>
-			</label>
-			<label className="pipeline-label">
-				Frame rate (NOT IN USE) :
-				<input
-					className="input-text"
-					type="text"
-					value={frameRate ?? 'r 50'}
-					onChange={(event) => dispatch(storeSetGlobalInParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputParams(id, 2, event.target.value))}
 				/>
 			</label>
 		</div>

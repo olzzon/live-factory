@@ -14,11 +14,11 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 				containerName: 'NEW PIPE',
 				activated: false,
 				running: false,
-				globalInput: { params: [] },
-				globalOutput: { params: [] },
-				input: { type: INPUT_TYPES.COLORBAR, params: [] },
-				filter: { params: [''] },
-				output: { type: OUTPUT_TYPES.NDI, params: [] },
+				globalInput: { param: '', paramArgs: [] },
+				globalOutput: { param: '', paramArgs: [] },
+				input: { type: INPUT_TYPES.COLORBAR, param: '', paramArgs: [] },
+				filter: { param: '', paramArgs: [''] },
+				output: { type: OUTPUT_TYPES.NDI, param: '', paramArgs: [] },
 			},
 		],
 	}
@@ -54,35 +54,50 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.SET_OUTPUT_TYPE:
 			nextState[0].factory[action.factoryId].output.type = action.outputType
 			return nextState
+		case CONTAINER_ACTIONS.SET_GLOBAL_IN_PARAM_STRING:
+			nextState[0].factory[action.factoryId].globalInput.param = action.paramString
+			return nextState
 		case CONTAINER_ACTIONS.SET_GLOBAL_IN_PARAMS:
-			nextState[0].factory[action.factoryId].globalInput.params[action.paramIndex] = action.param
+			nextState[0].factory[action.factoryId].globalInput.paramArgs[action.paramIndex] = action.param
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_GLOBAL_IN_PARAMS:
-			nextState[0].factory[action.factoryId].globalInput.params = ['']
+			nextState[0].factory[action.factoryId].globalInput.paramArgs = ['']
+			return nextState
+		case CONTAINER_ACTIONS.SET_GLOBAL_OUT_PARAM_STRING:
+			nextState[0].factory[action.factoryId].globalOutput.param = action.paramString
 			return nextState
 		case CONTAINER_ACTIONS.SET_GLOBAL_OUT_PARAMS:
-			nextState[0].factory[action.factoryId].globalOutput.params[action.paramIndex] = action.param
+			nextState[0].factory[action.factoryId].globalOutput.paramArgs[action.paramIndex] = action.param
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_GLOBAL_OUT_PARAMS:
-			nextState[0].factory[action.factoryId].globalOutput.params = ['']
+			nextState[0].factory[action.factoryId].globalOutput.paramArgs = ['']
+			return nextState
+		case CONTAINER_ACTIONS.SET_INPUT_PARAM_STRING:
+			nextState[0].factory[action.factoryId].input.param = action.paramString
 			return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_PARAMS:
-			nextState[0].factory[action.factoryId].input.params[action.paramIndex] = action.param
+			nextState[0].factory[action.factoryId].input.paramArgs[action.paramIndex] = action.param
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_INPUT_PARAMS:
-			nextState[0].factory[action.factoryId].input.params = ['']
+			nextState[0].factory[action.factoryId].input.paramArgs = ['']
+			return nextState
+		case CONTAINER_ACTIONS.SET_FILTER_PARAM_STRING:
+			nextState[0].factory[action.factoryId].filter.param = action.paramString
 			return nextState
 		case CONTAINER_ACTIONS.SET_FILTER_PARAMS:
-			nextState[0].factory[action.factoryId].filter.params[action.paramIndex] = action.param
+			nextState[0].factory[action.factoryId].filter.paramArgs[action.paramIndex] = action.param
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_FILTER_PARAMS:
-			nextState[0].factory[action.factoryId].filter.params = ['']
+			nextState[0].factory[action.factoryId].filter.paramArgs = ['']
+			return nextState
+		case CONTAINER_ACTIONS.SET_OUTPUT_PARAM_STRING:
+			nextState[0].factory[action.factoryId].output.param = action.paramString
 			return nextState
 		case CONTAINER_ACTIONS.SET_OUTPUT_PARAMS:
-			nextState[0].factory[action.factoryId].output.params[action.paramIndex] = action.param
+			nextState[0].factory[action.factoryId].output.paramArgs[action.paramIndex] = action.param
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_OUTPUT_PARAMS:
-			nextState[0].factory[action.factoryId].output.params = ['']
+			nextState[0].factory[action.factoryId].output.paramArgs = ['']
 			return nextState
 		default:
 			return nextState

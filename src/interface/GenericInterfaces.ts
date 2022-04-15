@@ -41,19 +41,23 @@ export enum OUTPUT_ENCODER {
 }
 
 export interface IGlobalParams {
-    params: string[]
+    param: string
+    paramArgs: string[]
 }
 
 export interface IInputParams {
     type: INPUT_TYPES
-    params: string[]
+    param: string
+    paramArgs: string[]
 }
 
 export interface IFilterParams {
-    params: string[]
+    param: string
+    paramArgs: string[]
 }
 
 export interface IOutputParams {
     type: OUTPUT_TYPES
-    params: string[]
+    param: string
+    paramArgs: string[]
 }

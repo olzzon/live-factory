@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetGlobalInParams,
+	storeSetGlobalInParamString,
 	storeSetInputParams,
+	storeSetInputParamString,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -14,23 +15,21 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[3])
-	const fifoSize = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[5])
+	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
+	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
+	const fifoSize = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[2])
 
 	useEffect(() => {
-		dispatch(storeSetGlobalInParams(id, 0, ' -re '))
-		dispatch(storeSetInputParams(id, 0, '-hwaccel videotoolbox -vsync 0 -i udp://'))
+		dispatch(storeSetGlobalInParamString(id, ' -re -hwaccel videotoolbox -vsync 0 '))
+		dispatch(storeSetInputParamString(id, ' -i udp://{arg0}:{arg1}?fifo_size={arg2}'))
 		if (!ip) {
-			dispatch(storeSetInputParams(id, 1, 'localhost'))
+			dispatch(storeSetInputParams(id, 0, 'localhost'))
 		}
-		dispatch(storeSetInputParams(id, 2, ':'))
 		if (!port) {
-			dispatch(storeSetInputParams(id, 3, '1234'))
+			dispatch(storeSetInputParams(id, 1, '1234'))
 		}
-		dispatch(storeSetInputParams(id, 4, '?fifo_size='))
 		if (!fifoSize) {
-			dispatch(storeSetInputParams(id, 5, '49152'))
+			dispatch(storeSetInputParams(id, 2, '49152'))
 		}
 	}, [])
 
@@ -42,7 +41,7 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={ip}
-					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -51,7 +50,7 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={port}
-					onChange={(event) => dispatch(storeSetInputParams(id, 3, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -60,7 +59,7 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={fifoSize}
-					onChange={(event) => dispatch(storeSetInputParams(id, 5, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputParams(id, 2, event.target.value))}
 				/>
 			</label>
 		</div>

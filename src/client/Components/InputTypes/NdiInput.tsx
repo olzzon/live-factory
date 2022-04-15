@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetGlobalInParams,
 	storeSetInputParams,
+	storeSetInputParamString,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -14,13 +14,12 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
 
-	const ndiName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.params[1])
+	const ndiName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 
 	useEffect(() => {
-		dispatch(storeSetInputParams(id, 0, ` -f libndi_newtek -i "`))
-		dispatch(storeSetInputParams(id, 2, `"`))
+		dispatch(storeSetInputParamString(id, ` -f libndi_newtek -i "{arg0}`))
 		if (!ndiName) {
-			dispatch(storeSetInputParams(id, 1, `CASPARCG (CCG Ch2)`))			
+			dispatch(storeSetInputParams(id, 0, `CASPARCG (CCG Ch2)`))			
 		}
 	}, [])
 
@@ -32,7 +31,7 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={ndiName ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
 				/>
 			</label>
 		</div>

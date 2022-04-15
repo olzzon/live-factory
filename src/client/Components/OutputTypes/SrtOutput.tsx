@@ -2,7 +2,9 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetFilterParams,
+	storeSetFilterParamString,
 	storeSetOutputParams,
+	storeSetOutputParamString,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -14,56 +16,58 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
 
-	const vCodec = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.params[0])
-	const aCodec = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.params[1])
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.params[1])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.params[3])
-	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.params[5])
+	const vBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[0])
+	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[1])
+	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
+	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[1])
+	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[2])
 
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetOutputParams(id, 0, ` -f matroska "srt://`))
-		dispatch(storeSetOutputParams(id, 2, `:`))
-		dispatch(storeSetOutputParams(id, 4, `?pkt_size=1316&mode=`))
+		// MAC M1 : 
+		//  ` -c:v h264_videotoolbox -b:v {arg0}k -pix_fmt yuv420p -acodec libopus -b:a {arg1}k`
+		// CUDA Linux:
+		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
+
+
+		dispatch(storeSetFilterParamString(id, ` -c:v h264_videotoolbox -b:v {arg0}k -pix_fmt yuv420p -acodec libopus -b:a {arg1}k`))
+		dispatch(storeSetOutputParamString(id, ` -f matroska "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}" `))
+
 		if (!ip) {
-			dispatch(storeSetOutputParams(id, 1, '0.0.0.0'))
+			dispatch(storeSetOutputParams(id, 0, '0.0.0.0'))
 		}
 		if (!port) {
-			dispatch(storeSetOutputParams(id, 3, '9998'))
+			dispatch(storeSetOutputParams(id, 1, '9998'))
 		}
 		if (!mode) {
-			dispatch(storeSetOutputParams(id, 5, 'listener'))
+			dispatch(storeSetOutputParams(id, 2, 'listener'))
 		}
-		if (!vCodec) {
-			// MAC M1 : 
-			dispatch(storeSetFilterParams(id, 0, `  -c:v h264_videotoolbox -b:v 22000k -pix_fmt yuv420p `))
-			// CUDA Linux:
-			// dispatch(storeSetFilterParams(id, 0, `  -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
+		if (!vBandwidth) {
+			dispatch(storeSetFilterParams(id, 0, `22000`))
 		}
-		if (!aCodec) {
-			dispatch(storeSetFilterParams(id, 1, `   -acodec libopus -b:a 256k `))	
+		if (!aBandwidth) {
+			dispatch(storeSetFilterParams(id, 1, `256`))	
 		}
-		dispatch(storeSetOutputParams(id, 6, '"'))
 	}, [])
 
 	return (
 		<div className="options">
 			<label className="pipeline-label">
-				Video Codec :
+				Video Bandwidth (in kbit/s) :
 				<input
-					className="input-text"
-					type="text"
-					value={vCodec ?? 'none'}
+					className="input-number"
+					type="number"
+					value={vBandwidth ?? '22000'}
 					onChange={(event) => dispatch(storeSetFilterParams(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
-				Audio Codec :
+				Audio Bandwidth (in kbit/s) :
 				<input
-					className="input-text"
-					type="text"
-					value={aCodec ?? 'none'}
+					className="input-number"
+					type="number"
+					value={aBandwidth ?? '256'}
 					onChange={(event) => dispatch(storeSetFilterParams(id, 1, event.target.value))}
 				/>
 			</label>

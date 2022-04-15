@@ -8,15 +8,20 @@ export const SET_TRANSCODER_TYPE = 'setTranscoderType'
 export const SET_CONTAINER_NAME = 'setContainerName'
 export const SET_CONTAINER_STATE = 'setContainerState'
 export const SET_GLOBAL_IN_PARAMS = 'setGlobalInParams'
+export const SET_GLOBAL_IN_PARAM_STRING = 'setGlobalInParamString'
 export const CLEAR_GLOBAL_IN_PARAMS = 'clearGlobalInParams'
 export const SET_GLOBAL_OUT_PARAMS = 'setGlobalOutParams'
+export const SET_GLOBAL_OUT_PARAM_STRING = 'setGlobalInParamString'
 export const CLEAR_GLOBAL_OUT_PARAMS = 'clearGlobalOutParams'
 export const SET_INPUT_TYPE = 'setInputType'
+export const SET_INPUT_PARAM_STRING = 'setInputParamString'
 export const SET_INPUT_PARAMS = 'setInputParams'
 export const CLEAR_INPUT_PARAMS = 'clearInputParams'
+export const SET_FILTER_PARAM_STRING = 'setFilterParamString'
 export const SET_FILTER_PARAMS = 'setFilterParams'
 export const CLEAR_FILTER_PARAMS = 'clearFilterParams'
 export const SET_OUTPUT_TYPE = 'setOutputType'
+export const SET_OUTPUT_PARAM_STRING = 'setOutputParamString'
 export const SET_OUTPUT_PARAMS = 'setOutputParams'
 export const CLEAR_OUTPUT_PARAMS = 'clearOutputParams'
 
@@ -51,6 +56,14 @@ export const storeSetContainerState = (factoryId: number, activated: boolean, ru
 	}
 }
 
+export const storeSetGlobalInParamString = (factoryId: number, paramString: string) => {
+	return {
+		type: SET_GLOBAL_IN_PARAM_STRING,
+		factoryId: factoryId,
+		paramString: paramString
+	}
+}
+
 export const storeSetGlobalInParams = (factoryId: number, paramIndex: number, param: string) => {
 	return {
 		type: SET_GLOBAL_IN_PARAMS,
@@ -64,6 +77,14 @@ export const storeClearGlobalInParams = (factoryId: number) => {
 	return {
 		type: CLEAR_GLOBAL_IN_PARAMS,
 		factoryId: factoryId,
+	}
+}
+
+export const storeSetGlobalOutParamString = (factoryId: number, paramString: string) => {
+	return {
+		type: SET_GLOBAL_OUT_PARAM_STRING,
+		factoryId: factoryId,
+		paramString: paramString
 	}
 }
 
@@ -91,6 +112,13 @@ export const storeSetInputType = (factoryId: number, inputType: INPUT_TYPES) => 
 	}
 }
 
+export const storeSetInputParamString = (factoryId: number, paramString: string) => {
+	return {
+		type: SET_INPUT_PARAM_STRING,
+		factoryId: factoryId,
+		paramString: paramString,
+	}
+}
 
 export const storeSetInputParams = (factoryId: number, paramIndex: number, param: string) => {
 	return {
@@ -105,6 +133,14 @@ export const storeClearInputParams = (factoryId: number) => {
 	return {
 		type: CLEAR_INPUT_PARAMS,
 		factoryId: factoryId,
+	}
+}
+
+export const storeSetFilterParamString = (factoryId: number, paramString: string) => {
+	return {
+		type: SET_FILTER_PARAM_STRING,
+		factoryId: factoryId,
+		paramString: paramString,
 	}
 }
 
@@ -129,6 +165,14 @@ export const storeSetOutputType = (factoryId: number, outputType: OUTPUT_TYPES) 
 		type: SET_OUTPUT_TYPE,
 		factoryId: factoryId,
 		outputType: outputType,
+	}
+}
+
+export const storeSetOutputParamString = (factoryId: number, paramString: string) => {
+	return {
+		type: SET_OUTPUT_PARAM_STRING,
+		factoryId: factoryId,
+		paramString: paramString,
 	}
 }
 

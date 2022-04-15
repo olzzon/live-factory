@@ -1,6 +1,7 @@
 // const exec = require('child_process').exec
 import { ChildProcess, ChildProcessWithoutNullStreams, spawn } from 'child_process'
 import { IFactory } from '../../interface/GenericInterfaces'
+import insertArgs from '../utils/insertArgs'
 import { updateEncoderState } from '../webserver/webserver'
 
 interface FFmpegInstanceProps {
@@ -19,11 +20,13 @@ export class FFmepgInstance {
 	initFFmpeg = (cmd: IFactory) => {
 		// console.log('Transcoder Child', this.child)
 		const command = `${__dirname}/../ffmpegruntime`
-		const args = [
-			`${cmd.globalInput.params.join('')} ${cmd.globalOutput.params.join('')} ${cmd.input.params.join(
-				''
-			)} ${cmd.filter.params.join('')} ${cmd.output.params.join('')}`,
-		]
+
+		let args =
+			insertArgs(cmd.globalInput.param, cmd.globalInput.paramArgs) +
+			insertArgs(cmd.globalOutput.param, cmd.globalOutput.paramArgs) +
+			insertArgs(cmd.input.param, cmd.input.paramArgs) +
+			insertArgs(cmd.filter.param, cmd.filter.paramArgs) +
+			insertArgs(cmd.output.param, cmd.output.paramArgs)
 
 		this.keepInstanceRunning = true
 
@@ -31,7 +34,7 @@ export class FFmepgInstance {
 			console.log('Transcoder already running')
 			this.childProcess.kill()
 		}
-		this.childProcess = this.spawnChild(command, args)
+		this.childProcess = this.spawnChild(command, [args])
 		console.log('FFmpeg is starting', this.childProcess.spawnargs)
 
 		this.childProcess.stderr?.on('data', (data) => {
