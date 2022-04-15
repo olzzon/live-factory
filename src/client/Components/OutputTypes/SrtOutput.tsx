@@ -77,7 +77,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={ip ?? 'none'}
-					onChange={(event) => dispatch(storeSetOutputParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -86,7 +86,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={port ?? 'none'}
-					onChange={(event) => dispatch(storeSetOutputParams(id, 3, event.target.value))}
+					onChange={(event) => dispatch(storeSetOutputParams(id, 1, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -95,7 +95,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={mode ?? 0}
-					onChange={(event) => dispatch(storeSetOutputParams(id, 5, event.target.value))}
+					onChange={(event) => dispatch(storeSetOutputParams(id, 2, event.target.value))}
 				/>
 			</label>
 		</div>
