@@ -36,10 +36,10 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 			dispatch(storeSetGlobalOutParams(id, 0, ``))
 		}
 		if (!output) {
-			dispatch(storeSetOutputParams(id, 0, ` -f matroska "srt://0.0.0.0:9998?pkt_size=1316&mode=listener" `))
+			dispatch(storeSetOutputParams(id, 0, ` -f mpegts "srt://0.0.0.0:9998?pkt_size=1316&mode=listener" `))
 		}
 		if (!filter) {
-			dispatch(storeSetFilterParams(id, 0, ` -c:v h264_videotoolbox -b:v 22000k -pix_fmt yuv420p -acodec libopus -b:a 256k`))
+			dispatch(storeSetFilterParams(id, 0, ` -c:v libx264 -preset veryfast -b:v 22000k -pix_fmt yuv420p -acodec libopus -b:a 256k`))
 		}
 	}, [])
 

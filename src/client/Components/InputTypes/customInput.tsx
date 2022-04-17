@@ -24,7 +24,7 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 		dispatch(storeSetInputParamString(id, `{arg0}`))
 
 		if (!globalIn) {
-			dispatch(storeSetGlobalInParams(id, 0, `  -hwaccel videotoolbox `))
+			dispatch(storeSetGlobalInParams(id, 0, ` -re `))
 		}
 		if (!input) {
 			dispatch(storeSetInputParams(id, 0, `  -i "srt://0.0.0.0:9998?pkt_size=1316&mode=listener" `))
