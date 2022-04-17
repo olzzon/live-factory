@@ -30,6 +30,7 @@ import UdpInputOptions from './InputTypes/UDPinput'
 import CustomOutputOptions from './OutputTypes/customOutput'
 import TcpInputOptions from './InputTypes/TcpInput'
 import TcpOutputOptions from './OutputTypes/TcpOutput'
+import CustomInputOptions from './InputTypes/customInput'
 
 export interface IfactoryId {
 	factoryId: number
@@ -104,6 +105,7 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				{inputType === INPUT_TYPES.RIST ? <RistInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.DECKLINK ? <DecklinkInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.NDI ? <NdiInputOptions factoryId={id} /> : null}
+				{inputType === INPUT_TYPES.CUSTOM ? <CustomInputOptions factoryId={id} /> : null}
 			</div>
 		)
 	}

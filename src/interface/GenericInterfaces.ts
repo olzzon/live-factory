@@ -20,6 +20,7 @@ export enum INPUT_TYPES {
     DECKLINK = 'DECKLINK',
     TWENTY_ONE_TEN = '2110',
     MPEG_TS = 'MPEG_TS',
+    CUSTOM = 'CUSTOM'
 }
 
 export enum OUTPUT_TYPES {

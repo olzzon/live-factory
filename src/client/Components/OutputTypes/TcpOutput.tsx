@@ -42,7 +42,7 @@ const TcpOutputOptions: React.FC<ITcpProps> = (props) => {
 			dispatch(storeSetOutputParams(id, 1, '9998'))
 		}
 		if (!mode) {
-			dispatch(storeSetOutputParams(id, 2, 'listener'))
+			dispatch(storeSetOutputParams(id, 2, 'listen'))
 		}
 		if (!vBandwidth) {
 			dispatch(storeSetFilterParams(id, 0, `22000`))
