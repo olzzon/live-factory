@@ -36,7 +36,8 @@ export class FFmepgInstance {
 			this.childProcess.kill()
 		}
 		this.childProcess = this.spawnChild(command, [args])
-		console.log('FFmpeg is starting', this.childProcess.spawnargs)
+		console.log('FFmpeg is starting')
+		console.debug('FFmpeg Spawn', this.childProcess.spawnargs)
 
 		this.childProcess.stderr?.on('data', (data) => {
 			console.log(`Encoder ${cmd.containerName} :`, data.toString('utf8'))
