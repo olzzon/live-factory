@@ -22,6 +22,7 @@ export class FFmepgInstance {
 		const command = `${__dirname}/../ffmpegruntime`
 
 		let args =
+			' -hide_banner ' +
 			insertArgs(cmd.globalInput.param, cmd.globalInput.paramArgs) +
 			insertArgs(cmd.globalOutput.param, cmd.globalOutput.paramArgs) +
 			insertArgs(cmd.input.param, cmd.input.paramArgs) +
