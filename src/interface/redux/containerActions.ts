@@ -1,4 +1,4 @@
-import { INPUT_TYPES, OUTPUT_TYPES } from '../GenericInterfaces'
+import { INPUT_TYPES, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
 import { IFactory } from '../GenericInterfaces'
 
 export const ADD_FACTORY = 'addFactory'
@@ -17,6 +17,7 @@ export const SET_INPUT_TYPE = 'setInputType'
 export const SET_INPUT_PARAM_STRING = 'setInputParamString'
 export const SET_INPUT_PARAMS = 'setInputParams'
 export const CLEAR_INPUT_PARAMS = 'clearInputParams'
+export const SET_FILTER_TYPE = 'setFilterType'
 export const SET_FILTER_PARAM_STRING = 'setFilterParamString'
 export const SET_FILTER_PARAMS = 'setFilterParams'
 export const CLEAR_FILTER_PARAMS = 'clearFilterParams'
@@ -133,6 +134,14 @@ export const storeClearInputParams = (factoryId: number) => {
 	return {
 		type: CLEAR_INPUT_PARAMS,
 		factoryId: factoryId,
+	}
+}
+
+export const storeSetFilterType = (factoryId: number, filterType: OUTPUT_ENCODER) => {
+	return {
+		type: SET_FILTER_TYPE,
+		factoryId: factoryId,
+		filterType: filterType,
 	}
 }
 

@@ -1,4 +1,4 @@
-import { IFactory, INPUT_TYPES, OUTPUT_TYPES } from '../GenericInterfaces'
+import { IFactory, INPUT_TYPES, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
 import * as CONTAINER_ACTIONS from './containerActions'
 
 export interface IFFmpegReducer {
@@ -17,7 +17,7 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 				globalInput: { param: '', paramArgs: [] },
 				globalOutput: { param: '', paramArgs: [] },
 				input: { type: INPUT_TYPES.COLORBAR, param: '', paramArgs: [] },
-				filter: { param: '', paramArgs: [''] },
+				filter: { type: OUTPUT_ENCODER.NONE, param: '', paramArgs: [''] },
 				output: { type: OUTPUT_TYPES.NDI, param: '', paramArgs: [] },
 			},
 		],
@@ -53,6 +53,9 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 			return nextState
 		case CONTAINER_ACTIONS.SET_OUTPUT_TYPE:
 			nextState[0].factory[action.factoryId].output.type = action.outputType
+			return nextState
+		case CONTAINER_ACTIONS.SET_FILTER_TYPE:
+			nextState[0].factory[action.factoryId].filter.type = action.filterType
 			return nextState
 		case CONTAINER_ACTIONS.SET_GLOBAL_IN_PARAM_STRING:
 			nextState[0].factory[action.factoryId].globalInput.param = action.paramString

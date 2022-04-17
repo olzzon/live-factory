@@ -35,12 +35,13 @@ export enum OUTPUT_TYPES {
 }
 
 export enum OUTPUT_ENCODER {
-    H264_NATIVE = 'x264',
-    HEVC_NATIVE = 'x265',
-    H264_MAC = 'h264_videotoolbox',
-    HEVC_MAC = 'hevc_videotoolbox',
-    H264_NVIDIA = 'h264_nvenc',
-    HEVC_NVIDIA = 'hevc_nvenc',
+    NONE = 'NONE',
+    H264_NATIVE = 'H264_NATIVE',
+    HEVC_NATIVE = 'HEVC_NATIVE',
+    H264_MAC = 'H264_MAC',
+    HEVC_MAC = 'HEVC_MAC',
+    H264_NVIDIA = 'H264_NVIDIA',
+    HEVC_NVIDIA = 'HEVC_NVIDIA',
 }
 
 export interface IGlobalParams {
@@ -55,6 +56,7 @@ export interface IInputParams {
 }
 
 export interface IFilterParams {
+    type: OUTPUT_ENCODER
     param: string
     paramArgs: string[]
 }
