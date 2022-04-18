@@ -31,6 +31,7 @@ import CustomOutputOptions from './OutputTypes/customOutput'
 import TcpInputOptions from './InputTypes/TcpInput'
 import TcpOutputOptions from './OutputTypes/TcpOutput'
 import CustomInputOptions from './InputTypes/customInput'
+import DecklinkOutputOptions from './OutputTypes/DecklinkOutput'
 
 export interface IfactoryId {
 	factoryId: number
@@ -131,7 +132,7 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 					</select>
 				</label>
 				<hr className="horizontal" />
-				{outputType === OUTPUT_TYPES.FILE ? <FileInputOptions factoryId={id} /> : null}
+				{outputType === OUTPUT_TYPES.DECKLINK ? <DecklinkOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.SRT ? <SrtOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.RIST ? <RistOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions factoryId={id} /> : null}
