@@ -1,19 +1,21 @@
 import express from 'express'
 import path from 'path'
-import * as IO  from '../../interface/SocketIOContants'
+import * as IO from '../../interface/SocketIOContants'
 
 const expressApp: express.Application = express()
 import http from 'http'
 const httpServer = http.createServer(expressApp)
 import { Server } from 'socket.io'
 import { FFmepgInstance } from '../ffmpeg/FFmpegInstance'
-import { IFactory } from '../../interface/GenericInterfaces'
-import {loadFactories, saveFactoriesList} from '../utils/storage'
+import { DEVICE_TYPES, IDeviceList, IFactory } from '../../interface/GenericInterfaces'
+import { loadFactories, saveFactoriesList } from '../utils/storage'
+import { discoverNdiSources } from '../utils/discoverNdiSources'
 const socketIO = new Server(httpServer)
 
 const PORT = 1406
 let ffmpegFactories: IFactory[] = []
 let factoryInstances: FFmepgInstance[] = []
+let devices: IDeviceList[] = []
 
 const updateFactory = (index: number, cmd: IFactory) => {
 	ffmpegFactories[index] = cmd
@@ -21,24 +23,27 @@ const updateFactory = (index: number, cmd: IFactory) => {
 }
 
 const deleteFactory = (index: number) => {
-	ffmpegFactories.splice(index,1)
+	ffmpegFactories.splice(index, 1)
 	saveFactoriesList(ffmpegFactories)
 	updateClients()
-}
-
-const updateClient = (client: any) => {
-	client.emit(IO.FULL_STORE, ffmpegFactories)
 }
 
 const updateClients = () => {
 	socketIO.emit(IO.FULL_STORE, ffmpegFactories)
 }
 
+const subscribeDevicesList = () => {
+	setInterval(() => {
+		devices[DEVICE_TYPES.NDI] = { type: DEVICE_TYPES.NDI, devices: discoverNdiSources() }
+		socketIO.emit(IO.DEVICES_LIST, devices)
+	}, 10000)
+}
+
 export const updateEncoderState = (index: number, activated: boolean, running: boolean) => {
 	ffmpegFactories[index].activated = activated
 	ffmpegFactories[index].running = running
 	console.log('Emitting Encoder update state. Index :', index, 'activated :', activated, 'running :', running)
-	socketIO.emit(IO.UPDATE_ENCODER_STATE, index, activated, running  )
+	socketIO.emit(IO.UPDATE_ENCODER_STATE, index, activated, running)
 }
 
 const initializeFactories = () => {
@@ -53,6 +58,7 @@ const initializeFactories = () => {
 
 export const initializeWebServer = () => {
 	initializeFactories()
+	subscribeDevicesList()
 	expressApp.use('/', express.static(path.resolve('dist')))
 
 	expressApp.get('/', (req: any, res: any) => {
@@ -62,26 +68,27 @@ export const initializeWebServer = () => {
 
 	socketIO.on('connection', (client) => {
 		console.log('a user connected')
-		updateClient(client)
+		updateClients()
 
-		client.on(IO.START_ENCODER, (id: number, cmd: IFactory) => {
-			updateFactory(id, cmd)
-			if (!factoryInstances[id]) {
-				factoryInstances[id] = new FFmepgInstance({containerIndex: id})
-			}
-			factoryInstances[id].initFFmpeg(cmd)
-		})
-		.on(IO.STOP_ENCODER, (id: number) => {
-			factoryInstances[id]?.stopInstance(id)
-		})
-		.on(IO.UPDATE_FACTORY,(id: number, cmd: IFactory) => {
-			updateFactory(id, cmd)
-			updateClients()
-		})
-		.on(IO.DELETE_FACTORY,(id: number) => {
-			deleteFactory(id)
-		})
-    })
+		client
+			.on(IO.START_ENCODER, (id: number, cmd: IFactory) => {
+				updateFactory(id, cmd)
+				if (!factoryInstances[id]) {
+					factoryInstances[id] = new FFmepgInstance({ containerIndex: id })
+				}
+				factoryInstances[id].initFFmpeg(cmd)
+			})
+			.on(IO.STOP_ENCODER, (id: number) => {
+				factoryInstances[id]?.stopInstance(id)
+			})
+			.on(IO.UPDATE_FACTORY, (id: number, cmd: IFactory) => {
+				updateFactory(id, cmd)
+				updateClients()
+			})
+			.on(IO.DELETE_FACTORY, (id: number) => {
+				deleteFactory(id)
+			})
+	})
 
 	httpServer.listen(PORT, () => {
 		console.log(`Server is listening on port ${PORT}`)

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { storeAddFactory, storeSetContainerState, storeUpdateFullStore } from '../../interface/redux/containerActions'
-import { IFactory } from '../../interface/GenericInterfaces'
+import { storeAddFactory, storeSetContainerState, storeUpdateDevicesList, storeUpdateFullStore } from '../../interface/redux/containerActions'
+import { IDeviceList, IFactory } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
 import * as IO from '../../interface/SocketIOContants'
 
@@ -26,6 +26,9 @@ const FactoryHandler: React.FC = () => {
 					dispatch(storeUpdateFullStore(fullStore))
 					console.log('Full store', fullStore)
 				}
+			})
+			.on(IO.DEVICES_LIST, (devices: IDeviceList[]) => {
+				dispatch(storeUpdateDevicesList(devices))
 			})
 	}, [])
 

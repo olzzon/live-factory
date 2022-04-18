@@ -1,14 +1,16 @@
-import { IFactory, INPUT_TYPES, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
+import { IDeviceList, IFactory, INPUT_TYPES, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
 import * as CONTAINER_ACTIONS from './containerActions'
 
 export interface IFFmpegReducer {
 	rerender: boolean
+	deviceTypes: IDeviceList[]
 	factory: IFactory[]
 }
 
 const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 	return {
 		rerender: false,
+		deviceTypes: [],
 		factory: [
 			{
 				containerName: 'NEW PIPE',
@@ -38,6 +40,9 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 				nextState[0].factory.push(factory !== null ? factory : defaultFfmpegContainerReducerState().factory[0])
 			})
 			nextState[0].rerender = !nextState[0].rerender
+			return nextState
+		case CONTAINER_ACTIONS.UPDATE_DEVICES_LIST:
+			nextState[0].deviceTypes = action.deviceTypes
 			return nextState
 		case CONTAINER_ACTIONS.SET_CONTAINER_NAME:
 			nextState[0].factory[action.factoryId].containerName = action.containerName

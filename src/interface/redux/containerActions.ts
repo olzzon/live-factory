@@ -1,8 +1,9 @@
-import { INPUT_TYPES, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
+import { IDeviceList, INPUT_TYPES, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
 import { IFactory } from '../GenericInterfaces'
 
 export const ADD_FACTORY = 'addFactory'
 export const UPDATE_FULL_STORE = 'update_full_store'
+export const UPDATE_DEVICES_LIST = 'update_devices_list'
 
 export const SET_TRANSCODER_TYPE = 'setTranscoderType'
 export const SET_CONTAINER_NAME = 'setContainerName'
@@ -31,6 +32,13 @@ export const storeAddFactory = () => {
     return {
         type: ADD_FACTORY
     }
+}
+
+export const storeUpdateDevicesList = (deviceTypes: IDeviceList[]) => {
+	return {
+		type: UPDATE_DEVICES_LIST,
+		deviceTypes: deviceTypes
+	}
 }
 
 export const storeUpdateFullStore = (fullStore: IFactory[]) => {

@@ -5,8 +5,14 @@ export interface IFactory {
 	globalInput: IGlobalParams
 	globalOutput: IGlobalParams
 	input: IInputParams
-	filter: IFilterParams
+	filter: IOutputCodecParams
 	output: IOutputParams
+}
+
+export interface IInputParams {
+    type: INPUT_TYPES
+    param: string
+    paramArgs: string[]
 }
 
 export enum INPUT_TYPES {
@@ -23,6 +29,12 @@ export enum INPUT_TYPES {
     CUSTOM = 'CUSTOM'
 }
 
+export interface IOutputParams {
+    type: OUTPUT_TYPES
+    param: string
+    paramArgs: string[]
+}
+
 export enum OUTPUT_TYPES {
     NDI = 'NDI',
     SRT = 'SRT',
@@ -32,6 +44,12 @@ export enum OUTPUT_TYPES {
     TCP = 'TCP',
     FILE = 'FILE',
     CUSTOM = 'CUSTOM'
+}
+
+export interface IOutputCodecParams {
+    type: OUTPUT_ENCODER
+    param: string
+    paramArgs: string[]
 }
 
 export enum OUTPUT_ENCODER {
@@ -49,20 +67,12 @@ export interface IGlobalParams {
     paramArgs: string[]
 }
 
-export interface IInputParams {
-    type: INPUT_TYPES
-    param: string
-    paramArgs: string[]
+export interface IDeviceList {
+    type: DEVICE_TYPES
+    devices: string[]
 }
 
-export interface IFilterParams {
-    type: OUTPUT_ENCODER
-    param: string
-    paramArgs: string[]
-}
-
-export interface IOutputParams {
-    type: OUTPUT_TYPES
-    param: string
-    paramArgs: string[]
+export enum DEVICE_TYPES {
+    NDI,
+    DECKLINK
 }

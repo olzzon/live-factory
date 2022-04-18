@@ -7,6 +7,7 @@ export const DELETE_FACTORY = 'delete_factory'
 // Server to clients:
 export const FULL_STORE = 'full_store'
 export const UPDATE_ENCODER_STATE = 'update_encoder_state'
+export const DEVICES_LIST = 'devices_list'
 
 // Server to Node
 export const STOP_NODE_ENCODER = 'stop_encoder'
