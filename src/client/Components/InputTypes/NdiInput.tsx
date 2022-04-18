@@ -17,7 +17,7 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 	const id = props.factoryId
 
 	const ndiName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
-	const devices = useSelector<RootState, string[]>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.NDI].devices || [])
+	const devices = useSelector<RootState, string[]>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.NDI]?.devices || [])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamString(id, ``))
