@@ -16,6 +16,7 @@ const PORT = 1406
 let ffmpegFactories: IFactory[] = []
 let factoryInstances: FFmepgInstance[] = []
 let devices: IDeviceList[] = []
+devices[DEVICE_TYPES.NDI] = { type: DEVICE_TYPES.NDI, devices: ['Finding Sources...'] }
 
 const updateFactory = (index: number, cmd: IFactory) => {
 	ffmpegFactories[index] = cmd
@@ -30,6 +31,7 @@ const deleteFactory = (index: number) => {
 
 const updateClients = () => {
 	socketIO.emit(IO.FULL_STORE, ffmpegFactories)
+	socketIO.emit(IO.DEVICES_LIST, devices)
 }
 
 const subscribeDevicesList = () => {

@@ -43,7 +43,6 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 				/>
 			</label>
 			<label className="pipeline-label">
-					Discovered NDI Sources :
 					<select
 						onChange={(event) => {
 							handleSetNdiSource(event)
