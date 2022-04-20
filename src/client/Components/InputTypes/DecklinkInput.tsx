@@ -21,7 +21,7 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(storeSetGlobalInParamString(id, `-err_detect explode `))
-		dispatch(storeSetInputParamString(id, ` -f decklink -i 'DeckLink Quad ({arg0}) -channels {arg1} `))
+		dispatch(storeSetInputParamString(id, ` -f decklink -i 'DeckLink Quad ({arg0}) -channels {arg1}' `))
 		if (!decklinkInput) {
 			dispatch(storeSetInputParams(id, 0, '1'))
 		}

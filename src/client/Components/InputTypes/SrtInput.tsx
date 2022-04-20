@@ -22,7 +22,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(storeSetGlobalInParamString(id, ` -hwaccel videotoolbox `))
-		dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}`))
+		dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}"`))
 		if (!ip) {
 			dispatch(storeSetInputParams(id, 0, '0.0.0.0'))
 		}
