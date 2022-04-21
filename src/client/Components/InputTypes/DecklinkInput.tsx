@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamString,
 	storeSetInputParams,
@@ -17,30 +18,50 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 
 	const decklinkInput = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
+	const devices = useSelector<RootState, string[]>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.DECKLINK_INPUT]?.devices || [])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(storeSetGlobalInParamString(id, `-err_detect explode `))
-		dispatch(storeSetInputParamString(id, ` -f decklink -i 'DeckLink Quad ({arg0}) -channels {arg1}' `))
+		dispatch(storeSetInputParamString(id, ` -f decklink -i '{arg0}' -channels {arg1} `))
 		if (!decklinkInput) {
-			dispatch(storeSetInputParams(id, 0, '1'))
+			dispatch(storeSetInputParams(id, 0, 'DeckLink Quad (1)'))
 		}
 		if (!channels) {
 			dispatch(storeSetInputParams(id, 1, '2'))
 		}
 	}, [])
 
+	const handleSetDecklinkInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		dispatch(storeSetInputParams(id, 0, event.target.value))
+	}
+
 	return (
 		<div className="options">
 			<label className="pipeline-label">
 				Decklink input :
 				<input
-					className="input-number"
-					type="number"
-					value={decklinkInput ?? 1}
+					className="input-text"
+					type="text"
+					value={decklinkInput ?? 'DeckLink Quad (1)'}
 					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
 				/>
 			</label>
+			<label className="pipeline-label">
+					<select
+						onChange={(event) => {
+							handleSetDecklinkInput(event)
+						}}
+					>
+						{devices.map((source, index) => {
+							return (
+								<option key={index} value={source}>
+									{source}
+								</option>
+							)
+						})}
+					</select>
+				</label>
 			<label className="pipeline-label">
 				Auduiochannels (2-16) :
 				<input

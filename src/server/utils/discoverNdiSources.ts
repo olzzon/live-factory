@@ -18,7 +18,6 @@ setInterval(() => {
                     findSources.push(sourceData[1].slice(1, -1))
                 }
             })
-			console.debug(findSources)
             ndiSources = findSources
 		}
 	})

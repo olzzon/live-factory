@@ -10,6 +10,7 @@ import { FFmepgInstance } from '../ffmpeg/FFmpegInstance'
 import { DEVICE_TYPES, IDeviceList, IFactory } from '../../interface/GenericInterfaces'
 import { loadFactories, saveFactoriesList } from '../utils/storage'
 import { discoverNdiSources } from '../utils/discoverNdiSources'
+import { discoverDecklinkSources } from '../utils/discoverDecklinkSources'
 const socketIO = new Server(httpServer)
 
 const PORT = 1406
@@ -37,6 +38,7 @@ const updateClients = () => {
 const subscribeDevicesList = () => {
 	setInterval(() => {
 		devices[DEVICE_TYPES.NDI] = { type: DEVICE_TYPES.NDI, devices: discoverNdiSources() }
+		devices[DEVICE_TYPES.DECKLINK_INPUT] = { type: DEVICE_TYPES.DECKLINK_INPUT, devices: discoverDecklinkSources() }
 		socketIO.emit(IO.DEVICES_LIST, devices)
 	}, 10000)
 }

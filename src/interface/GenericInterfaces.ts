@@ -74,5 +74,6 @@ export interface IDeviceList {
 
 export enum DEVICE_TYPES {
     NDI,
-    DECKLINK
+    DECKLINK_INPUT,
+    DECKLINK_OUTPUT
 }

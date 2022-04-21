@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES, IDeviceList } from '../../../interface/GenericInterfaces'
+import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamString,
 	storeSetInputParams,
@@ -17,13 +17,15 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 	const id = props.factoryId
 
 	const ndiName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
-	const devices = useSelector<RootState, string[]>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.NDI]?.devices || [])
+	const devices = useSelector<RootState, string[]>(
+		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.NDI]?.devices || []
+	)
 
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamString(id, ``))
 		dispatch(storeSetInputParamString(id, ` -f libndi_newtek -i "{arg0}"`))
 		if (!ndiName) {
-			dispatch(storeSetInputParams(id, 0, 'HOSTNAME (NDINAME)'))			
+			dispatch(storeSetInputParams(id, 0, 'HOSTNAME (NDINAME)'))
 		}
 	}, [])
 
@@ -43,20 +45,20 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 				/>
 			</label>
 			<label className="pipeline-label">
-					<select
-						onChange={(event) => {
-							handleSetNdiSource(event)
-						}}
-					>
-						{devices.map((source, index) => {
-							return (
-								<option key={index} value={source}>
-									{source}
-								</option>
-							)
-						})}
-					</select>
-				</label>
+				<select
+					onChange={(event) => {
+						handleSetNdiSource(event)
+					}}
+				>
+					{devices.map((source, index) => {
+						return (
+							<option key={index} value={source}>
+								{source}
+							</option>
+						)
+					})}
+				</select>
+			</label>
 		</div>
 	)
 }
