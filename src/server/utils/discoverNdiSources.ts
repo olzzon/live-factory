@@ -21,7 +21,7 @@ setInterval(() => {
             ndiSources = findSources
 		}
 	})
-}, 10000)
+}, 8000)
 
 export const discoverNdiSources = () => {
 	return ndiSources

@@ -19,7 +19,7 @@ import { RootState } from '../main'
 import ColorbarInputOptions from './InputTypes/ColorBar'
 import MpegtsInputOptions from './InputTypes/Mpegts'
 import SrtInputOptions from './InputTypes/SrtInput'
-import DecklinkInputOptions from './InputTypes/DecklinkInput'
+import DecklinkInputOptions from './InputTypes/DecklinkInputOptions'
 import SrtOutputOptions from './OutputTypes/SrtOutput'
 import NdiInputOptions from './InputTypes/NdiInput'
 import NdiOutputOptions from './OutputTypes/NdiOutput'
@@ -31,7 +31,7 @@ import CustomOutputOptions from './OutputTypes/customOutput'
 import TcpInputOptions from './InputTypes/TcpInput'
 import TcpOutputOptions from './OutputTypes/TcpOutput'
 import CustomInputOptions from './InputTypes/customInput'
-import DecklinkOutputOptions from './OutputTypes/DecklinkOutput'
+import DecklinkOutputOptions from './OutputTypes/DecklinkOutputOptions'
 
 export interface IfactoryId {
 	factoryId: number

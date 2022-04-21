@@ -1,11 +1,11 @@
 import { spawn } from 'child_process'
 
-let decklinkDevices: string[] = ['Finding Sources...']
+let decklinkDevices: string[] = ['Finding Devices...']
 const command = `${__dirname}/../ffmpegruntime`
-let args = ' -hide_banner -sources decklink '
+let args = ' -hide_banner -sinks decklink '
 
 setInterval(() => {
-	let findDevices: string[] = ['Decklink Inputs :']
+	let findDevices: string[] = ['Decklink Outputs :']
 	let childProcess = spawn(command, [args], { shell: true })
 	childProcess.stdout.on('data', (response) => {
 		let data = response.toString('utf8')
@@ -17,11 +17,11 @@ setInterval(() => {
 				findDevices.push(deviceData[0])
             }
 		})
-		console.debug('Decklink Sources :', findDevices)
+		console.debug('Decklink Devices :', findDevices)
 		decklinkDevices = findDevices
 	})
 }, 8000)
 
-export const discoverDecklinkSources = () => {
+export const discoverDecklinkOutputs = () => {
 	return decklinkDevices
 }

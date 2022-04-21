@@ -11,6 +11,7 @@ import { DEVICE_TYPES, IDeviceList, IFactory } from '../../interface/GenericInte
 import { loadFactories, saveFactoriesList } from '../utils/storage'
 import { discoverNdiSources } from '../utils/discoverNdiSources'
 import { discoverDecklinkSources } from '../utils/discoverDecklinkSources'
+import { discoverDecklinkOutputs } from '../utils/discoverDecklinkOutputs'
 const socketIO = new Server(httpServer)
 
 const PORT = 1406
@@ -18,6 +19,8 @@ let ffmpegFactories: IFactory[] = []
 let factoryInstances: FFmepgInstance[] = []
 let devices: IDeviceList[] = []
 devices[DEVICE_TYPES.NDI] = { type: DEVICE_TYPES.NDI, devices: ['Finding Sources...'] }
+devices[DEVICE_TYPES.DECKLINK_INPUT] = { type: DEVICE_TYPES.DECKLINK_INPUT, devices: ['Finding Inputs...'] }
+devices[DEVICE_TYPES.DECKLINK_OUTPUT] = { type: DEVICE_TYPES.DECKLINK_OUTPUT, devices: ['Finding Outputs...'] }
 
 const updateFactory = (index: number, cmd: IFactory) => {
 	ffmpegFactories[index] = cmd
@@ -39,8 +42,9 @@ const subscribeDevicesList = () => {
 	setInterval(() => {
 		devices[DEVICE_TYPES.NDI] = { type: DEVICE_TYPES.NDI, devices: discoverNdiSources() }
 		devices[DEVICE_TYPES.DECKLINK_INPUT] = { type: DEVICE_TYPES.DECKLINK_INPUT, devices: discoverDecklinkSources() }
+		devices[DEVICE_TYPES.DECKLINK_OUTPUT] = { type: DEVICE_TYPES.DECKLINK_OUTPUT, devices: discoverDecklinkOutputs() }
 		socketIO.emit(IO.DEVICES_LIST, devices)
-	}, 10000)
+	}, 9000)
 }
 
 export const updateEncoderState = (index: number, activated: boolean, running: boolean) => {
