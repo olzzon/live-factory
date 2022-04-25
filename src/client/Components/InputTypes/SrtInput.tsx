@@ -18,6 +18,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
 	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[2])
+	const passphrase = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[3])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
@@ -31,6 +32,9 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 		}
 		if (!mode) {
 			dispatch(storeSetInputParams(id, 2, 'caller'))
+		}
+		if (!passphrase) {
+			dispatch(storeSetInputParams(id, 3, 'caller'))
 		}
 	}, [])
 
@@ -52,6 +56,15 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 					type="text"
 					value={port ?? 'none'}
 					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+				/>
+			</label>
+			<label className="pipeline-label">
+				Passphrase :
+				<input
+					className="input-text"
+					type="text"
+					value={passphrase ?? 'none'}
+					onChange={(event) => dispatch(storeSetInputParams(id, 3, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">

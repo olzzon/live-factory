@@ -19,6 +19,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[1])
 	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[2])
+	const passphrase = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[3])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
@@ -28,7 +29,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 
 		dispatch(storeSetGlobalOutParamString(id, ` `))
-		dispatch(storeSetOutputParamString(id, ` -f matroska "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}" `))
+		dispatch(storeSetOutputParamString(id, ` -f matroska "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}" `))
 
 		if (!ip) {
 			dispatch(storeSetOutputParams(id, 0, '0.0.0.0'))
@@ -38,6 +39,9 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		}
 		if (!mode) {
 			dispatch(storeSetOutputParams(id, 2, 'listener'))
+		}
+		if (!passphrase) {
+			dispatch(storeSetOutputParams(id, 3, ''))
 		}
 	}, [])
 
@@ -59,6 +63,15 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					type="text"
 					value={port ?? 'none'}
 					onChange={(event) => dispatch(storeSetOutputParams(id, 1, event.target.value))}
+				/>
+			</label>
+			<label className="pipeline-label">
+				Passphrase :
+				<input
+					className="input-text"
+					type="text"
+					value={passphrase ?? 'none'}
+					onChange={(event) => dispatch(storeSetOutputParams(id, 3, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">

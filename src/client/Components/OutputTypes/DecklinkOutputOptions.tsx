@@ -24,7 +24,7 @@ const DecklinkOutputOptions: React.FC<IDecklinkProps> = (props) => {
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamString(id, ` `))
 		dispatch(storeSetFilterParamString(id, ` `))
-		dispatch(storeSetOutputParamString(id, ` -f decklink -pix_fmt uyvy422 '{arg0}' -channels {arg1}`))
+		dispatch(storeSetOutputParamString(id, ` -f decklink -pix_fmt uyvy422 '{arg0}'`))
 		if (!outputName) {
 			dispatch(storeSetOutputParams(id, 0, `DeckLink Quad (1)`))
 		}
