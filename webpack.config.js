@@ -7,7 +7,7 @@ module.exports = {
 	mode: prod ? 'production' : 'development',
 	entry: './src/client/main.tsx',
 	output: {
-		path: __dirname + '/dist/',
+		path: __dirname + '/dist/client',
 	},
 	module: {
 		rules: [

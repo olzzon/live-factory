@@ -34,7 +34,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 			dispatch(storeSetInputParams(id, 2, 'caller'))
 		}
 		if (!passphrase) {
-			dispatch(storeSetInputParams(id, 3, 'caller'))
+			dispatch(storeSetInputParams(id, 3, ''))
 		}
 	}, [])
 

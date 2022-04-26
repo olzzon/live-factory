@@ -67,11 +67,11 @@ const initializeFactories = () => {
 export const initializeWebServer = () => {
 	initializeFactories()
 	subscribeDevicesList()
-	expressApp.use('/', express.static(path.resolve('dist')))
+	expressApp.use('/', express.static(path.resolve(__dirname, '../../client')))
 
 	expressApp.get('/', (req: any, res: any) => {
 		console.log('Request :', req)
-		res.sendFile(path.resolve('dist/index.html'))
+		res.sendFile(path.resolve(__dirname, '../../client/index.html'))
 	})
 
 	socketIO.on('connection', (client) => {

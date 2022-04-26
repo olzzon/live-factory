@@ -20,6 +20,7 @@ export class FFmepgInstance {
 	initFFmpeg = (cmd: IFactory) => {
 		// console.log('Transcoder Child', this.child)
 		const command = `${__dirname}/../ffmpegruntime`
+		// const command = `/snapshot/live-factory/dist/server/ffmpeg/../ffmpegruntime`
 
 		let args =
 			' -hide_banner ' +

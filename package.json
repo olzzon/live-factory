@@ -2,7 +2,7 @@
   "name": "live-factory",
   "version": "0.0.1",
   "description": "receiver, transmitter and transcoder for live video and audio",
-  "main": "dist/server/server.js",
+  "main": "./dist/server/server.js",
   "repository": "https://github.com/olzzon/live-factory.git",
   "author": "olzzon <github@olzzon.dk>",
   "license": "MIT",
@@ -48,7 +48,6 @@
     "server": "./dist/server/server.js"
   },
   "pkg": {
-    "scripts": "./dist/server/server.js",
     "assets": [
       "./dist/client/**/*",
       "./dist/server/ffmpegruntime"
