@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { HtmlHTMLAttributes, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetGlobalInParamString,
@@ -23,7 +23,11 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(storeSetGlobalInParamString(id, ` -hwaccel videotoolbox `))
-		dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}"`))
+		if (passphrase.length < 10) {
+			dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}"`))
+		} else {
+			dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}"`))
+		}
 		if (!ip) {
 			dispatch(storeSetInputParams(id, 0, '0.0.0.0'))
 		}
@@ -37,6 +41,15 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 			dispatch(storeSetInputParams(id, 3, ''))
 		}
 	}, [])
+
+	const handlePassPhrase = (event: React.ChangeEvent<HTMLInputElement>) => {
+		dispatch(storeSetInputParams(id, 3, event.target.value))
+		if (passphrase.length < 10) {
+			dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}"`))
+		} else {
+			dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}"`))
+		}
+	}
 
 	return (
 		<div className="options">
@@ -59,12 +72,12 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 				/>
 			</label>
 			<label className="pipeline-label">
-				Passphrase :
+				Passphrase (min 10 chars):
 				<input
 					className="input-text"
 					type="text"
 					value={passphrase ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 3, event.target.value))}
+					onChange={(event) => handlePassPhrase(event)}
 				/>
 			</label>
 			<label className="pipeline-label">
