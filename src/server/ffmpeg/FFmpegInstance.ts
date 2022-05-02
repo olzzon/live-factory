@@ -4,6 +4,10 @@ import { IFactory } from '../../interface/GenericInterfaces'
 import insertArgs from '../utils/insertArgs'
 import { updateEncoderState } from '../webserver/webserver'
 
+// Node Modules:
+const path = require('path')
+const homeDir = require('os').homedir()
+
 interface FFmpegInstanceProps {
 	containerIndex: number
 }
@@ -19,7 +23,7 @@ export class FFmepgInstance {
 
 	initFFmpeg = (cmd: IFactory) => {
 		// console.log('Transcoder Child', this.child)
-		const command = `${__dirname}/../ffmpegruntime`
+		const command = path.resolve(homeDir, 'live-factory', 'ffmpegruntime')
 		// const command = `/snapshot/live-factory/dist/server/ffmpeg/../ffmpegruntime`
 
 		let args =

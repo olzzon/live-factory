@@ -4,8 +4,32 @@ Reciever - transmitter - transcoder for video and audio
 
 -f lavfi -i smptehdbars=1920x1080
 
+# MAC M1 Installation:
+Install BREW:
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+export PATH=$PATH:/opt/homebrew/bin
+cd ~/
+touch .zshrc
+echo export PATH=$PATH:/opt/homebrew/bin >> .zshrc
+```
+
+Install dependencies:
+```
+brew install automake fdk-aac git lame libass libtool libvorbis libvpx opus sdl shtool texi2html theora wget x264 x265 xvid nasm librist
+```
+Install NDIRedistV5Apple:
+
+```
+install: http://new.tk/NDIRedistV5Apple
+```
+
 
 # Mac M1 FFmpeg compilation:
+
+### NDI Support:
+Install SDK files????
 
 ### RIST support:
 https://code.videolan.org/rist/ffmpeg/-/commit/d2765591220d2bc6230617246c64ac482410fb57
@@ -34,7 +58,7 @@ Follow https://trac.ffmpeg.org/wiki/CompilationGuide/macOS
 
 Add dependencies:
 ```
-brew install automake fdk-aac git lame libass libtool libvorbis libvpx opus sdl shtool texi2html theora wget x264 x265 xvid nasm
+brew install automake fdk-aac git lame libass libtool libvorbis libvpx opus sdl shtool texi2html theora wget x264 x265 xvid nasm librist
 ```
 ```
 install: http://new.tk/NDIRedistV5Apple
@@ -45,10 +69,18 @@ install: http://new.tk/NDIRedistV5Apple
 https://github.com/olzzon/ffmpeg-ndi
 ```
 
+
+### Make compilation static??? ToDO!!!:
+https://video.stackexchange.com/questions/14717/how-to-compile-ffmpeg-with-libfdkaac-into-a-single-static-binary
+!Remove all *.dylib in /usr/local/lib
+
 ### Configure
 ```
 make distclean 
-./configure  --prefix=/usr/local --enable-libsrt --enable-gpl --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-videotoolbox --enable-libndi_newtek --enable-librist
+./configure  --prefix=/usr/local --pkg-config-flags="--static" --extra-cflags="-I$HOME/coding/ffmpeg/include --static" --extra-ldflags="-L$HOME/coding/ffmpeg/ndi" --enable-libsrt --enable-shared --enable-static --enable-gpl --extra-version=olzzon --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-videotoolbox --enable-libndi_newtek --enable-decklink --enable-librist
+
+NO LIBRIST INSTALL ON OTHER MACHINES:
+./configure  --prefix="$HOME/coding/ffmpeg/build" --pkg-config-flags="--static" --extra-cflags="-I$HOME/coding/ffmpeg/include --static" --enable-libsrt --enable-shared --enable-static --enable-gpl --extra-version=olzzon --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-videotoolbox --enable-libndi_newtek --enable-decklink --disable-ffplay --disable-doc
 ```
 
 ```
@@ -56,7 +88,7 @@ make -j10
 sudo make install
 ```
 
-Rename ffmpeg to ffmpegruntime and copy it to "dist/server" folder
+Rename ffmpeg to ffmpegruntime and copy it to "$HOME/live-factory" folder
 
 
 # Build FFmpeg Ubuntu x86
@@ -111,7 +143,7 @@ cd nv-codec-headers && sudo make install && cd ..
 ### Prepare and compile:
 ```
 cd ~/ffmpeg-ndi
-./configure --prefix="$HOME/ffmpeg-ndi" --pkg-config-flags="--static" --extra-cflags="-I$HOME/ffmpeg-ndi/include -I/usr/local/cuda/include" --extra-ldflags="-L/usr/local/cuda/lib64 -L$HOME/ffmpeg-ndi/lib" --extra-libs="-lpthread -lm" --ld="g++" --bindir="$HOME/bin" --enable-libsrt --enable-gpl --enable-gnutls --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-libndi_newtek --enable-decklink --enable-cuda-nvcc --enable-librist --enable-decklink
+./configure --prefix="$HOME/ffmpeg-ndi" --pkg-config-flags="--static" --extra-cflags="-I$HOME/ffmpeg-ndi/include -I/usr/local/cuda/include" --extra-ldflags="-L/usr/local/cuda/lib64 -L$HOME/ffmpeg-ndi/lib" --extra-libs="-lpthread -lm" --ld="g++" --bindir="$HOME/bin" --enable-libsrt --enable-gpl --enable-gnutls --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-libndi_newtek --enable-decklink --enable-cuda-nvcc --enable-librist
 
 ??? --enable-cuda --enable-cuvid --enable-nvdec --enable-nvenc
 

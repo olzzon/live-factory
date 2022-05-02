@@ -1,4 +1,4 @@
-import React, { HtmlHTMLAttributes, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetGlobalInParamString,
@@ -23,7 +23,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(storeSetGlobalInParamString(id, ` -hwaccel videotoolbox `))
-		if (passphrase.length < 10) {
+		if (passphrase?.length < 10) {
 			dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}"`))
 		} else {
 			dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}"`))
