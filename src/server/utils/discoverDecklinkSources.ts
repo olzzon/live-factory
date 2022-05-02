@@ -1,7 +1,11 @@
 import { spawn } from 'child_process'
 
+// Node Modules:
+const path = require('path')
+const homeDir = require('os').homedir()
+const command = path.resolve(homeDir, 'live-factory', 'ffmpegruntime')
+
 let decklinkDevices: string[] = ['Finding Sources...']
-const command = `${__dirname}/../ffmpegruntime`
 let args = ' -hide_banner -sources decklink '
 
 setInterval(() => {
