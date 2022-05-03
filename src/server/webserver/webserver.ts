@@ -54,6 +54,10 @@ export const updateEncoderState = (index: number, activated: boolean, running: b
 	socketIO.emit(IO.UPDATE_ENCODER_STATE, index, activated, running)
 }
 
+export const addToLog = (factoryIndex: number, logLine: string) => {
+	socketIO.emit(IO.LOG_PUSH, factoryIndex, logLine)
+}
+
 const initializeFactories = () => {
 	ffmpegFactories = loadFactories()
 	ffmpegFactories.forEach((factory) => {

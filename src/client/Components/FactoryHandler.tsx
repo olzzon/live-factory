@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { storeAddFactory, storeSetContainerState, storeUpdateDevicesList, storeUpdateFullStore } from '../../interface/redux/containerActions'
+import { storeAddFactory, storePushLog, storeSetContainerState, storeUpdateDevicesList, storeUpdateFullStore } from '../../interface/redux/containerActions'
 import { IDeviceList, IFactory } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
 import * as IO from '../../interface/SocketIOContants'
@@ -29,6 +29,9 @@ const FactoryHandler: React.FC = () => {
 			})
 			.on(IO.DEVICES_LIST, (devices: IDeviceList[]) => {
 				dispatch(storeUpdateDevicesList(devices))
+			})
+			.on(IO.LOG_PUSH, (factoryIndex: number, logLine: string) => {
+				dispatch(storePushLog(factoryIndex, logLine))
 			})
 	}, [])
 

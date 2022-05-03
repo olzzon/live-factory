@@ -21,6 +21,7 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 				input: { type: INPUT_TYPES.COLORBAR, param: '', paramArgs: [] },
 				filter: { type: OUTPUT_ENCODER.NONE, param: '', paramArgs: [''] },
 				output: { type: OUTPUT_TYPES.NDI, param: '', paramArgs: [] },
+				log: ['log is empty'],
 			},
 		],
 	}
@@ -40,6 +41,14 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 				nextState[0].factory.push(factory !== null ? factory : defaultFfmpegContainerReducerState().factory[0])
 			})
 			nextState[0].rerender = !nextState[0].rerender
+			return nextState
+		case CONTAINER_ACTIONS.LOG_PUSH:
+			let log = [...nextState[0].factory[action.factoryId].log || []]
+			if (log.length > 3) {
+				log.shift()
+			}
+			log.push(action.logLine)
+			nextState[0].factory[action.factoryId].log = log
 			return nextState
 		case CONTAINER_ACTIONS.UPDATE_DEVICES_LIST:
 			nextState[0].deviceTypes = action.deviceTypes

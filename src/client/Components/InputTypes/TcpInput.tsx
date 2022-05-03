@@ -30,7 +30,7 @@ const TcpInputOptions: React.FC<ITcpProps> = (props) => {
 			dispatch(storeSetInputParams(id, 1, '9998'))
 		}
 		if (!mode) {
-			dispatch(storeSetInputParams(id, 2, 'listen'))
+			dispatch(storeSetInputParams(id, 2, ' '))
 		}
 	}, [])
 

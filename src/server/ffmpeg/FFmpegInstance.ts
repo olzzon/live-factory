@@ -2,7 +2,7 @@
 import { ChildProcess, ChildProcessWithoutNullStreams, spawn } from 'child_process'
 import { IFactory } from '../../interface/GenericInterfaces'
 import insertArgs from '../utils/insertArgs'
-import { updateEncoderState } from '../webserver/webserver'
+import { addToLog, updateEncoderState } from '../webserver/webserver'
 
 // Node Modules:
 const path = require('path')
@@ -45,7 +45,7 @@ export class FFmepgInstance {
 		console.debug('FFmpeg Spawn', this.childProcess.spawnargs)
 
 		this.childProcess.stderr?.on('data', (data) => {
-			console.log(`Encoder ${cmd.containerName} :`, data.toString('utf8'))
+			addToLog(this.containerIndex, data.toString('utf8'))
 		})
 
 		this.childProcess

@@ -4,6 +4,20 @@ Reciever - transmitter - transcoder for video and audio
 
 -f lavfi -i smptehdbars=1920x1080
 
+
+# FFMPEG merging from master:
+
+```
+git remote add local /Users/olzzon/coding/ffmpeg_org  
+git checkout -b latest-master  
+git push
+git push --set-upstream origin latest-master 
+git fetch local   
+git merge local/master
+git commit -a
+
+```
+
 # MAC M1 Installation:
 Install BREW:
 ```
@@ -77,10 +91,11 @@ https://video.stackexchange.com/questions/14717/how-to-compile-ffmpeg-with-libfd
 ### Configure
 ```
 make distclean 
-./configure  --prefix=/usr/local --pkg-config-flags="--static" --extra-cflags="-I$HOME/coding/ffmpeg/include --static" --extra-ldflags="-L$HOME/coding/ffmpeg/ndi" --enable-libsrt --enable-shared --enable-static --enable-gpl --extra-version=olzzon --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-videotoolbox --enable-libndi_newtek --enable-decklink --enable-librist
+???? --enable-librist
 
 NO LIBRIST INSTALL ON OTHER MACHINES:
 ./configure  --prefix="$HOME/coding/ffmpeg/build" --pkg-config-flags="--static" --extra-cflags="-I$HOME/coding/ffmpeg/include --static" --enable-libsrt --enable-shared --enable-static --enable-gpl --extra-version=olzzon --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-videotoolbox --enable-libndi_newtek --enable-decklink --disable-ffplay --disable-doc
+
 ```
 
 ```

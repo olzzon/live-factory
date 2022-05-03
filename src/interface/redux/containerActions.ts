@@ -4,6 +4,8 @@ import { IFactory } from '../GenericInterfaces'
 export const ADD_FACTORY = 'addFactory'
 export const UPDATE_FULL_STORE = 'update_full_store'
 export const UPDATE_DEVICES_LIST = 'update_devices_list'
+export const LOG_PUSH = 'log_push'
+export const LOG_SHIFT = 'log_shift'
 
 export const SET_TRANSCODER_TYPE = 'setTranscoderType'
 export const SET_CONTAINER_NAME = 'setContainerName'
@@ -45,6 +47,21 @@ export const storeUpdateFullStore = (fullStore: IFactory[]) => {
     return {
         type: UPDATE_FULL_STORE,
 		fullStore: fullStore
+    }
+}
+
+export const storePushLog = (factoryId: number, logLine: string) => {
+    return {
+        type: LOG_PUSH,
+		logLine: logLine,
+		factoryId: factoryId,
+    }
+}
+
+export const storeShiftLog = (factoryId: number) => {
+    return {
+        type: LOG_SHIFT,
+		factoryId: factoryId,
     }
 }
 

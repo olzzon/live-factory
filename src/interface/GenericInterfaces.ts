@@ -7,6 +7,7 @@ export interface IFactory {
 	input: IInputParams
 	filter: IOutputCodecParams
 	output: IOutputParams
+    log: string[]
 }
 
 export interface IInputParams {
