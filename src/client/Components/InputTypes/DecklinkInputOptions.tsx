@@ -18,18 +18,23 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 
 	const decklinkInput = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
+	const queue_size = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[2])
 	const devices = useSelector<RootState, string[]>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.DECKLINK_INPUT]?.devices || [])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(storeSetGlobalInParamString(id, ` -re `))
-		dispatch(storeSetInputParamString(id, ` -f decklink -i '{arg0}' -channels {arg1} `))
+		dispatch(storeSetInputParamString(id, ` -f decklink -i '{arg0}' -channels {arg1} -queue_size {arg2}`))
 		if (!decklinkInput) {
 			dispatch(storeSetInputParams(id, 0, 'DeckLink Quad (1)'))
 		}
 		if (!channels) {
 			dispatch(storeSetInputParams(id, 1, '2'))
 		}
+		if (!queue_size) {
+			dispatch(storeSetInputParams(id, 2, '1073741824'))
+		}
+
 	}, [])
 
 	const handleSetDecklinkInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -69,6 +74,15 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 					type="number"
 					value={channels ?? 2}
 					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+				/>
+			</label>
+			<label className="pipeline-label">
+				Decklink buffer (default: 1073741824) :
+				<input
+					className="input-number"
+					type="number"
+					value={queue_size ?? '1073741824' }
+					onChange={(event) => dispatch(storeSetInputParams(id, 2, event.target.value))}
 				/>
 			</label>
 		</div>
