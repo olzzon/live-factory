@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../main'
 import H264MacCodecOptions from './H264_MAC'
 import H264NativeCodecOptions from './H264_NATIVE'
+import HevcMacCodecOptions from './HEVC_MAC'
 
 export interface IfactoryId {
 	factoryId: number
@@ -44,6 +45,7 @@ const CodecTypes: React.FC<IfactoryId> = (props) => {
 				</select>
 			</label>
 			{outputType === OUTPUT_ENCODER.H264_MAC ? <H264MacCodecOptions factoryId={id} /> : null}
+			{outputType === OUTPUT_ENCODER.HEVC_MAC ? <HevcMacCodecOptions factoryId={id} /> : null}
 			{outputType === OUTPUT_ENCODER.H264_NATIVE ? <H264NativeCodecOptions factoryId={id} /> : null}
 		</div>
 	)

@@ -10,7 +10,7 @@ interface ICodecProps {
 	factoryId: number
 }
 
-const H264MacCodecOptions: React.FC<ICodecProps> = (props) => {
+const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
 
@@ -24,7 +24,7 @@ const H264MacCodecOptions: React.FC<ICodecProps> = (props) => {
 		// CUDA Linux:
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 
-		dispatch(storeSetFilterParamString(id, ` -c:v h264_videotoolbox -b:v {arg0}k -pix_fmt yuv420p -realtime true -acodec libopus -b:a {arg1}k `))
+		dispatch(storeSetFilterParamString(id, ` -c:v hevc_videotoolbox -b:v {arg0}k -pix_fmt yuv422p -realtime true -acodec libopus -b:a {arg1}k `))
 
 		if (!vBandwidth) {
 			dispatch(storeSetFilterParams(id, 0, `22000`))
@@ -58,4 +58,4 @@ const H264MacCodecOptions: React.FC<ICodecProps> = (props) => {
 	)
 }
 
-export default H264MacCodecOptions
+export default HevcMacCodecOptions
