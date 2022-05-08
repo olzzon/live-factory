@@ -16,6 +16,7 @@ const H264MacCodecOptions: React.FC<ICodecProps> = (props) => {
 
 	const vBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[0])
 	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[1])
+	const quality = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[2])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
@@ -31,6 +32,9 @@ const H264MacCodecOptions: React.FC<ICodecProps> = (props) => {
 		}
 		if (!aBandwidth) {
 			dispatch(storeSetFilterParams(id, 1, `256`))	
+		}
+		if (!quality) {
+			dispatch(storeSetFilterParams(id, 2, `65`))	
 		}
 	}, [])
 
@@ -52,6 +56,15 @@ const H264MacCodecOptions: React.FC<ICodecProps> = (props) => {
 					type="number"
 					value={aBandwidth ?? '256'}
 					onChange={(event) => dispatch(storeSetFilterParams(id, 1, event.target.value))}
+				/>
+			</label>
+			<label className="pipeline-label">
+				Quality (1-100) :
+				<input
+					className="input-number"
+					type="number"
+					value={quality ?? '100'}
+					onChange={(event) => dispatch(storeSetFilterParams(id, 2, event.target.value))}
 				/>
 			</label>
 		</div>

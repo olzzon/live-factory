@@ -16,6 +16,7 @@ const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 
 	const vBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[0])
 	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[1])
+	const quality = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[2])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
@@ -24,13 +25,16 @@ const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 		// CUDA Linux:
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 
-		dispatch(storeSetFilterParamString(id, ` -c:v hevc_videotoolbox -b:v {arg0}k -pix_fmt yuv422p -realtime true -acodec libopus -b:a {arg1}k `))
+		dispatch(storeSetFilterParamString(id, ` -c:v hevc_videotoolbox -b:v {arg0}k -pix_fmt yuv422p -realtime true -q:v {arg2} -acodec libopus -b:a {arg1}k `))
 
 		if (!vBandwidth) {
 			dispatch(storeSetFilterParams(id, 0, `22000`))
 		}
 		if (!aBandwidth) {
 			dispatch(storeSetFilterParams(id, 1, `256`))	
+		}
+		if (!quality) {
+			dispatch(storeSetFilterParams(id, 2, `100`))	
 		}
 	}, [])
 
@@ -52,6 +56,15 @@ const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 					type="number"
 					value={aBandwidth ?? '256'}
 					onChange={(event) => dispatch(storeSetFilterParams(id, 1, event.target.value))}
+				/>
+			</label>
+			<label className="pipeline-label">
+				Quality (1-100) :
+				<input
+					className="input-number"
+					type="number"
+					value={quality ?? '100'}
+					onChange={(event) => dispatch(storeSetFilterParams(id, 2, event.target.value))}
 				/>
 			</label>
 		</div>
