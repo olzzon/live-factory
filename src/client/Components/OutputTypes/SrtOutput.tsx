@@ -29,7 +29,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 
 		dispatch(storeSetGlobalOutParamString(id, ` `))
-		dispatch(storeSetOutputParamString(id, ` -f matroska "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}" `))
+		dispatch(storeSetOutputParamString(id, ` -adrift_threshold 0.06 -async 8000 -f matroska "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}" `))
 
 		if (!ip) {
 			dispatch(storeSetOutputParams(id, 0, '0.0.0.0'))
