@@ -45,7 +45,12 @@ export class FFmepgInstance {
 		console.debug('FFmpeg Spawn', this.childProcess.spawnargs)
 
 		this.childProcess.stderr?.on('data', (data) => {
-			addToLog(this.containerIndex, data.toString('utf8'))
+			let message = data.toString('utf8')
+			addToLog(this.containerIndex, message)
+			if (message.includes('Decklink input buffer overrun')) {
+				// Restart service if Decklink buffer is overrun:
+				this.childProcess.kill()
+			}
 		})
 
 		this.childProcess
