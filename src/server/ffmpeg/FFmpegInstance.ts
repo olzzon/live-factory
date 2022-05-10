@@ -49,7 +49,9 @@ export class FFmepgInstance {
 			addToLog(this.containerIndex, message)
 			if (message.includes('Decklink input buffer overrun')) {
 				// Restart service if Decklink buffer is overrun:
-				this.childProcess.kill()
+				if (this.childProcess) {
+					this.childProcess.kill()
+				}
 			}
 		})
 
