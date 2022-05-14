@@ -48,10 +48,12 @@ const subscribeDevicesList = () => {
 }
 
 export const updateEncoderState = (index: number, activated: boolean, running: boolean) => {
-	ffmpegFactories[index].activated = activated
-	ffmpegFactories[index].running = running
-	console.log('Emitting Encoder update state. Index :', index, 'activated :', activated, 'running :', running)
-	socketIO.emit(IO.UPDATE_ENCODER_STATE, index, activated, running)
+	if (ffmpegFactories[index]) {
+		ffmpegFactories[index].activated = activated
+		ffmpegFactories[index].running = running
+		console.log('Emitting Encoder update state. Index :', index, 'activated :', activated, 'running :', running)
+		socketIO.emit(IO.UPDATE_ENCODER_STATE, index, activated, running)
+	}
 }
 
 export const addToLog = (factoryIndex: number, logLine: string) => {
