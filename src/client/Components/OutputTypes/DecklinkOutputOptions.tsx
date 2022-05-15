@@ -18,7 +18,7 @@ const DecklinkOutputOptions: React.FC<IDecklinkProps> = (props) => {
 	const id = props.factoryId
 
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
-	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
+	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[1])
 	const devices = useSelector<RootState, string[]>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.DECKLINK_OUTPUT]?.devices || [])
 
 	useEffect(() => {
