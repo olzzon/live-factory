@@ -25,7 +25,7 @@ const CodecTypes: React.FC<IfactoryId> = (props) => {
 	}
 
 	return (
-		<div className="pipeline">
+		<div className="pipeline-codec">
 			<hr className="horizontal" />
 			<label className="pipeline-label">
 				Output Codec :
