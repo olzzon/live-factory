@@ -3,9 +3,9 @@ import React from 'react'
 
 import { store } from '../interface/redux/store'
 import { Provider } from 'react-redux'
-import FactoryHandler from './Components/FactoryHandler'
 //@ts-ignore
 import logo from './assets/logo_black.png'
+import FactorySelector from './Components/FactorySelector'
 
 export type RootState = ReturnType<typeof store.getState>
 
@@ -17,7 +17,7 @@ ReactDOM.render(
 			LIVE FACTORY
 			<hr />
 		</div>
-		<FactoryHandler />
+		<FactorySelector />
 	</Provider>,
 	document.getElementById('app-root')
 )

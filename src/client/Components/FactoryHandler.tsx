@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { storeAddFactory, storePushLog, storeSetContainerState, storeUpdateDevicesList, storeUpdateFullStore } from '../../interface/redux/containerActions'
 import { IDeviceList, IFactory } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
 import * as IO from '../../interface/SocketIOContants'
+interface IfactoryId {
+	selectedEncoder: number
+	socketClient: any
+	setSelectedEncoder: any
+}
 
-import io from 'socket.io-client'
-import Transcoder from './Transcoder'
-const socketClient = io()
-
-const FactoryHandler: React.FC = () => {
+const FactoryHandler: React.FC<IfactoryId> = (props) => {
 	const dispatch = useDispatch()
 	const factories = useSelector<RootState, IFactory[]>((state) => state.ffmpeg[0].factory, shallowEqual)
 	const rerender = useSelector<RootState>((state) => state.ffmpeg[0].rerender)
-	const [selectedEncoder, setSelectedEncoder] = useState(0)
 
 	useEffect(() => {
-		socketClient
+		props.socketClient
 			.on(IO.UPDATE_ENCODER_STATE, (index: number, activated: boolean, running: boolean) => {
 				console.log('Index ', index, 'Activated :', activated, 'Running :', running)
 				dispatch(storeSetContainerState(index, activated, running))
@@ -37,8 +37,8 @@ const FactoryHandler: React.FC = () => {
 
 	const addFactory = () => {
 		dispatch(storeAddFactory())
-		setSelectedEncoder(factories.length)
-		socketClient.emit(IO.UPDATE_FACTORY, factories.length, factories[factories.length])
+		props.setSelectedEncoder(factories.length)
+		props.socketClient.emit(IO.UPDATE_FACTORY, factories.length, factories[factories.length])
 	}
 
 	const factoryList = () => {
@@ -51,13 +51,13 @@ const FactoryHandler: React.FC = () => {
 							<button
 								className="selector-button"
 								style={
-									selectedEncoder === index
+									props.selectedEncoder === index
 										? { backgroundColor: 'rgb(81, 81, 81)', borderColor: 'rgb(230, 230, 230)', color: 'white' }
 										: undefined
 								}
 								key={index}
 								onClick={() => {
-									setSelectedEncoder(index)
+									props.setSelectedEncoder(index)
 								}}
 							>
 								{factory.containerName}
@@ -84,7 +84,6 @@ const FactoryHandler: React.FC = () => {
 	return (
 		<div className="factory-handler">
 			{factoryList()}
-			<Transcoder factoryId={(selectedEncoder < factories.length ? selectedEncoder : 0)} socketClient={socketClient} />
 		</div>
 	)
 }
