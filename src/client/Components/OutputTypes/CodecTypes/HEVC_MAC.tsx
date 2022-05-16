@@ -17,7 +17,7 @@ const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[1])
 	const quality = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[2])
 	const deInterlace = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[3])
-	const [ deinterlaceState, setDeinterlaceState ] = useState<boolean>((deInterlace === '-vf yadif')? true : false)
+	const [ deinterlaceState, setDeinterlaceState ] = useState<boolean>((deInterlace === '-vf yadif_videotoolbox')? true : false)
 	
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
@@ -45,13 +45,13 @@ const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 		if (!deinterlaceState) {
 			dispatch(storeSetFilterParams(id, 3, ` `))
 		} else {
-			dispatch(storeSetFilterParams(id, 3, `-vf yadif`))
+			dispatch(storeSetFilterParams(id, 3, `-vf yadif_videotoolbox`))
 		}
 	}, [])
 
 	const handleSetDeInterlace = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
-			dispatch(storeSetFilterParams(id, 3, '-vf yadif'))
+			dispatch(storeSetFilterParams(id, 3, '-vf yadif_videotoolbox'))
 			setDeinterlaceState(true)			
 		} else {
 			dispatch(storeSetFilterParams(id, 3, ' '))
