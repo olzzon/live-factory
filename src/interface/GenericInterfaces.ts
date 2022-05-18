@@ -19,13 +19,13 @@ export interface IInputParams {
 export enum INPUT_TYPES {
     COLORBAR = 'COLORBAR',
     SRT = 'SRT',
-    RIST = 'RIST',
+    // RIST = 'RIST',
     UDP = 'UDP',
     TCP = 'TCP',
     FILE = 'FILE',
     NDI = 'NDI',
     DECKLINK = 'DECKLINK',
-    TWENTY_ONE_TEN = '2110',
+    // TWENTY_ONE_TEN = '2110',
     MPEG_TS = 'MPEG_TS',
     CUSTOM = 'CUSTOM'
 }
@@ -39,11 +39,11 @@ export interface IOutputParams {
 export enum OUTPUT_TYPES {
     NDI = 'NDI',
     SRT = 'SRT',
-    RIST = 'RIST',
+    // RIST = 'RIST',
     DECKLINK = 'DECKLINK',
     MPEG_TS = 'MPEG_TS',
     TCP = 'TCP',
-    FILE = 'FILE',
+    // FILE = 'FILE',
     CUSTOM = 'CUSTOM'
 }
 
@@ -56,11 +56,11 @@ export interface IOutputCodecParams {
 export enum OUTPUT_ENCODER {
     NONE = 'NONE',
     H264_NATIVE = 'H264_NATIVE',
-    HEVC_NATIVE = 'HEVC_NATIVE',
+    // HEVC_NATIVE = 'HEVC_NATIVE',
     H264_MAC = 'H264_MAC',
     HEVC_MAC = 'HEVC_MAC',
-    H264_NVIDIA = 'H264_NVIDIA',
-    HEVC_NVIDIA = 'HEVC_NVIDIA',
+    // H264_NVIDIA = 'H264_NVIDIA',
+    // HEVC_NVIDIA = 'HEVC_NVIDIA',
 }
 
 export interface IGlobalParams {
