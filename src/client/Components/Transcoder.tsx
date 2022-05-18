@@ -104,7 +104,6 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				{inputType === INPUT_TYPES.UDP ? <UdpInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.TCP ? <TcpInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.SRT ? <SrtInputOptions factoryId={id} /> : null}
-				{inputType === INPUT_TYPES.RIST ? <RistInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.DECKLINK ? <DecklinkInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.NDI ? <NdiInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.CUSTOM ? <CustomInputOptions factoryId={id} /> : null}
@@ -135,7 +134,6 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				<hr className="horizontal" />
 				{outputType === OUTPUT_TYPES.DECKLINK ? <DecklinkOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.SRT ? <SrtOutputOptions factoryId={id} /> : null}
-				{outputType === OUTPUT_TYPES.RIST ? <RistOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.TCP ? <TcpOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.NDI ? <NdiOutputOptions factoryId={id} /> : null}
