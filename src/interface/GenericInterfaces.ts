@@ -22,6 +22,7 @@ export enum INPUT_TYPES {
     // RIST = 'RIST',
     UDP = 'UDP',
     TCP = 'TCP',
+    RTP = 'RTP',
     FILE = 'FILE',
     NDI = 'NDI',
     DECKLINK = 'DECKLINK',
@@ -43,6 +44,7 @@ export enum OUTPUT_TYPES {
     DECKLINK = 'DECKLINK',
     MPEG_TS = 'MPEG_TS',
     TCP = 'TCP',
+    RTP = 'RTP',
     // FILE = 'FILE',
     CUSTOM = 'CUSTOM'
 }

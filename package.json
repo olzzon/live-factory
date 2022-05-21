@@ -49,8 +49,7 @@
   },
   "pkg": {
     "assets": [
-      "./dist/client/**/*",
-      "./dist/server/ffmpegruntime"
+      "./dist/client/**/*"
     ],
     "targets": [
       "node16-macos-arm64"
