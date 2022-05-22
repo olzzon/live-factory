@@ -80,14 +80,14 @@ body {
 
 .pipeline-label {
     margin-left: 5vw;
-    margin-top: 3vh;
+    margin-top: 1.5vh;
 }
 
 .pipeline-footer {
     position:fixed;
     bottom: 0.5vh;
     margin-left: 15vw;
-    margin-top: 3vh;
+    margin-top: 1vh;
 }
 
 .options {
@@ -96,7 +96,7 @@ body {
 }
 
 .horizontal {
-    margin-top: 3vh;
+    margin-top: 2vh;
     width: 39vw
 }
 
