@@ -23,9 +23,9 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[1])
 	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[2])
 	const passphrase = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[3])
-	const latency = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[4] || ' ')
-	const [ ultraLowLatencyState, setUltraLowLatencyState ] = useState<boolean>(latency.includes(`&latency=${ULTRA_LOW_LATENCY}`)? true : false)
-	const [ lowLatencyState, setLowLatencyState ] = useState<boolean>(latency.includes(`&latency=${LOW_LATENCY}`)? true : false)
+	const latency = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[4])
+	const [ ultraLowLatencyState, setUltraLowLatencyState ] = useState<boolean>(latency?.includes(`&latency=${ULTRA_LOW_LATENCY}`)? true : false)
+	const [ lowLatencyState, setLowLatencyState ] = useState<boolean>(latency?.includes(`&latency=${LOW_LATENCY}`)? true : false)
 
 
 	useEffect(() => {

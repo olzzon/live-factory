@@ -44,6 +44,11 @@ Install NDIRedistV5Apple:
 install: http://new.tk/NDIRedistV5Apple
 ```
 
+Copy lib files to:
+```
+cp lib* /usr/local/lib 
+```
+
 
 # Mac M1 FFmpeg compilation:
 
