@@ -52,10 +52,10 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		}
 		if (ultraLowLatencyState) {
 			dispatch(storeSetOutputParams(id, 4, '&latency='+ULTRA_LOW_LATENCY))
-			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay `))
+			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay -probesize 32 `))
 		} else 		if (lowLatencyState) {
 			dispatch(storeSetOutputParams(id, 4, '&latency='+LOW_LATENCY))
-			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay `))
+			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay -probesize 32 `))
 		} else {
 			dispatch(storeSetOutputParams(id, 4, ''))
 			dispatch(storeSetGlobalOutParamString(id, `  `))
@@ -65,7 +65,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 	const handleSetUltraLowLatency = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
 			dispatch(storeSetOutputParams(id, 4, '&latency='+ULTRA_LOW_LATENCY))
-			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay `))
+			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay -probesize 32 `))
 			setUltraLowLatencyState(true)	
 			setLowLatencyState(false)					
 		} else {
@@ -78,7 +78,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 	const handleSetLowLatency = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
 			dispatch(storeSetOutputParams(id, 4, '&latency='+LOW_LATENCY))
-			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay `))
+			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay -probesize 32 `))
 			setLowLatencyState(true)
 			setUltraLowLatencyState(false)						
 		} else {
