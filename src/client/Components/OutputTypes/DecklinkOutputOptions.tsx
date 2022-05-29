@@ -22,7 +22,7 @@ const DecklinkOutputOptions: React.FC<IDecklinkProps> = (props) => {
 	const devices = useSelector<RootState, string[]>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.DECKLINK_OUTPUT]?.devices || [])
 
 	useEffect(() => {
-		dispatch(storeSetGlobalOutParamString(id, ` `))
+		dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay `))
 		dispatch(storeSetFilterParamString(id, ` `))
 		dispatch(storeSetOutputParamString(id, ` -f decklink -pix_fmt uyvy422 '{arg0}'`))
 		if (!outputName) {
