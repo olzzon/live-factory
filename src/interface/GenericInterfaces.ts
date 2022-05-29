@@ -45,6 +45,7 @@ export enum OUTPUT_TYPES {
     MPEG_TS = 'MPEG_TS',
     TCP = 'TCP',
     RTP = 'RTP',
+    SCREEN = 'SCREEN',
     // FILE = 'FILE',
     CUSTOM = 'CUSTOM'
 }

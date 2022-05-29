@@ -20,7 +20,7 @@ setInterval(() => {
 				findDevices.push(deviceData[0])
             }
 		})
-		console.debug('Decklink Devices :', findDevices)
+		// console.debug('Decklink Devices :', findDevices)
 		decklinkDevices = findDevices
 	})
 }, 8000)

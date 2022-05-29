@@ -32,6 +32,9 @@ import TcpInputOptions from './InputTypes/TcpInput'
 import TcpOutputOptions from './OutputTypes/TcpOutput'
 import CustomInputOptions from './InputTypes/customInput'
 import DecklinkOutputOptions from './OutputTypes/DecklinkOutputOptions'
+import RtpOutputOptions from './OutputTypes/RtpOutput'
+import RtpInputOptions from './InputTypes/RtpInput'
+import ScreenOutputOptions from './OutputTypes/ScreenOutput'
 
 export interface IfactoryId {
 	factoryId: number
@@ -103,6 +106,7 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				{inputType === INPUT_TYPES.MPEG_TS ? <MpegtsInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.UDP ? <UdpInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.TCP ? <TcpInputOptions factoryId={id} /> : null}
+				{inputType === INPUT_TYPES.RTP ? <RtpInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.SRT ? <SrtInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.DECKLINK ? <DecklinkInputOptions factoryId={id} /> : null}
 				{inputType === INPUT_TYPES.NDI ? <NdiInputOptions factoryId={id} /> : null}
@@ -136,7 +140,9 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				{outputType === OUTPUT_TYPES.SRT ? <SrtOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.TCP ? <TcpOutputOptions factoryId={id} /> : null}
+				{outputType === OUTPUT_TYPES.RTP ? <RtpOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.NDI ? <NdiOutputOptions factoryId={id} /> : null}
+				{outputType === OUTPUT_TYPES.SCREEN ? <ScreenOutputOptions factoryId={id} /> : null}
 				{outputType === OUTPUT_TYPES.CUSTOM ? <CustomOutputOptions factoryId={id} /> : null}
 			</div>
 		)
