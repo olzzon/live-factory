@@ -19,7 +19,7 @@ const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
 
 	useEffect(() => {
-		dispatch(storeSetGlobalOutParamString(id, ` `))
+		dispatch(storeSetGlobalOutParamString(id, ` -probesize 32 `))
 		dispatch(storeSetFilterParamString(id, ` `))
 		dispatch(storeSetOutputParamString(id, ` -f libndi_newtek -pix_fmt uyvy422 {arg0}`))
 		if (!outputName) {
