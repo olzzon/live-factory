@@ -52,7 +52,8 @@
       "./dist/client/**/*"
     ],
     "targets": [
-      "node16-macos-arm64"
+      "node16-macos-arm64",
+      "node16-linux-x64"
     ],
     "outputPath": "package"
   }

@@ -49,6 +49,47 @@ Copy lib files to:
 cp lib* /usr/local/lib 
 ```
 
+# Ubuntu 20.04 installation:
+Upload files
+(live-factory and ffmpeg+lib.tar.gz)
+via SSH:
+```
+scp /Users/olzzon/Downloads/live-factory livefactory@192.168.1.75:/home/livefactory/live-factory
+
+scp /Users/olzzon/coding/ffmpegfiles.zip livefactory@192.168.1.75:/home/livefactory/ffmpeg.zip
+
+```
+
+uncompress the .zip file:
+```
+sudo apt install unzip
+unzip ffmpeg.zip
+```
+Add dynamic libs to lib folder: 
+```
+cd ndi-encoder-files
+tar -zxvf lib.tar.gz
+mv lib/libsrt* /usr/lib/
+mv lib/libndi* /usr/lib/
+```
+
+install ffmpeg denpencies:
+```
+sudo apt update -qq && sudo apt -y install autoconf automake build-essential cmake git libssl-dev libfreetype6-dev libgnutls28-dev libmp3lame-dev  libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev meson ninja-build pkg-config texinfo wget yasm zlib1g-dev libunistring-dev libaom-dev nasm libx264-dev libx265-dev libnuma-dev libvpx-dev libfdk-aac-dev libopus-dev nvidia-cuda-toolkit libsdl2-dev libass-dev
+```
+
+If running on unbuntu server, you need to install Avahi support:
+```
+sudo apt install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
+```
+ 
+### Set lib path
+Set default PATH:
+```
+nano ~/.bashrc
+ADD:
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib/:/usr/lib/"
+```
 
 # Mac M1 FFmpeg compilation:
 
@@ -129,6 +170,11 @@ sudo apt update -qq && sudo apt -y install autoconf automake build-essential cma
 
 ```
 
+Install NVidia driver:
+```
+sudo ubuntu-drivers autoinstall
+```
+
 ### Get source and set path:
 ```
 mkdir ~/bin
@@ -139,14 +185,24 @@ PATH="$HOME/bin:$PATH"
 PKG_CONFIG_PATH="$HOME/ffmpeg-ndi/lib/pkgconfig" 
 ```
 
+### Set lib path
+Set default PATH:
+```
+nano ~/.bashrc
+ADD:
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib:/usr/lib/"
+```
+
 ### Install Decklink:
 install both Software AND SDK from blackmagicdesign.com
+```
 copy SDK lib files to ffmpeg-ndi/include
+```
 ### Install NDI SDK:
 https://downloads.ndi.tv/SDK/NDI_SDK_Linux/Install_NDI_SDK_v5_Linux.tar.gz
 unpack with GUI
 copy x86 libndi.so files to ffmpeg-ndi/lib
-(HACK: extract SDK and copy the libndi.so.5 files to /usr/lib )
+(HACK: extract SDK and move the libndi.so.5 files to /usr/lib, it's important to move not copy as a cp will creat a new symbolic link for one of the files)
 
 ### Compile SRT:
 ```
@@ -168,7 +224,8 @@ cd nv-codec-headers && sudo make install && cd ..
 ### Prepare and compile:
 ```
 cd ~/ffmpeg-ndi
-./configure --prefix="$HOME/ffmpeg-ndi" --pkg-config-flags="--static" --extra-cflags="-I$HOME/ffmpeg-ndi/include -I/usr/local/cuda/include" --extra-ldflags="-L/usr/local/cuda/lib64 -L$HOME/ffmpeg-ndi/lib" --extra-libs="-lpthread -lm" --ld="g++" --bindir="$HOME/bin" --enable-libsrt --enable-gpl --enable-gnutls --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-libndi_newtek --enable-decklink --enable-cuda-nvcc --enable-librist
+
+./configure --prefix="$HOME/ffmpeg-ndi" --pkg-config-flags="--static" --extra-cflags="-I$HOME/ffmpeg-ndi/include -I/usr/local/cuda/include" --extra-ldflags="-L/usr/local/cuda/lib64 -L$HOME/ffmpeg-ndi/lib" --extra-libs="-lpthread -lm" --ld="g++" --bindir="$HOME/bin" --enable-libsrt --enable-gpl --enable-gnutls --enable-nonfree --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libopus --samples=fate-suite --enable-libndi_newtek --enable-decklink --enable-nvenc --enable-librist
 
 ??? --enable-cuda --enable-cuvid --enable-nvdec --enable-nvenc
 
@@ -181,8 +238,6 @@ source ~/.profile
 Rebuild remember:
 ```
 make distclean 
-
-```
 
 ### Files for a Linux installation:
 Compress lib:
@@ -201,6 +256,18 @@ Linux CUDA srt encoder:
 ```
 ./ffmpeg -hwaccel cuda -re -stream_loop -1 -i ~/mediefiler/Jazz.mp4 -c:v h264_nvenc -preset llhp -b:v 20M -maxrate:v 30M -bufsize 1M -zerolatency 1 -pix_fmt uyvy422 -f matroska "srt://0.0.0.0:9998?pkt_size=1316&mode=listener"
 ```
+
+Linux CUDA NDI Source to SRT:
+```
+/home/ubuntu/live-factory/ffmpegruntime -f libndi_newtek -i "CASPARCG (CCG Ch1)" -c:v hevc_nvenc -preset llhp -b:v 20M -cbr true -zerolatency true -pix_fmt yuv420p -f matroska "srt://0.0.0.0:9001?pkt_size=1316&mode=listener"
+```
+
+Linux CUDA NDI Source to UDP:
+```
+/home/ubuntu/live-factory/ffmpegruntime -f libndi_newtek -i "CASPARCG (CCG Ch1)"  -c:v h264_nvenc -preset llhq -b:v 30000k -cbr true -zerolatency true -pix_fmt yuv420p -c:a libopus -b:a 48k  -pix_fmt uyvy422 -f matroska "udp://0.0.0.0:9001"
+```
+
+
 
 ### Patch NDI - FFMPEG:
 https://gist.github.com/pabloko/8affc8157a83e201503c326a28d17bf2

@@ -38,7 +38,7 @@ export class FFmepgInstance {
 
 		if (this.childProcess) {
 			console.log('Transcoder already running')
-			this.childProcess.kill()
+			this.childProcess.stdin.write('q')
 		}
 		this.childProcess = this.spawnChild(command, [args])
 		console.log('FFmpeg is starting')
@@ -50,7 +50,7 @@ export class FFmepgInstance {
 			if (message.includes('Decklink input buffer overrun')) {
 				// Restart service if Decklink buffer is overrun:
 				if (this.childProcess) {
-					this.childProcess.kill()
+					this.childProcess?.stdin.write('q')
 				}
 			}
 		})
@@ -92,7 +92,7 @@ export class FFmepgInstance {
 		if (this.timeOutInstance) {
 			clearTimeout(this.timeOutInstance)
 		}
-		this.childProcess?.kill()
+		this.childProcess?.stdin.write('q')
 		this.childProcess?.unref()
 		updateEncoderState(this.containerIndex, false, false)
 	}
