@@ -35,6 +35,7 @@ import DecklinkOutputOptions from './OutputTypes/DecklinkOutputOptions'
 import RtpOutputOptions from './OutputTypes/RtpOutput'
 import RtpInputOptions from './InputTypes/RtpInput'
 import ScreenOutputOptions from './OutputTypes/ScreenOutput'
+import LogOutput from './LogOutput'
 
 export interface IfactoryId {
 	factoryId: number
@@ -49,7 +50,6 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 	const inputType = useSelector<RootState, INPUT_TYPES>((state) => state.ffmpeg[0].factory[id].input.type)
 	const factory = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
 	const outputType = useSelector<RootState, OUTPUT_TYPES>((state) => state.ffmpeg[0].factory[id].output.type)
-	const logs = useSelector<RootState, string[]>((state) => state.ffmpeg[0].factory[id].log)
 
 	const handleSetInputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		dispatch(storeClearGlobalInParams(id))
@@ -165,13 +165,7 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				<DecoderSide />
 				<EncoderSide />
 			</div>
-			{logs?.map((logline: string, index: number) => {
-					return (
-						<div key={index}>
-							{logline}
-						</div>
-					)
-				})}
+			<LogOutput factoryId={props.factoryId} />
 			<div className="pipeline-footer">
 					<button className="button" onClick={() => handleDeleteEncoder()}>
 						DELETE
