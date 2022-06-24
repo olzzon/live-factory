@@ -82,6 +82,10 @@ If running on unbuntu server, you need to install Avahi support:
 ```
 sudo apt install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
 ```
+
+#### Running on a VM:
+set the cpu type for the vm to host
+
  
 ### Set lib path
 Set default PATH:
