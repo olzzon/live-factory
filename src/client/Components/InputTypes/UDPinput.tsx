@@ -20,7 +20,7 @@ const UdpInputOptions: React.FC<IUdpInputProps> = (props) => {
 	const fifoSize = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[2])
 
 	useEffect(() => {
-		dispatch(storeSetGlobalInParamString(id, ' -re -hwaccel videotoolbox -vsync 0 '))
+		dispatch(storeSetGlobalInParamString(id, ' -re -vsync 0 '))
 		dispatch(storeSetInputParamString(id, ' -i udp://{arg0}:{arg1}?fifo_size={arg2}'))
 		if (!ip) {
 			dispatch(storeSetInputParams(id, 0, 'localhost'))

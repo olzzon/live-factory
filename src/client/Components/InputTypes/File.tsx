@@ -22,7 +22,7 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamString(id, ` -stream_loop {arg0} `))
-		dispatch(storeSetInputParamString(id, ` -hwaccel videotoolbox -re -vsync 0 -i "{arg0}{arg1}" `))
+		dispatch(storeSetInputParamString(id, ` -re -vsync 0 -i "{arg0}{arg1}" `))
 		if (!fileLoop) {
 			dispatch(storeSetGlobalInParams(id, 0, '1'))
 		}

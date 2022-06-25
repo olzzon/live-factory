@@ -19,7 +19,7 @@ const RtpInputOptions: React.FC<IRtpProps> = (props) => {
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalInParamString(id, ` -re -vsync 1 -hwaccel videotoolbox -adrift_threshold 0.06 -async 8000 `))
+		dispatch(storeSetGlobalInParamString(id, ` -re -vsync 1 -adrift_threshold 0.06 -async 8000 `))
 		if (!ip) {
 			dispatch(storeSetInputParams(id, 0, '0.0.0.0'))
 		}

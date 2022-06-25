@@ -38,6 +38,9 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.DUPLICATE_FACTORY:
 			newContainer = JSON.parse(JSON.stringify(nextState[0].factory[action.factoryId]))
 			newContainer.containerName = newContainer.containerName + ' COPY'
+			newContainer.activated = false 
+			newContainer.log = []
+			newContainer.running = false 
 			nextState[0].factory = [...nextState[0].factory, newContainer]
 			return nextState
 		case CONTAINER_ACTIONS.UPDATE_FULL_STORE:
