@@ -28,6 +28,8 @@ const updateFactory = (index: number, cmd: IFactory) => {
 }
 
 const deleteFactory = (index: number) => {
+	factoryInstances[index]?.stopInstance(index)
+	factoryInstances.splice(index, 1)
 	ffmpegFactories.splice(index, 1)
 	saveFactoriesList(ffmpegFactories)
 	updateClients()
