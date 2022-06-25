@@ -32,7 +32,12 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 
 	switch (action.type) {
 		case CONTAINER_ACTIONS.ADD_FACTORY:
-			const newContainer = defaultFfmpegContainerReducerState().factory[0]
+			let newContainer = defaultFfmpegContainerReducerState().factory[0]
+			nextState[0].factory = [...nextState[0].factory, newContainer]
+			return nextState
+		case CONTAINER_ACTIONS.DUPLICATE_FACTORY:
+			newContainer = JSON.parse(JSON.stringify(nextState[0].factory[action.factoryId]))
+			newContainer.containerName = newContainer.containerName + ' COPY'
 			nextState[0].factory = [...nextState[0].factory, newContainer]
 			return nextState
 		case CONTAINER_ACTIONS.UPDATE_FULL_STORE:
@@ -43,7 +48,7 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 			nextState[0].rerender = !nextState[0].rerender
 			return nextState
 		case CONTAINER_ACTIONS.LOG_PUSH:
-			let log = [...nextState[0].factory[action.factoryId].log || []]
+			let log = [...(nextState[0].factory[action.factoryId].log || [])]
 			if (log.length > 3) {
 				log.shift()
 			}

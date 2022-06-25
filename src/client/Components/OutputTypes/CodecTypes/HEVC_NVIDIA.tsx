@@ -29,7 +29,7 @@ const HevcNvidiaCodecOptions: React.FC<ICodecProps> = (props) => {
 		dispatch(
 			storeSetFilterParamString(
 				id,
-				` {arg3} -c:v h264_nvenc -preset llhq -b:v {arg0}k -cbr true -zerolatency true -pix_fmt yuv420p -c:a libopus -b:a {arg1}k `
+				` {arg3} -c:v hevc_nvenc -preset llhq -b:v {arg0}k -cbr true -zerolatency true -pix_fmt yuv420p -c:a libopus -b:a {arg1}k `
 				)
 				)
 				//`  -c:v hevc_videotoolbox -b:v {arg0}k -pix_fmt yuv422p -realtime true -q:v {arg2} -acodec libopus -b:a {arg1}k `

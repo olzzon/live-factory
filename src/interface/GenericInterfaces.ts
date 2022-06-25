@@ -59,11 +59,11 @@ export interface IOutputCodecParams {
 export enum OUTPUT_ENCODER {
     NONE = 'NONE',
     H264_NATIVE = 'H264_NATIVE',
-    // HEVC_NATIVE = 'HEVC_NATIVE',
+    HEVC_NATIVE = 'HEVC_NATIVE',
     H264_MAC = 'H264_MAC',
     HEVC_MAC = 'HEVC_MAC',
-    // H264_NVIDIA = 'H264_NVIDIA',
-    // HEVC_NVIDIA = 'HEVC_NVIDIA',
+    H264_NVIDIA = 'H264_NVIDIA',
+    HEVC_NVIDIA = 'HEVC_NVIDIA',
 }
 
 export interface IGlobalParams {

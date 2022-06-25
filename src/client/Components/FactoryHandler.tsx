@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { storeAddFactory, storePushLog, storeSetContainerState, storeUpdateDevicesList, storeUpdateFullStore } from '../../interface/redux/containerActions'
+import { useStore, shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { storeAddFactory, storeDuplicateFactory, storePushLog, storeSetContainerState, storeUpdateDevicesList, storeUpdateFullStore } from '../../interface/redux/containerActions'
 import { IDeviceList, IFactory } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
 import * as IO from '../../interface/SocketIOContants'
@@ -11,6 +11,7 @@ interface IfactoryId {
 }
 
 const FactoryHandler: React.FC<IfactoryId> = (props) => {
+	const store = useStore()
 	const dispatch = useDispatch()
 	const factories = useSelector<RootState, IFactory[]>((state) => state.ffmpeg[0].factory, shallowEqual)
 	const rerender = useSelector<RootState>((state) => state.ffmpeg[0].rerender)
@@ -37,8 +38,16 @@ const FactoryHandler: React.FC<IfactoryId> = (props) => {
 
 	const addFactory = () => {
 		dispatch(storeAddFactory())
+		
 		props.setSelectedEncoder(factories.length)
+		
 		props.socketClient.emit(IO.UPDATE_FACTORY, factories.length, factories[factories.length])
+	}
+	const duplicateFactory = () => {
+		dispatch(storeDuplicateFactory(props.selectedEncoder))
+		props.setSelectedEncoder(factories.length)
+		let state = store.getState()
+		props.socketClient.emit(IO.UPDATE_FACTORY, factories.length, state.ffmpeg[0].factory[factories.length])
 	}
 
 	const factoryList = () => {
@@ -72,10 +81,18 @@ const FactoryHandler: React.FC<IfactoryId> = (props) => {
 				<button
 					className="button"
 					onClick={() => {
+						duplicateFactory()
+					}}
+				>
+					DUPLICATE
+				</button>
+				<button
+					className="button"
+					onClick={() => {
 						addFactory()
 					}}
 				>
-					ADD PIPELINE
+					NEW PIPELINE
 				</button>
 			</div>
 		)

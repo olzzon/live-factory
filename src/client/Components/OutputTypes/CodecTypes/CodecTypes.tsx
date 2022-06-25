@@ -8,6 +8,8 @@ import { RootState } from '../../../main'
 import H264MacCodecOptions from './H264_MAC'
 import H264NativeCodecOptions from './H264_NATIVE'
 import HevcMacCodecOptions from './HEVC_MAC'
+import HevcNvidiaCodecOptions from './HEVC_NVIDIA'
+import H264NvidiaCodecOptions from './H264_NVIDIA'
 
 export interface IfactoryId {
 	factoryId: number
@@ -47,6 +49,8 @@ const CodecTypes: React.FC<IfactoryId> = (props) => {
 			{outputType === OUTPUT_ENCODER.H264_MAC ? <H264MacCodecOptions factoryId={id} /> : null}
 			{outputType === OUTPUT_ENCODER.HEVC_MAC ? <HevcMacCodecOptions factoryId={id} /> : null}
 			{outputType === OUTPUT_ENCODER.H264_NATIVE ? <H264NativeCodecOptions factoryId={id} /> : null}
+			{outputType === OUTPUT_ENCODER.HEVC_NVIDIA ? <HevcNvidiaCodecOptions factoryId={id} /> : null}
+			{outputType === OUTPUT_ENCODER.H264_NVIDIA ? <H264NvidiaCodecOptions factoryId={id} /> : null}
 		</div>
 	)
 }

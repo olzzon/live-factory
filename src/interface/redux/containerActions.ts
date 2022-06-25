@@ -2,6 +2,7 @@ import { IDeviceList, INPUT_TYPES, OUTPUT_ENCODER, OUTPUT_TYPES } from '../Gener
 import { IFactory } from '../GenericInterfaces'
 
 export const ADD_FACTORY = 'addFactory'
+export const DUPLICATE_FACTORY = 'duplicateFactory'
 export const UPDATE_FULL_STORE = 'update_full_store'
 export const UPDATE_DEVICES_LIST = 'update_devices_list'
 export const LOG_PUSH = 'log_push'
@@ -33,6 +34,13 @@ export const CLEAR_OUTPUT_PARAMS = 'clearOutputParams'
 export const storeAddFactory = () => {
     return {
         type: ADD_FACTORY
+    }
+}
+
+export const storeDuplicateFactory = (factoryId: number) => {
+    return {
+        type: DUPLICATE_FACTORY,
+		factoryId: factoryId
     }
 }
 
