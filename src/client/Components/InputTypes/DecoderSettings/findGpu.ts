@@ -6,7 +6,7 @@ export const findGpuSettings = (osType: string): string => {
             return '  -hwaccel videotoolbox '
         case 'Linux': 
             console.log("Linux, NVidia GPU")
-            return '  -hwaccel cuda -hwaccel_output_format cuda '
+            return '  -hwaccel cuda ' // sometimes adding this??: -hwaccel_output_format cuda
         case 'Windows_NT':
             console.log("windows no GPU accelration")
             return ' '
