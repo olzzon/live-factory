@@ -79,5 +79,6 @@ export interface IDeviceList {
 export enum DEVICE_TYPES {
     NDI,
     DECKLINK_INPUT,
-    DECKLINK_OUTPUT
+    DECKLINK_OUTPUT,
+    GPU_TYPE
 }

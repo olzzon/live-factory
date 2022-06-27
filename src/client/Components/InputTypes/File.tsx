@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParams,
 	storeSetGlobalInParamString,
@@ -7,6 +8,7 @@ import {
 	storeSetInputParamString,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
+import { findGpuSettings } from './DecoderSettings/findGpu'
 
 interface IFileProps {
 	factoryId: number
@@ -19,10 +21,12 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 	const fileLoop = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].globalInput.paramArgs[0])
 	const filePath = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 	const fileName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
+	const osType = useSelector<RootState, string>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0])    
+
 
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamString(id, ` -stream_loop {arg0} `))
-		dispatch(storeSetInputParamString(id, ` -re -vsync 0 -i "{arg0}{arg1}" `))
+		dispatch(storeSetInputParamString(id, ` -re ` + findGpuSettings(osType) + ` -vsync 0 -i "{arg0}{arg1}" `))
 		if (!fileLoop) {
 			dispatch(storeSetGlobalInParams(id, 0, '1'))
 		}

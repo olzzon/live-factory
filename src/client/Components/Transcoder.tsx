@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { INPUT_TYPES, IFactory, OUTPUT_TYPES } from '../../interface/GenericInterfaces'
+import { INPUT_TYPES, IFactory, OUTPUT_TYPES, DEVICE_TYPES } from '../../interface/GenericInterfaces'
 import '../styles/app.css'
 import * as IO from '../../interface/SocketIOContants'
 import FileInputOptions from './InputTypes/File'

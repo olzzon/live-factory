@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { storeAddFactory, storePushLog, storeSetContainerState, storeUpdateDevicesList, storeUpdateFullStore } from '../../interface/redux/containerActions'
-import { IDeviceList, IFactory } from '../../interface/GenericInterfaces'
+import { IFactory } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
-import * as IO from '../../interface/SocketIOContants'
 
 import io from 'socket.io-client'
 import Transcoder from './Transcoder'

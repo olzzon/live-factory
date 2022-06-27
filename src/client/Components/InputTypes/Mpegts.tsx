@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamString,
 	storeSetInputParams,
 	storeSetInputParamString,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
+import { findGpuSettings } from './DecoderSettings/findGpu'
 
 interface IMpegtsProps {
 	factoryId: number
@@ -18,9 +20,11 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
 	const fifoSize = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[2])
+	const osType = useSelector<RootState, string>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0])    
+
 
 	useEffect(() => {
-		dispatch(storeSetGlobalInParamString(id, ' -re -hwaccel videotoolbox -vsync 0 '))
+		dispatch(storeSetGlobalInParamString(id, ' -re -vsync 0 ' + findGpuSettings(osType)))
 		dispatch(storeSetInputParamString(id, ' -i udp://{arg0}:{arg1}?fifo_size={arg2}'))
 		if (!ip) {
 			dispatch(storeSetInputParams(id, 0, 'localhost'))

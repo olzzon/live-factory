@@ -12,6 +12,7 @@ import { loadFactories, saveFactoriesList } from '../utils/storage'
 import { discoverNdiSources } from '../utils/discoverNdiSources'
 import { discoverDecklinkSources } from '../utils/discoverDecklinkSources'
 import { discoverDecklinkOutputs } from '../utils/discoverDecklinkOutputs'
+import { findGpu } from '../utils/findGpu'
 const socketIO = new Server(httpServer)
 
 const PORT = 1406
@@ -41,6 +42,10 @@ const updateClients = () => {
 }
 
 const subscribeDevicesList = () => {
+	//Only once:
+	devices[DEVICE_TYPES.GPU_TYPE] = {type: DEVICE_TYPES.GPU_TYPE, devices: [findGpu()] }
+
+	//Dynamically updated:
 	setInterval(() => {
 		devices[DEVICE_TYPES.NDI] = { type: DEVICE_TYPES.NDI, devices: discoverNdiSources() }
 		devices[DEVICE_TYPES.DECKLINK_INPUT] = { type: DEVICE_TYPES.DECKLINK_INPUT, devices: discoverDecklinkSources() }

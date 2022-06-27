@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamString,
 	storeSetInputParams,
 	storeSetInputParamString,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
+import { findGpuSettings } from './DecoderSettings/findGpu'
 
 interface ITcpProps {
 	factoryId: number
@@ -18,10 +20,11 @@ const TcpInputOptions: React.FC<ITcpProps> = (props) => {
 	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
 	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[2])
+	const osType = useSelector<RootState, string>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0])    
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalInParamString(id, ` -re `))
+		dispatch(storeSetGlobalInParamString(id, ` -re ` + findGpuSettings(osType)))
 		dispatch(storeSetInputParamString(id, `  -i tcp://{arg0}:{arg1}?{arg2}`))
 		if (!ip) {
 			dispatch(storeSetInputParams(id, 0, '0.0.0.0'))
