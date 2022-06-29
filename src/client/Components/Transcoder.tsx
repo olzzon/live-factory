@@ -11,10 +11,15 @@ import {
 	storeClearInputParams,
 	storeClearOutputParams,
 	storeSetContainerName,
+	storeSetFilterParams,
+	storeSetGlobalInParams,
+	storeSetGlobalOutParams,
+	storeSetInputParams,
 	storeSetInputType,
+	storeSetOutputParams,
 	storeSetOutputType,
 } from '../../interface/redux/containerActions'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, useStore } from 'react-redux'
 import { RootState } from '../main'
 import ColorbarInputOptions from './InputTypes/ColorBar'
 import MpegtsInputOptions from './InputTypes/Mpegts'
@@ -36,6 +41,9 @@ import RtpOutputOptions from './OutputTypes/RtpOutput'
 import RtpInputOptions from './InputTypes/RtpInput'
 import ScreenOutputOptions from './OutputTypes/ScreenOutput'
 import LogOutput from './LogOutput'
+import { findGpuSettings } from './InputTypes/DecoderSettings/findGpu'
+import insertArgs from '../utils/insertArgs'
+import { IFFmpegReducer } from '../../interface/redux/containersReducer'
 
 export interface IfactoryId {
 	factoryId: number
@@ -50,17 +58,31 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 	const inputType = useSelector<RootState, INPUT_TYPES>((state) => state.ffmpeg[0].factory[id].input.type)
 	const factory = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
 	const outputType = useSelector<RootState, OUTPUT_TYPES>((state) => state.ffmpeg[0].factory[id].output.type)
+	const osType = useSelector<RootState, string>(
+		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
+	)
 
 	const handleSetInputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(storeClearGlobalInParams(id))
-		dispatch(storeClearInputParams(id))
+		if ((event.target.value as INPUT_TYPES) !== INPUT_TYPES.CUSTOM) {
+			dispatch(storeClearGlobalInParams(id))
+			dispatch(storeClearInputParams(id))
+		} else {
+			dispatch(storeSetGlobalInParams(id, 0, insertArgs(factory.globalInput.param, factory.globalInput.paramArgs)))
+			dispatch(storeSetInputParams(id, 0, insertArgs(factory.input.param, factory.input.paramArgs)))
+		}
 		dispatch(storeSetInputType(id, event.target.value as INPUT_TYPES))
 	}
 
 	const handleSetOutputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(storeClearFilterParams(id))
-		dispatch(storeClearGlobalOutParams(id))
-		dispatch(storeClearOutputParams(id))
+		if ((event.target.value as OUTPUT_TYPES) !== OUTPUT_TYPES.CUSTOM) {
+			dispatch(storeClearFilterParams(id))
+			dispatch(storeClearGlobalOutParams(id))
+			dispatch(storeClearOutputParams(id))
+		} else {
+			dispatch(storeSetFilterParams(id, 0, insertArgs(factory.filter.param, factory.filter.paramArgs)))
+			dispatch(storeSetGlobalOutParams(id, 0, insertArgs(factory.globalOutput.param, factory.globalOutput.paramArgs)))
+			dispatch(storeSetOutputParams(id, 0, insertArgs(factory.output.param, factory.output.paramArgs)))
+		}
 		dispatch(storeSetOutputType(id, event.target.value as OUTPUT_TYPES))
 	}
 
@@ -167,17 +189,17 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 			</div>
 			<LogOutput factoryId={props.factoryId} />
 			<div className="pipeline-footer">
-					<button className="button" onClick={() => handleDeleteEncoder()}>
-						DELETE
-					</button>
+				<button className="button" onClick={() => handleDeleteEncoder()}>
+					DELETE
+				</button>
 
-					<button className="button" onClick={() => handleStopEncoder()}>
-						STOP
-					</button>
-					<button className="button" onClick={() => handleStartEncoder()}>
-						START
-					</button>
-				</div>
+				<button className="button" onClick={() => handleStopEncoder()}>
+					STOP
+				</button>
+				<button className="button" onClick={() => handleStartEncoder()}>
+					START
+				</button>
+			</div>
 		</div>
 	)
 }

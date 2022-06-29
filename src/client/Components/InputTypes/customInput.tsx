@@ -20,7 +20,7 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 
 	const globalIn = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].globalInput.paramArgs[0])
 	const input = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
-	const osType = useSelector<RootState, string>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0])    
+	const osType = useSelector<RootState, string>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamString(id, `{arg0}`))
