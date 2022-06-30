@@ -1,4 +1,4 @@
-import { IDeviceList, INPUT_TYPES, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
+import { IDeviceList, INPUT_TYPES, OUTPUT_AUDIO_ENCODER, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
 import { IFactory } from '../GenericInterfaces'
 
 export const ADD_FACTORY = 'addFactory'
@@ -25,6 +25,10 @@ export const SET_FILTER_TYPE = 'setFilterType'
 export const SET_FILTER_PARAM_STRING = 'setFilterParamString'
 export const SET_FILTER_PARAMS = 'setFilterParams'
 export const CLEAR_FILTER_PARAMS = 'clearFilterParams'
+export const SET_FILTER_AUDIO_TYPE = 'setFilterAudioType'
+export const SET_FILTER_AUDIO_PARAM_STRING = 'setFilterAudioParamString'
+export const SET_FILTER_AUDIO_PARAMS = 'setFilterAudioParams'
+export const CLEAR_FILTER_AUDIO_PARAMS = 'clearFilterAudioParams'
 export const SET_OUTPUT_TYPE = 'setOutputType'
 export const SET_OUTPUT_PARAM_STRING = 'setOutputParamString'
 export const SET_OUTPUT_PARAMS = 'setOutputParams'
@@ -198,6 +202,38 @@ export const storeSetFilterParams = (factoryId: number, paramIndex: number, para
 export const storeClearFilterParams = (factoryId: number) => {
 	return {
 		type: CLEAR_FILTER_PARAMS,
+		factoryId: factoryId,
+	}
+}
+
+export const storeSetFilterAudioType = (factoryId: number, filterType: OUTPUT_AUDIO_ENCODER) => {
+	return {
+		type: SET_FILTER_AUDIO_TYPE,
+		factoryId: factoryId,
+		filterType: filterType,
+	}
+}
+
+export const storeSetFilterAudioParamString = (factoryId: number, paramString: string) => {
+	return {
+		type: SET_FILTER_AUDIO_PARAM_STRING,
+		factoryId: factoryId,
+		paramString: paramString,
+	}
+}
+
+export const storeSetFilterAudioParams = (factoryId: number, paramIndex: number, param: string) => {
+	return {
+		type: SET_FILTER_AUDIO_PARAMS,
+		factoryId: factoryId,
+        paramIndex: paramIndex,
+		param: param,
+	}
+}
+
+export const storeClearFilterAudioParams = (factoryId: number) => {
+	return {
+		type: CLEAR_FILTER_AUDIO_PARAMS,
 		factoryId: factoryId,
 	}
 }

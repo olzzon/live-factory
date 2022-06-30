@@ -6,6 +6,7 @@ export interface IFactory {
 	globalOutput: IGlobalParams
 	input: IInputParams
 	filter: IOutputCodecParams
+	audioFilter: IOutputAudioCodecParams
 	output: IOutputParams
     log: string[]
 }
@@ -57,13 +58,24 @@ export interface IOutputCodecParams {
 }
 
 export enum OUTPUT_ENCODER {
-    NONE = 'NONE',
+    COPY = 'COPY',
     H264_NATIVE = 'H264_NATIVE',
     HEVC_NATIVE = 'HEVC_NATIVE',
     H264_MAC = 'H264_MAC',
     HEVC_MAC = 'HEVC_MAC',
     H264_NVIDIA = 'H264_NVIDIA',
     HEVC_NVIDIA = 'HEVC_NVIDIA',
+}
+
+export interface IOutputAudioCodecParams {
+    type: OUTPUT_AUDIO_ENCODER
+    param: string
+    paramArgs: string[]
+}
+
+export enum OUTPUT_AUDIO_ENCODER {
+    COPY = 'COPY',
+    OPUS = 'OPUS',
 }
 
 export interface IGlobalParams {

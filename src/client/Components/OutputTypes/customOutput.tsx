@@ -20,6 +20,7 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 
 	const globalOut = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].globalOutput.paramArgs[0])
 	const filter = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[0])
+	const audioFilter = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].audioFilter.paramArgs[0])
 	const output = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
 
 	useEffect(() => {

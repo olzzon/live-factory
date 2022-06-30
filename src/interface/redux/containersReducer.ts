@@ -1,4 +1,11 @@
-import { IDeviceList, IFactory, INPUT_TYPES, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
+import {
+	IDeviceList,
+	IFactory,
+	INPUT_TYPES,
+	OUTPUT_AUDIO_ENCODER,
+	OUTPUT_ENCODER,
+	OUTPUT_TYPES,
+} from '../GenericInterfaces'
 import * as CONTAINER_ACTIONS from './containerActions'
 
 export interface IFFmpegReducer {
@@ -19,7 +26,8 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 				globalInput: { param: '', paramArgs: [] },
 				globalOutput: { param: '', paramArgs: [] },
 				input: { type: INPUT_TYPES.COLORBAR, param: '', paramArgs: [] },
-				filter: { type: OUTPUT_ENCODER.NONE, param: '', paramArgs: [''] },
+				filter: { type: OUTPUT_ENCODER.COPY, param: ' -v:c copy ', paramArgs: [''] },
+				audioFilter: { type: OUTPUT_AUDIO_ENCODER.COPY, param: ' -v:c copy ', paramArgs: [''] },
 				output: { type: OUTPUT_TYPES.NDI, param: '', paramArgs: [] },
 				log: ['log is empty'],
 			},
@@ -38,9 +46,9 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.DUPLICATE_FACTORY:
 			newContainer = JSON.parse(JSON.stringify(nextState[0].factory[action.factoryId]))
 			newContainer.containerName = newContainer.containerName + ' COPY'
-			newContainer.activated = false 
+			newContainer.activated = false
 			newContainer.log = []
-			newContainer.running = false 
+			newContainer.running = false
 			nextState[0].factory = [...nextState[0].factory, newContainer]
 			return nextState
 		case CONTAINER_ACTIONS.UPDATE_FULL_STORE:
@@ -79,6 +87,9 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.SET_FILTER_TYPE:
 			nextState[0].factory[action.factoryId].filter.type = action.filterType
 			return nextState
+		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_TYPE:
+			nextState[0].factory[action.factoryId].audioFilter.type = action.filterType
+			return nextState
 		case CONTAINER_ACTIONS.SET_GLOBAL_IN_PARAM_STRING:
 			nextState[0].factory[action.factoryId].globalInput.param = action.paramString
 			return nextState
@@ -114,6 +125,15 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_FILTER_PARAMS:
 			nextState[0].factory[action.factoryId].filter.paramArgs = ['']
+			return nextState
+		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_PARAM_STRING:
+			nextState[0].factory[action.factoryId].audioFilter.param = action.paramString
+			return nextState
+		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_PARAMS:
+			nextState[0].factory[action.factoryId].audioFilter.paramArgs[action.paramIndex] = action.param
+			return nextState
+		case CONTAINER_ACTIONS.CLEAR_FILTER_AUDIO_PARAMS:
+			nextState[0].factory[action.factoryId].audioFilter.paramArgs = ['']
 			return nextState
 		case CONTAINER_ACTIONS.SET_OUTPUT_PARAM_STRING:
 			nextState[0].factory[action.factoryId].output.param = action.paramString

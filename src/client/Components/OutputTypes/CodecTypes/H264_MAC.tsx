@@ -15,7 +15,6 @@ const H264MacCodecOptions: React.FC<ICodecProps> = (props) => {
 	const id = props.factoryId
 
 	const vBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[0])
-	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[1])
 	const quality = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[2])
 	const deInterlace = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[3])
 	const [ deinterlaceState, setDeinterlaceState ] = useState<boolean>((deInterlace === '-vf yadif_videotoolbox')? true : false)
@@ -27,13 +26,10 @@ const H264MacCodecOptions: React.FC<ICodecProps> = (props) => {
 		// CUDA Linux:
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 
-		dispatch(storeSetFilterParamString(id, ` {arg3} -c:v h264_videotoolbox -b:v {arg0}k -pix_fmt yuv420p -realtime true -acodec libopus -b:a {arg1}k `))
+		dispatch(storeSetFilterParamString(id, ` {arg3} -c:v h264_videotoolbox -b:v {arg0}k -pix_fmt yuv420p -realtime true `))
 
 		if (!vBandwidth) {
 			dispatch(storeSetFilterParams(id, 0, `22000`))
-		}
-		if (!aBandwidth) {
-			dispatch(storeSetFilterParams(id, 1, `256`))	
 		}
 		if (!quality) {
 			dispatch(storeSetFilterParams(id, 2, `90`))	
@@ -73,15 +69,6 @@ const H264MacCodecOptions: React.FC<ICodecProps> = (props) => {
 					type="number"
 					value={vBandwidth ?? '22000'}
 					onChange={(event) => dispatch(storeSetFilterParams(id, 0, event.target.value))}
-				/>
-			</label>
-			<label className="pipeline-label">
-				Audio Bandwidth (in kbit/s) :
-				<input
-					className="input-number"
-					type="number"
-					value={aBandwidth ?? '256'}
-					onChange={(event) => dispatch(storeSetFilterParams(id, 1, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">

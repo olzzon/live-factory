@@ -14,7 +14,6 @@ const H264NvidiaCodecOptions: React.FC<ICodecProps> = (props) => {
 	
 	
 	const vBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[0])
-	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[1])
 	const quality = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[2])
 	const deInterlace = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[3])
 	const [ deinterlaceState, setDeinterlaceState ] = useState<boolean>((deInterlace === '-vf yadif_videotoolbox')? true : false)
@@ -29,16 +28,13 @@ const H264NvidiaCodecOptions: React.FC<ICodecProps> = (props) => {
 		dispatch(
 			storeSetFilterParamString(
 				id,
-				` {arg3} -c:v h264_nvenc -preset llhq -b:v {arg0}k -cbr true -zerolatency true -pix_fmt yuv420p -c:a libopus -b:a {arg1}k `
+				` {arg3} -c:v h264_nvenc -preset llhq -b:v {arg0}k -cbr true -zerolatency true -pix_fmt yuv420p `
 				)
 				)
 				//`  -c:v hevc_videotoolbox -b:v {arg0}k -pix_fmt yuv422p -realtime true -q:v {arg2} -acodec libopus -b:a {arg1}k `
 
 		if (!vBandwidth) {
 			dispatch(storeSetFilterParams(id, 0, `22000`))
-		}
-		if (!aBandwidth) {
-			dispatch(storeSetFilterParams(id, 1, `256`))
 		}
 		if (!quality) {
 			dispatch(storeSetFilterParams(id, 2, `90`))
@@ -78,15 +74,6 @@ const H264NvidiaCodecOptions: React.FC<ICodecProps> = (props) => {
 					type="number"
 					value={vBandwidth ?? '22000'}
 					onChange={(event) => dispatch(storeSetFilterParams(id, 0, event.target.value))}
-				/>
-			</label>
-			<label className="pipeline-label">
-				Audio Bandwidth (in kbit/s) :
-				<input
-					className="input-number"
-					type="number"
-					value={aBandwidth ?? '256'}
-					onChange={(event) => dispatch(storeSetFilterParams(id, 1, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">

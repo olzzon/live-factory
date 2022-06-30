@@ -32,6 +32,7 @@ export class FFmepgInstance {
 			insertArgs(cmd.globalOutput.param, cmd.globalOutput.paramArgs) +
 			insertArgs(cmd.input.param, cmd.input.paramArgs) +
 			insertArgs(cmd.filter.param, cmd.filter.paramArgs) +
+			insertArgs(cmd.audioFilter.param, cmd.audioFilter.paramArgs) +
 			insertArgs(cmd.output.param, cmd.output.paramArgs)
 
 		this.keepInstanceRunning = true
