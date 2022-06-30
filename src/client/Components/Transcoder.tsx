@@ -5,12 +5,14 @@ import '../styles/app.css'
 import * as IO from '../../interface/SocketIOContants'
 import FileInputOptions from './InputTypes/File'
 import {
+	storeClearFilterAudioParams,
 	storeClearFilterParams,
 	storeClearGlobalInParams,
 	storeClearGlobalOutParams,
 	storeClearInputParams,
 	storeClearOutputParams,
 	storeSetContainerName,
+	storeSetFilterAudioParams,
 	storeSetFilterParams,
 	storeSetGlobalInParams,
 	storeSetGlobalOutParams,
@@ -76,10 +78,12 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 	const handleSetOutputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		if ((event.target.value as OUTPUT_TYPES) !== OUTPUT_TYPES.CUSTOM) {
 			dispatch(storeClearFilterParams(id))
+			dispatch(storeClearFilterAudioParams(id))
 			dispatch(storeClearGlobalOutParams(id))
 			dispatch(storeClearOutputParams(id))
 		} else {
 			dispatch(storeSetFilterParams(id, 0, insertArgs(factory.filter.param, factory.filter.paramArgs)))
+			dispatch(storeSetFilterAudioParams(id, 0, insertArgs(factory.audioFilter.param, factory.audioFilter.paramArgs)))
 			dispatch(storeSetGlobalOutParams(id, 0, insertArgs(factory.globalOutput.param, factory.globalOutput.paramArgs)))
 			dispatch(storeSetOutputParams(id, 0, insertArgs(factory.output.param, factory.output.paramArgs)))
 		}
