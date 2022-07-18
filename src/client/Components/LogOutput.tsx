@@ -15,7 +15,7 @@ const LogOutput: React.FC<IfactoryId> = (props) => {
 	const logs = useSelector<RootState, string[]>((state) => state.ffmpeg[0].factory[id].log)
 
 	return (
-		<div>
+		<div className='logoutput'>
 			{logs?.map((logline: string, index: number) => {
 					return (
 						<div key={index}>

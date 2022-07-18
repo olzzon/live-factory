@@ -60,7 +60,7 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 			return nextState
 		case CONTAINER_ACTIONS.LOG_PUSH:
 			let log = [...(nextState[0].factory[action.factoryId].log || [])]
-			if (log.length > 3) {
+			if (log.length > 20) {
 				log.shift()
 			}
 			log.push(action.logLine)
