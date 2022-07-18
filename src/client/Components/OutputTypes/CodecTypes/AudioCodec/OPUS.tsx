@@ -14,13 +14,13 @@ const OpusCodecOptions: React.FC<ICodecProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
 
-	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[1])
+	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].audioFilter.paramArgs[0])
 
 	useEffect(() => {
-		dispatch(storeSetFilterAudioParamString(id, ` -acodec libopus -b:a {arg1}k `))
+		dispatch(storeSetFilterAudioParamString(id, ` -acodec libopus -b:a {arg0}k `))
 
 		if (!aBandwidth) {
-			dispatch(storeSetFilterAudioParams(id, 1, `256`))	
+			dispatch(storeSetFilterAudioParams(id, 0, `256`))	
 		}
 	}, [])
 
@@ -32,7 +32,7 @@ const OpusCodecOptions: React.FC<ICodecProps> = (props) => {
 					className="input-number"
 					type="number"
 					value={aBandwidth ?? '256'}
-					onChange={(event) => dispatch(storeSetFilterAudioParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetFilterAudioParams(id, 0, event.target.value))}
 				/>
 			</label>
 		</div>
