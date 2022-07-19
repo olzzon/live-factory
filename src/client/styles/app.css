@@ -23,9 +23,10 @@ body {
 
 .factory-selector {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
+    overflow-y: auto;
     background-color: rgb(34, 34, 34);
-    min-height: 90vh;
+    height: 90vh;
 }
 
 .selector-button {
@@ -39,6 +40,7 @@ body {
 .pipeline-group {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
     height: 91vh;
     width: 80vw;
     background-color: rgb(23, 23, 23);
@@ -67,10 +69,11 @@ body {
     display: flex;
     flex-direction: column;
     background-color: rgb(34, 34, 34);
-    height: 85vh;
+    height: 86vh;
     width: 39vw;
     margin-right: 0.5vw;
     margin-left: 0.5vw;
+    margin-bottom: 4vh;
 }
 
 .pipeline-codec {

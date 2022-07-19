@@ -50,7 +50,6 @@ const FactoryHandler: React.FC<IfactoryId> = (props) => {
 		props.socketClient.emit(IO.UPDATE_FACTORY, factories.length, state.ffmpeg[0].factory[factories.length])
 	}
 
-	const factoryList = () => {
 		return (
 			<div className="factory-selector">
 				<span className="header">TRANSCODERS :</span>
@@ -96,13 +95,7 @@ const FactoryHandler: React.FC<IfactoryId> = (props) => {
 				</button>
 			</div>
 		)
-	}
-
-	return (
-		<div className="factory-handler">
-			{factoryList()}
-		</div>
-	)
+	
 }
 
 export default FactoryHandler
