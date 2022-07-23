@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetFilterParamString,
@@ -15,6 +15,7 @@ interface IOutProps {
 const ScreenOutputOptions: React.FC<IOutProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
+	const [collapse, setCollapse] = useState(false)
 
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
 
@@ -25,16 +26,19 @@ const ScreenOutputOptions: React.FC<IOutProps> = (props) => {
 	}, [])
 
 	return (
-		<div className="options">
-			<label className="pipeline-label">
-				ToDo: Latency + FullScreen options
-				<input
-					className="input-text"
-					type="text"
-					value={outputName ?? 'none'}
-					onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
-				/>
-			</label>
+		<div>
+			<div className={collapse ? 'options-collapse' : 'options'}>
+				<label className="pipeline-label">
+					<button onClick={() => setCollapse(!collapse)}>{collapse ? `-` : `+`}</button>
+					ToDo: Latency + FullScreen options
+					<input
+						className="input-text"
+						type="text"
+						value={outputName ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
+					/>
+				</label>
+			</div>
 		</div>
 	)
 }

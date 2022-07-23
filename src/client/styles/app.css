@@ -81,8 +81,14 @@ body {
     flex-direction: column;
     background-color: rgb(34, 34, 34);
     width: 39vw;
-    margin-right: 0.5vw;
-    margin-left: 0.5vw;
+}
+
+.pipeline-codec-collapse {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(34, 34, 34);
+    width: 39vw;
+    max-height: 10vh;
 }
 
 .pipeline-label {
@@ -101,6 +107,13 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+.options-collapse {
+    display: flex;
+    flex-direction: column;
+    max-height: 5vh;
+}
+
 
 .horizontal {
     margin-top: 2vh;

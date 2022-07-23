@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetFilterParamString,
@@ -15,6 +15,7 @@ interface INdiProps {
 const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
+	const [collapse, setCollapse] = useState(false)
 
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
 
@@ -28,16 +29,19 @@ const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 	}, [])
 
 	return (
-		<div className="options">
-			<label className="pipeline-label">
-				NDI output name :
-				<input
-					className="input-text"
-					type="text"
-					value={outputName ?? 'none'}
-					onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
-				/>
-			</label>
+		<div>
+			<div className={collapse ? 'options-collapse' : 'options'}>
+				<label className="pipeline-label">
+					<button onClick={() => setCollapse(!collapse)}>{collapse ? `-` : `+`}</button>
+					NDI output name :
+					<input
+						className="input-text"
+						type="text"
+						value={outputName ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
+					/>
+				</label>
+			</div>
 		</div>
 	)
 }

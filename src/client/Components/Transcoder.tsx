@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { INPUT_TYPES, IFactory, OUTPUT_TYPES, DEVICE_TYPES } from '../../interface/GenericInterfaces'
 import '../styles/app.css'
@@ -43,9 +43,7 @@ import RtpOutputOptions from './OutputTypes/RtpOutput'
 import RtpInputOptions from './InputTypes/RtpInput'
 import ScreenOutputOptions from './OutputTypes/ScreenOutput'
 import LogOutput from './LogOutput'
-import { findGpuSettings } from './InputTypes/DecoderSettings/findGpu'
 import insertArgs from '../utils/insertArgs'
-import { IFFmpegReducer } from '../../interface/redux/containersReducer'
 
 export interface IfactoryId {
 	factoryId: number
