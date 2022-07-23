@@ -91,6 +91,13 @@ body {
     max-height: 10vh;
 }
 
+.collapse-button {
+    margin-left: -25px;
+    width: 25px;
+    background-color: rgb(55, 55, 55);
+    color: white;
+}
+
 .pipeline-label {
     margin-left: 5vw;
     margin-top: 1.5vh;

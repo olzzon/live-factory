@@ -29,7 +29,7 @@ const ScreenOutputOptions: React.FC<IOutProps> = (props) => {
 		<div>
 			<div className={collapse ? 'options-collapse' : 'options'}>
 				<label className="pipeline-label">
-					<button onClick={() => setCollapse(!collapse)}>{collapse ? `-` : `+`}</button>
+					<button className='collapse-button' onClick={() => setCollapse(!collapse)}>{collapse ? `-` : `+`}</button>
 					ToDo: Latency + FullScreen options
 					<input
 						className="input-text"

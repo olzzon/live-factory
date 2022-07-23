@@ -47,7 +47,7 @@ const CodecTypes: React.FC<IfactoryId> = (props) => {
 			<div className={collapseVideo ? 'pipeline-codec-collapse' : 'pipeline-codec'}>
 				<hr className="horizontal" />
 				<label className="pipeline-label">
-					<button onClick={() => setCollapseVideo(!collapseVideo)}>{collapseVideo ? `-` : `+`}</button>
+					<button className='collapse-button' onClick={() => setCollapseVideo(!collapseVideo)}>{collapseVideo ? `-` : `+`}</button>
 					Video Codec :
 					<select
 						value={outputType}
@@ -78,7 +78,7 @@ const CodecTypes: React.FC<IfactoryId> = (props) => {
 			<div className={collapseAudio ? 'pipeline-codec-collapse' : 'pipeline-codec'}>
 				<hr className="horizontal" />
 				<label className="pipeline-label">
-					<button onClick={() => setCollapseAudio(!collapseAudio)}>{collapseAudio ? `-` : `+`}</button>
+					<button className='collapse-button' onClick={() => setCollapseAudio(!collapseAudio)}>{collapseAudio ? `-` : `+`}</button>
 					Audio Codec :
 					<select
 						value={audioOutputType}

@@ -55,7 +55,7 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 		<div>
 			<div className={collapse ? 'options-collapse' : 'options'}>
 				<label className="pipeline-label">
-					<button onClick={() => setCollapse(!collapse)}>{collapse ? `-` : `+`}</button>
+					<button className='collapse-button' onClick={() => setCollapse(!collapse)}>{collapse ? `-` : `+`}</button>
 					GLOBAL OUT :
 					<input
 						className="input-text"
