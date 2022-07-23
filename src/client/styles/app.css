@@ -86,6 +86,7 @@ body {
 .pipeline-codec-collapse {
     display: flex;
     flex-direction: column;
+    overflow-y: hidden;
     background-color: rgb(34, 34, 34);
     width: 39vw;
     max-height: 10vh;
@@ -118,6 +119,7 @@ body {
 .options-collapse {
     display: flex;
     flex-direction: column;
+    overflow-y: hidden;
     max-height: 5vh;
 }
 

@@ -101,7 +101,7 @@ const CodecTypes: React.FC<IfactoryId> = (props) => {
 	}
 
 	return (
-		<div className="pipeline-codec">
+		<div>
 			<VideoCodec />
 			<AudioCodec />
 		</div>
