@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
@@ -16,12 +16,14 @@ interface IMpegtsProps {
 const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
+	const [collapse, setCollapse] = useState(false)
 
 	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
 	const fifoSize = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[2])
-	const osType = useSelector<RootState, string>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0])    
-
+	const osType = useSelector<RootState, string>(
+		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
+	)
 
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamString(id, ' -re -vsync 0 ' + findGpuSettings(osType)))
@@ -38,8 +40,11 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 	}, [])
 
 	return (
-		<div className="options">
+		<div className={collapse ? 'options-collapse' : 'options'}>
 			<label className="pipeline-label">
+				<button className="collapse-button" onClick={() => setCollapse(!collapse)}>
+					{collapse ? `-` : `+`}
+				</button>
 				IP :
 				<input
 					className="input-text"

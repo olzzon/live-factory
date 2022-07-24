@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
@@ -15,11 +15,14 @@ interface IDecklinkProps {
 const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
+	const [collapse, setCollapse] = useState(false)
 
 	const decklinkInput = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
 	const queue_size = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[2])
-	const devices = useSelector<RootState, string[]>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.DECKLINK_INPUT]?.devices || [])
+	const devices = useSelector<RootState, string[]>(
+		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.DECKLINK_INPUT]?.devices || []
+	)
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
@@ -34,7 +37,6 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 		if (!queue_size) {
 			dispatch(storeSetInputParams(id, 2, '1073741824'))
 		}
-
 	}, [])
 
 	const handleSetDecklinkInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -42,8 +44,11 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 	}
 
 	return (
-		<div className="options">
+		<div className={collapse ? 'options-collapse' : 'options'}>
 			<label className="pipeline-label">
+				<button className="collapse-button" onClick={() => setCollapse(!collapse)}>
+					{collapse ? `-` : `+`}
+				</button>
 				Decklink input :
 				<input
 					className="input-text"
@@ -53,20 +58,20 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 				/>
 			</label>
 			<label className="pipeline-label">
-					<select
-						onChange={(event) => {
-							handleSetDecklinkInput(event)
-						}}
-					>
-						{devices.map((source, index) => {
-							return (
-								<option key={index} value={source}>
-									{source}
-								</option>
-							)
-						})}
-					</select>
-				</label>
+				<select
+					onChange={(event) => {
+						handleSetDecklinkInput(event)
+					}}
+				>
+					{devices.map((source, index) => {
+						return (
+							<option key={index} value={source}>
+								{source}
+							</option>
+						)
+					})}
+				</select>
+			</label>
 			<label className="pipeline-label">
 				Auduiochannels (2-16) :
 				<input
@@ -81,7 +86,7 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 				<input
 					className="input-number"
 					type="number"
-					value={queue_size ?? '1073741824' }
+					value={queue_size ?? '1073741824'}
 					onChange={(event) => dispatch(storeSetInputParams(id, 2, event.target.value))}
 				/>
 			</label>
@@ -90,7 +95,6 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 }
 
 export default DecklinkInputOptions
-
 
 /*
 list_formats

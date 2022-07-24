@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetGlobalInParamString,
@@ -14,8 +14,10 @@ interface IColorBarProps {
 const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
+	const [collapse, setCollapse] = useState(false)
+
 	const resolution = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
-	
+
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamString(id, '-f lavfi '))
 		dispatch(storeSetInputParamString(id, '-i smptehdbars={arg0} '))
@@ -24,10 +26,12 @@ const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 		}
 	}, [])
 
-
 	return (
-		<div className="options">
+		<div className={collapse ? 'options-collapse' : 'options'}>
 			<label className="pipeline-label">
+				<button className="collapse-button" onClick={() => setCollapse(!collapse)}>
+					{collapse ? `-` : `+`}
+				</button>
 				Color bar Size :
 				<input
 					className="input-text"

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
@@ -16,15 +16,18 @@ interface IRistProps {
 const RistInputOptions: React.FC<IRistProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
+	const [collapse, setCollapse] = useState(false)
+
 
 	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
 	const cname = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[2])
-	const osType = useSelector<RootState, string>((state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0])    
-
+	const osType = useSelector<RootState, string>(
+		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
+	)
 
 	useEffect(() => {
-		// 'rist://@123.123.123.123:8200?cname=RECEIVER01&bandwidth=2560000' 
+		// 'rist://@123.123.123.123:8200?cname=RECEIVER01&bandwidth=2560000'
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(storeSetGlobalInParamString(id, ` -re ` + findGpuSettings(osType)))
 		dispatch(storeSetInputParamString(id, `  -i "rist://{arg0}:{arg1}?cname={arg2}"`))
@@ -40,8 +43,11 @@ const RistInputOptions: React.FC<IRistProps> = (props) => {
 	}, [])
 
 	return (
-		<div className="options">
+		<div className={collapse ? 'options-collapse' : 'options'}>
 			<label className="pipeline-label">
+				<button className="collapse-button" onClick={() => setCollapse(!collapse)}>
+					{collapse ? `-` : `+`}
+				</button>
 				IP :
 				<input
 					className="input-text"

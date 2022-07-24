@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
@@ -15,6 +15,8 @@ interface IFileProps {
 const NdiInputOptions: React.FC<IFileProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.factoryId
+	const [collapse, setCollapse] = useState(false)
+
 
 	const ndiName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
 	const devices = useSelector<RootState, string[]>(
@@ -34,8 +36,11 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 	}
 
 	return (
-		<div className="options">
+		<div className={collapse ? 'options-collapse' : 'options'}>
 			<label className="pipeline-label">
+				<button className="collapse-button" onClick={() => setCollapse(!collapse)}>
+					{collapse ? `-` : `+`}
+				</button>
 				NDI Source name :
 				<input
 					className="input-text"
