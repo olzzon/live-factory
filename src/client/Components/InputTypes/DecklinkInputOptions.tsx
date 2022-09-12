@@ -79,9 +79,9 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
 				>
 					<option key={2} value={2}>2</option>
-					<option key={4} value={2}>4</option>
-					<option key={8} value={2}>8</option>
-					<option key={16} value={2}>16</option>
+					<option key={4} value={4}>4</option>
+					<option key={8} value={8}>8</option>
+					<option key={16} value={16}>16</option>
 				</select>
 			</label>
 		</div>
