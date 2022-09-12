@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+	storeSetFilterAudioParamString,
 	storeSetFilterParamString,
 	storeSetGlobalOutParamString,
 	storeSetOutputParams,
@@ -24,6 +25,7 @@ const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamString(id, ` -probesize 32 `))
 		dispatch(storeSetFilterParamString(id, ` `))
+		dispatch(storeSetFilterAudioParamString(id, ` `))
 		dispatch(storeSetOutputParamString(id, ` -f libndi_newtek -pix_fmt uyvy422 {arg0}`))
 		if (!outputName) {
 			dispatch(storeSetOutputParams(id, 0, `NDI_PIPE${id + 1}`))
