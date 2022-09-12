@@ -16,3 +16,4 @@ export const START_NODE_ENCODER = 'start_encoder'
 
 // Node to Server
 export const UPDATE_NODE_ACTIVE = 'update_node_active'
+export const SETTINGS = 'settings'

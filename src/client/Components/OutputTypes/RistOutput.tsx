@@ -7,11 +7,13 @@ import {
 	storeSetOutputParams,
 	storeSetOutputParamString,
 } from '../../../interface/redux/containerActions'
+import { ISettings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
 
 interface IRistProps {
 	factoryId: number
+	settings: ISettings
 }
 
 const RistOutputOptions: React.FC<IRistProps> = (props) => {
@@ -77,7 +79,7 @@ const RistOutputOptions: React.FC<IRistProps> = (props) => {
 					/>
 				</label>
 			</div>
-			<CodecTypes factoryId={id} />
+			<CodecTypes factoryId={id} settings={props.settings} />
 		</div>
 	)
 }

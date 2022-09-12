@@ -8,17 +8,20 @@ const httpServer = http.createServer(expressApp)
 import { Server } from 'socket.io'
 import { FFmepgInstance } from '../ffmpeg/FFmpegInstance'
 import { DEVICE_TYPES, IDeviceList, IFactory } from '../../interface/GenericInterfaces'
-import { loadFactories, saveFactoriesList } from '../utils/storage'
+import { loadFactories, loadSettings, saveFactoriesList } from '../utils/storage'
 import { discoverNdiSources } from '../utils/discoverNdiSources'
 import { discoverDecklinkSources } from '../utils/discoverDecklinkSources'
 import { discoverDecklinkOutputs } from '../utils/discoverDecklinkOutputs'
 import { findGpu } from '../utils/findGpu'
+import { ISettings } from '../../interface/SettingsInterface'
 const socketIO = new Server(httpServer)
 
 const PORT = 1406
 let ffmpegFactories: IFactory[] = []
 let factoryInstances: FFmepgInstance[] = []
 let devices: IDeviceList[] = []
+let settings: ISettings = loadSettings()
+
 devices[DEVICE_TYPES.NDI] = { type: DEVICE_TYPES.NDI, devices: ['Finding Sources...'] }
 devices[DEVICE_TYPES.DECKLINK_INPUT] = { type: DEVICE_TYPES.DECKLINK_INPUT, devices: ['Finding Inputs...'] }
 devices[DEVICE_TYPES.DECKLINK_OUTPUT] = { type: DEVICE_TYPES.DECKLINK_OUTPUT, devices: ['Finding Outputs...'] }
@@ -39,6 +42,7 @@ const deleteFactory = (index: number) => {
 const updateClients = () => {
 	socketIO.emit(IO.FULL_STORE, ffmpegFactories)
 	socketIO.emit(IO.DEVICES_LIST, devices)
+	socketIO.emit(IO.SETTINGS, settings)
 }
 
 const subscribeDevicesList = () => {

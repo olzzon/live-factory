@@ -5,11 +5,13 @@ import {
 	storeSetOutputParams,
 	storeSetOutputParamString,
 } from '../../../interface/redux/containerActions'
+import { ISettings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
 
 interface ITcpProps {
 	factoryId: number
+	settings: ISettings
 }
 
 const TcpOutputOptions: React.FC<ITcpProps> = (props) => {
@@ -74,7 +76,7 @@ const TcpOutputOptions: React.FC<ITcpProps> = (props) => {
 					/>
 				</label>
 			</div>
-			<CodecTypes factoryId={id} />
+			<CodecTypes factoryId={id} settings={props.settings} />
 		</div>
 	)
 }

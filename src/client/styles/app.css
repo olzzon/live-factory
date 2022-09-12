@@ -29,6 +29,11 @@ body {
     height: 90vh;
 }
 
+.factory-horizontal {
+    margin-top: 2vh;
+    width: 17vw
+}
+
 .selector-button {
     color: rgb(149, 149, 149);
     background-color: rgb(65, 65, 65);

@@ -15,14 +15,20 @@ const OpusCodecOptions: React.FC<ICodecProps> = (props) => {
 	const id = props.factoryId
 
 	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].audioFilter.paramArgs[0])
+	const aAudioTracks = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].audioFilter.paramArgs[1])
 
 	useEffect(() => {
-		dispatch(storeSetFilterAudioParamString(id, ` -acodec libopus -b:a {arg0}k `))
+		dispatch(storeSetFilterAudioParamString(id, ` -acodec libopus -b:a {arg0}k  `))
 
 		if (!aBandwidth) {
-			dispatch(storeSetFilterAudioParams(id, 0, `256`))	
+			dispatch(storeSetFilterAudioParams(id, 0, `256`))
+		}
+		if (!aAudioTracks) {
+			dispatch(storeSetFilterAudioParams(id, 1, `2`))
 		}
 	}, [])
+
+	// add handler for handling 8 audiotracks with OPUS codec
 
 	return (
 		<div className="options">
@@ -34,6 +40,17 @@ const OpusCodecOptions: React.FC<ICodecProps> = (props) => {
 					value={aBandwidth ?? '256'}
 					onChange={(event) => dispatch(storeSetFilterAudioParams(id, 0, event.target.value))}
 				/>
+			</label>
+			<label className="pipeline-label">
+				Audio Tracks
+				<select
+					value={aAudioTracks || '2'}
+					onChange={(e) => dispatch(storeSetFilterAudioParams(id, 1, e.target.value))}
+				>
+					<option value="2">Stereo</option>
+					<option value="4">4-tracks</option>
+					<option value="8">8-tracks</option>
+				</select>
 			</label>
 		</div>
 	)

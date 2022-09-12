@@ -8,9 +8,11 @@ import {
 } from '../../../interface/redux/containerActions'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import { RootState } from '../../main'
+import { ISettings } from '../../../interface/SettingsInterface'
 
 interface IDecklinkProps {
 	factoryId: number
+	settings: ISettings
 }
 
 const DecklinkOutputOptions: React.FC<IDecklinkProps> = (props) => {

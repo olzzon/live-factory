@@ -7,12 +7,14 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
+import { ISettings } from '../../../interface/SettingsInterface'
 
 const LOW_LATENCY = '800'
 const ULTRA_LOW_LATENCY = '120'
 
 interface ISrtProps {
 	factoryId: number
+	settings: ISettings
 }
 
 const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
@@ -25,9 +27,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[2])
 	const passphrase = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[3])
 	const latency = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[4])
-	const [ultraLowLatencyState, setUltraLowLatencyState] = useState<boolean>(
-		latency?.includes(`&latency=${ULTRA_LOW_LATENCY}`) ? true : false
-	)
+	const protocol = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[5])
 	const [lowLatencyState, setLowLatencyState] = useState<boolean>(
 		latency?.includes(`&latency=${LOW_LATENCY}`) ? true : false
 	)
@@ -43,7 +43,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		dispatch(
 			storeSetOutputParamString(
 				id,
-				` -adrift_threshold 0.06 -async 8000 -f matroska "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}{arg4}" `
+				` -adrift_threshold 0.06 -async 8000 -f {arg5} "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}{arg4}" `
 			)
 		)
 
@@ -59,37 +59,24 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		if (!passphrase) {
 			dispatch(storeSetOutputParams(id, 3, ''))
 		}
-		if (ultraLowLatencyState) {
-			dispatch(storeSetOutputParams(id, 4, '&latency=' + ULTRA_LOW_LATENCY))
-			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay -probesize 32 `))
-		} else if (lowLatencyState) {
+		if (lowLatencyState) {
 			dispatch(storeSetOutputParams(id, 4, '&latency=' + LOW_LATENCY))
 			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay -probesize 32 `))
 		} else {
 			dispatch(storeSetOutputParams(id, 4, ''))
 			dispatch(storeSetGlobalOutParamString(id, `  `))
 		}
-	}, [])
-
-	const handleSetUltraLowLatency = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (event.target.checked) {
-			dispatch(storeSetOutputParams(id, 4, '&latency=' + ULTRA_LOW_LATENCY))
-			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay -probesize 32 `))
-			setUltraLowLatencyState(true)
-			setLowLatencyState(false)
-		} else {
-			dispatch(storeSetOutputParams(id, 4, ''))
-			dispatch(storeSetGlobalOutParamString(id, `  `))
-			setUltraLowLatencyState(false)
+		if (!protocol) {
+			dispatch(storeSetOutputParams(id, 5, 'mpegts'))
 		}
-	}
+
+	}, [])
 
 	const handleSetLowLatency = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
 			dispatch(storeSetOutputParams(id, 4, '&latency=' + LOW_LATENCY))
 			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay -probesize 32 `))
 			setLowLatencyState(true)
-			setUltraLowLatencyState(false)
 		} else {
 			dispatch(storeSetOutputParams(id, 4, ''))
 			dispatch(storeSetGlobalOutParamString(id, `  `))
@@ -129,16 +116,17 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					/>
 				</label>
 				<label className="pipeline-label">
-					Mode (listener or caller) :
-					<input
-						className="input-text"
-						type="text"
-						value={mode ?? 0}
+					Mode :
+					<select
+						value={mode ?? 'none'}
 						onChange={(event) => dispatch(storeSetOutputParams(id, 2, event.target.value))}
-					/>
+					>
+						<option value="listener">Listener</option>
+						<option value="caller">Caller</option>
+					</select>
 				</label>
 				<label className="pipeline-label">
-					Low Latency :
+					Force Low Latency :
 					<input
 						className="input-checkbox"
 						type="checkbox"
@@ -147,16 +135,17 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					/>
 				</label>
 				<label className="pipeline-label">
-					Ultralow Latency :
-					<input
-						className="input-checkbox"
-						type="checkbox"
-						checked={ultraLowLatencyState}
-						onChange={(event) => handleSetUltraLowLatency(event)}
-					/>
+					Protocol :
+					<select
+						value={protocol ?? 'mpegts'}
+						onChange={(event) => dispatch(storeSetOutputParams(id, 5, event.target.value))}
+					>
+						<option value="mpegts">Mpeg-Ts</option>
+						<option value="matroska">Matroska</option>
+					</select>
 				</label>
 			</div>
-			<CodecTypes factoryId={id} />
+			<CodecTypes factoryId={id} settings={props.settings} />
 		</div>
 	)
 }

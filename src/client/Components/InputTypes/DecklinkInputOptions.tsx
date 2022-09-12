@@ -32,7 +32,7 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 			dispatch(storeSetInputParams(id, 0, 'DeckLink Quad (1)'))
 		}
 		if (!channels) {
-			dispatch(storeSetInputParams(id, 1, '2'))
+			dispatch(storeSetInputParams(id, 1, '16'))
 		}
 		if (!queue_size) {
 			dispatch(storeSetInputParams(id, 2, '1073741824'))
@@ -73,22 +73,16 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 				</select>
 			</label>
 			<label className="pipeline-label">
-				Auduiochannels (2-16) :
-				<input
-					className="input-number"
-					type="number"
-					value={channels ?? 2}
+				Audio channels :
+				<select
+					value={channels ?? 16}
 					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
-				/>
-			</label>
-			<label className="pipeline-label">
-				Decklink buffer (default: 1073741824) :
-				<input
-					className="input-number"
-					type="number"
-					value={queue_size ?? '1073741824'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 2, event.target.value))}
-				/>
+				>
+					<option key={2} value={2}>2</option>
+					<option key={4} value={2}>4</option>
+					<option key={8} value={2}>8</option>
+					<option key={16} value={2}>16</option>
+				</select>
 			</label>
 		</div>
 	)

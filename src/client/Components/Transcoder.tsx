@@ -44,10 +44,12 @@ import RtpInputOptions from './InputTypes/RtpInput'
 import ScreenOutputOptions from './OutputTypes/ScreenOutput'
 import LogOutput from './LogOutput'
 import insertArgs from '../utils/insertArgs'
+import { ISettings } from '../../interface/SettingsInterface'
 
 export interface IfactoryId {
 	factoryId: number
 	socketClient: any
+	settings: ISettings
 }
 
 const Transcoder: React.FC<IfactoryId> = (props) => {
@@ -88,21 +90,6 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 		dispatch(storeSetOutputType(id, event.target.value as OUTPUT_TYPES))
 	}
 
-	const handleDeleteEncoder = () => {
-		console.log('Delete encoder index :', id)
-		props.socketClient.emit(IO.DELETE_FACTORY, id)
-	}
-
-	const handleStartEncoder = () => {
-		console.log('starting encoder index :', id)
-		props.socketClient.emit(IO.START_ENCODER, id, factory)
-	}
-
-	const handleStopEncoder = () => {
-		props.socketClient.emit(IO.UPDATE_FACTORY, id, factory)
-		props.socketClient.emit(IO.STOP_ENCODER, id)
-	}
-
 	const DecoderSide = () => {
 		return (
 			<div className="pipeline">
@@ -114,10 +101,10 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 							handleSetInputType(event)
 						}}
 					>
-						{Object.keys(INPUT_TYPES).map((key, index) => {
+						{props.settings.allowedInputTypes.map((type, index) => {
 							return (
-								<option key={index} value={key}>
-									{key}
+								<option key={index} value={type.value}>
+									{type.label}
 								</option>
 							)
 						})}
@@ -150,23 +137,23 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 							handleSetOutputType(event)
 						}}
 					>
-						{Object.keys(OUTPUT_TYPES).map((key, index) => {
+						{props.settings.allowedOutputTypes.map((type, index) => {
 							return (
-								<option key={index} value={key}>
-									{key}
+								<option key={index} value={type.value}>
+									{type.label}
 								</option>
 							)
 						})}
 					</select>
 				</label>
 				<hr className="horizontal" />
-				{outputType === OUTPUT_TYPES.DECKLINK ? <DecklinkOutputOptions factoryId={id} /> : null}
-				{outputType === OUTPUT_TYPES.SRT ? <SrtOutputOptions factoryId={id} /> : null}
-				{outputType === OUTPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions factoryId={id} /> : null}
-				{outputType === OUTPUT_TYPES.TCP ? <TcpOutputOptions factoryId={id} /> : null}
-				{outputType === OUTPUT_TYPES.RTP ? <RtpOutputOptions factoryId={id} /> : null}
-				{outputType === OUTPUT_TYPES.NDI ? <NdiOutputOptions factoryId={id} /> : null}
-				{outputType === OUTPUT_TYPES.SCREEN ? <ScreenOutputOptions factoryId={id} /> : null}
+				{outputType === OUTPUT_TYPES.DECKLINK ? <DecklinkOutputOptions factoryId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_TYPES.SRT ? <SrtOutputOptions factoryId={id} settings={props.settings}/> : null}
+				{outputType === OUTPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions factoryId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_TYPES.TCP ? <TcpOutputOptions factoryId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_TYPES.RTP ? <RtpOutputOptions factoryId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_TYPES.NDI ? <NdiOutputOptions factoryId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_TYPES.SCREEN ? <ScreenOutputOptions factoryId={id} settings={props.settings} /> : null}
 				{outputType === OUTPUT_TYPES.CUSTOM ? <CustomOutputOptions factoryId={id} /> : null}
 			</div>
 		)
@@ -190,18 +177,6 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				<EncoderSide />
 			</div>
 			<LogOutput factoryId={props.factoryId} />
-			<div className="pipeline-footer">
-				<button className="button" onClick={() => handleDeleteEncoder()}>
-					DELETE
-				</button>
-
-				<button className="button" onClick={() => handleStopEncoder()}>
-					STOP
-				</button>
-				<button className="button" onClick={() => handleStartEncoder()}>
-					START
-				</button>
-			</div>
 		</div>
 	)
 }

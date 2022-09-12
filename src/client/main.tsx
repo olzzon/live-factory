@@ -5,7 +5,7 @@ import { store } from '../interface/redux/store'
 import { Provider } from 'react-redux'
 //@ts-ignore
 import logo from './assets/logo_black.png'
-import FactorySelector from './Components/FactorySelector'
+import FactoryMain from './Components/FactoryMain'
 
 export type RootState = ReturnType<typeof store.getState>
 
@@ -17,7 +17,7 @@ ReactDOM.render(
 			LIVE FACTORY
 			<hr />
 		</div>
-		<FactorySelector />
+		<FactoryMain />
 	</Provider>,
 	document.getElementById('app-root')
 )

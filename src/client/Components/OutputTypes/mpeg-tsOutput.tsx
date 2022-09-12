@@ -5,11 +5,13 @@ import {
 	storeSetOutputParams,
 	storeSetOutputParamString,
 } from '../../../interface/redux/containerActions'
+import { ISettings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
 
 interface ISrtProps {
 	factoryId: number
+	settings: ISettings
 }
 
 const MpegTsOutputOptions: React.FC<ISrtProps> = (props) => {
@@ -55,7 +57,7 @@ const MpegTsOutputOptions: React.FC<ISrtProps> = (props) => {
 					/>
 				</label>
 			</div>
-			<CodecTypes factoryId={id} />
+			<CodecTypes factoryId={id} settings={props.settings} />
 		</div>
 	)
 }
