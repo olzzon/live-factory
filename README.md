@@ -1,11 +1,144 @@
-# live-factory
-Reciever - transmitter - transcoder for video and audio 
+# Live-factory
+GUI based Reciever - transmitter - transcoder for video and audio 
+
+Livefactory is build with future containerbased production in mind.
+So instead of including ffmpeg inside the code, ffmeg runs a local instance pr. Transcoder.
+Next step will be a dockerbased ffmpeg solution like a bit like : https://github.com/olzzon/docker-obs-ndi-novnc
 
 
--f lavfi -i smptehdbars=1920x1080
+<img src="Doc/pix/live-factory-ndi-srt.png">
 
 
-# FFMPEG merging from master:
+
+## Running live-factory:
+Install git, node and yarn on your machine.
+```
+git clone 
+``` 
+
+
+### Settings:
+When running Live-factory for the first time, a settings.json file will be created, with all the available options.
+Depening on the setup, it's possible to remove certain types from the allowed lists.
+An example of the generated file is localed in the Doc folder.  (Doc/settings.json)
+
+Here's an example of what the settings.json file looks like:
+```
+{
+    "maxActiveEncoders": 1,
+    "allowedInputTypes": [
+        {
+            "value": "COLORBAR",
+            "label": "COLORBAR"
+        },
+        {
+            "value": "SRT",
+            "label": "SRT"
+        },
+        {
+            "value": "UDP",
+            "label": "UDP"
+        },
+        {
+            "value": "TCP",
+            "label": "TCP"
+        },
+        {
+            "value": "RTP",
+            "label": "RTP"
+        },
+        {
+            "value": "FILE",
+            "label": "FILE"
+        },
+        {
+            "value": "NDI",
+            "label": "NDI"
+        },
+        {
+            "value": "DECKLINK",
+            "label": "DECKLINK"
+        },
+        {
+            "value": "MPEG_TS",
+            "label": "MPEG_TS"
+        },
+        {
+            "value": "CUSTOM",
+            "label": "CUSTOM"
+        }
+    ],
+    "allowedOutputTypes": [
+        {
+            "value": "NDI",
+            "label": "NDI"
+        },
+        {
+            "value": "SRT",
+            "label": "SRT"
+        },
+        {
+            "value": "DECKLINK",
+            "label": "DECKLINK"
+        },
+        {
+            "value": "MPEG_TS",
+            "label": "MPEG_TS"
+        },
+        {
+            "value": "TCP",
+            "label": "TCP"
+        },
+        {
+            "value": "RTP",
+            "label": "RTP"
+        },
+        {
+            "value": "SCREEN",
+            "label": "SCREEN"
+        },
+        {
+            "value": "CUSTOM",
+            "label": "CUSTOM"
+        }
+    ],
+    "allowedOutputEncoderTypes": [
+        {
+            "value": "COPY",
+            "label": "COPY"
+        },
+        {
+            "value": "H264_NATIVE",
+            "label": "H264_NATIVE"
+        },
+        {
+            "value": "HEVC_NATIVE",
+            "label": "HEVC_NATIVE"
+        },
+        {
+            "value": "H264_MAC",
+            "label": "H264_MAC"
+        },
+        {
+            "value": "HEVC_MAC",
+            "label": "HEVC_MAC"
+        },
+        {
+            "value": "H264_NVIDIA",
+            "label": "H264_NVIDIA"
+        },
+        {
+            "value": "HEVC_NVIDIA",
+            "label": "HEVC_NVIDIA"
+        }
+    ]
+}
+```
+
+
+# Setting up ffmpeg on your machine: 
+
+### FFMPEG merging from master:
 
 ```
 git remote add local /Users/olzzon/coding/ffmpeg_org  
@@ -18,7 +151,7 @@ git commit -a
 
 ```
 
-# MAC M1 Installation:
+### MAC M1 Installation:
 Install BREW:
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -49,7 +182,7 @@ Copy lib files to:
 cp lib* /usr/local/lib 
 ```
 
-# Ubuntu 20.04 installation:
+### Ubuntu 20.04 installation:
 Upload files
 (live-factory and ffmpeg+lib.tar.gz)
 via SSH:
@@ -87,7 +220,7 @@ sudo apt install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
 set the cpu type for the vm to host
 
  
-### Set lib path
+#### Set lib path
 Set default PATH:
 ```
 nano ~/.bashrc
@@ -95,7 +228,7 @@ ADD:
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib/:/usr/lib/"
 ```
 
-# Mac M1 FFmpeg compilation:
+## Mac M1 FFmpeg compilation:
 
 ### NDI Support:
 Install SDK files????
