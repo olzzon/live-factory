@@ -21,6 +21,7 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 		factory: [
 			{
 				containerName: 'NEW PIPE',
+				factoryId: 1,
 				activated: false,
 				running: false,
 				globalInput: { param: '', paramArgs: [] },

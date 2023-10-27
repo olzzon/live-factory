@@ -1,5 +1,7 @@
+
 export interface IFactory {
-	containerName: string
+    factoryId: number,
+    containerName: string
 	activated: boolean
 	running: boolean
 	globalInput: IGlobalParams

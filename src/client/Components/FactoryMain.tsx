@@ -15,6 +15,7 @@ const FactoryMain: React.FC = () => {
 	const [selectedEncoder, setSelectedEncoder] = useState(0)
 	const [settings, setSettings] = useState<ISettings>({
 		maxActiveEncoders: 1,
+		factoryList: [],
 		allowedInputTypes: [],
 		allowedOutputTypes: [],
 		allowedOutputEncoderTypes: [],

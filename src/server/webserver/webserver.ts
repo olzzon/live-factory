@@ -5,6 +5,7 @@ import * as IO from '../../interface/SocketIOContants'
 const expressApp: express.Application = express()
 import http from 'http'
 const httpServer = http.createServer(expressApp)
+
 import { Server } from 'socket.io'
 import { FFmepgInstance } from '../ffmpeg/FFmpegInstance'
 import { DEVICE_TYPES, IDeviceList, IFactory } from '../../interface/GenericInterfaces'
@@ -13,12 +14,13 @@ import { discoverNdiSources } from '../utils/discoverNdiSources'
 import { discoverDecklinkSources } from '../utils/discoverDecklinkSources'
 import { discoverDecklinkOutputs } from '../utils/discoverDecklinkOutputs'
 import { findGpu } from '../utils/findGpu'
-import { ISettings } from '../../interface/SettingsInterface'
+import { FACTORY_TYPES, ISettings } from '../../interface/SettingsInterface'
+import { DockerInstance } from '../ffmpeg/DockerInstance'
 const socketIO = new Server(httpServer)
 
 const PORT = 1406
 let ffmpegFactories: IFactory[] = []
-let factoryInstances: FFmepgInstance[] = []
+let factoryInstances: Array<FFmepgInstance | DockerInstance> = []
 let devices: IDeviceList[] = []
 let settings: ISettings = loadSettings()
 
@@ -47,7 +49,7 @@ const updateClients = () => {
 
 const subscribeDevicesList = () => {
 	//Only once:
-	devices[DEVICE_TYPES.GPU_TYPE] = {type: DEVICE_TYPES.GPU_TYPE, devices: [findGpu()] }
+	devices[DEVICE_TYPES.GPU_TYPE] = { type: DEVICE_TYPES.GPU_TYPE, devices: [findGpu()] }
 
 	//Dynamically updated:
 	setInterval(() => {
@@ -99,7 +101,11 @@ export const initializeWebServer = () => {
 			.on(IO.START_ENCODER, (id: number, cmd: IFactory) => {
 				updateFactory(id, cmd)
 				if (!factoryInstances[id]) {
-					factoryInstances[id] = new FFmepgInstance({ containerIndex: id })
+					if (settings.factoryList[cmd.factoryId].type === FACTORY_TYPES.FFMPEG) {
+						factoryInstances[id] = new FFmepgInstance({ containerIndex: id })
+					} else {
+						factoryInstances[id] = new DockerInstance({ containerIndex: id })
+					}
 				}
 				factoryInstances[id].initFFmpeg(cmd)
 			})

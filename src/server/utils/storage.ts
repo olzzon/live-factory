@@ -6,9 +6,9 @@ const homeDir = require('os').homedir()
 const STORAGE_NAME = 'stored-setup'
 const SETTINGS_NAME = 'settings.json'
 
-import { IFactory } from  '../../interface/GenericInterfaces'
-import { ISettings } from '../../interface/SettingsInterface'
-import { extractListOfInputTypes, extractListOfOutputEncoderTypes, extractListOfOutputTypes} from './createListFromTypes'
+import { IFactory } from '../../interface/GenericInterfaces'
+import { ISettings, FACTORY_TYPES } from '../../interface/SettingsInterface'
+import { extractListOfInputTypes, extractListOfOutputEncoderTypes, extractListOfOutputTypes } from './createListFromTypes'
 
 export const loadFactories = (): IFactory[] => {
     let factories: IFactory[] = []
@@ -57,8 +57,10 @@ export const loadSettings = () => {
         )
     } catch (error) {
         console.error('Error loading settings. Setting up default settings')
-        settings =  {
+        settings = {
             maxActiveEncoders: 1,
+            factoryList: [{ id: 1, name: 'FFmpeg', type: FACTORY_TYPES.FFMPEG, url: '/usr/bin/ffmpeg' },
+             { id: 2, name: 'Docker FFmpeg', type: FACTORY_TYPES.DOCKER, url: '/var/run/docker.sock'}],
             allowedInputTypes: extractListOfInputTypes(),
             allowedOutputTypes: extractListOfOutputTypes(),
             allowedOutputEncoderTypes: extractListOfOutputEncoderTypes(),
