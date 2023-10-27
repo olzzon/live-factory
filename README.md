@@ -9,6 +9,23 @@ Next step will be a dockerbased ffmpeg solution like a bit like : https://github
 <img src="Doc/pix/live-factory-ndi-srt.png">
 
 
+## Status of protocol support:
+Following input/output is supported
+
+### Input:
+SRT, File, NDI, Decklink, Mpeg-ts, Colorbar, UDP, TCP, RTP
+
+### Output:
+SRT, NDI, Decklink, Mpeg-ts, Screen, TCP, RTP
+
+### Codecs:
+COPY is the settings when output to NDI, Decklink, Screen etc.
+
+For transport of h264/265 following options is available:
+H264_NATIVE , HEVC_NATIVE, H264_MAC, HEVC_MAC, H264_NVIDIA, HEVC_NVIDIA
+
+### Custom:
+In input and/or output a custom option is available, this is for adding custom ffmpeg commands.
 
 ## Running live-factory:
 Install git, node and yarn on your machine.
