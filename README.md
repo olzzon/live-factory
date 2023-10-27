@@ -13,9 +13,17 @@ Next step will be a dockerbased ffmpeg solution like a bit like : https://github
 ## Running live-factory:
 Install git, node and yarn on your machine.
 ```
-git clone 
+git clone https://github.com/olzzon/live-factory
+cd live-factory
+yarn
+yarn build
+yarn start
 ``` 
 
+Open GUI in browser:
+```
+http://localhost:1406
+```
 
 ### Settings:
 When running Live-factory for the first time, a settings.json file will be created, with all the available options.
