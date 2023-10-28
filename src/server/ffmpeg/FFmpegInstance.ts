@@ -3,6 +3,7 @@ import { ChildProcess, ChildProcessWithoutNullStreams, spawn } from 'child_proce
 import { IFactory } from '../../interface/GenericInterfaces'
 import insertArgs from '../utils/insertArgs'
 import { addToLog, updateEncoderState } from '../webserver/webserver'
+import { ISettings } from '../../interface/SettingsInterface'
 
 // Node Modules:
 const path = require('path')
@@ -10,21 +11,22 @@ const homeDir = require('os').homedir()
 
 interface FFmpegInstanceProps {
 	containerIndex: number
+	settings: ISettings
 }
 
 export class FFmepgInstance {
 	childProcess: ChildProcess | null = null
 	containerIndex = 0
+	settings: ISettings
 	timeOutInstance: NodeJS.Timeout | null = null
 	keepInstanceRunning = true
 	constructor(props: FFmpegInstanceProps) {
 		this.containerIndex = props.containerIndex
+		this.settings = props.settings
 	}
 
 	initFFmpeg = (cmd: IFactory) => {
-		// console.log('Transcoder Child', this.child)
-		const command = path.resolve(homeDir, 'live-factory', 'ffmpegruntime')
-		// const command = `/snapshot/live-factory/dist/server/ffmpeg/../ffmpegruntime`
+		const command = this.settings.nodeList[cmd.nodeIndex].path || path.resolve(homeDir, 'live-factory', 'ffmpegruntime')
 
 		let args =
 			' -hide_banner ' +

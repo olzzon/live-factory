@@ -9,8 +9,10 @@ export interface ISettings {
 export interface NodeList {
     name: string,
     type: NODE_TYPES,
-    url: string,
+    path?: string,
     containerName?: string
+    host?: string
+    port?: number
 }
 
 export enum NODE_TYPES {

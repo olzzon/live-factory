@@ -102,9 +102,9 @@ export const initializeWebServer = () => {
 				updateFactory(id, cmd)
 				if (!factoryInstances[id]) {
 					if (settings.nodeList[cmd.nodeIndex].type === NODE_TYPES.FFMPEG) {
-						factoryInstances[id] = new FFmepgInstance({ containerIndex: id })
+						factoryInstances[id] = new FFmepgInstance({ containerIndex: id, settings: settings })
 					} else {
-						factoryInstances[id] = new DockerInstance({ containerIndex: id })
+						factoryInstances[id] = new DockerInstance({ containerIndex: id, settings: settings })
 					}
 				}
 				factoryInstances[id].initFFmpeg(cmd)
