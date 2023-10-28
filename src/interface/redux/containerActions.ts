@@ -10,6 +10,7 @@ export const LOG_SHIFT = 'log_shift'
 
 export const SET_TRANSCODER_TYPE = 'setTranscoderType'
 export const SET_CONTAINER_NAME = 'setContainerName'
+export const SET_NODE_INDEX = 'setNodeIndex'
 export const SET_CONTAINER_STATE = 'setContainerState'
 export const SET_GLOBAL_IN_PARAMS = 'setGlobalInParams'
 export const SET_GLOBAL_IN_PARAM_STRING = 'setGlobalInParamString'
@@ -82,6 +83,14 @@ export const storeSetContainerName = (factoryId: number, name: string) => {
 		type: SET_CONTAINER_NAME,
 		factoryId: factoryId,
 		containerName: name,
+	}
+}
+
+export const storeSetNodeIndex = (factoryId: number, nodeIndex: number) => {
+	return {
+		type: SET_NODE_INDEX,
+		factoryId: factoryId,
+		nodeIndex: nodeIndex,
 	}
 }
 

@@ -14,7 +14,7 @@ import { discoverNdiSources } from '../utils/discoverNdiSources'
 import { discoverDecklinkSources } from '../utils/discoverDecklinkSources'
 import { discoverDecklinkOutputs } from '../utils/discoverDecklinkOutputs'
 import { findGpu } from '../utils/findGpu'
-import { FACTORY_TYPES, ISettings } from '../../interface/SettingsInterface'
+import { NODE_TYPES, ISettings } from '../../interface/SettingsInterface'
 import { DockerInstance } from '../ffmpeg/DockerInstance'
 const socketIO = new Server(httpServer)
 
@@ -101,7 +101,7 @@ export const initializeWebServer = () => {
 			.on(IO.START_ENCODER, (id: number, cmd: IFactory) => {
 				updateFactory(id, cmd)
 				if (!factoryInstances[id]) {
-					if (settings.factoryList[cmd.factoryId].type === FACTORY_TYPES.FFMPEG) {
+					if (settings.nodeList[cmd.nodeIndex].type === NODE_TYPES.FFMPEG) {
 						factoryInstances[id] = new FFmepgInstance({ containerIndex: id })
 					} else {
 						factoryInstances[id] = new DockerInstance({ containerIndex: id })

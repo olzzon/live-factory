@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 
-import { INPUT_TYPES, IFactory, OUTPUT_TYPES, DEVICE_TYPES } from '../../interface/GenericInterfaces'
+import { INPUT_TYPES, IFactory, OUTPUT_TYPES } from '../../interface/GenericInterfaces'
 import '../styles/app.css'
-import * as IO from '../../interface/SocketIOContants'
 import FileInputOptions from './InputTypes/File'
 import {
 	storeClearFilterAudioParams,
@@ -12,6 +11,7 @@ import {
 	storeClearInputParams,
 	storeClearOutputParams,
 	storeSetContainerName,
+	storeSetNodeIndex,
 	storeSetFilterAudioParams,
 	storeSetFilterParams,
 	storeSetGlobalInParams,
@@ -21,7 +21,7 @@ import {
 	storeSetOutputParams,
 	storeSetOutputType,
 } from '../../interface/redux/containerActions'
-import { useDispatch, useSelector, useStore } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../main'
 import ColorbarInputOptions from './InputTypes/ColorBar'
 import MpegtsInputOptions from './InputTypes/Mpegts'
@@ -31,8 +31,6 @@ import SrtOutputOptions from './OutputTypes/SrtOutput'
 import NdiInputOptions from './InputTypes/NdiInput'
 import NdiOutputOptions from './OutputTypes/NdiOutput'
 import MpegTsOutputOptions from './OutputTypes/mpeg-tsOutput'
-import RistInputOptions from './InputTypes/RistInput'
-import RistOutputOptions from './OutputTypes/RistOutput'
 import UdpInputOptions from './InputTypes/UDPinput'
 import CustomOutputOptions from './OutputTypes/customOutput'
 import TcpInputOptions from './InputTypes/TcpInput'
@@ -44,7 +42,7 @@ import RtpInputOptions from './InputTypes/RtpInput'
 import ScreenOutputOptions from './OutputTypes/ScreenOutput'
 import LogOutput from './LogOutput'
 import insertArgs from '../utils/insertArgs'
-import { ISettings } from '../../interface/SettingsInterface'
+import { NodeList, ISettings } from '../../interface/SettingsInterface'
 
 export interface IfactoryId {
 	factoryId: number
@@ -54,15 +52,19 @@ export interface IfactoryId {
 
 const Transcoder: React.FC<IfactoryId> = (props) => {
 	const id = props.factoryId
+	const factoryList = props.settings.nodeList
+
 	const dispatch = useDispatch()
 
 	const factoryName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].containerName)
 	const inputType = useSelector<RootState, INPUT_TYPES>((state) => state.ffmpeg[0].factory[id].input.type)
 	const factory = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
 	const outputType = useSelector<RootState, OUTPUT_TYPES>((state) => state.ffmpeg[0].factory[id].output.type)
-	const osType = useSelector<RootState, string>(
-		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
-	)
+	const nodeIndex = useSelector<RootState, number>((state) => state.ffmpeg[0].factory[id].nodeIndex)
+
+	const handleSetFactoryType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		dispatch(storeSetNodeIndex(id, parseInt(event.target.value)))
+	}
 
 	const handleSetInputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		if ((event.target.value as INPUT_TYPES) !== INPUT_TYPES.CUSTOM) {
@@ -148,7 +150,7 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				</label>
 				<hr className="horizontal" />
 				{outputType === OUTPUT_TYPES.DECKLINK ? <DecklinkOutputOptions factoryId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.SRT ? <SrtOutputOptions factoryId={id} settings={props.settings}/> : null}
+				{outputType === OUTPUT_TYPES.SRT ? <SrtOutputOptions factoryId={id} settings={props.settings} /> : null}
 				{outputType === OUTPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions factoryId={id} settings={props.settings} /> : null}
 				{outputType === OUTPUT_TYPES.TCP ? <TcpOutputOptions factoryId={id} settings={props.settings} /> : null}
 				{outputType === OUTPUT_TYPES.RTP ? <RtpOutputOptions factoryId={id} settings={props.settings} /> : null}
@@ -171,6 +173,20 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 						onChange={(event) => dispatch(storeSetContainerName(id, event.target.value))}
 					/>
 				</label>
+				<select
+					value={nodeIndex}
+					onChange={(event) => {
+						handleSetFactoryType(event)
+					}}
+				>
+					{factoryList?.map((factoryType, index) => {
+						return (
+							<option key={index} value={index}>
+								{factoryType.name}
+							</option>
+						)
+					})}
+				</select>
 			</div>
 			<div className="pipeline-box">
 				<DecoderSide />

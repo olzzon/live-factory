@@ -1,6 +1,6 @@
 
 export interface IFactory {
-    factoryId: number,
+    nodeIndex: number,
     containerName: string
 	activated: boolean
 	running: boolean

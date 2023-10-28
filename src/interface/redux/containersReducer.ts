@@ -21,7 +21,7 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 		factory: [
 			{
 				containerName: 'NEW PIPE',
-				factoryId: 1,
+				nodeIndex: 0,
 				activated: false,
 				running: false,
 				globalInput: { param: '', paramArgs: [] },
@@ -72,6 +72,10 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 			return nextState
 		case CONTAINER_ACTIONS.SET_CONTAINER_NAME:
 			nextState[0].factory[action.factoryId].containerName = action.containerName
+			nextState[0].rerender = !nextState[0].rerender
+			return nextState
+		case CONTAINER_ACTIONS.SET_NODE_INDEX:
+			nextState[0].factory[action.factoryId].nodeIndex = action.nodeIndex
 			nextState[0].rerender = !nextState[0].rerender
 			return nextState
 		case CONTAINER_ACTIONS.SET_CONTAINER_STATE:

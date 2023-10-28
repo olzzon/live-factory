@@ -1,19 +1,18 @@
 export interface ISettings {
-    factoryList: IFactoryList[]
+    nodeList: NodeList[]
     maxActiveEncoders: number
     allowedInputTypes: IAllowedInputTypes[]
     allowedOutputTypes: IAllowedOutputTypes[]
     allowedOutputEncoderTypes: IAllowedOutputEncoderTypes[]
 }
 
-export interface IFactoryList {
-    id: number,
+export interface NodeList {
     name: string,
-    type: FACTORY_TYPES,
+    type: NODE_TYPES,
     url: string,
 }
 
-export enum FACTORY_TYPES {
+export enum NODE_TYPES {
     FFMPEG = 'FFMPEG',
     DOCKER = 'DOCKER'
 }

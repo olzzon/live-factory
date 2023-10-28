@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { IFactory } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
@@ -15,7 +15,7 @@ const FactoryMain: React.FC = () => {
 	const [selectedEncoder, setSelectedEncoder] = useState(0)
 	const [settings, setSettings] = useState<ISettings>({
 		maxActiveEncoders: 1,
-		factoryList: [],
+		nodeList: [],
 		allowedInputTypes: [],
 		allowedOutputTypes: [],
 		allowedOutputEncoderTypes: [],
