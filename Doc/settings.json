@@ -1,0 +1,129 @@
+{
+    "maxActiveEncoders": 1,
+    "nodeList": [
+        {
+            "id": 1,
+            "name": "FFmpeg local",
+            "type": "FFMPEG",
+            "url": "/usr/bin/ffmpeg"
+        },
+        {
+            "id": 2,
+            "name": "Docker FFmpeg local",
+            "type": "DOCKER",
+            "url": "/var/run/docker.sock"
+        },
+        {
+            "id": 3,
+            "name": "Docker FFmpeg remote",
+            "type": "DOCKER",
+            "url": "http://xx.xx.xx.xx:2375"
+        }
+    ],
+    "allowedInputTypes": [
+        {
+            "value": "COLORBAR",
+            "label": "COLORBAR"
+        },
+        {
+            "value": "SRT",
+            "label": "SRT"
+        },
+        {
+            "value": "UDP",
+            "label": "UDP"
+        },
+        {
+            "value": "TCP",
+            "label": "TCP"
+        },
+        {
+            "value": "RTP",
+            "label": "RTP"
+        },
+        {
+            "value": "FILE",
+            "label": "FILE"
+        },
+        {
+            "value": "NDI",
+            "label": "NDI"
+        },
+        {
+            "value": "DECKLINK",
+            "label": "DECKLINK"
+        },
+        {
+            "value": "MPEG_TS",
+            "label": "MPEG_TS"
+        },
+        {
+            "value": "CUSTOM",
+            "label": "CUSTOM"
+        }
+    ],
+    "allowedOutputTypes": [
+        {
+            "value": "NDI",
+            "label": "NDI"
+        },
+        {
+            "value": "SRT",
+            "label": "SRT"
+        },
+        {
+            "value": "DECKLINK",
+            "label": "DECKLINK"
+        },
+        {
+            "value": "MPEG_TS",
+            "label": "MPEG_TS"
+        },
+        {
+            "value": "TCP",
+            "label": "TCP"
+        },
+        {
+            "value": "RTP",
+            "label": "RTP"
+        },
+        {
+            "value": "SCREEN",
+            "label": "SCREEN"
+        },
+        {
+            "value": "CUSTOM",
+            "label": "CUSTOM"
+        }
+    ],
+    "allowedOutputEncoderTypes": [
+        {
+            "value": "COPY",
+            "label": "COPY"
+        },
+        {
+            "value": "H264_NATIVE",
+            "label": "H264_NATIVE"
+        },
+        {
+            "value": "HEVC_NATIVE",
+            "label": "HEVC_NATIVE"
+        },
+        {
+            "value": "H264_MAC",
+            "label": "H264_MAC"
+        },
+        {
+            "value": "HEVC_MAC",
+            "label": "HEVC_MAC"
+        },
+        {
+            "value": "H264_NVIDIA",
+            "label": "H264_NVIDIA"
+        },
+        {
+            "value": "HEVC_NVIDIA",
+            "label": "HEVC_NVIDIA"
+        }
+    ]
+}

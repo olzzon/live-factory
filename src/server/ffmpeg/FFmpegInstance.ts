@@ -41,7 +41,7 @@ export class FFmepgInstance {
 			console.log('Transcoder already running')
 			this.childProcess.stdin?.write('q')
 		}
-		this.childProcess = this.spawnChild(command, [args])
+		this.childProcess = this.runInstance(command, [args])
 		console.log('FFmpeg is starting')
 		console.debug('FFmpeg Spawn', this.childProcess.spawnargs)
 
@@ -63,7 +63,7 @@ export class FFmepgInstance {
 			.on('close', (code: number, signal: string) => {
 				console.log('Encoder index :', this.containerIndex, 'Have been closed with code :', code, 'Signal :', signal)
 				if (this.keepInstanceRunning) {
-					this.destroySpawn(this.containerIndex)
+					this.killInstance(this.containerIndex)
 					updateEncoderState(this.containerIndex, true, false)
 					this.timeOutInstance = setTimeout(() => {
 						console.warn('Encoder restarting')
@@ -82,13 +82,13 @@ export class FFmepgInstance {
 			})
 	}
 
-	spawnChild = (command: string, args: string[]): ChildProcessWithoutNullStreams => {
+	runInstance = (command: string, args: string[]): ChildProcessWithoutNullStreams => {
 		console.log('Spawning Encode index:', this.containerIndex)
 		updateEncoderState(this.containerIndex, true, true)
 		return spawn(command, args, { shell: true })
 	}
 
-	destroySpawn = (containerIndex: number) => {
+	killInstance = (containerIndex: number) => {
 		console.log(`Stopping Encoder Index : ${containerIndex}`)
 		if (this.timeOutInstance) {
 			clearTimeout(this.timeOutInstance)
@@ -100,6 +100,6 @@ export class FFmepgInstance {
 
 	stopInstance = (containerIndex: number) => {
 		this.keepInstanceRunning = false
-		this.destroySpawn(containerIndex)
+		this.killInstance(containerIndex)
 	}
 }

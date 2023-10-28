@@ -10,6 +10,7 @@ export interface NodeList {
     name: string,
     type: NODE_TYPES,
     url: string,
+    containerName?: string
 }
 
 export enum NODE_TYPES {

@@ -59,9 +59,9 @@ export const loadSettings = () => {
         console.error('Error loading settings. Setting up default settings')
         settings = {
             maxActiveEncoders: 1,
-            nodeList: [{name: 'FFmpeg local', type: NODE_TYPES.FFMPEG, url: '/usr/bin/ffmpeg' },
-             { name: 'Docker FFmpeg local', type: NODE_TYPES.DOCKER, url: '/var/run/docker.sock'},
-             { name: 'Docker FFmpeg remote', type: NODE_TYPES.DOCKER, url: 'http://xx.xx.xx.xx:2375'}],
+            nodeList: [{ name: 'FFmpeg local', type: NODE_TYPES.FFMPEG, url: '/usr/bin/ffmpeg' },
+            { name: 'Docker FFmpeg local', type: NODE_TYPES.DOCKER, url: '/var/run/docker.sock', containerName: 'jrottenberg/ffmpeg' },
+            { name: 'Docker FFmpeg remote', type: NODE_TYPES.DOCKER, url: 'http://xx.xx.xx.xx:2375', containerName: 'jrottenberg/ffmpeg' }],
             allowedInputTypes: extractListOfInputTypes(),
             allowedOutputTypes: extractListOfOutputTypes(),
             allowedOutputEncoderTypes: extractListOfOutputEncoderTypes(),

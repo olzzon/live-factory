@@ -10,7 +10,7 @@ interface DockerInstanceProps {
 }
 
 export class DockerInstance {
-	childProcess: ChildProcess | null = null
+	CHANGE_TO_DOCKER_childProcess: ChildProcess | null = null
 	containerIndex = 0
 	timeOutInstance: NodeJS.Timeout | null = null
 	keepInstanceRunning = true
@@ -38,38 +38,34 @@ export class DockerInstance {
 
 		this.keepInstanceRunning = true
 
-		if (this.childProcess) {
-			container.run('ubuntu', ['bash', '-c', 'uname -a', args], [process.stdout, process.stderr], { Tty: false },
+		if (this.CHANGE_TO_DOCKER_childProcess) {
+			container.run('jrottenberg/ffmpeg', [args], [process.stdout, process.stderr], { Tty: false },
 				() => {
 					let data = Buffer.from(args)
 					let message = data.toString('utf8')
 					addToLog(this.containerIndex, message)
 					if (message.includes('Decklink input buffer overrun')) {
 						// Restart service if Decklink buffer is overrun:
-						if (this.childProcess) {
-							this.childProcess?.stdin?.write('q')
+						if (this.CHANGE_TO_DOCKER_childProcess) {
+							this.CHANGE_TO_DOCKER_childProcess?.stdin?.write('q')
 						}
 					}
 				}
 			);
 			console.log('Transcoder already running')
-			this.childProcess.stdin?.write('q')
+			this.CHANGE_TO_DOCKER_childProcess.stdin?.write('q')
 		}
 		console.log('Container is starting')
 		console.debug('Container ID', container)
 
 
-
-
-/*
-		this.childProcess
-			.on('exit', (response: number) => {
+		this.CHANGE_TO_DOCKER_childProcess?.on('exit', (response: number) => {
 				console.log(`Encoder ${cmd.containerName} Exited :`, response)
 			})
 			.on('close', (code: number, signal: string) => {
 				console.log('Encoder index :', this.containerIndex, 'Have been closed with code :', code, 'Signal :', signal)
 				if (this.keepInstanceRunning) {
-					this.destroySpawn(this.containerIndex)
+					this.killInstance(this.containerIndex)
 					updateEncoderState(this.containerIndex, true, false)
 					this.timeOutInstance = setTimeout(() => {
 						console.warn('Encoder restarting')
@@ -86,27 +82,27 @@ export class DockerInstance {
 				updateEncoderState(this.containerIndex, false, false)
 				console.error(`Encoder ${cmd.containerName} Disconnected :`, response)
 			})
-			*/
+
 	}
 
-	spawnChild = (command: string, args: string[]): ChildProcessWithoutNullStreams => {
+	runInstance = (command: string, args: string[]): ChildProcessWithoutNullStreams => {
 		console.log('Spawning Encode index:', this.containerIndex)
 		updateEncoderState(this.containerIndex, true, true)
 		return spawn(command, args, { shell: true })
 	}
 
-	destroySpawn = (containerIndex: number) => {
+	killInstance = (containerIndex: number) => {
 		console.log(`Stopping Encoder Index : ${containerIndex}`)
 		if (this.timeOutInstance) {
 			clearTimeout(this.timeOutInstance)
 		}
-		this.childProcess?.stdin?.write('q')
-		this.childProcess?.unref()
+		this.CHANGE_TO_DOCKER_childProcess?.stdin?.write('q')
+		this.CHANGE_TO_DOCKER_childProcess?.unref()
 		updateEncoderState(this.containerIndex, false, false)
 	}
 
 	stopInstance = (containerIndex: number) => {
 		this.keepInstanceRunning = false
-		this.destroySpawn(containerIndex)
+		this.killInstance(containerIndex)
 	}
 }

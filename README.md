@@ -2,21 +2,30 @@
 GUI based Reciever - transmitter - transcoder for video and audio 
 
 Livefactory is build with future containerbased production in mind.
-So instead of including ffmpeg inside the code, ffmeg runs a local instance pr. Transcoder.
-Next step will be a dockerbased ffmpeg solution like a bit like : https://github.com/olzzon/docker-obs-ndi-novnc
+So instead of including ffmpeg inside the code, ffmeg runs an instance pr. Transcoder.
 
 
 <img src="Doc/pix/live-factory-ndi-srt.png">
+
+
+Roadmap:
+* Support for docker based ffmpeg (in progress)
+* Support for controlling multiple ffmpeg nodes (in progress) 
+* REST API for external control
+* 2110 Decklink IP card support 
+* NMOS support
+* GUI refining
+* A dockerbased ffmpeg engine a bit like this OBS : https://github.com/olzzon/docker-obs-ndi-novnc
 
 
 ## Status of protocol support:
 Following input/output is supported
 
 ### Input:
-SRT, File, NDI, Decklink, Mpeg-ts, Colorbar, UDP, TCP, RTP
+SRT, File, NDI, Decklink (SDI), Mpeg-ts, Colorbar, UDP, TCP, RTP
 
 ### Output:
-SRT, NDI, Decklink, Mpeg-ts, Screen, TCP, RTP
+SRT, NDI, Decklink (SDI), Mpeg-ts, Screen, TCP, RTP
 
 ### Codecs:
 COPY is the settings when output to NDI, Decklink, Screen etc.
@@ -45,12 +54,22 @@ http://localhost:1406
 ### Settings:
 When running Live-factory for the first time, a settings.json file will be created, with all the available options.
 Depening on the setup, it's possible to remove certain types from the allowed lists.
-An example of the generated file is localed in the Doc folder.  (Doc/settings.json)
+An example of the settings.json file is placed in: Doc/settings.json
 
-Here's an example of what the settings.json file looks like:
+Here's the basic structure of the settings.json file:
 ```
 {
     "maxActiveEncoders": 1,
+    "nodeList": [
+        {
+            "name": "FFmpeg local",
+            "type": "FFMPEG",
+            "url": "/usr/bin/ffmpeg"
+        },
+        {
+            "name": "Docker FFmpeg local",
+        .........................
+    ],
     "allowedInputTypes": [
         {
             "value": "COLORBAR",
@@ -60,38 +79,7 @@ Here's an example of what the settings.json file looks like:
             "value": "SRT",
             "label": "SRT"
         },
-        {
-            "value": "UDP",
-            "label": "UDP"
-        },
-        {
-            "value": "TCP",
-            "label": "TCP"
-        },
-        {
-            "value": "RTP",
-            "label": "RTP"
-        },
-        {
-            "value": "FILE",
-            "label": "FILE"
-        },
-        {
-            "value": "NDI",
-            "label": "NDI"
-        },
-        {
-            "value": "DECKLINK",
-            "label": "DECKLINK"
-        },
-        {
-            "value": "MPEG_TS",
-            "label": "MPEG_TS"
-        },
-        {
-            "value": "CUSTOM",
-            "label": "CUSTOM"
-        }
+        ..........................
     ],
     "allowedOutputTypes": [
         {
@@ -102,30 +90,7 @@ Here's an example of what the settings.json file looks like:
             "value": "SRT",
             "label": "SRT"
         },
-        {
-            "value": "DECKLINK",
-            "label": "DECKLINK"
-        },
-        {
-            "value": "MPEG_TS",
-            "label": "MPEG_TS"
-        },
-        {
-            "value": "TCP",
-            "label": "TCP"
-        },
-        {
-            "value": "RTP",
-            "label": "RTP"
-        },
-        {
-            "value": "SCREEN",
-            "label": "SCREEN"
-        },
-        {
-            "value": "CUSTOM",
-            "label": "CUSTOM"
-        }
+        ................................
     ],
     "allowedOutputEncoderTypes": [
         {
@@ -136,26 +101,7 @@ Here's an example of what the settings.json file looks like:
             "value": "H264_NATIVE",
             "label": "H264_NATIVE"
         },
-        {
-            "value": "HEVC_NATIVE",
-            "label": "HEVC_NATIVE"
-        },
-        {
-            "value": "H264_MAC",
-            "label": "H264_MAC"
-        },
-        {
-            "value": "HEVC_MAC",
-            "label": "HEVC_MAC"
-        },
-        {
-            "value": "H264_NVIDIA",
-            "label": "H264_NVIDIA"
-        },
-        {
-            "value": "HEVC_NVIDIA",
-            "label": "HEVC_NVIDIA"
-        }
+        ..................................
     ]
 }
 ```
