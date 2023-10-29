@@ -24,7 +24,6 @@ export class DockerInstance {
 
 
 	initFFmpeg = (cmd: IFactory) => {
-		console.log('Setting Docker up for index:', this.containerIndex)
 		const node = this.settings.nodeList[cmd.nodeIndex]
 		this.docker = new Docker({ host: node.host, port: node.port })
 
@@ -42,7 +41,21 @@ export class DockerInstance {
 		]
 
 		this.keepInstanceRunning = true
-		this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, { name: 'live-factory'+Date.now()  ,Env: [containerArgs], Tty: false },
+		const runtimeName = 'live-factory-' + cmd.uuid
+
+		// Check if container exists:
+		console.log('Setting up docker container :', runtimeName)
+		this.docker.listContainers({ all: true }).then((containers) => {
+			const container = containers.find((container: any) => container.Names.includes('/' + runtimeName))
+			if (container) {
+				console.log('Container already exists, removing')
+				this.docker?.getContainer(container.Id).stop()
+				this.docker?.getContainer(container.Id).remove()
+			}
+		})
+
+
+		this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, { name: runtimeName ,Env: [containerArgs], Tty: false },
 			(err: Error) => {
 				if (err) {
 					addToLog(this.containerIndex, err.message)

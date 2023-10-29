@@ -2,6 +2,7 @@
 export interface IFactory {
     nodeIndex: number,
     containerName: string
+    uuid: string
 	activated: boolean
 	running: boolean
 	globalInput: IGlobalParams

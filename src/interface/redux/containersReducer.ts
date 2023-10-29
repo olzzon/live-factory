@@ -1,3 +1,4 @@
+import { create } from 'domain'
 import {
 	IDeviceList,
 	IFactory,
@@ -14,6 +15,10 @@ export interface IFFmpegReducer {
 	factory: IFactory[]
 }
 
+const createNewUUID = () => {
+	return Math.random().toString(36).substring(2) + Date.now().toString(36)
+}
+
 const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 	return {
 		rerender: false,
@@ -22,6 +27,7 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 			{
 				containerName: 'NEW PIPE',
 				nodeIndex: 0,
+				uuid: createNewUUID(),
 				activated: false,
 				running: false,
 				globalInput: { param: [], paramArgs: [] },

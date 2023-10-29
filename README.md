@@ -6,7 +6,7 @@ So instead of including ffmpeg inside the code, ffmeg runs an instance pr. Trans
 You can run a local ffmpeg instance or use the docker API for controlling other machines (nodes  https://docs.docker.com/engine/api/v1.43/) 
 It's using the dockerode package for handling this (https://www.npmjs.com/package/dockerode)
 
-<img src="Doc/pix/live-factory-ndi-srt.png">
+<img src="Doc/pix/live-factory-node01.png">
 
 
 Roadmap:

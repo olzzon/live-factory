@@ -173,20 +173,23 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 						onChange={(event) => dispatch(storeSetContainerName(id, event.target.value))}
 					/>
 				</label>
-				<select
-					value={nodeIndex}
-					onChange={(event) => {
-						handleSetFactoryType(event)
-					}}
-				>
-					{factoryList?.map((factoryType, index) => {
-						return (
-							<option key={index} value={index}>
-								{factoryType.name}
-							</option>
-						)
-					})}
-				</select>
+				<label className="pipeline-label">
+					FFMpeg Node :
+					<select
+						value={nodeIndex}
+						onChange={(event) => {
+							handleSetFactoryType(event)
+						}}
+					>
+						{factoryList?.map((factoryType, index) => {
+							return (
+								<option key={index} value={index}>
+									{factoryType.name}
+								</option>
+							)
+						})}
+					</select>
+				</label>
 			</div>
 			<div className="pipeline-box">
 				<DecoderSide />
