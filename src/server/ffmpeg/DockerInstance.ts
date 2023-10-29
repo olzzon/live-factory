@@ -24,6 +24,7 @@ export class DockerInstance {
 
 
 	initFFmpeg = (cmd: IFactory) => {
+		console.log('Setting Docker up for index:', this.containerIndex)
 		const node = this.settings.nodeList[cmd.nodeIndex]
 		this.docker = new Docker({ host: node.host, port: node.port })
 
@@ -45,7 +46,7 @@ export class DockerInstance {
 		//this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ['ffmpeg ', containerArgs, ffmpegArgs], [process.stdout, process.stderr], { Tty: false },
 		console.log('Container is starting')
 
-		this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ffmpegArgs, [process.stdout, process.stderr], { Env: [containerArgs], Tty: false },
+		this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, { Env: [containerArgs], Tty: false },
 			(err: Error) => {
 				if (err) {
 					addToLog(this.containerIndex, err.message)
@@ -62,38 +63,12 @@ export class DockerInstance {
 			stream.on('data', (data: any) => {
 				console.log('Data :', data.toString())
 			})
-		}).on('stop', (data: any) => {
-			console.log('Stop :', data)
-			this.container.remove()
+			.on('end', () => {
+				this.container.remove()
+				this.container = null
+				console.log('Encoding ended, container removed')
+			})
 		})
-
-
-		/*
-		.on('exit', (response: number) => {
-				console.log(`Encoder ${cmd.containerName} Exited :`, response)
-			})
-			.on('close', (code: number, signal: string) => {
-				console.log('Encoder index :', this.containerIndex, 'Have been closed with code :', code, 'Signal :', signal)
-				if (this.keepInstanceRunning) {
-					this.killInstance(this.containerIndex)
-					updateEncoderState(this.containerIndex, true, false)
-					this.timeOutInstance = setTimeout(() => {
-						console.warn('Encoder restarting')
-						this.initFFmpeg(cmd)
-					}, 2000)
-				} else {
-					updateEncoderState(this.containerIndex, false, false)
-				}
-			})
-			.on('error', (response: Error) => {
-				console.error(`Encoder ${cmd.containerName} Error :`, response)
-			})
-			.on('disconnect', (response: any) => {
-				updateEncoderState(this.containerIndex, false, false)
-				console.error(`Encoder ${cmd.containerName} Disconnected :`, response)
-			})
-			*/
-
 	}
 
 	runInstance = (command: string, args: string[]) => {
