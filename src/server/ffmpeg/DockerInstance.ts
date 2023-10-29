@@ -42,10 +42,6 @@ export class DockerInstance {
 		]
 
 		this.keepInstanceRunning = true
-
-		//this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ['ffmpeg ', containerArgs, ffmpegArgs], [process.stdout, process.stderr], { Tty: false },
-		console.log('Container is starting')
-
 		this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, { name: 'live-factory'+Date.now()  ,Env: [containerArgs], Tty: false },
 			(err: Error) => {
 				if (err) {
@@ -57,16 +53,19 @@ export class DockerInstance {
 				}
 			}
 		).on('container', (container: any) => {
+			updateEncoderState(this.containerIndex, true, false)
 			console.log('Container :', container.id)
 			this.container = container
 		}).on('stream', (stream: any) => {
 			stream.on('data', (data: any) => {
 				console.log('Data :', data.toString())
+				updateEncoderState(this.containerIndex, true, true)
 			})
 			.on('end', () => {
 				this.container.remove()
 				this.container = null
 				console.log('Encoding ended, container removed')
+				updateEncoderState(this.containerIndex, false, false)
 			})
 		})
 	}
