@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
-	storeSetGlobalInParamString,
+	storeSetGlobalInParamArr,
 	storeSetInputParams,
-	storeSetInputParamString,
+	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
@@ -29,8 +29,8 @@ const RistInputOptions: React.FC<IRistProps> = (props) => {
 	useEffect(() => {
 		// 'rist://@123.123.123.123:8200?cname=RECEIVER01&bandwidth=2560000'
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalInParamString(id, ` -re ` + findGpuSettings(osType)))
-		dispatch(storeSetInputParamString(id, `  -i "rist://{arg0}:{arg1}?cname={arg2}"`))
+		dispatch(storeSetGlobalInParamArr(id, ['-re', ...findGpuSettings(osType)]))
+		dispatch(storeSetInputParamArr(id, ['-i "rist://{arg0}:{arg1}?cname={arg2}"']))
 		if (!ip) {
 			dispatch(storeSetInputParams(id, 0, '0.0.0.0'))
 		}

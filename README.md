@@ -1,22 +1,23 @@
 # Live-factory
 GUI based Reciever - transmitter - transcoder for video and audio 
 
-Livefactory is build with future containerbased production in mind.
+Livefactory is build with containerbased production in mind.
 So instead of including ffmpeg inside the code, ffmeg runs an instance pr. Transcoder.
-
+You can run a local ffmpeg instance or use the docker API for controlling other machines (nodes  https://docs.docker.com/engine/api/v1.43/) 
+It's using the dockerode package for handling this (https://www.npmjs.com/package/dockerode)
 
 <img src="Doc/pix/live-factory-ndi-srt.png">
 
 
 Roadmap:
++ Local ffmpeg support with most used protocols
 * Support for docker based ffmpeg (in progress)
 * Support for controlling multiple ffmpeg nodes (in progress) 
 * REST API for external control
 * 2110 Decklink IP card support 
 * NMOS support
 * GUI refining
-* A dockerbased ffmpeg engine a bit like this OBS : https://github.com/olzzon/docker-obs-ndi-novnc
-
+* A dockerbased ffmpeg engine with NDI and RIST support (in progress, but due to licence issues this might not be open sources)
 
 ## Status of protocol support:
 Following input/output is supported
@@ -202,7 +203,9 @@ export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib/:/usr/lib/"
 ## Mac M1 FFmpeg compilation:
 
 ### NDI Support:
-Install SDK files????
+Install SDK files and patch ffmpeg
+Here's a link to a patch for NDI:
+https://gist.github.com/pabloko/8affc8157a83e201503c326a28d17bf2
 
 ### RIST support:
 https://code.videolan.org/rist/ffmpeg/-/commit/d2765591220d2bc6230617246c64ac482410fb57

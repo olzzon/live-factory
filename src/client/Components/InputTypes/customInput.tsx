@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParams,
-	storeSetGlobalInParamString,
+	storeSetGlobalInParamArr,
 	storeSetInputParams,
-	storeSetInputParamString,
+	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
@@ -26,8 +26,8 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 	)
 
 	useEffect(() => {
-		dispatch(storeSetGlobalInParamString(id, `{arg0}`))
-		dispatch(storeSetInputParamString(id, `{arg0}`))
+		dispatch(storeSetGlobalInParamArr(id, [`{arg0}`]))
+		dispatch(storeSetInputParamArr(id, [`{arg0}`]))
 
 		if (!globalIn) {
 			dispatch(storeSetGlobalInParams(id, 0, ` -re ` + findGpuSettings(osType)))

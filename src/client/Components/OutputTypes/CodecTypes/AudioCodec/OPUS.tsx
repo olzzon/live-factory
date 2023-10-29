@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetFilterAudioParams,
-	storeSetFilterAudioParamString,
+	storeSetFilterAudioParamArr,
 } from '../../../../../interface/redux/containerActions'
 import { RootState } from '../../../../main'
 
@@ -18,7 +18,7 @@ const OpusCodecOptions: React.FC<ICodecProps> = (props) => {
 	const aAudioTracks = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].audioFilter.paramArgs[1])
 
 	useEffect(() => {
-		dispatch(storeSetFilterAudioParamString(id, ` -acodec libopus -b:a {arg0}k  `))
+		dispatch(storeSetFilterAudioParamArr(id, ['-acodec', 'libopus', '-b:a', '{arg0}k']))
 
 		if (!aBandwidth) {
 			dispatch(storeSetFilterAudioParams(id, 0, `256`))

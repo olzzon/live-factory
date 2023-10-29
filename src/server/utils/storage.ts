@@ -60,7 +60,7 @@ export const loadSettings = () => {
         settings = {
             maxActiveEncoders: 1,
             nodeList: [{ name: 'FFmpeg local', type: NODE_TYPES.FFMPEG, path: '/usr/bin/ffmpeg' },
-            { name: 'Docker FFmpeg remote', type: NODE_TYPES.DOCKER, host: 'http://xx.xx.xx.xx', port:4243, containerName: 'jrottenberg/ffmpeg' }],
+            { name: 'Node 01 (Docker API)', type: NODE_TYPES.DOCKER, host: '192.168.211.144', port:4243, containerName: 'jrottenberg/ffmpeg' }],
             allowedInputTypes: extractListOfInputTypes(),
             allowedOutputTypes: extractListOfOutputTypes(),
             allowedOutputEncoderTypes: extractListOfOutputEncoderTypes(),

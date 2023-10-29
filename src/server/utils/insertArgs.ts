@@ -1,11 +1,10 @@
-const insertArgs = (argString: string, paramArgs: string[]) => {
-    let returnString = argString
+const insertArgs = (argArray: string[], paramArgs: string[]): string[] => {
+    let returnArray = argArray
     paramArgs.forEach((param: string, index: number) => {
-        returnString = returnString.replace(`{arg${index}}`, param)
+        returnArray = returnArray.map((str) => str.replace(`{arg${index}}`, param))
     })
-    console.debug('insertArgs() argString : ', argString, 'paramArgs :', paramArgs)
-    console.debug('insertArgs() returnString : ', returnString)
-    return returnString
+    console.debug('insertArgs() returnArray : ', returnArray)
+    return returnArray
 }
 
 export default insertArgs

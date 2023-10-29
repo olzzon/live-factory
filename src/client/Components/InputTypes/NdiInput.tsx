@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
-	storeSetGlobalInParamString,
+	storeSetGlobalInParamArr,
 	storeSetInputParams,
-	storeSetInputParamString,
+	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -24,8 +24,8 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 	)
 
 	useEffect(() => {
-		dispatch(storeSetGlobalInParamString(id, ``))
-		dispatch(storeSetInputParamString(id, ` -f libndi_newtek -i "{arg0}"`))
+		dispatch(storeSetGlobalInParamArr(id, []))
+		dispatch(storeSetInputParamArr(id, ['-f', 'libndi_newtek', '-i', '{arg0}']))
 		if (!ndiName) {
 			dispatch(storeSetInputParams(id, 0, 'HOSTNAME (NDINAME)'))
 		}

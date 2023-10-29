@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetFilterParamString,
-	storeSetGlobalOutParamString,
+	storeSetFilterParamArr,
+	storeSetGlobalOutParamArr,
 	storeSetOutputParams,
-	storeSetOutputParamString,
+	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import { RootState } from '../../main'
@@ -27,9 +27,9 @@ const DecklinkOutputOptions: React.FC<IDecklinkProps> = (props) => {
 	)
 
 	useEffect(() => {
-		dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay -probesize 32 `))
-		dispatch(storeSetFilterParamString(id, ` `))
-		dispatch(storeSetOutputParamString(id, ` -f decklink -pix_fmt uyvy422 '{arg0}'`))
+		dispatch(storeSetGlobalOutParamArr(id, ['-fflags', 'nobuffer', '-flags', 'low_delay', '-probesize', '32']))
+		dispatch(storeSetFilterParamArr(id, []))
+		dispatch(storeSetOutputParamArr(id, ['-f', 'decklink', '-pix_fmt', 'uyvy422', '{arg0}']))
 		if (!outputName) {
 			dispatch(storeSetOutputParams(id, 0, `DeckLink Quad (1)`))
 		}

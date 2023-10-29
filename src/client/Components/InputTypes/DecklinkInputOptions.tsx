@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
-	storeSetGlobalInParamString,
+	storeSetGlobalInParamArr,
 	storeSetInputParams,
-	storeSetInputParamString,
+	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -26,8 +26,8 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalInParamString(id, ` -re `))
-		dispatch(storeSetInputParamString(id, ` -f decklink -i '{arg0}' -channels {arg1} -queue_size {arg2}`))
+		dispatch(storeSetGlobalInParamArr(id, ['-re']))
+		dispatch(storeSetInputParamArr(id, ['-f', 'decklink', '-i', '{arg0}', '-channels', '{arg1}', '-queue_size', '{arg2}']))
 		if (!decklinkInput) {
 			dispatch(storeSetInputParams(id, 0, 'DeckLink Quad (1)'))
 		}

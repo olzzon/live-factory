@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetGlobalOutParamString,
+	storeSetGlobalOutParamArr,
 	storeSetOutputParams,
-	storeSetOutputParamString,
+	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
@@ -39,11 +39,11 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		// CUDA Linux:
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 
-		dispatch(storeSetGlobalOutParamString(id, `  `))
+		dispatch(storeSetGlobalOutParamArr(id, []))
 		dispatch(
-			storeSetOutputParamString(
+			storeSetOutputParamArr(
 				id,
-				` -adrift_threshold 0.06 -async 8000 -f {arg5} "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}{arg4}" `
+				['-adrift_threshold', '0.06', '-async', '8000', '-f', '{arg5}', 'srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}{arg4}']
 			)
 		)
 
@@ -61,10 +61,10 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		}
 		if (lowLatencyState) {
 			dispatch(storeSetOutputParams(id, 4, '&latency=' + LOW_LATENCY))
-			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay -probesize 32 `))
+			dispatch(storeSetGlobalOutParamArr(id, ['-fflags nobuffer', '-flags low_delay', '-probesize 32']))
 		} else {
 			dispatch(storeSetOutputParams(id, 4, ''))
-			dispatch(storeSetGlobalOutParamString(id, `  `))
+			dispatch(storeSetGlobalOutParamArr(id, []))
 		}
 		if (!protocol) {
 			dispatch(storeSetOutputParams(id, 5, 'mpegts'))
@@ -75,11 +75,11 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 	const handleSetLowLatency = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
 			dispatch(storeSetOutputParams(id, 4, '&latency=' + LOW_LATENCY))
-			dispatch(storeSetGlobalOutParamString(id, ` -fflags nobuffer -flags low_delay -probesize 32 `))
+			dispatch(storeSetGlobalOutParamArr(id, ['-fflags nobuffer', '-flags low_delay', '-probesize 32']))
 			setLowLatencyState(true)
 		} else {
 			dispatch(storeSetOutputParams(id, 4, ''))
-			dispatch(storeSetGlobalOutParamString(id, `  `))
+			dispatch(storeSetGlobalOutParamArr(id, []))
 			setLowLatencyState(false)
 		}
 	}

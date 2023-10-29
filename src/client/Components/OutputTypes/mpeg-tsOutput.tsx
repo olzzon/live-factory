@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetGlobalOutParamString,
+	storeSetGlobalOutParamArr,
 	storeSetOutputParams,
-	storeSetOutputParamString,
+	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { ISettings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
@@ -24,8 +24,8 @@ const MpegTsOutputOptions: React.FC<ISrtProps> = (props) => {
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalOutParamString(id, ` `))
-		dispatch(storeSetOutputParamString(id, ` -f mpegts "udp://{arg0}:{arg1}?pkt_size=1316" `))
+		dispatch(storeSetGlobalOutParamArr(id, []))
+		dispatch(storeSetOutputParamArr(id, ['-f', 'mpegts', 'udp://{arg0}:{arg1}?pkt_size=1316']))
 		if (!ip) {
 			dispatch(storeSetOutputParams(id, 0, '0.0.0.0'))
 		}

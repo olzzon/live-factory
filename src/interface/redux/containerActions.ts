@@ -13,25 +13,25 @@ export const SET_CONTAINER_NAME = 'setContainerName'
 export const SET_NODE_INDEX = 'setNodeIndex'
 export const SET_CONTAINER_STATE = 'setContainerState'
 export const SET_GLOBAL_IN_PARAMS = 'setGlobalInParams'
-export const SET_GLOBAL_IN_PARAM_STRING = 'setGlobalInParamString'
+export const SET_GLOBAL_IN_PARAM_ARR = 'setGlobalInParamArr'
 export const CLEAR_GLOBAL_IN_PARAMS = 'clearGlobalInParams'
 export const SET_GLOBAL_OUT_PARAMS = 'setGlobalOutParams'
-export const SET_GLOBAL_OUT_PARAM_STRING = 'setGlobalOutParamString'
+export const SET_GLOBAL_OUT_PARAM_ARR = 'setGlobalOutParamArr'
 export const CLEAR_GLOBAL_OUT_PARAMS = 'clearGlobalOutParams'
 export const SET_INPUT_TYPE = 'setInputType'
-export const SET_INPUT_PARAM_STRING = 'setInputParamString'
+export const SET_INPUT_PARAM_ARR = 'setInputParamArr'
 export const SET_INPUT_PARAMS = 'setInputParams'
 export const CLEAR_INPUT_PARAMS = 'clearInputParams'
 export const SET_FILTER_TYPE = 'setFilterType'
-export const SET_FILTER_PARAM_STRING = 'setFilterParamString'
+export const SET_FILTER_PARAM_ARR = 'setFilterParamArr'
 export const SET_FILTER_PARAMS = 'setFilterParams'
 export const CLEAR_FILTER_PARAMS = 'clearFilterParams'
 export const SET_FILTER_AUDIO_TYPE = 'setFilterAudioType'
-export const SET_FILTER_AUDIO_PARAM_STRING = 'setFilterAudioParamString'
+export const SET_FILTER_AUDIO_PARAM_ARR = 'setFilterAudioParamArr'
 export const SET_FILTER_AUDIO_PARAMS = 'setFilterAudioParams'
 export const CLEAR_FILTER_AUDIO_PARAMS = 'clearFilterAudioParams'
 export const SET_OUTPUT_TYPE = 'setOutputType'
-export const SET_OUTPUT_PARAM_STRING = 'setOutputParamString'
+export const SET_OUTPUT_PARAM_ARR = 'setOutputParamArr'
 export const SET_OUTPUT_PARAMS = 'setOutputParams'
 export const CLEAR_OUTPUT_PARAMS = 'clearOutputParams'
 
@@ -103,11 +103,11 @@ export const storeSetContainerState = (factoryId: number, activated: boolean, ru
 	}
 }
 
-export const storeSetGlobalInParamString = (factoryId: number, paramString: string) => {
+export const storeSetGlobalInParamArr = (factoryId: number, paramArr: string[]) => {
 	return {
-		type: SET_GLOBAL_IN_PARAM_STRING,
+		type: SET_GLOBAL_IN_PARAM_ARR,
 		factoryId: factoryId,
-		paramString: paramString
+		paramArr: paramArr
 	}
 }
 
@@ -127,11 +127,11 @@ export const storeClearGlobalInParams = (factoryId: number) => {
 	}
 }
 
-export const storeSetGlobalOutParamString = (factoryId: number, paramString: string) => {
+export const storeSetGlobalOutParamArr = (factoryId: number, paramArr: string[]) => {
 	return {
-		type: SET_GLOBAL_OUT_PARAM_STRING,
+		type: SET_GLOBAL_OUT_PARAM_ARR,
 		factoryId: factoryId,
-		paramString: paramString
+		paramArr: paramArr
 	}
 }
 
@@ -159,11 +159,11 @@ export const storeSetInputType = (factoryId: number, inputType: INPUT_TYPES) => 
 	}
 }
 
-export const storeSetInputParamString = (factoryId: number, paramString: string) => {
+export const storeSetInputParamArr = (factoryId: number, paramArr: string[]) => {
 	return {
-		type: SET_INPUT_PARAM_STRING,
+		type: SET_INPUT_PARAM_ARR,
 		factoryId: factoryId,
-		paramString: paramString,
+		paramArr: paramArr,
 	}
 }
 
@@ -191,11 +191,11 @@ export const storeSetFilterType = (factoryId: number, filterType: OUTPUT_ENCODER
 	}
 }
 
-export const storeSetFilterParamString = (factoryId: number, paramString: string) => {
+export const storeSetFilterParamArr = (factoryId: number, paramArr: string[]) => {
 	return {
-		type: SET_FILTER_PARAM_STRING,
+		type: SET_FILTER_PARAM_ARR,
 		factoryId: factoryId,
-		paramString: paramString,
+		paramArr: paramArr,
 	}
 }
 
@@ -223,11 +223,11 @@ export const storeSetFilterAudioType = (factoryId: number, filterType: OUTPUT_AU
 	}
 }
 
-export const storeSetFilterAudioParamString = (factoryId: number, paramString: string) => {
+export const storeSetFilterAudioParamArr = (factoryId: number, paramArr: string[]) => {
 	return {
-		type: SET_FILTER_AUDIO_PARAM_STRING,
+		type: SET_FILTER_AUDIO_PARAM_ARR,
 		factoryId: factoryId,
-		paramString: paramString,
+		paramArr: paramArr,
 	}
 }
 
@@ -255,11 +255,11 @@ export const storeSetOutputType = (factoryId: number, outputType: OUTPUT_TYPES) 
 	}
 }
 
-export const storeSetOutputParamString = (factoryId: number, paramString: string) => {
+export const storeSetOutputParamArr = (factoryId: number, paramArr: string[]) => {
 	return {
-		type: SET_OUTPUT_PARAM_STRING,
+		type: SET_OUTPUT_PARAM_ARR,
 		factoryId: factoryId,
-		paramString: paramString,
+		paramArr: paramArr,
 	}
 }
 

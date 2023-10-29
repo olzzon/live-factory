@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetGlobalOutParamString,
+	storeSetGlobalOutParamArr,
 	storeSetOutputParams,
-	storeSetOutputParamString,
+	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { ISettings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
@@ -23,8 +23,8 @@ const RtpOutputOptions: React.FC<ITcpProps> = (props) => {
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[1])
 
 	useEffect(() => {
-		dispatch(storeSetGlobalOutParamString(id, ` `))
-		dispatch(storeSetOutputParamString(id, ` -f rtp "rtp://{arg0}:{arg1}" `))
+		dispatch(storeSetGlobalOutParamArr(id, []))
+		dispatch(storeSetOutputParamArr(id, ['-f', 'rtp', 'rtp://{arg0}:{arg1}']))
 
 		if (!ip) {
 			dispatch(storeSetOutputParams(id, 0, '0.0.0.0'))

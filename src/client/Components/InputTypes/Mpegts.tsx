@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
-	storeSetGlobalInParamString,
+	storeSetGlobalInParamArr,
 	storeSetInputParams,
-	storeSetInputParamString,
+	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
@@ -26,8 +26,8 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 	)
 
 	useEffect(() => {
-		dispatch(storeSetGlobalInParamString(id, ' -re -vsync 0 ' + findGpuSettings(osType)))
-		dispatch(storeSetInputParamString(id, ' -i udp://{arg0}:{arg1}?fifo_size={arg2}'))
+		dispatch(storeSetGlobalInParamArr(id, ['-re', '-vsync', '0', ...findGpuSettings(osType)]))
+		dispatch(storeSetInputParamArr(id, ['-i udp://{arg0}:{arg1}?fifo_size={arg2}']))
 		if (!ip) {
 			dispatch(storeSetInputParams(id, 0, 'localhost'))
 		}

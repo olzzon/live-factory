@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetFilterParams,
-	storeSetFilterParamString,
+	storeSetFilterParamArr,
 } from '../../../../interface/redux/containerActions'
 import { RootState } from '../../../main'
 
@@ -26,7 +26,7 @@ const H264NativeCodecOptions: React.FC<ICodecProps> = (props) => {
 		// CUDA Linux:
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 		// -c:v libx264 -preset veryfast -b:v 22000k -pix_fmt yuv420p -acodec libopus -b:a 256k
-		dispatch(storeSetFilterParamString(id, ` {arg3} -c:v libx264 -preset veryfast -b:v {arg0}k -pix_fmt yuv420p `))
+		dispatch(storeSetFilterParamArr(id, ['{arg3}', '-c:v', 'libx264', '-preset', 'veryfast', '-b:v', '{arg0}k', '-pix_fmt', 'yuv420p']))
 
 		if (!vBandwidth) {
 			dispatch(storeSetFilterParams(id, 0, `22000`))

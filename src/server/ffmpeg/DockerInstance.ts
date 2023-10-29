@@ -15,43 +15,53 @@ export class DockerInstance {
 	timeOutInstance: NodeJS.Timeout | null = null
 	keepInstanceRunning = true
 	docker: Docker | null = null
+	container: any = null
 
 	constructor(props: DockerInstanceProps) {
 		this.containerIndex = props.containerIndex
 		this.settings = props.settings
 	}
 
-	
+
 	initFFmpeg = (cmd: IFactory) => {
-		const node = this.settings.nodeList[cmd.nodeIndex]	
+		const node = this.settings.nodeList[cmd.nodeIndex]
 		this.docker = new Docker({ host: node.host, port: node.port })
 
 		// Todo: Add support for docker args pr pipeline (e.g. ports for NDI and SRT)
-		const containerArgs = '-p 5000-9000:5000-9000'
+		const containerArgs = '-it -p 5000-9000:5000-9000'
 
-		const ffmpegArgs =
-			' -hide_banner ' +
-			insertArgs(cmd.globalInput.param, cmd.globalInput.paramArgs) +
-			insertArgs(cmd.globalOutput.param, cmd.globalOutput.paramArgs) +
-			insertArgs(cmd.input.param, cmd.input.paramArgs) +
-			insertArgs(cmd.filter.param, cmd.filter.paramArgs) +
-			insertArgs(cmd.audioFilter.param, cmd.audioFilter.paramArgs) +
-			insertArgs(cmd.output.param, cmd.output.paramArgs)
+		const ffmpegArgs = [	
+			'-hide_banner',
+			...insertArgs(cmd.globalInput.param, cmd.globalInput.paramArgs),
+			...insertArgs(cmd.globalOutput.param, cmd.globalOutput.paramArgs),
+			...insertArgs(cmd.input.param, cmd.input.paramArgs),
+			...insertArgs(cmd.filter.param, cmd.filter.paramArgs),
+			...insertArgs(cmd.audioFilter.param, cmd.audioFilter.paramArgs),
+			...insertArgs(cmd.output.param, cmd.output.paramArgs)
+		]
 
 		this.keepInstanceRunning = true
 
-		this.docker.run(node.containerName ||'jrottenberg/ffmpeg', [containerArgs, ffmpegArgs], [process.stdout, process.stderr], { Tty: false },
-		(data: any) => {
-			let message = data.toString('utf8')
-			addToLog(this.containerIndex, message)
-			if (message.includes('Decklink input buffer overrun')) {
-				// Restart service if Decklink buffer is overrun:
-			}
-		}
-	);
-		
+		//this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ['ffmpeg ', containerArgs, ffmpegArgs], [process.stdout, process.stderr], { Tty: false },
 		console.log('Container is starting')
-		console.debug('Container ID', this.docker)
+
+		this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ffmpegArgs, [process.stdout, process.stderr], { Env: [containerArgs], Tty: false },
+			(err: Error, data: any) => {
+				if (err) {
+					addToLog(this.containerIndex, err.message)
+					if (err.message.includes('Decklink input buffer overrun')) {
+						// Restart service if Decklink buffer is overrun:
+					}
+					console.error('Error :', err.message)
+				} else {
+					addToLog(this.containerIndex, 'Running')
+					//console.log('Data from Docker :', data)
+					//let statusCode = data[0];
+					this.container = data[1];
+					//console.log("Statuscode :", statusCode);
+				}
+			}
+		)
 
 
 		/*
@@ -84,13 +94,14 @@ export class DockerInstance {
 
 	runInstance = (command: string, args: string[]) => {
 		console.log(command, args)
-		console.log('Spawning Encode index:', this.containerIndex)
+		console.log('Setting Encoder state on index:', this.containerIndex)
 		updateEncoderState(this.containerIndex, true, true)
-		return this.docker?.listContainers()
+		return this.container.id
 	}
 
 	killInstance = (containerIndex: number) => {
-		console.log(`Stopping Encoder Index : ${containerIndex}`)
+		console.log(`Stopping Encoder Index : ${containerIndex}`, 'Docker :', this.container.id)
+		this.container.remove();
 		if (this.timeOutInstance) {
 			clearTimeout(this.timeOutInstance)
 		}

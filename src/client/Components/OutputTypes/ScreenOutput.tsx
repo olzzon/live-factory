@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetFilterParamString,
-	storeSetGlobalOutParamString,
+	storeSetFilterParamArr,
+	storeSetGlobalOutParamArr,
 	storeSetOutputParams,
-	storeSetOutputParamString,
+	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { ISettings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
@@ -22,9 +22,9 @@ const ScreenOutputOptions: React.FC<IOutProps> = (props) => {
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
 
 	useEffect(() => {
-		dispatch(storeSetGlobalOutParamString(id, ` `))
-		dispatch(storeSetFilterParamString(id, ` `))
-		dispatch(storeSetOutputParamString(id, ` -pix_fmt yuv420p -f sdl "Live Factory" `))
+		dispatch(storeSetGlobalOutParamArr(id, []))
+		dispatch(storeSetFilterParamArr(id, []))
+		dispatch(storeSetOutputParamArr(id, ['-pix_fmt', 'yuv420p', '-f', 'sdl', 'Live Factory']))
 	}, [])
 
 	return (

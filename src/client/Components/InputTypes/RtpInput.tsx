@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
-import { storeSetGlobalInParamString, storeSetInputParams } from '../../../interface/redux/containerActions'
+import { storeSetGlobalInParamArr, storeSetInputParams } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
 
@@ -24,9 +24,9 @@ const RtpInputOptions: React.FC<IRtpProps> = (props) => {
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(
-			storeSetGlobalInParamString(
+			storeSetGlobalInParamArr(
 				id,
-				` -re -vsync 1 ` + findGpuSettings(osType) + ` -adrift_threshold 0.06 -async 8000 `
+				['-re -vsync', '1', ...findGpuSettings(osType), '-adrift_threshold', '0.06', '-async', '8000']
 			)
 		)
 		if (!ip) {

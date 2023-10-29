@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { storeSetFilterParams, storeSetFilterParamString } from '../../../../interface/redux/containerActions'
+import { storeSetFilterParams, storeSetFilterParamArr } from '../../../../interface/redux/containerActions'
 import { RootState } from '../../../main'
 
 interface ICodecProps {
@@ -26,9 +26,9 @@ const H264NvidiaCodecOptions: React.FC<ICodecProps> = (props) => {
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 
 		dispatch(
-			storeSetFilterParamString(
+			storeSetFilterParamArr(
 				id,
-				` {arg3} -c:v h264_nvenc -preset llhq -b:v {arg0}k -cbr true -zerolatency true -pix_fmt yuv420p `
+				['{arg3}', '-c:v', 'h264_nvenc', '-preset', 'llhq', '-b:v', '{arg0}k', '-cbr', 'true', '-zerolatency', 'true', '-pix_fmt', 'yuv420p']
 				)
 				)
 				//`  -c:v hevc_videotoolbox -b:v {arg0}k -pix_fmt yuv422p -realtime true -q:v {arg2} -acodec libopus -b:a {arg1}k `

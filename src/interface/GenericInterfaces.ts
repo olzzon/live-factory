@@ -15,7 +15,7 @@ export interface IFactory {
 
 export interface IInputParams {
     type: INPUT_TYPES
-    param: string
+    param: string[]
     paramArgs: string[]
 }
 
@@ -36,7 +36,7 @@ export enum INPUT_TYPES {
 
 export interface IOutputParams {
     type: OUTPUT_TYPES
-    param: string
+    param: string[]
     paramArgs: string[]
 }
 
@@ -55,7 +55,7 @@ export enum OUTPUT_TYPES {
 
 export interface IOutputCodecParams {
     type: OUTPUT_ENCODER
-    param: string
+    param: string[]
     paramArgs: string[]
 }
 
@@ -71,7 +71,7 @@ export enum OUTPUT_ENCODER {
 
 export interface IOutputAudioCodecParams {
     type: OUTPUT_AUDIO_ENCODER
-    param: string
+    param: string[]
     paramArgs: string[]
 }
 
@@ -81,7 +81,7 @@ export enum OUTPUT_AUDIO_ENCODER {
 }
 
 export interface IGlobalParams {
-    param: string
+    param: string[]
     paramArgs: string[]
 }
 

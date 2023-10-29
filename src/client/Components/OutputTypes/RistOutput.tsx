@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetFilterParams,
-	storeSetFilterParamString,
-	storeSetGlobalOutParamString,
+	storeSetGlobalOutParamArr,
 	storeSetOutputParams,
-	storeSetOutputParamString,
+	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { ISettings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
@@ -33,8 +31,8 @@ const RistOutputOptions: React.FC<IRistProps> = (props) => {
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 		// 'rist://123.123.123.123:8200?cname=SENDER01&bandwidth=2560000'
 
-		dispatch(storeSetGlobalOutParamString(id, ` `))
-		dispatch(storeSetOutputParamString(id, ` -f matroska "rist://{arg0}:{arg1}?pkt_size=1316&cname={arg2}" `))
+		dispatch(storeSetGlobalOutParamArr(id, []))
+		dispatch(storeSetOutputParamArr(id, ['-f', 'matroska', 'rist://{arg0}:{arg1}?pkt_size=1316&cname={arg2}']))
 
 		if (!ip) {
 			dispatch(storeSetOutputParams(id, 0, '0.0.0.0'))

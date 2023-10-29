@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParams,
-	storeSetGlobalInParamString,
+	storeSetGlobalInParamArr,
 	storeSetInputParams,
-	storeSetInputParamString,
+	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
@@ -28,8 +28,8 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 	)
 
 	useEffect(() => {
-		dispatch(storeSetGlobalInParamString(id, ` -stream_loop {arg0} `))
-		dispatch(storeSetInputParamString(id, ` -re ` + findGpuSettings(osType) + ` -vsync 0 -i "{arg0}{arg1}" `))
+		dispatch(storeSetGlobalInParamArr(id, ['-stream_loop', '{arg0}']))
+		dispatch(storeSetInputParamArr(id, ['-re', ...findGpuSettings(osType), '-vsync', '0', '-i', '{arg0}{arg1}']))
 		if (!fileLoop) {
 			dispatch(storeSetGlobalInParams(id, 0, '1'))
 		}

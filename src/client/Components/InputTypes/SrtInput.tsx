@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
-	storeSetGlobalInParamString,
+	storeSetGlobalInParamArr,
 	storeSetInputParams,
-	storeSetInputParamString,
+	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
@@ -30,12 +30,12 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(
-			storeSetGlobalInParamString(id, ` -re ` + findGpuSettings(osType) + ` -adrift_threshold 0.06 -async 8000 `)
+			storeSetGlobalInParamArr(id, ['-re', ...findGpuSettings(osType), '-adrift_threshold', '0.06','-async', '8000'])
 		)
 		if (passphrase?.length < 10) {
-			dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}"`))
+			dispatch(storeSetInputParamArr(id, ['-i', 'srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}']))
 		} else {
-			dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}"`))
+			dispatch(storeSetInputParamArr(id, ['-i', 'srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}']))
 		}
 		if (!ip) {
 			dispatch(storeSetInputParams(id, 0, '0.0.0.0'))
@@ -54,9 +54,9 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 	const handlePassPhrase = (event: React.ChangeEvent<HTMLInputElement>) => {
 		dispatch(storeSetInputParams(id, 3, event.target.value))
 		if (passphrase.length < 10) {
-			dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}"`))
+			dispatch(storeSetInputParamArr(id, ['-i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}"']))
 		} else {
-			dispatch(storeSetInputParamString(id, `  -i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}"`))
+			dispatch(storeSetInputParamArr(id, ['-i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}"']))
 		}
 	}
 

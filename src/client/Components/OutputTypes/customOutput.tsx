@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetFilterParams,
-	storeSetFilterParamString,
+	storeSetFilterParamArr,
 	storeSetGlobalOutParams,
-	storeSetGlobalOutParamString,
+	storeSetGlobalOutParamArr,
 	storeSetOutputParams,
-	storeSetOutputParamString,
+	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -30,9 +30,9 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 		//  ` -c:v h264_videotoolbox -b:v {arg0}k -pix_fmt yuv420p -acodec libopus -b:a {arg1}k`
 		// CUDA Linux:
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
-		dispatch(storeSetGlobalOutParamString(id, `{arg0}`))
-		dispatch(storeSetFilterParamString(id, `{arg0}`))
-		dispatch(storeSetOutputParamString(id, `{arg0}`))
+		dispatch(storeSetGlobalOutParamArr(id, ['{arg0}']))
+		dispatch(storeSetFilterParamArr(id, ['{arg0}']))
+		dispatch(storeSetOutputParamArr(id, ['{arg0}']))
 
 		if (!globalOut) {
 			dispatch(storeSetGlobalOutParams(id, 0, ``))

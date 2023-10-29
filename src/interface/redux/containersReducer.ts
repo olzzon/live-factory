@@ -24,12 +24,12 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 				nodeIndex: 0,
 				activated: false,
 				running: false,
-				globalInput: { param: '', paramArgs: [] },
-				globalOutput: { param: '', paramArgs: [] },
-				input: { type: INPUT_TYPES.COLORBAR, param: '', paramArgs: [] },
-				filter: { type: OUTPUT_ENCODER.COPY, param: ' -v:c copy ', paramArgs: [''] },
-				audioFilter: { type: OUTPUT_AUDIO_ENCODER.COPY, param: ' -v:c copy ', paramArgs: [''] },
-				output: { type: OUTPUT_TYPES.NDI, param: '', paramArgs: [] },
+				globalInput: { param: [], paramArgs: [] },
+				globalOutput: { param: [], paramArgs: [] },
+				input: { type: INPUT_TYPES.COLORBAR, param: [], paramArgs: [] },
+				filter: { type: OUTPUT_ENCODER.COPY, param: ['-v:c copy'], paramArgs: [''] },
+				audioFilter: { type: OUTPUT_AUDIO_ENCODER.COPY, param: ['-a:c copy'], paramArgs: [''] },
+				output: { type: OUTPUT_TYPES.NDI, param: [], paramArgs: [] },
 				log: ['log is empty'],
 			},
 		],
@@ -95,8 +95,8 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_TYPE:
 			nextState[0].factory[action.factoryId].audioFilter.type = action.filterType
 			return nextState
-		case CONTAINER_ACTIONS.SET_GLOBAL_IN_PARAM_STRING:
-			nextState[0].factory[action.factoryId].globalInput.param = action.paramString
+		case CONTAINER_ACTIONS.SET_GLOBAL_IN_PARAM_ARR:
+			nextState[0].factory[action.factoryId].globalInput.param = action.paramArr
 			return nextState
 		case CONTAINER_ACTIONS.SET_GLOBAL_IN_PARAMS:
 			nextState[0].factory[action.factoryId].globalInput.paramArgs[action.paramIndex] = action.param
@@ -104,8 +104,8 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.CLEAR_GLOBAL_IN_PARAMS:
 			nextState[0].factory[action.factoryId].globalInput.paramArgs = ['']
 			return nextState
-		case CONTAINER_ACTIONS.SET_GLOBAL_OUT_PARAM_STRING:
-			nextState[0].factory[action.factoryId].globalOutput.param = action.paramString
+		case CONTAINER_ACTIONS.SET_GLOBAL_OUT_PARAM_ARR:
+			nextState[0].factory[action.factoryId].globalOutput.param = action.paramArr
 			return nextState
 		case CONTAINER_ACTIONS.SET_GLOBAL_OUT_PARAMS:
 			nextState[0].factory[action.factoryId].globalOutput.paramArgs[action.paramIndex] = action.param
@@ -113,8 +113,8 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.CLEAR_GLOBAL_OUT_PARAMS:
 			nextState[0].factory[action.factoryId].globalOutput.paramArgs = ['']
 			return nextState
-		case CONTAINER_ACTIONS.SET_INPUT_PARAM_STRING:
-			nextState[0].factory[action.factoryId].input.param = action.paramString
+		case CONTAINER_ACTIONS.SET_INPUT_PARAM_ARR:
+			nextState[0].factory[action.factoryId].input.param = action.paramArr
 			return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_PARAMS:
 			nextState[0].factory[action.factoryId].input.paramArgs[action.paramIndex] = action.param
@@ -122,8 +122,8 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.CLEAR_INPUT_PARAMS:
 			nextState[0].factory[action.factoryId].input.paramArgs = ['']
 			return nextState
-		case CONTAINER_ACTIONS.SET_FILTER_PARAM_STRING:
-			nextState[0].factory[action.factoryId].filter.param = action.paramString
+		case CONTAINER_ACTIONS.SET_FILTER_PARAM_ARR:
+			nextState[0].factory[action.factoryId].filter.param = action.paramArr
 			return nextState
 		case CONTAINER_ACTIONS.SET_FILTER_PARAMS:
 			nextState[0].factory[action.factoryId].filter.paramArgs[action.paramIndex] = action.param
@@ -131,8 +131,8 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.CLEAR_FILTER_PARAMS:
 			nextState[0].factory[action.factoryId].filter.paramArgs = ['']
 			return nextState
-		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_PARAM_STRING:
-			nextState[0].factory[action.factoryId].audioFilter.param = action.paramString
+		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_PARAM_ARR:
+			nextState[0].factory[action.factoryId].audioFilter.param = action.paramArr
 			return nextState
 		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_PARAMS:
 			nextState[0].factory[action.factoryId].audioFilter.paramArgs[action.paramIndex] = action.param
@@ -140,8 +140,8 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.CLEAR_FILTER_AUDIO_PARAMS:
 			nextState[0].factory[action.factoryId].audioFilter.paramArgs = ['']
 			return nextState
-		case CONTAINER_ACTIONS.SET_OUTPUT_PARAM_STRING:
-			nextState[0].factory[action.factoryId].output.param = action.paramString
+		case CONTAINER_ACTIONS.SET_OUTPUT_PARAM_ARR:
+			nextState[0].factory[action.factoryId].output.param = action.paramArr
 			return nextState
 		case CONTAINER_ACTIONS.SET_OUTPUT_PARAMS:
 			nextState[0].factory[action.factoryId].output.paramArgs[action.paramIndex] = action.param

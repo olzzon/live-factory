@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetFilterAudioParamString,
-	storeSetFilterParamString,
-	storeSetGlobalOutParamString,
+	storeSetFilterAudioParamArr,
+	storeSetFilterParamArr,
+	storeSetGlobalOutParamArr,
 	storeSetOutputParams,
-	storeSetOutputParamString,
+	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { ISettings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
@@ -23,10 +23,10 @@ const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
 
 	useEffect(() => {
-		dispatch(storeSetGlobalOutParamString(id, ` -probesize 32 `))
-		dispatch(storeSetFilterParamString(id, ` `))
-		dispatch(storeSetFilterAudioParamString(id, ` `))
-		dispatch(storeSetOutputParamString(id, ` -f libndi_newtek -pix_fmt uyvy422 {arg0}`))
+		dispatch(storeSetGlobalOutParamArr(id, ['-probesize', '32']))
+		dispatch(storeSetFilterParamArr(id, []))
+		dispatch(storeSetFilterAudioParamArr(id, []))
+		dispatch(storeSetOutputParamArr(id, ['-f', 'libndi_newtek', '-pix_fmt', 'uyvy422', '{arg0}']))
 		if (!outputName) {
 			dispatch(storeSetOutputParams(id, 0, `NDI_PIPE${id + 1}`))
 		}

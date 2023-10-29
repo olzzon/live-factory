@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetGlobalOutParamString,
+	storeSetGlobalOutParamArr,
 	storeSetOutputParams,
-	storeSetOutputParamString,
+	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { ISettings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
@@ -30,8 +30,8 @@ const TcpOutputOptions: React.FC<ITcpProps> = (props) => {
 		// CUDA Linux:
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 
-		dispatch(storeSetGlobalOutParamString(id, ` `))
-		dispatch(storeSetOutputParamString(id, ` -f matroska "tcp://{arg0}:{arg1}?{arg2}" `))
+		dispatch(storeSetGlobalOutParamArr(id, []))
+		dispatch(storeSetOutputParamArr(id, ['-f', 'matroska', 'tcp://{arg0}:{arg1}?{arg2}']))
 
 		if (!ip) {
 			dispatch(storeSetOutputParams(id, 0, '0.0.0.0'))

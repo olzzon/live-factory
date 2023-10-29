@@ -41,7 +41,7 @@ import RtpOutputOptions from './OutputTypes/RtpOutput'
 import RtpInputOptions from './InputTypes/RtpInput'
 import ScreenOutputOptions from './OutputTypes/ScreenOutput'
 import LogOutput from './LogOutput'
-import insertArgs from '../utils/insertArgs'
+import insertArgsToString from '../utils/insertArgs'
 import { NodeList, ISettings } from '../../interface/SettingsInterface'
 
 export interface IfactoryId {
@@ -71,8 +71,8 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 			dispatch(storeClearGlobalInParams(id))
 			dispatch(storeClearInputParams(id))
 		} else {
-			dispatch(storeSetGlobalInParams(id, 0, insertArgs(factory.globalInput.param, factory.globalInput.paramArgs)))
-			dispatch(storeSetInputParams(id, 0, insertArgs(factory.input.param, factory.input.paramArgs)))
+			dispatch(storeSetGlobalInParams(id, 0, insertArgsToString(factory.globalInput.param, factory.globalInput.paramArgs)))
+			dispatch(storeSetInputParams(id, 0, insertArgsToString(factory.input.param, factory.input.paramArgs)))
 		}
 		dispatch(storeSetInputType(id, event.target.value as INPUT_TYPES))
 	}
@@ -84,10 +84,10 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 			dispatch(storeClearGlobalOutParams(id))
 			dispatch(storeClearOutputParams(id))
 		} else {
-			dispatch(storeSetFilterParams(id, 0, insertArgs(factory.filter.param, factory.filter.paramArgs)))
-			dispatch(storeSetFilterAudioParams(id, 0, insertArgs(factory.audioFilter.param, factory.audioFilter.paramArgs)))
-			dispatch(storeSetGlobalOutParams(id, 0, insertArgs(factory.globalOutput.param, factory.globalOutput.paramArgs)))
-			dispatch(storeSetOutputParams(id, 0, insertArgs(factory.output.param, factory.output.paramArgs)))
+			dispatch(storeSetFilterParams(id, 0, insertArgsToString(factory.filter.param, factory.filter.paramArgs)))
+			dispatch(storeSetFilterAudioParams(id, 0, insertArgsToString(factory.audioFilter.param, factory.audioFilter.paramArgs)))
+			dispatch(storeSetGlobalOutParams(id, 0, insertArgsToString(factory.globalOutput.param, factory.globalOutput.paramArgs)))
+			dispatch(storeSetOutputParams(id, 0, insertArgsToString(factory.output.param, factory.output.paramArgs)))
 		}
 		dispatch(storeSetOutputType(id, event.target.value as OUTPUT_TYPES))
 	}
