@@ -30,7 +30,7 @@ export class DockerInstance {
 		// Todo: Add support for docker args pr pipeline (e.g. ports for NDI and SRT)
 		const containerArgs = '-it -p 5000-9000:5000-9000'
 
-		const ffmpegArgs = [	
+		const ffmpegArgs = [
 			'-hide_banner',
 			...insertArgs(cmd.globalInput.param, cmd.globalInput.paramArgs),
 			...insertArgs(cmd.globalOutput.param, cmd.globalOutput.paramArgs),
@@ -46,22 +46,26 @@ export class DockerInstance {
 		console.log('Container is starting')
 
 		this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ffmpegArgs, [process.stdout, process.stderr], { Env: [containerArgs], Tty: false },
-			(err: Error, data: any) => {
+			(err: Error) => {
 				if (err) {
 					addToLog(this.containerIndex, err.message)
 					if (err.message.includes('Decklink input buffer overrun')) {
 						// Restart service if Decklink buffer is overrun:
 					}
 					console.error('Error :', err.message)
-				} else {
-					addToLog(this.containerIndex, 'Running')
-					//console.log('Data from Docker :', data)
-					//let statusCode = data[0];
-					this.container = data[1];
-					//console.log("Statuscode :", statusCode);
 				}
 			}
-		)
+		).on('container', (container: any) => {
+			console.log('Container :', container.id)
+			this.container = container
+		}).on('stream', (stream: any) => {
+			stream.on('data', (data: any) => {
+				console.log('Data :', data.toString())
+			})
+		}).on('stop', (data: any) => {
+			console.log('Stop :', data)
+			this.container.remove()
+		})
 
 
 		/*
@@ -101,7 +105,7 @@ export class DockerInstance {
 
 	killInstance = (containerIndex: number) => {
 		console.log(`Stopping Encoder Index : ${containerIndex}`, 'Docker :', this.container.id)
-		this.container.remove();
+		this.container.stop();
 		if (this.timeOutInstance) {
 			clearTimeout(this.timeOutInstance)
 		}

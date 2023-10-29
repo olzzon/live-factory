@@ -28,14 +28,17 @@ export class FFmepgInstance {
 	initFFmpeg = (cmd: IFactory) => {
 		const command = this.settings.nodeList[cmd.nodeIndex].path || path.resolve(homeDir, 'live-factory', 'ffmpegruntime')
 
-		let args =
-			' -hide_banner ' +
-			insertArgs(cmd.globalInput.param, cmd.globalInput.paramArgs) +
-			insertArgs(cmd.globalOutput.param, cmd.globalOutput.paramArgs) +
-			insertArgs(cmd.input.param, cmd.input.paramArgs) +
-			insertArgs(cmd.filter.param, cmd.filter.paramArgs) +
-			insertArgs(cmd.audioFilter.param, cmd.audioFilter.paramArgs) +
-			insertArgs(cmd.output.param, cmd.output.paramArgs)
+		const argsArray = [
+			'-hide_banner',
+			...insertArgs(cmd.globalInput.param, cmd.globalInput.paramArgs),
+			...insertArgs(cmd.globalOutput.param, cmd.globalOutput.paramArgs),
+			...insertArgs(cmd.input.param, cmd.input.paramArgs),
+			...insertArgs(cmd.filter.param, cmd.filter.paramArgs),
+			...insertArgs(cmd.audioFilter.param, cmd.audioFilter.paramArgs),
+			...insertArgs(cmd.output.param, cmd.output.paramArgs)
+		]
+
+		const args: string = argsArray.join(' ')
 
 		this.keepInstanceRunning = true
 
