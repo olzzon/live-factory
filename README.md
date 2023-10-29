@@ -2,15 +2,18 @@
 GUI based Reciever - transmitter - transcoder for video and audio 
 
 Livefactory is build with containerbased production in mind.
+
 So instead of including ffmpeg inside the code, ffmeg runs an instance pr. Transcoder.
-You can run a local ffmpeg instance or use the docker API for controlling other machines (nodes  https://docs.docker.com/engine/api/v1.43/) 
+
+You can run a local ffmpeg instance or use the docker API for controlling other machines (nodes  https://docs.docker.com/engine/api/v1.43/)
+
 It's using the dockerode package for handling this (https://www.npmjs.com/package/dockerode)
 
 <img src="Doc/pix/live-factory-node01.png">
 
 
 Roadmap:
-+ Local ffmpeg support with most used protocols
++ +Local ffmpeg support with most used protocols
 * Support for docker based ffmpeg (in progress)
 * Support for controlling multiple ffmpeg nodes (in progress) 
 * REST API for external control
@@ -53,7 +56,7 @@ http://localhost:1406
 ```
 
 ### Settings:
-When running Live-factory for the first time, a settings.json file will be created, with all the available options.
+When running Live-factory for the first time, live-factory/settings.json folder and file will be created in your home folder, with all the available options.
 Depening on the setup, it's possible to remove certain types from the allowed lists.
 An example of the settings.json file is placed in: Doc/settings.json
 
