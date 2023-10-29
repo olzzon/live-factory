@@ -65,10 +65,15 @@ Here's the basic structure of the settings.json file:
         {
             "name": "FFmpeg local",
             "type": "FFMPEG",
-            "url": "/usr/bin/ffmpeg"
+            "path": "/usr/bin/ffmpeg"
         },
         {
-            "name": "Docker FFmpeg local",
+            "name": "Docker Node 01",
+            "type": "DOCKER",
+            "host": "192.168.122.129",
+            "port": 4333,
+            "containerName": "jrottenberg/ffmpeg"
+        }
         .........................
     ],
     "allowedInputTypes": [
