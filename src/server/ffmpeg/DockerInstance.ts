@@ -46,7 +46,7 @@ export class DockerInstance {
 		//this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ['ffmpeg ', containerArgs, ffmpegArgs], [process.stdout, process.stderr], { Tty: false },
 		console.log('Container is starting')
 
-		this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, { Env: [containerArgs], Tty: false },
+		this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, { name: 'live-factory'+Date.now()  ,Env: [containerArgs], Tty: false },
 			(err: Error) => {
 				if (err) {
 					addToLog(this.containerIndex, err.message)
