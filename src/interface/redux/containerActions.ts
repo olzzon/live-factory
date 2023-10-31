@@ -1,5 +1,4 @@
-import { IDeviceList, INPUT_TYPES, OUTPUT_AUDIO_ENCODER, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
-import { Pipeline } from '../GenericInterfaces'
+import { Pipeline, IDeviceList, INPUT_TYPES, OUTPUT_AUDIO_ENCODER, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
 import { GPU_TYPES } from '../SettingsInterface'
 
 export const ADD_FACTORY = 'addFactory'

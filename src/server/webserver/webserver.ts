@@ -20,7 +20,7 @@ const socketIO = new Server(httpServer)
 
 const PORT = 1406
 let pipelines: Pipeline[] = []
-let pipelineInstances: Array<FFmepgInstance | DockerInstance> = []
+let pipelineInstances: Array<FFmepgInstance | DockerInstance | undefined> = []
 let nodeInstances: Array<Docker | null> = []
 let devices: IDeviceList[] = []
 let settings: ISettings = loadSettings()
@@ -107,6 +107,10 @@ export const initializeWebServer = () => {
 
 		client
 			.on(IO.START_ENCODER, (id: number, cmd: Pipeline) => {
+				if (pipelines[id].nodeIndex !== cmd.nodeIndex) {
+					pipelineInstances[id]?.stopInstance(id)
+					pipelineInstances[id] = undefined
+				}
 				updatePipeline(id, cmd)
 				if (!pipelineInstances[id]) {
 					if (settings.nodeList[cmd.nodeIndex].type === NODE_TYPES.FFMPEG) {
@@ -115,7 +119,7 @@ export const initializeWebServer = () => {
 						pipelineInstances[id] = new DockerInstance({ pipelineIndex: id, settings: settings, dockerNode: nodeInstances[cmd.nodeIndex] })
 					}
 				}
-				pipelineInstances[id].initFFmpeg(cmd)
+				pipelineInstances[id]?.initFFmpeg(cmd)
 			})
 			.on(IO.STOP_ENCODER, (id: number) => {
 				pipelineInstances[id]?.stopInstance(id)

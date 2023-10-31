@@ -78,6 +78,7 @@ const Transcoder: React.FC<Transcoder> = (props) => {
 	}
 
 	const handleSetOutputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		// ToDo: Better clearing of values:
 		if ((event.target.value as OUTPUT_TYPES) !== OUTPUT_TYPES.CUSTOM) {
 			dispatch(storeClearFilterValue(id))
 			dispatch(storeClearFilterAudioValue(id))
