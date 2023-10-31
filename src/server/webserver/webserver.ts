@@ -16,11 +16,13 @@ import { discoverDecklinkOutputs } from '../utils/discoverDecklinkOutputs'
 import { findGpu } from '../utils/findGpu'
 import { NODE_TYPES, ISettings } from '../../interface/SettingsInterface'
 import { DockerInstance } from '../ffmpeg/DockerInstance'
+import Docker from 'dockerode'
 const socketIO = new Server(httpServer)
 
 const PORT = 1406
 let pipelines: Pipeline[] = []
 let pipelineInstances: Array<FFmepgInstance | DockerInstance> = []
+let nodeInstances: Array<Docker | null> = []
 let devices: IDeviceList[] = []
 let settings: ISettings = loadSettings()
 
@@ -60,7 +62,7 @@ const subscribeDevicesList = () => {
 	}, 9000)
 }
 
-export const updateEncoderState = (index: number, activated: boolean, running: boolean) => {
+export const updatePipelineState = (index: number, activated: boolean, running: boolean) => {
 	if (pipelines[index]) {
 		pipelines[index].activated = activated
 		pipelines[index].running = running
@@ -83,7 +85,17 @@ const initializePipelines = () => {
 	})
 }
 
+const initialiseNodes = () => {
+	settings.nodeList.forEach((node, index) => {
+		if (node.type === NODE_TYPES.DOCKER) {
+			nodeInstances[index] = new Docker({host: node.host, port: node.port})
+		}
+	})
+}
+
+
 export const initializeWebServer = () => {
+	initialiseNodes()
 	initializePipelines()
 	subscribeDevicesList()
 	expressApp.use('/', express.static(path.resolve(__dirname, '../../client')))
@@ -104,7 +116,7 @@ export const initializeWebServer = () => {
 					if (settings.nodeList[cmd.nodeIndex].type === NODE_TYPES.FFMPEG) {
 						pipelineInstances[id] = new FFmepgInstance({ containerIndex: id, settings: settings })
 					} else {
-						pipelineInstances[id] = new DockerInstance({ containerIndex: id, settings: settings })
+						pipelineInstances[id] = new DockerInstance({ pipelineIndex: id, settings: settings, dockerNode: nodeInstances[cmd.nodeIndex] })
 					}
 				}
 				pipelineInstances[id].initFFmpeg(cmd)

@@ -1,32 +1,35 @@
 import { Pipeline } from '../../interface/GenericInterfaces'
 import insertArgs from '../utils/insertArgs'
-import { addToLog, updateEncoderState } from '../webserver/webserver'
+import { addToLog, updatePipelineState } from '../webserver/webserver'
 import Docker from 'dockerode'
 import { ISettings } from '../../interface/SettingsInterface'
 
 interface DockerInstanceProps {
-	containerIndex: number
+	pipelineIndex: number
 	settings: ISettings
+	dockerNode: Docker | null
 }
 
 export class DockerInstance {
 	settings: ISettings
-	containerIndex = 0
+	docker: Docker | null
+	containerIndex: number
 	timeOutInstance: NodeJS.Timeout | null = null
 	keepInstanceRunning = true
-	docker: Docker | null = null
 	container: any = null
 
 	constructor(props: DockerInstanceProps) {
-		this.containerIndex = props.containerIndex
+		this.containerIndex = props.pipelineIndex
 		this.settings = props.settings
+		this.docker = props.dockerNode
 	}
 
 
 	initFFmpeg = (cmd: Pipeline) => {
-		const node = this.settings.nodeList[cmd.nodeIndex]
-		this.docker = new Docker({ host: node.host, port: node.port })
-
+		if (!this.docker) {
+			return
+		}
+		const containerName = this.settings.nodeList[cmd.nodeIndex].containerName
 		// Todo: Add support for docker args pr pipeline (e.g. ports for NDI and SRT)
 		const containerArgs = '-it -p 5000-9000:5000-9000'
 
@@ -55,7 +58,7 @@ export class DockerInstance {
 		})
 
 
-		this.docker.run(node.containerName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, { name: runtimeName ,Env: [containerArgs], Tty: false },
+		this.docker.run(containerName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, { name: runtimeName ,Env: [containerArgs], Tty: false },
 			(err: Error) => {
 				if (err) {
 					addToLog(this.containerIndex, err.message)
@@ -66,19 +69,19 @@ export class DockerInstance {
 				}
 			}
 		).on('container', (container: any) => {
-			updateEncoderState(this.containerIndex, true, false)
+			updatePipelineState(this.containerIndex, true, false)
 			console.log('Container :', container.id)
 			this.container = container
 		}).on('stream', (stream: any) => {
 			stream.on('data', (data: any) => {
 				console.log('Data :', data.toString())
-				updateEncoderState(this.containerIndex, true, true)
+				updatePipelineState(this.containerIndex, true, true)
 			})
 			.on('end', () => {
 				this.container.remove()
 				this.container = null
 				console.log('Encoding ended, container removed')
-				updateEncoderState(this.containerIndex, false, false)
+				updatePipelineState(this.containerIndex, false, false)
 			})
 		})
 	}
@@ -86,7 +89,7 @@ export class DockerInstance {
 	runInstance = (command: string, args: string[]) => {
 		console.log(command, args)
 		console.log('Setting Encoder state on index:', this.containerIndex)
-		updateEncoderState(this.containerIndex, true, true)
+		updatePipelineState(this.containerIndex, true, true)
 		return this.container.id
 	}
 
@@ -96,7 +99,7 @@ export class DockerInstance {
 		if (this.timeOutInstance) {
 			clearTimeout(this.timeOutInstance)
 		}
-		updateEncoderState(this.containerIndex, false, false)
+		updatePipelineState(this.containerIndex, false, false)
 	}
 
 	stopInstance = (containerIndex: number) => {
