@@ -28,7 +28,7 @@ const UdpInputOptions: React.FC<IUdpInputProps> = (props) => {
 
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamArr(id, ['-re', '-vsync', '0', ...findGpuSettings(hwAccel)]))
-		dispatch(storeSetInputParamArr(id, ['-i udp://{arg0}:{arg1}?fifo_size={arg2}']))
+		dispatch(storeSetInputParamArr(id, ['-i', 'udp://{arg0}:{arg1}?fifo_size={arg2}']))
 		if (!ip) {
 			dispatch(storeSetInputValue(id, 0, 'localhost'))
 		}

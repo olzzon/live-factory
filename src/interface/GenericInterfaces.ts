@@ -28,7 +28,7 @@ export enum INPUT_TYPES {
     // RIST = 'RIST',
     UDP = 'UDP',
     TCP = 'TCP',
-    RTP = 'RTP',
+    // RTP = 'RTP',
     FILE = 'FILE',
     NDI = 'NDI',
     DECKLINK = 'DECKLINK',
