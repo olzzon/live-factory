@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetGlobalOutParamArr,
-	storeSetOutputParams,
+	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { ISettings } from '../../../interface/SettingsInterface'
@@ -35,13 +35,13 @@ const RistOutputOptions: React.FC<IRistProps> = (props) => {
 		dispatch(storeSetOutputParamArr(id, ['-f', 'matroska', 'rist://{arg0}:{arg1}?pkt_size=1316&cname={arg2}']))
 
 		if (!ip) {
-			dispatch(storeSetOutputParams(id, 0, '0.0.0.0'))
+			dispatch(storeSetOutputValue(id, 0, '0.0.0.0'))
 		}
 		if (!port) {
-			dispatch(storeSetOutputParams(id, 1, '9998'))
+			dispatch(storeSetOutputValue(id, 1, '9998'))
 		}
 		if (!cname) {
-			dispatch(storeSetOutputParams(id, 2, 'SENDER01'))
+			dispatch(storeSetOutputValue(id, 2, 'SENDER01'))
 		}
 	}, [])
 
@@ -55,7 +55,7 @@ const RistOutputOptions: React.FC<IRistProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={ip ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -64,7 +64,7 @@ const RistOutputOptions: React.FC<IRistProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={port ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 1, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 1, event.target.value))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -73,7 +73,7 @@ const RistOutputOptions: React.FC<IRistProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={cname ?? 0}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 2, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 2, event.target.value))}
 					/>
 				</label>
 			</div>

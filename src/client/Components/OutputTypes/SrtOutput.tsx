@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetGlobalOutParamArr,
-	storeSetOutputParams,
+	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
@@ -48,37 +48,37 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		)
 
 		if (!ip) {
-			dispatch(storeSetOutputParams(id, 0, '0.0.0.0'))
+			dispatch(storeSetOutputValue(id, 0, '0.0.0.0'))
 		}
 		if (!port) {
-			dispatch(storeSetOutputParams(id, 1, '9998'))
+			dispatch(storeSetOutputValue(id, 1, '9998'))
 		}
 		if (!mode) {
-			dispatch(storeSetOutputParams(id, 2, 'listener'))
+			dispatch(storeSetOutputValue(id, 2, 'listener'))
 		}
 		if (!passphrase) {
-			dispatch(storeSetOutputParams(id, 3, ''))
+			dispatch(storeSetOutputValue(id, 3, ''))
 		}
 		if (lowLatencyState) {
-			dispatch(storeSetOutputParams(id, 4, '&latency=' + LOW_LATENCY))
+			dispatch(storeSetOutputValue(id, 4, '&latency=' + LOW_LATENCY))
 			dispatch(storeSetGlobalOutParamArr(id, ['-fflags nobuffer', '-flags low_delay', '-probesize 32']))
 		} else {
-			dispatch(storeSetOutputParams(id, 4, ''))
+			dispatch(storeSetOutputValue(id, 4, ''))
 			dispatch(storeSetGlobalOutParamArr(id, []))
 		}
 		if (!protocol) {
-			dispatch(storeSetOutputParams(id, 5, 'mpegts'))
+			dispatch(storeSetOutputValue(id, 5, 'mpegts'))
 		}
 
 	}, [])
 
 	const handleSetLowLatency = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
-			dispatch(storeSetOutputParams(id, 4, '&latency=' + LOW_LATENCY))
+			dispatch(storeSetOutputValue(id, 4, '&latency=' + LOW_LATENCY))
 			dispatch(storeSetGlobalOutParamArr(id, ['-fflags nobuffer', '-flags low_delay', '-probesize 32']))
 			setLowLatencyState(true)
 		} else {
-			dispatch(storeSetOutputParams(id, 4, ''))
+			dispatch(storeSetOutputValue(id, 4, ''))
 			dispatch(storeSetGlobalOutParamArr(id, []))
 			setLowLatencyState(false)
 		}
@@ -94,7 +94,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={ip ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -103,7 +103,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={port ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 1, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 1, event.target.value))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -112,14 +112,14 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={passphrase ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 3, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 3, event.target.value))}
 					/>
 				</label>
 				<label className="pipeline-label">
 					Mode :
 					<select
 						value={mode ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 2, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 2, event.target.value))}
 					>
 						<option value="listener">Listener</option>
 						<option value="caller">Caller</option>
@@ -138,7 +138,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					Protocol :
 					<select
 						value={protocol ?? 'mpegts'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 5, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 5, event.target.value))}
 					>
 						<option value="mpegts">Mpeg-Ts</option>
 						<option value="matroska">Matroska</option>

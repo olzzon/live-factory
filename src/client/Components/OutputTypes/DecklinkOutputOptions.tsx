@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetFilterParamArr,
 	storeSetGlobalOutParamArr,
-	storeSetOutputParams,
+	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
@@ -31,15 +31,15 @@ const DecklinkOutputOptions: React.FC<IDecklinkProps> = (props) => {
 		dispatch(storeSetFilterParamArr(id, []))
 		dispatch(storeSetOutputParamArr(id, ['-f', 'decklink', '-pix_fmt', 'uyvy422', '{arg0}']))
 		if (!outputName) {
-			dispatch(storeSetOutputParams(id, 0, `DeckLink Quad (1)`))
+			dispatch(storeSetOutputValue(id, 0, `DeckLink Quad (1)`))
 		}
 		if (!channels) {
-			dispatch(storeSetOutputParams(id, 1, `2`))
+			dispatch(storeSetOutputValue(id, 1, `2`))
 		}
 	}, [])
 
 	const handleSetDecklinkOutput = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(storeSetOutputParams(id, 0, event.target.value))
+		dispatch(storeSetOutputValue(id, 0, event.target.value))
 	}
 
 	return (
@@ -52,7 +52,7 @@ const DecklinkOutputOptions: React.FC<IDecklinkProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={outputName ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -76,7 +76,7 @@ const DecklinkOutputOptions: React.FC<IDecklinkProps> = (props) => {
 						className="input-number"
 						type="number"
 						value={channels ?? 2}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 1, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 1, event.target.value))}
 					/>
 				</label>
 			</div>

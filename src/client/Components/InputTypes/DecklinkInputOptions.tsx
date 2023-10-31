@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
-	storeSetInputParams,
+	storeSetInputValue,
 	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
@@ -29,18 +29,18 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 		dispatch(storeSetGlobalInParamArr(id, ['-re']))
 		dispatch(storeSetInputParamArr(id, ['-f', 'decklink', '-i', '{arg0}', '-channels', '{arg1}', '-queue_size', '{arg2}']))
 		if (!decklinkInput) {
-			dispatch(storeSetInputParams(id, 0, 'DeckLink Quad (1)'))
+			dispatch(storeSetInputValue(id, 0, 'DeckLink Quad (1)'))
 		}
 		if (!channels) {
-			dispatch(storeSetInputParams(id, 1, '16'))
+			dispatch(storeSetInputValue(id, 1, '16'))
 		}
 		if (!queue_size) {
-			dispatch(storeSetInputParams(id, 2, '1073741824'))
+			dispatch(storeSetInputValue(id, 2, '1073741824'))
 		}
 	}, [])
 
 	const handleSetDecklinkInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(storeSetInputParams(id, 0, event.target.value))
+		dispatch(storeSetInputValue(id, 0, event.target.value))
 	}
 
 	return (
@@ -54,7 +54,7 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={decklinkInput ?? 'DeckLink Quad (1)'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -76,7 +76,7 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 				Audio channels :
 				<select
 					value={channels ?? 16}
-					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 1, event.target.value))}
 				>
 					<option key={2} value={2}>2</option>
 					<option key={4} value={4}>4</option>

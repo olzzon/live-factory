@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
-	storeSetGlobalInParams,
+	storeSetGlobalInValue,
 	storeSetGlobalInParamArr,
-	storeSetInputParams,
+	storeSetInputValue,
 	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
@@ -30,10 +30,10 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 		dispatch(storeSetInputParamArr(id, [`{arg0}`]))
 
 		if (!globalIn) {
-			dispatch(storeSetGlobalInParams(id, 0, ` -re ` + findGpuSettings(osType)))
+			dispatch(storeSetGlobalInValue(id, 0, ` -re ` + findGpuSettings(osType)))
 		}
 		if (!input) {
-			dispatch(storeSetInputParams(id, 0, `  -i "srt://0.0.0.0:9998?pkt_size=1316&mode=listener" `))
+			dispatch(storeSetInputValue(id, 0, `  -i "srt://0.0.0.0:9998?pkt_size=1316&mode=listener" `))
 		}
 	}, [])
 
@@ -48,7 +48,7 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={globalIn ?? 'none'}
-					onChange={(event) => dispatch(storeSetGlobalInParams(id, 0, event.target.value))}
+					onChange={(event) => dispatch(storeSetGlobalInValue(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -57,7 +57,7 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={input ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
 				/>
 			</label>
 		</div>

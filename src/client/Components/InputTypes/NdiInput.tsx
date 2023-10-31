@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
-	storeSetInputParams,
+	storeSetInputValue,
 	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
@@ -27,12 +27,12 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 		dispatch(storeSetGlobalInParamArr(id, []))
 		dispatch(storeSetInputParamArr(id, ['-f', 'libndi_newtek', '-i', '{arg0}']))
 		if (!ndiName) {
-			dispatch(storeSetInputParams(id, 0, 'HOSTNAME (NDINAME)'))
+			dispatch(storeSetInputValue(id, 0, 'HOSTNAME (NDINAME)'))
 		}
 	}, [])
 
 	const handleSetNdiSource = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(storeSetInputParams(id, 0, event.target.value))
+		dispatch(storeSetInputValue(id, 0, event.target.value))
 	}
 
 	return (
@@ -46,7 +46,7 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={ndiName ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">

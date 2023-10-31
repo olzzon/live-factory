@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetFilterAudioParams,
+	storeSetFilterAudioValue,
 	storeSetFilterAudioParamArr,
 } from '../../../../../interface/redux/containerActions'
 import { RootState } from '../../../../main'
@@ -21,10 +21,10 @@ const OpusCodecOptions: React.FC<ICodecProps> = (props) => {
 		dispatch(storeSetFilterAudioParamArr(id, ['-acodec', 'libopus', '-b:a', '{arg0}k']))
 
 		if (!aBandwidth) {
-			dispatch(storeSetFilterAudioParams(id, 0, `256`))
+			dispatch(storeSetFilterAudioValue(id, 0, `256`))
 		}
 		if (!aAudioTracks) {
-			dispatch(storeSetFilterAudioParams(id, 1, `2`))
+			dispatch(storeSetFilterAudioValue(id, 1, `2`))
 		}
 	}, [])
 
@@ -38,14 +38,14 @@ const OpusCodecOptions: React.FC<ICodecProps> = (props) => {
 					className="input-number"
 					type="number"
 					value={aBandwidth ?? '256'}
-					onChange={(event) => dispatch(storeSetFilterAudioParams(id, 0, event.target.value))}
+					onChange={(event) => dispatch(storeSetFilterAudioValue(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
 				Audio Tracks
 				<select
 					value={aAudioTracks || '2'}
-					onChange={(e) => dispatch(storeSetFilterAudioParams(id, 1, e.target.value))}
+					onChange={(e) => dispatch(storeSetFilterAudioValue(id, 1, e.target.value))}
 				>
 					<option value="2">Stereo</option>
 					<option value="4">4-tracks</option>

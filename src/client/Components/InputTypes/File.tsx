@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
-	storeSetGlobalInParams,
+	storeSetGlobalInValue,
 	storeSetGlobalInParamArr,
-	storeSetInputParams,
+	storeSetInputValue,
 	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
@@ -31,13 +31,13 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 		dispatch(storeSetGlobalInParamArr(id, ['-stream_loop', '{arg0}']))
 		dispatch(storeSetInputParamArr(id, ['-re', ...findGpuSettings(osType), '-vsync', '0', '-i', '{arg0}{arg1}']))
 		if (!fileLoop) {
-			dispatch(storeSetGlobalInParams(id, 0, '1'))
+			dispatch(storeSetGlobalInValue(id, 0, '1'))
 		}
 		if (!filePath) {
-			dispatch(storeSetInputParams(id, 0, '/Users/olzzon/coding/live-factory/media/'))
+			dispatch(storeSetInputValue(id, 0, '/Users/olzzon/coding/live-factory/media/'))
 		}
 		if (!fileName) {
-			dispatch(storeSetInputParams(id, 1, 'HDR10Jazz.mp4'))
+			dispatch(storeSetInputValue(id, 1, 'HDR10Jazz.mp4'))
 		}
 	}, [])
 
@@ -52,7 +52,7 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={filePath ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -61,7 +61,7 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={fileName ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 1, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -70,7 +70,7 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 					className="input-number"
 					type="number"
 					value={fileLoop ?? 0}
-					onChange={(event) => dispatch(storeSetGlobalInParams(id, 0, event.target.value))}
+					onChange={(event) => dispatch(storeSetGlobalInValue(id, 0, event.target.value))}
 				/>
 			</label>
 		</div>

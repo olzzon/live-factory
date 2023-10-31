@@ -94,6 +94,9 @@ export class DockerInstance {
 	}
 
 	killInstance = (containerIndex: number) => {
+		if (this.container === null) {
+			return
+		}
 		console.log(`Stopping Encoder Index : ${containerIndex}`, 'Docker :', this.container?.id)
 		this.container.stop();
 		if (this.timeOutInstance) {

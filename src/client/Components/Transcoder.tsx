@@ -4,21 +4,21 @@ import { INPUT_TYPES, Pipeline, OUTPUT_TYPES } from '../../interface/GenericInte
 import '../styles/app.css'
 import FileInputOptions from './InputTypes/File'
 import {
-	storeClearFilterAudioParams,
-	storeClearFilterParams,
-	storeClearGlobalInParams,
-	storeClearGlobalOutParams,
-	storeClearInputParams,
-	storeClearOutputParams,
+	storeClearFilterAudioValue,
+	storeClearFilterValue,
+	storeClearGlobalInValue,
+	storeClearGlobalOutValue,
+	storeClearInputValue,
+	storeClearOutputValue,
 	storeSetContainerName,
 	storeSetNodeIndex,
-	storeSetFilterAudioParams,
-	storeSetFilterParams,
-	storeSetGlobalInParams,
-	storeSetGlobalOutParams,
-	storeSetInputParams,
+	storeSetFilterAudioValue,
+	storeSetFilterValue,
+	storeSetGlobalInValue,
+	storeSetGlobalOutValue,
+	storeSetInputValue,
 	storeSetInputType,
-	storeSetOutputParams,
+	storeSetOutputValue,
 	storeSetOutputType,
 } from '../../interface/redux/containerActions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -68,26 +68,26 @@ const Transcoder: React.FC<PipelineId> = (props) => {
 
 	const handleSetInputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		if ((event.target.value as INPUT_TYPES) !== INPUT_TYPES.CUSTOM) {
-			dispatch(storeClearGlobalInParams(id))
-			dispatch(storeClearInputParams(id))
+			dispatch(storeClearGlobalInValue(id))
+			dispatch(storeClearInputValue(id))
 		} else {
-			dispatch(storeSetGlobalInParams(id, 0, insertArgsToString(pipeline.globalInput.param, pipeline.globalInput.paramArgs)))
-			dispatch(storeSetInputParams(id, 0, insertArgsToString(pipeline.input.param, pipeline.input.paramArgs)))
+			dispatch(storeSetGlobalInValue(id, 0, insertArgsToString(pipeline.globalInput.param, pipeline.globalInput.paramArgs)))
+			dispatch(storeSetInputValue(id, 0, insertArgsToString(pipeline.input.param, pipeline.input.paramArgs)))
 		}
 		dispatch(storeSetInputType(id, event.target.value as INPUT_TYPES))
 	}
 
 	const handleSetOutputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		if ((event.target.value as OUTPUT_TYPES) !== OUTPUT_TYPES.CUSTOM) {
-			dispatch(storeClearFilterParams(id))
-			dispatch(storeClearFilterAudioParams(id))
-			dispatch(storeClearGlobalOutParams(id))
-			dispatch(storeClearOutputParams(id))
+			dispatch(storeClearFilterValue(id))
+			dispatch(storeClearFilterAudioValue(id))
+			dispatch(storeClearGlobalOutValue(id))
+			dispatch(storeClearOutputValue(id))
 		} else {
-			dispatch(storeSetFilterParams(id, 0, insertArgsToString(pipeline.filter.param, pipeline.filter.paramArgs)))
-			dispatch(storeSetFilterAudioParams(id, 0, insertArgsToString(pipeline.audioFilter.param, pipeline.audioFilter.paramArgs)))
-			dispatch(storeSetGlobalOutParams(id, 0, insertArgsToString(pipeline.globalOutput.param, pipeline.globalOutput.paramArgs)))
-			dispatch(storeSetOutputParams(id, 0, insertArgsToString(pipeline.output.param, pipeline.output.paramArgs)))
+			dispatch(storeSetFilterValue(id, 0, insertArgsToString(pipeline.filter.param, pipeline.filter.paramArgs)))
+			dispatch(storeSetFilterAudioValue(id, 0, insertArgsToString(pipeline.audioFilter.param, pipeline.audioFilter.paramArgs)))
+			dispatch(storeSetGlobalOutValue(id, 0, insertArgsToString(pipeline.globalOutput.param, pipeline.globalOutput.paramArgs)))
+			dispatch(storeSetOutputValue(id, 0, insertArgsToString(pipeline.output.param, pipeline.output.paramArgs)))
 		}
 		dispatch(storeSetOutputType(id, event.target.value as OUTPUT_TYPES))
 	}

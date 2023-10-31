@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetFilterParamArr,
 	storeSetGlobalOutParamArr,
-	storeSetOutputParams,
+	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { ISettings } from '../../../interface/SettingsInterface'
@@ -37,7 +37,7 @@ const ScreenOutputOptions: React.FC<IOutProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={outputName ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
 					/>
 				</label>
 			</div>

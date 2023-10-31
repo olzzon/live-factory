@@ -4,7 +4,7 @@ import {
 	storeSetFilterAudioParamArr,
 	storeSetFilterParamArr,
 	storeSetGlobalOutParamArr,
-	storeSetOutputParams,
+	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { ISettings } from '../../../interface/SettingsInterface'
@@ -28,7 +28,7 @@ const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 		dispatch(storeSetFilterAudioParamArr(id, []))
 		dispatch(storeSetOutputParamArr(id, ['-f', 'libndi_newtek', '-pix_fmt', 'uyvy422', '{arg0}']))
 		if (!outputName) {
-			dispatch(storeSetOutputParams(id, 0, `NDI_PIPE${id + 1}`))
+			dispatch(storeSetOutputValue(id, 0, `NDI_PIPE${id + 1}`))
 		}
 	}, [])
 
@@ -42,7 +42,7 @@ const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={outputName ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
 					/>
 				</label>
 			</div>

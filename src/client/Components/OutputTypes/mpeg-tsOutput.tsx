@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetGlobalOutParamArr,
-	storeSetOutputParams,
+	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { ISettings } from '../../../interface/SettingsInterface'
@@ -27,10 +27,10 @@ const MpegTsOutputOptions: React.FC<ISrtProps> = (props) => {
 		dispatch(storeSetGlobalOutParamArr(id, []))
 		dispatch(storeSetOutputParamArr(id, ['-f', 'mpegts', 'udp://{arg0}:{arg1}?pkt_size=1316']))
 		if (!ip) {
-			dispatch(storeSetOutputParams(id, 0, '0.0.0.0'))
+			dispatch(storeSetOutputValue(id, 0, '0.0.0.0'))
 		}
 		if (!port) {
-			dispatch(storeSetOutputParams(id, 1, '1234'))
+			dispatch(storeSetOutputValue(id, 1, '1234'))
 		}
 	}, [])
 
@@ -44,7 +44,7 @@ const MpegTsOutputOptions: React.FC<ISrtProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={ip ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -53,7 +53,7 @@ const MpegTsOutputOptions: React.FC<ISrtProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={port ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 1, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 1, event.target.value))}
 					/>
 				</label>
 			</div>

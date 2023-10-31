@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { OUTPUT_AUDIO_ENCODER, OUTPUT_ENCODER } from '../../../../interface/GenericInterfaces'
 import '../../../styles/app.css'
 import {
-	storeClearFilterAudioParams,
-	storeClearFilterParams,
+	storeClearFilterAudioValue,
+	storeClearFilterValue,
 	storeSetFilterAudioType,
 	storeSetFilterType,
 } from '../../../../interface/redux/containerActions'
@@ -35,12 +35,12 @@ const CodecTypes: React.FC<IfactoryId> = (props) => {
 	)
 
 	const handleSetCodecType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(storeClearFilterParams(id))
+		dispatch(storeClearFilterValue(id))
 		dispatch(storeSetFilterType(id, event.target.value as OUTPUT_ENCODER))
 	}
 
 	const handleSetAudioCodecType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(storeClearFilterAudioParams(id))
+		dispatch(storeClearFilterAudioValue(id))
 		dispatch(storeSetFilterAudioType(id, event.target.value as OUTPUT_AUDIO_ENCODER))
 	}
 

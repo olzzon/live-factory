@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	storeSetFilterParams,
+	storeSetFilterValue,
 	storeSetFilterParamArr,
-	storeSetGlobalOutParams,
+	storeSetGlobalOutValue,
 	storeSetGlobalOutParamArr,
-	storeSetOutputParams,
+	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
@@ -35,14 +35,14 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 		dispatch(storeSetOutputParamArr(id, ['{arg0}']))
 
 		if (!globalOut) {
-			dispatch(storeSetGlobalOutParams(id, 0, ``))
+			dispatch(storeSetGlobalOutValue(id, 0, ``))
 		}
 		if (!output) {
-			dispatch(storeSetOutputParams(id, 0, ` -f mpegts "srt://0.0.0.0:9998?pkt_size=1316&mode=listener" `))
+			dispatch(storeSetOutputValue(id, 0, ` -f mpegts "srt://0.0.0.0:9998?pkt_size=1316&mode=listener" `))
 		}
 		if (!filter) {
 			dispatch(
-				storeSetFilterParams(
+				storeSetFilterValue(
 					id,
 					0,
 					` -c:v libx264 -preset veryfast -b:v 22000k -pix_fmt yuv420p -acodec libopus -b:a 256k`
@@ -61,7 +61,7 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={globalOut ?? 'none'}
-						onChange={(event) => dispatch(storeSetGlobalOutParams(id, 0, event.target.value))}
+						onChange={(event) => dispatch(storeSetGlobalOutValue(id, 0, event.target.value))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -70,7 +70,7 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={filter ?? 'none'}
-						onChange={(event) => dispatch(storeSetFilterParams(id, 0, event.target.value))}
+						onChange={(event) => dispatch(storeSetFilterValue(id, 0, event.target.value))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -79,7 +79,7 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={output ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
 					/>
 				</label>
 			</div>

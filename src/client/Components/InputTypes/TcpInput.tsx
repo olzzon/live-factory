@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
-	storeSetInputParams,
+	storeSetInputValue,
 	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
@@ -30,13 +30,13 @@ const TcpInputOptions: React.FC<ITcpProps> = (props) => {
 		dispatch(storeSetGlobalInParamArr(id, ['-re', ...findGpuSettings(osType)]))
 		dispatch(storeSetInputParamArr(id, ['-i tcp://{arg0}:{arg1}?{arg2}']))
 		if (!ip) {
-			dispatch(storeSetInputParams(id, 0, '0.0.0.0'))
+			dispatch(storeSetInputValue(id, 0, '0.0.0.0'))
 		}
 		if (!port) {
-			dispatch(storeSetInputParams(id, 1, '9998'))
+			dispatch(storeSetInputValue(id, 1, '9998'))
 		}
 		if (!mode) {
-			dispatch(storeSetInputParams(id, 2, ' '))
+			dispatch(storeSetInputValue(id, 2, ' '))
 		}
 	}, [])
 
@@ -51,7 +51,7 @@ const TcpInputOptions: React.FC<ITcpProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={ip ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -60,7 +60,7 @@ const TcpInputOptions: React.FC<ITcpProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={port ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 1, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -69,7 +69,7 @@ const TcpInputOptions: React.FC<ITcpProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={mode ?? 0}
-					onChange={(event) => dispatch(storeSetInputParams(id, 2, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 2, event.target.value))}
 				/>
 			</label>
 		</div>

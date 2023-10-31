@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetGlobalOutParamArr,
-	storeSetOutputParams,
+	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
 import { ISettings } from '../../../interface/SettingsInterface'
@@ -27,10 +27,10 @@ const RtpOutputOptions: React.FC<ITcpProps> = (props) => {
 		dispatch(storeSetOutputParamArr(id, ['-f', 'rtp', 'rtp://{arg0}:{arg1}']))
 
 		if (!ip) {
-			dispatch(storeSetOutputParams(id, 0, '0.0.0.0'))
+			dispatch(storeSetOutputValue(id, 0, '0.0.0.0'))
 		}
 		if (!port) {
-			dispatch(storeSetOutputParams(id, 1, '9998'))
+			dispatch(storeSetOutputValue(id, 1, '9998'))
 		}
 	}, [])
 
@@ -44,7 +44,7 @@ const RtpOutputOptions: React.FC<ITcpProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={ip ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 0, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -53,7 +53,7 @@ const RtpOutputOptions: React.FC<ITcpProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={port ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputParams(id, 1, event.target.value))}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 1, event.target.value))}
 					/>
 				</label>
 			</div>

@@ -12,28 +12,28 @@ export const SET_TRANSCODER_TYPE = 'setTranscoderType'
 export const SET_CONTAINER_NAME = 'setContainerName'
 export const SET_NODE_INDEX = 'setNodeIndex'
 export const SET_CONTAINER_STATE = 'setContainerState'
-export const SET_GLOBAL_IN_PARAMS = 'setGlobalInParams'
+export const SET_GLOBAL_IN_VALUE = 'setGlobalInValue'
 export const SET_GLOBAL_IN_PARAM_ARR = 'setGlobalInParamArr'
-export const CLEAR_GLOBAL_IN_PARAMS = 'clearGlobalInParams'
-export const SET_GLOBAL_OUT_PARAMS = 'setGlobalOutParams'
+export const CLEAR_GLOBAL_IN_VALUE = 'clearGlobalInValue'
+export const SET_GLOBAL_OUT_VALUE = 'setGlobalOutValue'
 export const SET_GLOBAL_OUT_PARAM_ARR = 'setGlobalOutParamArr'
-export const CLEAR_GLOBAL_OUT_PARAMS = 'clearGlobalOutParams'
+export const CLEAR_GLOBAL_OUT_VALUE = 'clearGlobalOutValue'
 export const SET_INPUT_TYPE = 'setInputType'
 export const SET_INPUT_PARAM_ARR = 'setInputParamArr'
-export const SET_INPUT_PARAMS = 'setInputParams'
-export const CLEAR_INPUT_PARAMS = 'clearInputParams'
+export const SET_INPUT_VALUE = 'setInputValue'
+export const CLEAR_INPUT_VALUE = 'clearInputValue'
 export const SET_FILTER_TYPE = 'setFilterType'
 export const SET_FILTER_PARAM_ARR = 'setFilterParamArr'
-export const SET_FILTER_PARAMS = 'setFilterParams'
-export const CLEAR_FILTER_PARAMS = 'clearFilterParams'
+export const SET_FILTER_VALUE = 'setFilterValue'
+export const CLEAR_FILTER_VALUE = 'clearFilterValue'
 export const SET_FILTER_AUDIO_TYPE = 'setFilterAudioType'
 export const SET_FILTER_AUDIO_PARAM_ARR = 'setFilterAudioParamArr'
-export const SET_FILTER_AUDIO_PARAMS = 'setFilterAudioParams'
-export const CLEAR_FILTER_AUDIO_PARAMS = 'clearFilterAudioParams'
+export const SET_FILTER_AUDIO_VALUE = 'setFilterAudioValue'
+export const CLEAR_FILTER_AUDIO_VALUE = 'clearFilterAudioValue'
 export const SET_OUTPUT_TYPE = 'setOutputType'
 export const SET_OUTPUT_PARAM_ARR = 'setOutputParamArr'
-export const SET_OUTPUT_PARAMS = 'setOutputParams'
-export const CLEAR_OUTPUT_PARAMS = 'clearOutputParams'
+export const SET_OUTPUT_VALUE = 'setOutputValue'
+export const CLEAR_OUTPUT_VALUE = 'clearOutputValue'
 
 
 export const storeAddFactory = () => {
@@ -111,18 +111,18 @@ export const storeSetGlobalInParamArr = (pipelineId: number, paramArr: string[])
 	}
 }
 
-export const storeSetGlobalInParams = (pipelineId: number, paramIndex: number, param: string) => {
+export const storeSetGlobalInValue = (pipelineId: number, paramIndex: number, param: string) => {
 	return {
-		type: SET_GLOBAL_IN_PARAMS,
+		type: SET_GLOBAL_IN_VALUE,
 		pipelineId: pipelineId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearGlobalInParams = (pipelineId: number) => {
+export const storeClearGlobalInValue = (pipelineId: number) => {
 	return {
-		type: CLEAR_GLOBAL_IN_PARAMS,
+		type: CLEAR_GLOBAL_IN_VALUE,
 		pipelineId: pipelineId,
 	}
 }
@@ -135,18 +135,18 @@ export const storeSetGlobalOutParamArr = (pipelineId: number, paramArr: string[]
 	}
 }
 
-export const storeSetGlobalOutParams = (pipelineId: number, paramIndex: number, param: string) => {
+export const storeSetGlobalOutValue = (pipelineId: number, paramIndex: number, param: string) => {
 	return {
-		type: SET_GLOBAL_OUT_PARAMS,
+		type: SET_GLOBAL_OUT_VALUE,
 		pipelineId: pipelineId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearGlobalOutParams = (pipelineId: number) => {
+export const storeClearGlobalOutValue = (pipelineId: number) => {
 	return {
-		type: CLEAR_GLOBAL_OUT_PARAMS,
+		type: CLEAR_GLOBAL_OUT_VALUE,
 		pipelineId: pipelineId,
 	}
 }
@@ -167,18 +167,18 @@ export const storeSetInputParamArr = (pipelineId: number, paramArr: string[]) =>
 	}
 }
 
-export const storeSetInputParams = (pipelineId: number, paramIndex: number, param: string) => {
+export const storeSetInputValue = (pipelineId: number, paramIndex: number, param: string) => {
 	return {
-		type: SET_INPUT_PARAMS,
+		type: SET_INPUT_VALUE,
 		pipelineId: pipelineId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearInputParams = (pipelineId: number) => {
+export const storeClearInputValue = (pipelineId: number) => {
 	return {
-		type: CLEAR_INPUT_PARAMS,
+		type: CLEAR_INPUT_VALUE,
 		pipelineId: pipelineId,
 	}
 }
@@ -199,18 +199,18 @@ export const storeSetFilterParamArr = (pipelineId: number, paramArr: string[]) =
 	}
 }
 
-export const storeSetFilterParams = (pipelineId: number, paramIndex: number, param: string) => {
+export const storeSetFilterValue = (pipelineId: number, paramIndex: number, param: string) => {
 	return {
-		type: SET_FILTER_PARAMS,
+		type: SET_FILTER_VALUE,
 		pipelineId: pipelineId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearFilterParams = (pipelineId: number) => {
+export const storeClearFilterValue = (pipelineId: number) => {
 	return {
-		type: CLEAR_FILTER_PARAMS,
+		type: CLEAR_FILTER_VALUE,
 		pipelineId: pipelineId,
 	}
 }
@@ -231,18 +231,18 @@ export const storeSetFilterAudioParamArr = (pipelineId: number, paramArr: string
 	}
 }
 
-export const storeSetFilterAudioParams = (pipelineId: number, paramIndex: number, param: string) => {
+export const storeSetFilterAudioValue = (pipelineId: number, paramIndex: number, param: string) => {
 	return {
-		type: SET_FILTER_AUDIO_PARAMS,
+		type: SET_FILTER_AUDIO_VALUE,
 		pipelineId: pipelineId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearFilterAudioParams = (pipelineId: number) => {
+export const storeClearFilterAudioValue = (pipelineId: number) => {
 	return {
-		type: CLEAR_FILTER_AUDIO_PARAMS,
+		type: CLEAR_FILTER_AUDIO_VALUE,
 		pipelineId: pipelineId,
 	}
 }
@@ -263,18 +263,18 @@ export const storeSetOutputParamArr = (pipelineId: number, paramArr: string[]) =
 	}
 }
 
-export const storeSetOutputParams = (pipelineId: number, paramIndex: number, param: string) => {
+export const storeSetOutputValue = (pipelineId: number, paramIndex: number, param: string) => {
 	return {
-		type: SET_OUTPUT_PARAMS,
+		type: SET_OUTPUT_VALUE,
 		pipelineId: pipelineId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearOutputParams = (pipelineId: number) => {
+export const storeClearOutputValue = (pipelineId: number) => {
 	return {
-		type: CLEAR_OUTPUT_PARAMS,
+		type: CLEAR_OUTPUT_VALUE,
 		pipelineId: pipelineId,
 	}
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
-import { storeSetGlobalInParamArr, storeSetInputParams } from '../../../interface/redux/containerActions'
+import { storeSetGlobalInParamArr, storeSetInputValue } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
 
@@ -26,14 +26,14 @@ const RtpInputOptions: React.FC<IRtpProps> = (props) => {
 		dispatch(
 			storeSetGlobalInParamArr(
 				id,
-				['-re -vsync', '1', ...findGpuSettings(osType), '-adrift_threshold', '0.06', '-async', '8000']
+				['-re', '-vsync', '1', ...findGpuSettings(osType), '-adrift_threshold', '0.06', '-async', '8000']
 			)
 		)
 		if (!ip) {
-			dispatch(storeSetInputParams(id, 0, '0.0.0.0'))
+			dispatch(storeSetInputValue(id, 0, '0.0.0.0'))
 		}
 		if (!port) {
-			dispatch(storeSetInputParams(id, 1, '9998'))
+			dispatch(storeSetInputValue(id, 1, '9998'))
 		}
 	}, [])
 
@@ -48,7 +48,7 @@ const RtpInputOptions: React.FC<IRtpProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={ip ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -57,7 +57,7 @@ const RtpInputOptions: React.FC<IRtpProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={port ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 1, event.target.value))}
 				/>
 			</label>
 		</div>

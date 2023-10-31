@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
 	storeSetGlobalInParamArr,
 	storeSetInputParamArr,
-	storeSetInputParams
+	storeSetInputValue
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -22,7 +22,7 @@ const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 		dispatch(storeSetGlobalInParamArr(id, ['-f', 'lavfi']))
 		dispatch(storeSetInputParamArr(id, ['-i', 'smptehdbars={arg0}']))
 		if (!resolution) {
-			dispatch(storeSetInputParams(id, 0, '1920x1080'))
+			dispatch(storeSetInputValue(id, 0, '1920x1080'))
 		}
 	}, [])
 
@@ -37,7 +37,7 @@ const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={resolution ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
 				/>
 			</label>
 		</div>

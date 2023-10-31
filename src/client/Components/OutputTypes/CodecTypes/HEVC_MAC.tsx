@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { storeSetFilterParams, storeSetFilterParamArr } from '../../../../interface/redux/containerActions'
+import { storeSetFilterValue, storeSetFilterParamArr } from '../../../../interface/redux/containerActions'
 import { RootState } from '../../../main'
 
 interface ICodecProps {
@@ -33,24 +33,24 @@ const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 		)
 
 		if (!vBandwidth) {
-			dispatch(storeSetFilterParams(id, 0, `22000`))
+			dispatch(storeSetFilterValue(id, 0, `22000`))
 		}
 		if (!quality) {
-			dispatch(storeSetFilterParams(id, 2, `90`))
+			dispatch(storeSetFilterValue(id, 2, `90`))
 		}
 		if (!deinterlaceState) {
-			dispatch(storeSetFilterParams(id, 3, ` `))
+			dispatch(storeSetFilterValue(id, 3, ` `))
 		} else {
-			dispatch(storeSetFilterParams(id, 3, `-vf yadif_videotoolbox`))
+			dispatch(storeSetFilterValue(id, 3, `-vf yadif_videotoolbox`))
 		}
 	}, [])
 
 	const handleSetDeInterlace = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
-			dispatch(storeSetFilterParams(id, 3, '-vf yadif_videotoolbox'))
+			dispatch(storeSetFilterValue(id, 3, '-vf yadif_videotoolbox'))
 			setDeinterlaceState(true)			
 		} else {
-			dispatch(storeSetFilterParams(id, 3, ' '))
+			dispatch(storeSetFilterValue(id, 3, ''))
 			setDeinterlaceState(false)			
 		}
 	}
@@ -72,7 +72,7 @@ const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 					className="input-number"
 					type="number"
 					value={vBandwidth ?? '22000'}
-					onChange={(event) => dispatch(storeSetFilterParams(id, 0, event.target.value))}
+					onChange={(event) => dispatch(storeSetFilterValue(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -81,7 +81,7 @@ const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 					className="input-number"
 					type="number"
 					value={quality ?? '90'}
-					onChange={(event) => dispatch(storeSetFilterParams(id, 2, event.target.value))}
+					onChange={(event) => dispatch(storeSetFilterValue(id, 2, event.target.value))}
 				/>
 			</label>
 		</div>

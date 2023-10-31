@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
-	storeSetInputParams,
+	storeSetInputValue,
 	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
@@ -38,21 +38,21 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 			dispatch(storeSetInputParamArr(id, ['-i', 'srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}']))
 		}
 		if (!ip) {
-			dispatch(storeSetInputParams(id, 0, '0.0.0.0'))
+			dispatch(storeSetInputValue(id, 0, '0.0.0.0'))
 		}
 		if (!port) {
-			dispatch(storeSetInputParams(id, 1, '9998'))
+			dispatch(storeSetInputValue(id, 1, '9998'))
 		}
 		if (!mode) {
-			dispatch(storeSetInputParams(id, 2, 'caller'))
+			dispatch(storeSetInputValue(id, 2, 'caller'))
 		}
 		if (!passphrase) {
-			dispatch(storeSetInputParams(id, 3, ''))
+			dispatch(storeSetInputValue(id, 3, ''))
 		}
 	}, [])
 
 	const handlePassPhrase = (event: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch(storeSetInputParams(id, 3, event.target.value))
+		dispatch(storeSetInputValue(id, 3, event.target.value))
 		if (passphrase.length < 10) {
 			dispatch(storeSetInputParamArr(id, ['-i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}"']))
 		} else {
@@ -71,7 +71,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={ip ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 0, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -80,7 +80,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={port ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputParams(id, 1, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 1, event.target.value))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -98,7 +98,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={mode ?? 0}
-					onChange={(event) => dispatch(storeSetInputParams(id, 2, event.target.value))}
+					onChange={(event) => dispatch(storeSetInputValue(id, 2, event.target.value))}
 				/>
 			</label>
 		</div>

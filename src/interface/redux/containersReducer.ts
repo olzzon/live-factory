@@ -107,52 +107,52 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.SET_GLOBAL_IN_PARAMS:
 			nextState[0].pipeline[action.pipelineId].globalInput.paramArgs[action.paramIndex] = action.param
 			return nextState
-		case CONTAINER_ACTIONS.CLEAR_GLOBAL_IN_PARAMS:
+		case CONTAINER_ACTIONS.CLEAR_GLOBAL_IN_VALUE:
 			nextState[0].pipeline[action.pipelineId].globalInput.paramArgs = ['']
 			return nextState
 		case CONTAINER_ACTIONS.SET_GLOBAL_OUT_PARAM_ARR:
 			nextState[0].pipeline[action.pipelineId].globalOutput.param = action.paramArr
 			return nextState
-		case CONTAINER_ACTIONS.SET_GLOBAL_OUT_PARAMS:
+		case CONTAINER_ACTIONS.SET_GLOBAL_OUT_VALUE:
 			nextState[0].pipeline[action.pipelineId].globalOutput.paramArgs[action.paramIndex] = action.param
 			return nextState
-		case CONTAINER_ACTIONS.CLEAR_GLOBAL_OUT_PARAMS:
+		case CONTAINER_ACTIONS.CLEAR_GLOBAL_OUT_VALUE:
 			nextState[0].pipeline[action.pipelineId].globalOutput.paramArgs = ['']
 			return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_PARAM_ARR:
 			nextState[0].pipeline[action.pipelineId].input.param = action.paramArr
 			return nextState
-		case CONTAINER_ACTIONS.SET_INPUT_PARAMS:
+		case CONTAINER_ACTIONS.SET_INPUT_VALUE:
 			nextState[0].pipeline[action.pipelineId].input.paramArgs[action.paramIndex] = action.param
 			return nextState
-		case CONTAINER_ACTIONS.CLEAR_INPUT_PARAMS:
+		case CONTAINER_ACTIONS.CLEAR_INPUT_VALUE:
 			nextState[0].pipeline[action.pipelineId].input.paramArgs = ['']
 			return nextState
 		case CONTAINER_ACTIONS.SET_FILTER_PARAM_ARR:
 			nextState[0].pipeline[action.pipelineId].filter.param = action.paramArr
 			return nextState
-		case CONTAINER_ACTIONS.SET_FILTER_PARAMS:
+		case CONTAINER_ACTIONS.SET_FILTER_VALUE:
 			nextState[0].pipeline[action.pipelineId].filter.paramArgs[action.paramIndex] = action.param
 			return nextState
-		case CONTAINER_ACTIONS.CLEAR_FILTER_PARAMS:
+		case CONTAINER_ACTIONS.CLEAR_FILTER_VALUE:
 			nextState[0].pipeline[action.pipelineId].filter.paramArgs = ['']
 			return nextState
 		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_PARAM_ARR:
 			nextState[0].pipeline[action.pipelineId].audioFilter.param = action.paramArr
 			return nextState
-		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_PARAMS:
+		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_VALUE:
 			nextState[0].pipeline[action.pipelineId].audioFilter.paramArgs[action.paramIndex] = action.param
 			return nextState
-		case CONTAINER_ACTIONS.CLEAR_FILTER_AUDIO_PARAMS:
+		case CONTAINER_ACTIONS.CLEAR_FILTER_AUDIO_VALUE:
 			nextState[0].pipeline[action.pipelineId].audioFilter.paramArgs = ['']
 			return nextState
 		case CONTAINER_ACTIONS.SET_OUTPUT_PARAM_ARR:
 			nextState[0].pipeline[action.pipelineId].output.param = action.paramArr
 			return nextState
-		case CONTAINER_ACTIONS.SET_OUTPUT_PARAMS:
+		case CONTAINER_ACTIONS.SET_OUTPUT_VALUE:
 			nextState[0].pipeline[action.pipelineId].output.paramArgs[action.paramIndex] = action.param
 			return nextState
-		case CONTAINER_ACTIONS.CLEAR_OUTPUT_PARAMS:
+		case CONTAINER_ACTIONS.CLEAR_OUTPUT_VALUE:
 			nextState[0].pipeline[action.pipelineId].output.paramArgs = ['']
 			return nextState
 		default:
