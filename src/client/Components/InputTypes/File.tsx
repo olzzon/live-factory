@@ -9,6 +9,7 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
+import { GPU_TYPES } from '../../../interface/SettingsInterface'
 
 interface IFileProps {
 	pipelineId: number
@@ -23,13 +24,12 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 	const fileLoop = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].globalInput.paramArgs[0])
 	const filePath = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
 	const fileName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[1])
-	const osType = useSelector<RootState, string>(
-		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
-	)
+	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
+
 
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamArr(id, ['-stream_loop', '{arg0}']))
-		dispatch(storeSetInputParamArr(id, ['-re', ...findGpuSettings(osType), '-vsync', '0', '-i', '{arg0}{arg1}']))
+		dispatch(storeSetInputParamArr(id, ['-re', ...findGpuSettings(hwAccel), '-vsync', '0', '-i', '{arg0}{arg1}']))
 		if (!fileLoop) {
 			dispatch(storeSetGlobalInValue(id, 0, '1'))
 		}

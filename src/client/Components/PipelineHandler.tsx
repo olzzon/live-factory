@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { useStore, shallowEqual, useDispatch, useSelector } from 'react-redux'
 import {
-	storeAddFactory,
-	storeDuplicateFactory,
+	storeAddPipeline,
+	storeDuplicatePipeline,
 	storePushLog,
 	storeSetContainerState,
+	storeSetGpuType,
 	storeUpdateDevicesList,
 	storeUpdateFullStore,
 } from '../../interface/redux/containerActions'
@@ -57,13 +58,14 @@ const PipelineHandler: React.FC<PipelineProps> = (props) => {
 	}
 	
 	const addFactory = () => {
-		dispatch(storeAddFactory())
+		dispatch(storeAddPipeline())
+		dispatch(storeSetGpuType(pipelines.length, props.settings.nodeList[0].hwaccel))
 		props.setSelectedPipeline(pipelines.length)
 		props.socketClient.emit(IO.UPDATE_PIPELINE, pipelines.length, pipelines[pipelines.length])
 	}
 
 	const duplicateFactory = () => {
-		dispatch(storeDuplicateFactory(props.selectedPipeline))
+		dispatch(storeDuplicatePipeline(props.selectedPipeline))
 		props.setSelectedPipeline(pipelines.length)
 		let state = store.getState()
 		props.socketClient.emit(IO.UPDATE_PIPELINE, pipelines.length, state.ffmpeg[0].pipeline[pipelines.length])

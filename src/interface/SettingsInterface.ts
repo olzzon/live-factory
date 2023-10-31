@@ -13,6 +13,7 @@ export interface NodeList {
     containerName?: string
     host?: string
     port?: number
+    hwaccel: GPU_TYPES
 }
 
 export enum NODE_TYPES {
@@ -33,4 +34,10 @@ export interface IAllowedOutputTypes {
 export interface IAllowedOutputEncoderTypes {
     value: string
     label: string
+}
+
+export enum GPU_TYPES {
+    NVIDIA,
+    MAC,
+    NONE
 }

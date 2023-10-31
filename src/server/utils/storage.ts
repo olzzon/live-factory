@@ -7,7 +7,7 @@ const STORAGE_NAME = 'stored-setup'
 const SETTINGS_NAME = 'settings.json'
 
 import { Pipeline } from '../../interface/GenericInterfaces'
-import { ISettings, NODE_TYPES } from '../../interface/SettingsInterface'
+import { GPU_TYPES, ISettings, NODE_TYPES } from '../../interface/SettingsInterface'
 import { extractListOfInputTypes, extractListOfOutputEncoderTypes, extractListOfOutputTypes } from './createListFromTypes'
 
 export const loadPipelines = (): Pipeline[] => {
@@ -59,8 +59,9 @@ export const loadSettings = () => {
         console.error('Error loading settings. Setting up default settings')
         settings = {
             maxActiveEncoders: 1,
-            nodeList: [{ name: 'FFmpeg local', type: NODE_TYPES.FFMPEG, path: '/usr/bin/ffmpeg' },
-            { name: 'Node 01 (Docker API)', type: NODE_TYPES.DOCKER, host: '192.168.211.144', port:4243, containerName: 'jrottenberg/ffmpeg' }],
+            nodeList: [{ name: 'FFmpeg local', type: NODE_TYPES.FFMPEG, path: '/usr/bin/ffmpeg', hwaccel: GPU_TYPES.NONE },
+            { name: 'Node 01 (Docker API)', type: NODE_TYPES.DOCKER, host: '192.168.211.144', port:4243, containerName: 'jrottenberg/ffmpeg', hwaccel: GPU_TYPES.NONE },
+            { name: 'Node 02 (Docker API)', type: NODE_TYPES.DOCKER, host: '192.168.211.145', port:4243, containerName: 'jrottenberg/ffmpeg:4.1-nvidia', hwaccel: GPU_TYPES.NVIDIA }],
             allowedInputTypes: extractListOfInputTypes(),
             allowedOutputTypes: extractListOfOutputTypes(),
             allowedOutputEncoderTypes: extractListOfOutputEncoderTypes(),

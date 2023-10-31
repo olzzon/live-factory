@@ -57,13 +57,13 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 			dispatch(storeSetOutputValue(id, 2, 'listener'))
 		}
 		if (!passphrase) {
-			dispatch(storeSetOutputValue(id, 3, ''))
+			dispatch(storeSetOutputValue(id, 3, ' '))
 		}
 		if (lowLatencyState) {
 			dispatch(storeSetOutputValue(id, 4, '&latency=' + LOW_LATENCY))
 			dispatch(storeSetGlobalOutParamArr(id, ['-fflags nobuffer', '-flags low_delay', '-probesize 32']))
 		} else {
-			dispatch(storeSetOutputValue(id, 4, ''))
+			dispatch(storeSetOutputValue(id, 4, ' '))
 			dispatch(storeSetGlobalOutParamArr(id, []))
 		}
 		if (!protocol) {
@@ -78,7 +78,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 			dispatch(storeSetGlobalOutParamArr(id, ['-fflags nobuffer', '-flags low_delay', '-probesize 32']))
 			setLowLatencyState(true)
 		} else {
-			dispatch(storeSetOutputValue(id, 4, ''))
+			dispatch(storeSetOutputValue(id, 4, ' '))
 			dispatch(storeSetGlobalOutParamArr(id, []))
 			setLowLatencyState(false)
 		}

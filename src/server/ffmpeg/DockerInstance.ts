@@ -48,6 +48,7 @@ export class DockerInstance {
 
 		// Check if container exists:
 		console.log('Setting up docker container :', runtimeName)
+		console.log('With parameters :', ffmpegArgs)
 		this.docker.listContainers({ all: true }).then((containers) => {
 			const container = containers.find((container: any) => container.Names.includes('/' + runtimeName))
 			if (container) {

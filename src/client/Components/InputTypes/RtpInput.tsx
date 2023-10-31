@@ -4,6 +4,7 @@ import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
 import { storeSetGlobalInParamArr, storeSetInputValue } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
+import { GPU_TYPES } from '../../../interface/SettingsInterface'
 
 interface IRtpProps {
 	pipelineId: number
@@ -17,16 +18,15 @@ const RtpInputOptions: React.FC<IRtpProps> = (props) => {
 
 	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[1])
-	const osType = useSelector<RootState, string>(
-		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
-	)
+	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
+
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(
 			storeSetGlobalInParamArr(
 				id,
-				['-re', '-vsync', '1', ...findGpuSettings(osType), '-adrift_threshold', '0.06', '-async', '8000']
+				['-re', '-vsync', '1', ...findGpuSettings(hwAccel), '-adrift_threshold', '0.06', '-async', '8000']
 			)
 		)
 		if (!ip) {

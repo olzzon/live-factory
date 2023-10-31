@@ -9,6 +9,7 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
+import { GPU_TYPES } from '../../../interface/SettingsInterface'
 
 interface ICustomProps {
 	pipelineId: number
@@ -21,16 +22,14 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 
 	const globalIn = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].globalInput.paramArgs[0])
 	const input = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
-	const osType = useSelector<RootState, string>(
-		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
-	)
+	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamArr(id, [`{arg0}`]))
 		dispatch(storeSetInputParamArr(id, [`{arg0}`]))
 
 		if (!globalIn) {
-			dispatch(storeSetGlobalInValue(id, 0, ` -re ` + findGpuSettings(osType)))
+			dispatch(storeSetGlobalInValue(id, 0, ` -re ` + findGpuSettings(hwAccel)))
 		}
 		if (!input) {
 			dispatch(storeSetInputValue(id, 0, `  -i "srt://0.0.0.0:9998?pkt_size=1316&mode=listener" `))

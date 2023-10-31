@@ -1,10 +1,12 @@
+import { GPU_TYPES } from "./SettingsInterface"
 
 export interface Pipeline {
-    nodeIndex: number,
+    nodeIndex: number
     containerName: string
     uuid: string
 	activated: boolean
 	running: boolean
+    hwaccell: GPU_TYPES
 	globalInput: IGlobalParams
 	globalOutput: IGlobalParams
 	input: IInputParams
@@ -94,6 +96,6 @@ export interface IDeviceList {
 export enum DEVICE_TYPES {
     NDI,
     DECKLINK_INPUT,
-    DECKLINK_OUTPUT,
-    GPU_TYPE
+    DECKLINK_OUTPUT
 }
+

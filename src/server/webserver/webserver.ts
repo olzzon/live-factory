@@ -13,7 +13,6 @@ import { loadPipelines, loadSettings, savePipelineList } from '../utils/storage'
 import { discoverNdiSources } from '../utils/discoverNdiSources'
 import { discoverDecklinkSources } from '../utils/discoverDecklinkSources'
 import { discoverDecklinkOutputs } from '../utils/discoverDecklinkOutputs'
-import { findGpu } from '../utils/findGpu'
 import { NODE_TYPES, ISettings } from '../../interface/SettingsInterface'
 import { DockerInstance } from '../ffmpeg/DockerInstance'
 import Docker from 'dockerode'
@@ -50,9 +49,6 @@ const updateClients = () => {
 }
 
 const subscribeDevicesList = () => {
-	//Only once:
-	devices[DEVICE_TYPES.GPU_TYPE] = { type: DEVICE_TYPES.GPU_TYPE, devices: [findGpu()] }
-
 	//Dynamically updated:
 	setInterval(() => {
 		devices[DEVICE_TYPES.NDI] = { type: DEVICE_TYPES.NDI, devices: discoverNdiSources() }

@@ -8,6 +8,7 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
+import { GPU_TYPES } from '../../../interface/SettingsInterface'
 
 interface IMpegtsProps {
 	pipelineId: number
@@ -21,12 +22,10 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[1])
 	const fifoSize = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[2])
-	const osType = useSelector<RootState, string>(
-		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
-	)
+	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 	useEffect(() => {
-		dispatch(storeSetGlobalInParamArr(id, ['-re', '-vsync', '0', ...findGpuSettings(osType)]))
+		dispatch(storeSetGlobalInParamArr(id, ['-re', '-vsync', '0', ...findGpuSettings(hwAccel)]))
 		dispatch(storeSetInputParamArr(id, ['-i udp://{arg0}:{arg1}?fifo_size={arg2}']))
 		if (!ip) {
 			dispatch(storeSetInputValue(id, 0, 'localhost'))

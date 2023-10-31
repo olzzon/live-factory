@@ -50,7 +50,7 @@ const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 			dispatch(storeSetFilterValue(id, 3, '-vf yadif_videotoolbox'))
 			setDeinterlaceState(true)			
 		} else {
-			dispatch(storeSetFilterValue(id, 3, ''))
+			dispatch(storeSetFilterValue(id, 3, ' '))
 			setDeinterlaceState(false)			
 		}
 	}

@@ -8,6 +8,7 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
+import { GPU_TYPES } from '../../../interface/SettingsInterface'
 
 interface ISrtProps {
 	pipelineId: number
@@ -23,14 +24,13 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[1])
 	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[2])
 	const passphrase = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[3])
-	const osType = useSelector<RootState, string>(
-		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
-	)
+	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
+
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		dispatch(
-			storeSetGlobalInParamArr(id, ['-re', ...findGpuSettings(osType), '-adrift_threshold', '0.06','-async', '8000'])
+			storeSetGlobalInParamArr(id, ['-re', ...findGpuSettings(hwAccel), '-adrift_threshold', '0.06','-async', '8000'])
 		)
 		if (passphrase?.length < 10) {
 			dispatch(storeSetInputParamArr(id, ['-i', 'srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}']))
@@ -47,7 +47,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 			dispatch(storeSetInputValue(id, 2, 'caller'))
 		}
 		if (!passphrase) {
-			dispatch(storeSetInputValue(id, 3, ''))
+			dispatch(storeSetInputValue(id, 3, ' '))
 		}
 	}, [])
 

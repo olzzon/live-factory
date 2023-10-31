@@ -8,6 +8,7 @@ import {
 	OUTPUT_TYPES,
 } from '../GenericInterfaces'
 import * as CONTAINER_ACTIONS from './containerActions'
+import { GPU_TYPES } from '../SettingsInterface'
 
 export interface IFFmpegReducer {
 	rerender: boolean
@@ -33,10 +34,11 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 				globalInput: { param: [], paramArgs: [] },
 				globalOutput: { param: [], paramArgs: [] },
 				input: { type: INPUT_TYPES.COLORBAR, param: [], paramArgs: [] },
-				filter: { type: OUTPUT_ENCODER.COPY, param: ['-v:c copy'], paramArgs: [''] },
-				audioFilter: { type: OUTPUT_AUDIO_ENCODER.COPY, param: ['-a:c copy'], paramArgs: [''] },
+				filter: { type: OUTPUT_ENCODER.COPY, param: ['-v:c', 'copy'], paramArgs: [''] },
+				audioFilter: { type: OUTPUT_AUDIO_ENCODER.COPY, param: ['-a:c', 'copy'], paramArgs: [''] },
 				output: { type: OUTPUT_TYPES.NDI, param: [], paramArgs: [] },
 				log: ['log is empty'],
+				hwaccell: GPU_TYPES.NONE
 			},
 		],
 	}
@@ -89,6 +91,9 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 			nextState[0].pipeline[action.pipelineId].running = action.running
 			nextState[0].rerender = !nextState[0].rerender
 			return nextState
+		case CONTAINER_ACTIONS.SET_GPU_TYPE:
+			nextState[0].pipeline[action.pipelineId].hwaccell = action.gpuType
+			return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_TYPE:
 			nextState[0].pipeline[action.pipelineId].input.type = action.inputType
 			return nextState
@@ -104,7 +109,7 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 		case CONTAINER_ACTIONS.SET_GLOBAL_IN_PARAM_ARR:
 			nextState[0].pipeline[action.pipelineId].globalInput.param = action.paramArr
 			return nextState
-		case CONTAINER_ACTIONS.SET_GLOBAL_IN_PARAMS:
+		case CONTAINER_ACTIONS.SET_GLOBAL_IN_VALUE:
 			nextState[0].pipeline[action.pipelineId].globalInput.paramArgs[action.paramIndex] = action.param
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_GLOBAL_IN_VALUE:

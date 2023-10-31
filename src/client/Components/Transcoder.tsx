@@ -42,15 +42,15 @@ import RtpInputOptions from './InputTypes/RtpInput'
 import ScreenOutputOptions from './OutputTypes/ScreenOutput'
 import LogOutput from './LogOutput'
 import insertArgsToString from '../utils/insertArgs'
-import { NodeList, ISettings } from '../../interface/SettingsInterface'
+import { ISettings, GPU_TYPES } from '../../interface/SettingsInterface'
 
-export interface PipelineId {
+export interface Transcoder {
 	pipelineId: number
 	socketClient: any
 	settings: ISettings
 }
 
-const Transcoder: React.FC<PipelineId> = (props) => {
+const Transcoder: React.FC<Transcoder> = (props) => {
 	const id = props.pipelineId
 	const nodeList = props.settings.nodeList
 

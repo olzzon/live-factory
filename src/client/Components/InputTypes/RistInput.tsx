@@ -8,6 +8,7 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
+import { GPU_TYPES } from '../../../interface/SettingsInterface'
 
 interface IRistProps {
 	pipelineId: number
@@ -22,14 +23,13 @@ const RistInputOptions: React.FC<IRistProps> = (props) => {
 	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[1])
 	const cname = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[2])
-	const osType = useSelector<RootState, string>(
-		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
-	)
+	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
+
 
 	useEffect(() => {
 		// 'rist://@123.123.123.123:8200?cname=RECEIVER01&bandwidth=2560000'
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalInParamArr(id, ['-re', ...findGpuSettings(osType)]))
+		dispatch(storeSetGlobalInParamArr(id, ['-re', ...findGpuSettings(hwAccel)]))
 		dispatch(storeSetInputParamArr(id, ['-i "rist://{arg0}:{arg1}?cname={arg2}"']))
 		if (!ip) {
 			dispatch(storeSetInputValue(id, 0, '0.0.0.0'))
