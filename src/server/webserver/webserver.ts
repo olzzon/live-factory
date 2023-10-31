@@ -8,8 +8,8 @@ const httpServer = http.createServer(expressApp)
 
 import { Server } from 'socket.io'
 import { FFmepgInstance } from '../ffmpeg/FFmpegInstance'
-import { DEVICE_TYPES, IDeviceList, IFactory } from '../../interface/GenericInterfaces'
-import { loadFactories, loadSettings, saveFactoriesList } from '../utils/storage'
+import { DEVICE_TYPES, IDeviceList, Pipeline } from '../../interface/GenericInterfaces'
+import { loadPipelines, loadSettings, savePipelineList } from '../utils/storage'
 import { discoverNdiSources } from '../utils/discoverNdiSources'
 import { discoverDecklinkSources } from '../utils/discoverDecklinkSources'
 import { discoverDecklinkOutputs } from '../utils/discoverDecklinkOutputs'
@@ -19,8 +19,8 @@ import { DockerInstance } from '../ffmpeg/DockerInstance'
 const socketIO = new Server(httpServer)
 
 const PORT = 1406
-let ffmpegFactories: IFactory[] = []
-let factoryInstances: Array<FFmepgInstance | DockerInstance> = []
+let pipelines: Pipeline[] = []
+let pipelineInstances: Array<FFmepgInstance | DockerInstance> = []
 let devices: IDeviceList[] = []
 let settings: ISettings = loadSettings()
 
@@ -28,21 +28,21 @@ devices[DEVICE_TYPES.NDI] = { type: DEVICE_TYPES.NDI, devices: ['Finding Sources
 devices[DEVICE_TYPES.DECKLINK_INPUT] = { type: DEVICE_TYPES.DECKLINK_INPUT, devices: ['Finding Inputs...'] }
 devices[DEVICE_TYPES.DECKLINK_OUTPUT] = { type: DEVICE_TYPES.DECKLINK_OUTPUT, devices: ['Finding Outputs...'] }
 
-const updateFactory = (index: number, cmd: IFactory) => {
-	ffmpegFactories[index] = cmd
-	saveFactoriesList(ffmpegFactories)
+const updatePipeline = (index: number, cmd: Pipeline) => {
+	pipelines[index] = cmd
+	savePipelineList(pipelines)
 }
 
-const deleteFactory = (index: number) => {
-	factoryInstances[index]?.stopInstance(index)
-	factoryInstances.splice(index, 1)
-	ffmpegFactories.splice(index, 1)
-	saveFactoriesList(ffmpegFactories)
+const deletePipeline = (index: number) => {
+	pipelineInstances[index]?.stopInstance(index)
+	pipelineInstances.splice(index, 1)
+	pipelines.splice(index, 1)
+	savePipelineList(pipelines)
 	updateClients()
 }
 
 const updateClients = () => {
-	socketIO.emit(IO.FULL_STORE, ffmpegFactories)
+	socketIO.emit(IO.FULL_STORE, pipelines)
 	socketIO.emit(IO.DEVICES_LIST, devices)
 	socketIO.emit(IO.SETTINGS, settings)
 }
@@ -61,30 +61,30 @@ const subscribeDevicesList = () => {
 }
 
 export const updateEncoderState = (index: number, activated: boolean, running: boolean) => {
-	if (ffmpegFactories[index]) {
-		ffmpegFactories[index].activated = activated
-		ffmpegFactories[index].running = running
+	if (pipelines[index]) {
+		pipelines[index].activated = activated
+		pipelines[index].running = running
 		console.log('Emitting Encoder update state. Index :', index, 'activated :', activated, 'running :', running)
 		socketIO.emit(IO.UPDATE_ENCODER_STATE, index, activated, running)
 	}
 }
 
-export const addToLog = (factoryIndex: number, logLine: string) => {
-	socketIO.emit(IO.LOG_PUSH, factoryIndex, logLine)
+export const addToLog = (pipelineIndex: number, logLine: string) => {
+	socketIO.emit(IO.LOG_PUSH, pipelineIndex, logLine)
 }
 
-const initializeFactories = () => {
-	ffmpegFactories = loadFactories()
-	ffmpegFactories.forEach((factory) => {
-		if (factory) {
-			factory.activated = false
-			factory.running = false
+const initializePipelines = () => {
+	pipelines = loadPipelines()
+	pipelines.forEach((pipeline) => {
+		if (pipeline) {
+			pipeline.activated = false
+			pipeline.running = false
 		}
 	})
 }
 
 export const initializeWebServer = () => {
-	initializeFactories()
+	initializePipelines()
 	subscribeDevicesList()
 	expressApp.use('/', express.static(path.resolve(__dirname, '../../client')))
 
@@ -98,26 +98,26 @@ export const initializeWebServer = () => {
 		updateClients()
 
 		client
-			.on(IO.START_ENCODER, (id: number, cmd: IFactory) => {
-				updateFactory(id, cmd)
-				if (!factoryInstances[id]) {
+			.on(IO.START_ENCODER, (id: number, cmd: Pipeline) => {
+				updatePipeline(id, cmd)
+				if (!pipelineInstances[id]) {
 					if (settings.nodeList[cmd.nodeIndex].type === NODE_TYPES.FFMPEG) {
-						factoryInstances[id] = new FFmepgInstance({ containerIndex: id, settings: settings })
+						pipelineInstances[id] = new FFmepgInstance({ containerIndex: id, settings: settings })
 					} else {
-						factoryInstances[id] = new DockerInstance({ containerIndex: id, settings: settings })
+						pipelineInstances[id] = new DockerInstance({ containerIndex: id, settings: settings })
 					}
 				}
-				factoryInstances[id].initFFmpeg(cmd)
+				pipelineInstances[id].initFFmpeg(cmd)
 			})
 			.on(IO.STOP_ENCODER, (id: number) => {
-				factoryInstances[id]?.stopInstance(id)
+				pipelineInstances[id]?.stopInstance(id)
 			})
-			.on(IO.UPDATE_FACTORY, (id: number, cmd: IFactory) => {
-				updateFactory(id, cmd)
+			.on(IO.UPDATE_PIPELINE, (id: number, cmd: Pipeline) => {
+				updatePipeline(id, cmd)
 				updateClients()
 			})
-			.on(IO.DELETE_FACTORY, (id: number) => {
-				deleteFactory(id)
+			.on(IO.DELETE_PIPELINE, (id: number) => {
+				deletePipeline(id)
 			})
 	})
 

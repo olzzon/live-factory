@@ -11,18 +11,18 @@ import {
 import { RootState } from '../../main'
 
 interface ISrtProps {
-	factoryId: number
+	pipelineId: number
 }
 
 const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const globalOut = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].globalOutput.paramArgs[0])
-	const filter = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].filter.paramArgs[0])
-	const audioFilter = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].audioFilter.paramArgs[0])
-	const output = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
+	const globalOut = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].globalOutput.paramArgs[0])
+	const filter = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.paramArgs[0])
+	const audioFilter = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].audioFilter.paramArgs[0])
+	const output = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[0])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))

@@ -6,29 +6,29 @@ const homeDir = require('os').homedir()
 const STORAGE_NAME = 'stored-setup'
 const SETTINGS_NAME = 'settings.json'
 
-import { IFactory } from '../../interface/GenericInterfaces'
+import { Pipeline } from '../../interface/GenericInterfaces'
 import { ISettings, NODE_TYPES } from '../../interface/SettingsInterface'
 import { extractListOfInputTypes, extractListOfOutputEncoderTypes, extractListOfOutputTypes } from './createListFromTypes'
 
-export const loadFactories = (): IFactory[] => {
-    let factories: IFactory[] = []
+export const loadPipelines = (): Pipeline[] => {
+    let pipelines: Pipeline[] = []
     try {
-        factories = JSON.parse(
+        pipelines = JSON.parse(
             fs.readFileSync(
                 path.resolve(homeDir, 'live-factory', STORAGE_NAME + '.json')
             )
         )
     } catch (error) {
-        console.error('Error loading factory list. Setting up empty list')
+        console.error('Error loading pipeline list. Setting up empty list')
         return []
     }
     console.log('Factory list loaded')
-    return factories
+    return pipelines
 }
 
-export const saveFactoriesList = (factories: IFactory[]) => {
-    console.log('Saving factories')
-    let json = JSON.stringify(factories)
+export const savePipelineList = (pipelines: Pipeline[]) => {
+    console.log('Saving pipelines')
+    let json = JSON.stringify(pipelines)
     if (!fs.existsSync(path.resolve(homeDir, 'live-factory'))) {
         fs.mkdirSync(path.resolve(homeDir, 'live-factory'))
     }

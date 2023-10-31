@@ -11,17 +11,17 @@ import { RootState } from '../../main'
 import { ISettings } from '../../../interface/SettingsInterface'
 
 interface IDecklinkProps {
-	factoryId: number
+	pipelineId: number
 	settings: ISettings
 }
 
 const DecklinkOutputOptions: React.FC<IDecklinkProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
-	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[1])
+	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[0])
+	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[1])
 	const devices = useSelector<RootState, string[]>(
 		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.DECKLINK_OUTPUT]?.devices || []
 	)

@@ -9,17 +9,17 @@ import {
 import { RootState } from '../../main'
 
 interface IDecklinkProps {
-	factoryId: number
+	pipelineId: number
 }
 
 const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const decklinkInput = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
-	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
-	const queue_size = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[2])
+	const decklinkInput = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
+	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[1])
+	const queue_size = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[2])
 	const devices = useSelector<RootState, string[]>(
 		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.DECKLINK_INPUT]?.devices || []
 	)

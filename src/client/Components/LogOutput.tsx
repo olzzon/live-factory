@@ -5,14 +5,14 @@ import '../styles/app.css'
 import { useSelector } from 'react-redux'
 import { RootState } from '../main'
 
-export interface IfactoryId {
-	factoryId: number
+export interface PipelineIdProps {
+	pipelineId: number
 }
 
-const LogOutput: React.FC<IfactoryId> = (props) => {
-	const id = props.factoryId
+const LogOutput: React.FC<PipelineIdProps> = (props) => {
+	const id = props.pipelineId
 
-	const logs = useSelector<RootState, string[]>((state) => state.ffmpeg[0].factory[id].log)
+	const logs = useSelector<RootState, string[]>((state) => state.ffmpeg[0].pipeline[id].log)
 
 	return (
 		<div className='logoutput'>

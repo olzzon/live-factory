@@ -8,22 +8,22 @@ import {
 	storeUpdateDevicesList,
 	storeUpdateFullStore,
 } from '../../interface/redux/containerActions'
-import { IDeviceList, IFactory } from '../../interface/GenericInterfaces'
+import { IDeviceList, Pipeline } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
 import * as IO from '../../interface/SocketIOContants'
 import { ISettings } from '../../interface/SettingsInterface'
 
-interface IfactoryId {
-	selectedEncoder: number
+interface PipelineProps {
+	selectedPipeline: number
 	socketClient: any
-	setSelectedEncoder: any
+	setSelectedPipeline: any
 	settings: ISettings
 }
 
-const FactoryHandler: React.FC<IfactoryId> = (props) => {
+const PipelineHandler: React.FC<PipelineProps> = (props) => {
 	const store = useStore()
 	const dispatch = useDispatch()
-	const factories = useSelector<RootState, IFactory[]>((state) => state.ffmpeg[0].factory, shallowEqual)
+	const pipelines = useSelector<RootState, Pipeline[]>((state) => state.ffmpeg[0].pipeline, shallowEqual)
 	const rerender = useSelector<RootState>((state) => state.ffmpeg[0].rerender)
 
 	useEffect(() => {
@@ -32,7 +32,7 @@ const FactoryHandler: React.FC<IfactoryId> = (props) => {
 				console.log('Index ', index, 'Activated :', activated, 'Running :', running)
 				dispatch(storeSetContainerState(index, activated, running))
 			})
-			.on(IO.FULL_STORE, (fullStore: IFactory[]) => {
+			.on(IO.FULL_STORE, (fullStore: Pipeline[]) => {
 				if (fullStore.length > 0) {
 					dispatch(storeUpdateFullStore(fullStore))
 					console.log('Full store', fullStore)
@@ -41,15 +41,15 @@ const FactoryHandler: React.FC<IfactoryId> = (props) => {
 			.on(IO.DEVICES_LIST, (devices: IDeviceList[]) => {
 				dispatch(storeUpdateDevicesList(devices))
 			})
-			.on(IO.LOG_PUSH, (factoryIndex: number, logLine: string) => {
-				dispatch(storePushLog(factoryIndex, logLine))
+			.on(IO.LOG_PUSH, (pipelineIndex: number, logLine: string) => {
+				dispatch(storePushLog(pipelineIndex, logLine))
 			})
 	}, [])
 
 	const calculateNumberOfActiveEncoders = () => {
 		let activeEncoders = 0
-		factories.forEach((factory) => {
-			if (factory.activated) {
+		pipelines.forEach((pipeline) => {
+			if (pipeline.activated) {
 				activeEncoders++
 			}
 		})
@@ -58,28 +58,28 @@ const FactoryHandler: React.FC<IfactoryId> = (props) => {
 	
 	const addFactory = () => {
 		dispatch(storeAddFactory())
-		props.setSelectedEncoder(factories.length)
-		props.socketClient.emit(IO.UPDATE_FACTORY, factories.length, factories[factories.length])
+		props.setSelectedPipeline(pipelines.length)
+		props.socketClient.emit(IO.UPDATE_PIPELINE, pipelines.length, pipelines[pipelines.length])
 	}
 
 	const duplicateFactory = () => {
-		dispatch(storeDuplicateFactory(props.selectedEncoder))
-		props.setSelectedEncoder(factories.length)
+		dispatch(storeDuplicateFactory(props.selectedPipeline))
+		props.setSelectedPipeline(pipelines.length)
 		let state = store.getState()
-		props.socketClient.emit(IO.UPDATE_FACTORY, factories.length, state.ffmpeg[0].factory[factories.length])
+		props.socketClient.emit(IO.UPDATE_PIPELINE, pipelines.length, state.ffmpeg[0].pipeline[pipelines.length])
 	}
 
 	const handleDeleteEncoder = () => {
 		if (window.confirm('Are you sure you want to delete the selected encoder ?')) {
-			console.log('Delete encoder index :', props.selectedEncoder)
-			props.socketClient.emit(IO.DELETE_FACTORY, props.selectedEncoder)
+			console.log('Delete encoder index :', props.selectedPipeline)
+			props.socketClient.emit(IO.DELETE_PIPELINE, props.selectedPipeline)
 		}
 	}
 
 	const handleStartEncoder = () => {
 		if (calculateNumberOfActiveEncoders() < props.settings.maxActiveEncoders) {
-			console.log('starting encoder index :', props.selectedEncoder)
-			props.socketClient.emit(IO.START_ENCODER, props.selectedEncoder, factories[props.selectedEncoder])
+			console.log('starting encoder index :', props.selectedPipeline)
+			props.socketClient.emit(IO.START_ENCODER, props.selectedPipeline, pipelines[props.selectedPipeline])
 		} else {
 			alert('You have reached the maximum number of active encoders')
 		}
@@ -87,36 +87,36 @@ const FactoryHandler: React.FC<IfactoryId> = (props) => {
 
 	const handleStopEncoder = () => {
 		if (window.confirm('Are you sure you want to stop the selected encoder ?')) {
-			console.log('stopping encoder index :', props.selectedEncoder)
-			props.socketClient.emit(IO.UPDATE_FACTORY, props.selectedEncoder, factories[props.selectedEncoder])
-			props.socketClient.emit(IO.STOP_ENCODER, props.selectedEncoder)
+			console.log('stopping encoder index :', props.selectedPipeline)
+			props.socketClient.emit(IO.UPDATE_PIPELINE, props.selectedPipeline, pipelines[props.selectedPipeline])
+			props.socketClient.emit(IO.STOP_ENCODER, props.selectedPipeline)
 		}
 	}
 
 	return (
 		<div className="factory-selector">
 			<span className="header">TRANSCODERS :</span>
-			{factories.map((factory: IFactory, index: number) => {
+			{pipelines.map((pipeline: Pipeline, index: number) => {
 				return (
 					<div>
 						<button
 							className="selector-button"
 							style={
-								props.selectedEncoder === index
+								props.selectedPipeline === index
 									? { backgroundColor: 'rgb(81, 81, 81)', borderColor: 'rgb(230, 230, 230)', color: 'white' }
 									: undefined
 							}
 							key={index}
 							onClick={() => {
-								props.setSelectedEncoder(index)
+								props.setSelectedPipeline(index)
 							}}
 						>
-							{factory.containerName}
+							{pipeline.containerName}
 						</button>
-						<span style={factory.activated && !factory.running ? { color: 'red' } : { color: 'rgb(101, 41, 41)' }}>
+						<span style={pipeline.activated && !pipeline.running ? { color: 'red' } : { color: 'rgb(101, 41, 41)' }}>
 							⬤
 						</span>
-						<span style={factory.running ? { color: 'green' } : { color: 'rgb(31, 61, 31)' }}>⬤</span>
+						<span style={pipeline.running ? { color: 'green' } : { color: 'rgb(31, 61, 31)' }}>⬤</span>
 					</div>
 				)
 			})}
@@ -150,4 +150,4 @@ const FactoryHandler: React.FC<IfactoryId> = (props) => {
 	)
 }
 
-export default FactoryHandler
+export default PipelineHandler

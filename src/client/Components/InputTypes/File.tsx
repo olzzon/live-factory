@@ -11,18 +11,18 @@ import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
 
 interface IFileProps {
-	factoryId: number
+	pipelineId: number
 }
 
 const FileInputOptions: React.FC<IFileProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
 
-	const fileLoop = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].globalInput.paramArgs[0])
-	const filePath = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
-	const fileName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
+	const fileLoop = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].globalInput.paramArgs[0])
+	const filePath = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
+	const fileName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[1])
 	const osType = useSelector<RootState, string>(
 		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
 	)

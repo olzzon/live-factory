@@ -10,17 +10,17 @@ import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
 
 interface ITcpProps {
-	factoryId: number
+	pipelineId: number
 }
 
 const TcpInputOptions: React.FC<ITcpProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
-	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[2])
+	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
+	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[1])
+	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[2])
 	const osType = useSelector<RootState, string>(
 		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
 	)

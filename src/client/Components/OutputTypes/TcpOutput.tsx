@@ -10,18 +10,18 @@ import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
 
 interface ITcpProps {
-	factoryId: number
+	pipelineId: number
 	settings: ISettings
 }
 
 const TcpOutputOptions: React.FC<ITcpProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[1])
-	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[2])
+	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[0])
+	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[1])
+	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[2])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
@@ -76,7 +76,7 @@ const TcpOutputOptions: React.FC<ITcpProps> = (props) => {
 					/>
 				</label>
 			</div>
-			<CodecTypes factoryId={id} settings={props.settings} />
+			<CodecTypes pipelineId={id} settings={props.settings} />
 		</div>
 	)
 }

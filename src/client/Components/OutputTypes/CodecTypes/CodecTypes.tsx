@@ -19,19 +19,19 @@ import OpusCodecOptions from './AudioCodec/OPUS'
 import { ISettings } from '../../../../interface/SettingsInterface'
 
 export interface IfactoryId {
-	factoryId: number
+	pipelineId: number
 	settings: ISettings
 }
 
 const CodecTypes: React.FC<IfactoryId> = (props) => {
-	const id = props.factoryId
+	const id = props.pipelineId
 	const dispatch = useDispatch()
 	const [collapseVideo, setCollapseVideo] = useState(false)
 	const [collapseAudio, setCollapseAudio] = useState(false)
 
-	const outputType = useSelector<RootState, OUTPUT_ENCODER>((state) => state.ffmpeg[0].factory[id].filter.type)
+	const outputType = useSelector<RootState, OUTPUT_ENCODER>((state) => state.ffmpeg[0].pipeline[id].filter.type)
 	const audioOutputType = useSelector<RootState, OUTPUT_AUDIO_ENCODER>(
-		(state) => state.ffmpeg[0].factory[id].audioFilter?.type
+		(state) => state.ffmpeg[0].pipeline[id].audioFilter?.type
 	)
 
 	const handleSetCodecType = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -66,11 +66,11 @@ const CodecTypes: React.FC<IfactoryId> = (props) => {
 						})}
 					</select>
 				</label>
-				{outputType === OUTPUT_ENCODER.H264_MAC ? <H264MacCodecOptions factoryId={id} /> : null}
-				{outputType === OUTPUT_ENCODER.HEVC_MAC ? <HevcMacCodecOptions factoryId={id} /> : null}
-				{outputType === OUTPUT_ENCODER.H264_NATIVE ? <H264NativeCodecOptions factoryId={id} /> : null}
-				{outputType === OUTPUT_ENCODER.HEVC_NVIDIA ? <HevcNvidiaCodecOptions factoryId={id} /> : null}
-				{outputType === OUTPUT_ENCODER.H264_NVIDIA ? <H264NvidiaCodecOptions factoryId={id} /> : null}
+				{outputType === OUTPUT_ENCODER.H264_MAC ? <H264MacCodecOptions pipelineId={id} /> : null}
+				{outputType === OUTPUT_ENCODER.HEVC_MAC ? <HevcMacCodecOptions pipelineId={id} /> : null}
+				{outputType === OUTPUT_ENCODER.H264_NATIVE ? <H264NativeCodecOptions pipelineId={id} /> : null}
+				{outputType === OUTPUT_ENCODER.HEVC_NVIDIA ? <HevcNvidiaCodecOptions pipelineId={id} /> : null}
+				{outputType === OUTPUT_ENCODER.H264_NVIDIA ? <H264NvidiaCodecOptions pipelineId={id} /> : null}
 			</div>
 		)
 	}
@@ -97,7 +97,7 @@ const CodecTypes: React.FC<IfactoryId> = (props) => {
 						})}
 					</select>
 				</label>
-				{audioOutputType === OUTPUT_AUDIO_ENCODER.OPUS ? <OpusCodecOptions factoryId={id} /> : null}
+				{audioOutputType === OUTPUT_AUDIO_ENCODER.OPUS ? <OpusCodecOptions pipelineId={id} /> : null}
 			</div>
 		)
 	}

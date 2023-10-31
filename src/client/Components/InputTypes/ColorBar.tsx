@@ -8,15 +8,15 @@ import {
 import { RootState } from '../../main'
 
 interface IColorBarProps {
-	factoryId: number
+	pipelineId: number
 }
 
 const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const resolution = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
+	const resolution = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamArr(id, ['-f', 'lavfi']))

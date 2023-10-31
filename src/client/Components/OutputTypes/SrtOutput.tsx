@@ -13,21 +13,21 @@ const LOW_LATENCY = '800'
 const ULTRA_LOW_LATENCY = '120'
 
 interface ISrtProps {
-	factoryId: number
+	pipelineId: number
 	settings: ISettings
 }
 
 const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[1])
-	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[2])
-	const passphrase = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[3])
-	const latency = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[4])
-	const protocol = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[5])
+	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[0])
+	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[1])
+	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[2])
+	const passphrase = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[3])
+	const latency = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[4])
+	const protocol = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[5])
 	const [lowLatencyState, setLowLatencyState] = useState<boolean>(
 		latency?.includes(`&latency=${LOW_LATENCY}`) ? true : false
 	)
@@ -145,7 +145,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					</select>
 				</label>
 			</div>
-			<CodecTypes factoryId={id} settings={props.settings} />
+			<CodecTypes pipelineId={id} settings={props.settings} />
 		</div>
 	)
 }

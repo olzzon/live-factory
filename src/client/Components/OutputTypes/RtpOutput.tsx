@@ -10,17 +10,17 @@ import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
 
 interface ITcpProps {
-	factoryId: number
+	pipelineId: number
 	settings: ISettings
 }
 
 const RtpOutputOptions: React.FC<ITcpProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[1])
+	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[0])
+	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[1])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, []))
@@ -57,7 +57,7 @@ const RtpOutputOptions: React.FC<ITcpProps> = (props) => {
 					/>
 				</label>
 			</div>
-			<CodecTypes factoryId={id} settings={props.settings} />
+			<CodecTypes pipelineId={id} settings={props.settings} />
 		</div>
 	)
 }

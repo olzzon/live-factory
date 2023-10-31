@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { INPUT_TYPES, IFactory, OUTPUT_TYPES } from '../../interface/GenericInterfaces'
+import { INPUT_TYPES, Pipeline, OUTPUT_TYPES } from '../../interface/GenericInterfaces'
 import '../styles/app.css'
 import FileInputOptions from './InputTypes/File'
 import {
@@ -44,25 +44,25 @@ import LogOutput from './LogOutput'
 import insertArgsToString from '../utils/insertArgs'
 import { NodeList, ISettings } from '../../interface/SettingsInterface'
 
-export interface IfactoryId {
-	factoryId: number
+export interface PipelineId {
+	pipelineId: number
 	socketClient: any
 	settings: ISettings
 }
 
-const Transcoder: React.FC<IfactoryId> = (props) => {
-	const id = props.factoryId
-	const factoryList = props.settings.nodeList
+const Transcoder: React.FC<PipelineId> = (props) => {
+	const id = props.pipelineId
+	const nodeList = props.settings.nodeList
 
 	const dispatch = useDispatch()
 
-	const factoryName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].containerName)
-	const inputType = useSelector<RootState, INPUT_TYPES>((state) => state.ffmpeg[0].factory[id].input.type)
-	const factory = useSelector<RootState, IFactory>((state) => state.ffmpeg[0].factory[id])
-	const outputType = useSelector<RootState, OUTPUT_TYPES>((state) => state.ffmpeg[0].factory[id].output.type)
-	const nodeIndex = useSelector<RootState, number>((state) => state.ffmpeg[0].factory[id].nodeIndex)
+	const pipelineName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].containerName)
+	const inputType = useSelector<RootState, INPUT_TYPES>((state) => state.ffmpeg[0].pipeline[id].input.type)
+	const pipeline = useSelector<RootState, Pipeline>((state) => state.ffmpeg[0].pipeline[id])
+	const outputType = useSelector<RootState, OUTPUT_TYPES>((state) => state.ffmpeg[0].pipeline[id].output.type)
+	const nodeIndex = useSelector<RootState, number>((state) => state.ffmpeg[0].pipeline[id].nodeIndex)
 
-	const handleSetFactoryType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+	const handleSetPipelineType = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		dispatch(storeSetNodeIndex(id, parseInt(event.target.value)))
 	}
 
@@ -71,8 +71,8 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 			dispatch(storeClearGlobalInParams(id))
 			dispatch(storeClearInputParams(id))
 		} else {
-			dispatch(storeSetGlobalInParams(id, 0, insertArgsToString(factory.globalInput.param, factory.globalInput.paramArgs)))
-			dispatch(storeSetInputParams(id, 0, insertArgsToString(factory.input.param, factory.input.paramArgs)))
+			dispatch(storeSetGlobalInParams(id, 0, insertArgsToString(pipeline.globalInput.param, pipeline.globalInput.paramArgs)))
+			dispatch(storeSetInputParams(id, 0, insertArgsToString(pipeline.input.param, pipeline.input.paramArgs)))
 		}
 		dispatch(storeSetInputType(id, event.target.value as INPUT_TYPES))
 	}
@@ -84,10 +84,10 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 			dispatch(storeClearGlobalOutParams(id))
 			dispatch(storeClearOutputParams(id))
 		} else {
-			dispatch(storeSetFilterParams(id, 0, insertArgsToString(factory.filter.param, factory.filter.paramArgs)))
-			dispatch(storeSetFilterAudioParams(id, 0, insertArgsToString(factory.audioFilter.param, factory.audioFilter.paramArgs)))
-			dispatch(storeSetGlobalOutParams(id, 0, insertArgsToString(factory.globalOutput.param, factory.globalOutput.paramArgs)))
-			dispatch(storeSetOutputParams(id, 0, insertArgsToString(factory.output.param, factory.output.paramArgs)))
+			dispatch(storeSetFilterParams(id, 0, insertArgsToString(pipeline.filter.param, pipeline.filter.paramArgs)))
+			dispatch(storeSetFilterAudioParams(id, 0, insertArgsToString(pipeline.audioFilter.param, pipeline.audioFilter.paramArgs)))
+			dispatch(storeSetGlobalOutParams(id, 0, insertArgsToString(pipeline.globalOutput.param, pipeline.globalOutput.paramArgs)))
+			dispatch(storeSetOutputParams(id, 0, insertArgsToString(pipeline.output.param, pipeline.output.paramArgs)))
 		}
 		dispatch(storeSetOutputType(id, event.target.value as OUTPUT_TYPES))
 	}
@@ -114,16 +114,16 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				</label>
 				<hr className="horizontal" />
 
-				{inputType === INPUT_TYPES.FILE ? <FileInputOptions factoryId={id} /> : null}
-				{inputType === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions factoryId={id} /> : null}
-				{inputType === INPUT_TYPES.MPEG_TS ? <MpegtsInputOptions factoryId={id} /> : null}
-				{inputType === INPUT_TYPES.UDP ? <UdpInputOptions factoryId={id} /> : null}
-				{inputType === INPUT_TYPES.TCP ? <TcpInputOptions factoryId={id} /> : null}
-				{inputType === INPUT_TYPES.RTP ? <RtpInputOptions factoryId={id} /> : null}
-				{inputType === INPUT_TYPES.SRT ? <SrtInputOptions factoryId={id} /> : null}
-				{inputType === INPUT_TYPES.DECKLINK ? <DecklinkInputOptions factoryId={id} /> : null}
-				{inputType === INPUT_TYPES.NDI ? <NdiInputOptions factoryId={id} /> : null}
-				{inputType === INPUT_TYPES.CUSTOM ? <CustomInputOptions factoryId={id} /> : null}
+				{inputType === INPUT_TYPES.FILE ? <FileInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_TYPES.MPEG_TS ? <MpegtsInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_TYPES.UDP ? <UdpInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_TYPES.TCP ? <TcpInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_TYPES.RTP ? <RtpInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_TYPES.SRT ? <SrtInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_TYPES.DECKLINK ? <DecklinkInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_TYPES.NDI ? <NdiInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_TYPES.CUSTOM ? <CustomInputOptions pipelineId={id} /> : null}
 			</div>
 		)
 	}
@@ -149,14 +149,14 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 					</select>
 				</label>
 				<hr className="horizontal" />
-				{outputType === OUTPUT_TYPES.DECKLINK ? <DecklinkOutputOptions factoryId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.SRT ? <SrtOutputOptions factoryId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions factoryId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.TCP ? <TcpOutputOptions factoryId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.RTP ? <RtpOutputOptions factoryId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.NDI ? <NdiOutputOptions factoryId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.SCREEN ? <ScreenOutputOptions factoryId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.CUSTOM ? <CustomOutputOptions factoryId={id} /> : null}
+				{outputType === OUTPUT_TYPES.DECKLINK ? <DecklinkOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_TYPES.SRT ? <SrtOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_TYPES.TCP ? <TcpOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_TYPES.RTP ? <RtpOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_TYPES.NDI ? <NdiOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_TYPES.SCREEN ? <ScreenOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_TYPES.CUSTOM ? <CustomOutputOptions pipelineId={id} /> : null}
 			</div>
 		)
 	}
@@ -169,7 +169,7 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={factoryName ?? ''}
+						value={pipelineName ?? ''}
 						onChange={(event) => dispatch(storeSetContainerName(id, event.target.value))}
 					/>
 				</label>
@@ -178,13 +178,13 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 					<select
 						value={nodeIndex}
 						onChange={(event) => {
-							handleSetFactoryType(event)
+							handleSetPipelineType(event)
 						}}
 					>
-						{factoryList?.map((factoryType, index) => {
+						{nodeList?.map((pipelineType, index) => {
 							return (
 								<option key={index} value={index}>
-									{factoryType.name}
+									{pipelineType.name}
 								</option>
 							)
 						})}
@@ -195,7 +195,7 @@ const Transcoder: React.FC<IfactoryId> = (props) => {
 				<DecoderSide />
 				<EncoderSide />
 			</div>
-			<LogOutput factoryId={props.factoryId} />
+			<LogOutput pipelineId={props.pipelineId} />
 		</div>
 	)
 }

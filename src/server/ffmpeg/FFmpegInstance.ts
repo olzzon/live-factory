@@ -1,6 +1,6 @@
 // const exec = require('child_process').exec
 import { ChildProcess, ChildProcessWithoutNullStreams, spawn } from 'child_process'
-import { IFactory } from '../../interface/GenericInterfaces'
+import { Pipeline } from '../../interface/GenericInterfaces'
 import insertArgs from '../utils/insertArgs'
 import { addToLog, updateEncoderState } from '../webserver/webserver'
 import { ISettings } from '../../interface/SettingsInterface'
@@ -25,7 +25,7 @@ export class FFmepgInstance {
 		this.settings = props.settings
 	}
 
-	initFFmpeg = (cmd: IFactory) => {
+	initFFmpeg = (cmd: Pipeline) => {
 		const command = this.settings.nodeList[cmd.nodeIndex].path || path.resolve(homeDir, 'live-factory', 'ffmpegruntime')
 
 		const argsArray = [

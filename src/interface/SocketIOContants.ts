@@ -1,8 +1,8 @@
 // Client to server
 export const STOP_ENCODER = 'stop_encoder'
 export const START_ENCODER = 'start_encoder'
-export const UPDATE_FACTORY = 'update_factory'
-export const DELETE_FACTORY = 'delete_factory'
+export const UPDATE_PIPELINE = 'update_pipeline'
+export const DELETE_PIPELINE = 'delete_pipeline'
 
 // Server to clients:
 export const FULL_STORE = 'full_store'

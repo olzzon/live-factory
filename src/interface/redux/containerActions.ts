@@ -1,5 +1,5 @@
 import { IDeviceList, INPUT_TYPES, OUTPUT_AUDIO_ENCODER, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
-import { IFactory } from '../GenericInterfaces'
+import { Pipeline } from '../GenericInterfaces'
 
 export const ADD_FACTORY = 'addFactory'
 export const DUPLICATE_FACTORY = 'duplicateFactory'
@@ -42,10 +42,10 @@ export const storeAddFactory = () => {
     }
 }
 
-export const storeDuplicateFactory = (factoryId: number) => {
+export const storeDuplicateFactory = (pipelineId: number) => {
     return {
         type: DUPLICATE_FACTORY,
-		factoryId: factoryId
+		pipelineId: pipelineId
     }
 }
 
@@ -56,225 +56,225 @@ export const storeUpdateDevicesList = (deviceTypes: IDeviceList[]) => {
 	}
 }
 
-export const storeUpdateFullStore = (fullStore: IFactory[]) => {
+export const storeUpdateFullStore = (fullStore: Pipeline[]) => {
     return {
         type: UPDATE_FULL_STORE,
 		fullStore: fullStore
     }
 }
 
-export const storePushLog = (factoryId: number, logLine: string) => {
+export const storePushLog = (pipelineId: number, logLine: string) => {
     return {
         type: LOG_PUSH,
 		logLine: logLine,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
     }
 }
 
-export const storeShiftLog = (factoryId: number) => {
+export const storeShiftLog = (pipelineId: number) => {
     return {
         type: LOG_SHIFT,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
     }
 }
 
-export const storeSetContainerName = (factoryId: number, name: string) => {
+export const storeSetContainerName = (pipelineId: number, name: string) => {
 	return {
 		type: SET_CONTAINER_NAME,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		containerName: name,
 	}
 }
 
-export const storeSetNodeIndex = (factoryId: number, nodeIndex: number) => {
+export const storeSetNodeIndex = (pipelineId: number, nodeIndex: number) => {
 	return {
 		type: SET_NODE_INDEX,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		nodeIndex: nodeIndex,
 	}
 }
 
-export const storeSetContainerState = (factoryId: number, activated: boolean, running: boolean) => {
+export const storeSetContainerState = (pipelineId: number, activated: boolean, running: boolean) => {
 	return {
 		type: SET_CONTAINER_STATE,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		activated: activated,
 		running: running
 	}
 }
 
-export const storeSetGlobalInParamArr = (factoryId: number, paramArr: string[]) => {
+export const storeSetGlobalInParamArr = (pipelineId: number, paramArr: string[]) => {
 	return {
 		type: SET_GLOBAL_IN_PARAM_ARR,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		paramArr: paramArr
 	}
 }
 
-export const storeSetGlobalInParams = (factoryId: number, paramIndex: number, param: string) => {
+export const storeSetGlobalInParams = (pipelineId: number, paramIndex: number, param: string) => {
 	return {
 		type: SET_GLOBAL_IN_PARAMS,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearGlobalInParams = (factoryId: number) => {
+export const storeClearGlobalInParams = (pipelineId: number) => {
 	return {
 		type: CLEAR_GLOBAL_IN_PARAMS,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 	}
 }
 
-export const storeSetGlobalOutParamArr = (factoryId: number, paramArr: string[]) => {
+export const storeSetGlobalOutParamArr = (pipelineId: number, paramArr: string[]) => {
 	return {
 		type: SET_GLOBAL_OUT_PARAM_ARR,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		paramArr: paramArr
 	}
 }
 
-export const storeSetGlobalOutParams = (factoryId: number, paramIndex: number, param: string) => {
+export const storeSetGlobalOutParams = (pipelineId: number, paramIndex: number, param: string) => {
 	return {
 		type: SET_GLOBAL_OUT_PARAMS,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearGlobalOutParams = (factoryId: number) => {
+export const storeClearGlobalOutParams = (pipelineId: number) => {
 	return {
 		type: CLEAR_GLOBAL_OUT_PARAMS,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 	}
 }
 
-export const storeSetInputType = (factoryId: number, inputType: INPUT_TYPES) => {
+export const storeSetInputType = (pipelineId: number, inputType: INPUT_TYPES) => {
 	return {
 		type: SET_INPUT_TYPE,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		inputType: inputType,
 	}
 }
 
-export const storeSetInputParamArr = (factoryId: number, paramArr: string[]) => {
+export const storeSetInputParamArr = (pipelineId: number, paramArr: string[]) => {
 	return {
 		type: SET_INPUT_PARAM_ARR,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		paramArr: paramArr,
 	}
 }
 
-export const storeSetInputParams = (factoryId: number, paramIndex: number, param: string) => {
+export const storeSetInputParams = (pipelineId: number, paramIndex: number, param: string) => {
 	return {
 		type: SET_INPUT_PARAMS,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearInputParams = (factoryId: number) => {
+export const storeClearInputParams = (pipelineId: number) => {
 	return {
 		type: CLEAR_INPUT_PARAMS,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 	}
 }
 
-export const storeSetFilterType = (factoryId: number, filterType: OUTPUT_ENCODER) => {
+export const storeSetFilterType = (pipelineId: number, filterType: OUTPUT_ENCODER) => {
 	return {
 		type: SET_FILTER_TYPE,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		filterType: filterType,
 	}
 }
 
-export const storeSetFilterParamArr = (factoryId: number, paramArr: string[]) => {
+export const storeSetFilterParamArr = (pipelineId: number, paramArr: string[]) => {
 	return {
 		type: SET_FILTER_PARAM_ARR,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		paramArr: paramArr,
 	}
 }
 
-export const storeSetFilterParams = (factoryId: number, paramIndex: number, param: string) => {
+export const storeSetFilterParams = (pipelineId: number, paramIndex: number, param: string) => {
 	return {
 		type: SET_FILTER_PARAMS,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearFilterParams = (factoryId: number) => {
+export const storeClearFilterParams = (pipelineId: number) => {
 	return {
 		type: CLEAR_FILTER_PARAMS,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 	}
 }
 
-export const storeSetFilterAudioType = (factoryId: number, filterType: OUTPUT_AUDIO_ENCODER) => {
+export const storeSetFilterAudioType = (pipelineId: number, filterType: OUTPUT_AUDIO_ENCODER) => {
 	return {
 		type: SET_FILTER_AUDIO_TYPE,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		filterType: filterType,
 	}
 }
 
-export const storeSetFilterAudioParamArr = (factoryId: number, paramArr: string[]) => {
+export const storeSetFilterAudioParamArr = (pipelineId: number, paramArr: string[]) => {
 	return {
 		type: SET_FILTER_AUDIO_PARAM_ARR,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		paramArr: paramArr,
 	}
 }
 
-export const storeSetFilterAudioParams = (factoryId: number, paramIndex: number, param: string) => {
+export const storeSetFilterAudioParams = (pipelineId: number, paramIndex: number, param: string) => {
 	return {
 		type: SET_FILTER_AUDIO_PARAMS,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearFilterAudioParams = (factoryId: number) => {
+export const storeClearFilterAudioParams = (pipelineId: number) => {
 	return {
 		type: CLEAR_FILTER_AUDIO_PARAMS,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 	}
 }
 
-export const storeSetOutputType = (factoryId: number, outputType: OUTPUT_TYPES) => {
+export const storeSetOutputType = (pipelineId: number, outputType: OUTPUT_TYPES) => {
 	return {
 		type: SET_OUTPUT_TYPE,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		outputType: outputType,
 	}
 }
 
-export const storeSetOutputParamArr = (factoryId: number, paramArr: string[]) => {
+export const storeSetOutputParamArr = (pipelineId: number, paramArr: string[]) => {
 	return {
 		type: SET_OUTPUT_PARAM_ARR,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 		paramArr: paramArr,
 	}
 }
 
-export const storeSetOutputParams = (factoryId: number, paramIndex: number, param: string) => {
+export const storeSetOutputParams = (pipelineId: number, paramIndex: number, param: string) => {
 	return {
 		type: SET_OUTPUT_PARAMS,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
         paramIndex: paramIndex,
 		param: param,
 	}
 }
 
-export const storeClearOutputParams = (factoryId: number) => {
+export const storeClearOutputParams = (pipelineId: number) => {
 	return {
 		type: CLEAR_OUTPUT_PARAMS,
-		factoryId: factoryId,
+		pipelineId: pipelineId,
 	}
 }

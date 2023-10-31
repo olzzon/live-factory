@@ -9,16 +9,16 @@ import {
 import { RootState } from '../../main'
 
 interface IFileProps {
-	factoryId: number
+	pipelineId: number
 }
 
 const NdiInputOptions: React.FC<IFileProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
 
-	const ndiName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
+	const ndiName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
 	const devices = useSelector<RootState, string[]>(
 		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.NDI]?.devices || []
 	)

@@ -11,16 +11,16 @@ import { ISettings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 
 interface INdiProps {
-	factoryId: number
+	pipelineId: number
 	settings: ISettings
 }
 
 const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
+	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[0])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, ['-probesize', '32']))

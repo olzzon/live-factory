@@ -1,5 +1,5 @@
 
-export interface IFactory {
+export interface Pipeline {
     nodeIndex: number,
     containerName: string
     uuid: string

@@ -10,21 +10,21 @@ import { ISettings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 
 interface IOutProps {
-	factoryId: number
+	pipelineId: number
 	settings: ISettings
 }
 
 const ScreenOutputOptions: React.FC<IOutProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].output.paramArgs[0])
+	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[0])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, []))
 		dispatch(storeSetFilterParamArr(id, []))
-		dispatch(storeSetOutputParamArr(id, ['-pix_fmt', 'yuv420p', '-f', 'sdl', 'Live Factory']))
+		dispatch(storeSetOutputParamArr(id, ['-pix_fmt', 'yuv420p', '-f', 'sdl', 'Live-Factory']))
 	}, [])
 
 	return (

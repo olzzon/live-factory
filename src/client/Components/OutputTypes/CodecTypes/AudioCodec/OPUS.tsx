@@ -7,15 +7,15 @@ import {
 import { RootState } from '../../../../main'
 
 interface ICodecProps {
-	factoryId: number
+	pipelineId: number
 }
 
 const OpusCodecOptions: React.FC<ICodecProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 
-	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].audioFilter.paramArgs[0])
-	const aAudioTracks = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].audioFilter.paramArgs[1])
+	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].audioFilter.paramArgs[0])
+	const aAudioTracks = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].audioFilter.paramArgs[1])
 
 	useEffect(() => {
 		dispatch(storeSetFilterAudioParamArr(id, ['-acodec', 'libopus', '-b:a', '{arg0}k']))

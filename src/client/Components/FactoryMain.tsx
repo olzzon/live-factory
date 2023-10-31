@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { IFactory } from '../../interface/GenericInterfaces'
+import { Pipeline } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
 
 import io from 'socket.io-client'
 import * as IO from '../../interface/SocketIOContants'
 import { ISettings } from '../../interface/SettingsInterface'
 import Transcoder from './Transcoder'
-import FactoryHandler from './FactoryHandler'
+import PipelineHandler from './PipelineHandler'
 const socketClient = io()
 
 const FactoryMain: React.FC = () => {
@@ -20,7 +20,7 @@ const FactoryMain: React.FC = () => {
 		allowedOutputTypes: [],
 		allowedOutputEncoderTypes: [],
 	})
-	const factories = useSelector<RootState, IFactory[]>((state) => state.ffmpeg[0].factory, shallowEqual)
+	const pipelines = useSelector<RootState, Pipeline[]>((state) => state.ffmpeg[0].pipeline, shallowEqual)
 
 	socketClient.on(IO.SETTINGS, (settings: ISettings) => {
 		console.log('settings received :', settings)
@@ -30,13 +30,13 @@ const FactoryMain: React.FC = () => {
 
 	return (
 		<div className="factory-handler">
-			<FactoryHandler
-				selectedEncoder={selectedEncoder < factories.length ? selectedEncoder : 0}
+			<PipelineHandler
+				selectedPipeline={selectedEncoder < pipelines.length ? selectedEncoder : 0}
 				socketClient={socketClient}
-				setSelectedEncoder={setSelectedEncoder}
+				setSelectedPipeline={setSelectedEncoder}
 				settings={settings}
 			/>
-			<Transcoder factoryId={selectedEncoder < factories.length ? selectedEncoder : 0} socketClient={socketClient} settings={settings} />
+			<Transcoder pipelineId={selectedEncoder < pipelines.length ? selectedEncoder : 0} socketClient={socketClient} settings={settings} />
 		</div>
 	)
 }

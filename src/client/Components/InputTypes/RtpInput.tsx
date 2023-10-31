@@ -6,17 +6,17 @@ import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
 
 interface IRtpProps {
-	factoryId: number
+	pipelineId: number
 }
 
 const RtpInputOptions: React.FC<IRtpProps> = (props) => {
 	const dispatch = useDispatch()
-	const id = props.factoryId
+	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].factory[id].input.paramArgs[1])
+	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
+	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[1])
 	const osType = useSelector<RootState, string>(
 		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.GPU_TYPE]?.devices[0]
 	)

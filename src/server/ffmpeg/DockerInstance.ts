@@ -1,4 +1,4 @@
-import { IFactory } from '../../interface/GenericInterfaces'
+import { Pipeline } from '../../interface/GenericInterfaces'
 import insertArgs from '../utils/insertArgs'
 import { addToLog, updateEncoderState } from '../webserver/webserver'
 import Docker from 'dockerode'
@@ -23,7 +23,7 @@ export class DockerInstance {
 	}
 
 
-	initFFmpeg = (cmd: IFactory) => {
+	initFFmpeg = (cmd: Pipeline) => {
 		const node = this.settings.nodeList[cmd.nodeIndex]
 		this.docker = new Docker({ host: node.host, port: node.port })
 
@@ -91,7 +91,7 @@ export class DockerInstance {
 	}
 
 	killInstance = (containerIndex: number) => {
-		console.log(`Stopping Encoder Index : ${containerIndex}`, 'Docker :', this.container.id)
+		console.log(`Stopping Encoder Index : ${containerIndex}`, 'Docker :', this.container?.id)
 		this.container.stop();
 		if (this.timeOutInstance) {
 			clearTimeout(this.timeOutInstance)
