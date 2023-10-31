@@ -10,7 +10,7 @@ export interface NodeList {
     name: string,
     type: NODE_TYPES,
     path?: string,
-    containerName?: string
+    imageName?: string
     host?: string
     port?: number
     hwaccel: GPU_TYPES

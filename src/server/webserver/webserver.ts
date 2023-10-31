@@ -62,7 +62,6 @@ export const updatePipelineState = (index: number, activated: boolean, running: 
 	if (pipelines[index]) {
 		pipelines[index].activated = activated
 		pipelines[index].running = running
-		console.log('Emitting Encoder update state. Index :', index, 'activated :', activated, 'running :', running)
 		socketIO.emit(IO.UPDATE_ENCODER_STATE, index, activated, running)
 	}
 }
@@ -107,7 +106,7 @@ export const initializeWebServer = () => {
 
 		client
 			.on(IO.START_ENCODER, (id: number, cmd: Pipeline) => {
-				if (pipelines[id].nodeIndex !== cmd.nodeIndex) {
+				if (pipelines[id]?.nodeIndex !== cmd.nodeIndex) {
 					pipelineInstances[id]?.stopInstance(id)
 					pipelineInstances[id] = undefined
 				}

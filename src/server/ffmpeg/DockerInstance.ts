@@ -29,7 +29,7 @@ export class DockerInstance {
 		if (!this.docker) {
 			return
 		}
-		const containerName = this.settings.nodeList[cmd.nodeIndex].containerName
+		const imageName = this.settings.nodeList[cmd.nodeIndex].imageName
 		// Todo: Add support for docker args pr pipeline (e.g. ports for NDI and SRT)
 		const containerArgs = '-it -p 5000-9000:5000-9000'
 
@@ -49,41 +49,48 @@ export class DockerInstance {
 		// Check if container exists:
 		console.log('Setting up docker container :', runtimeName)
 		console.log('With parameters :', ffmpegArgs)
-		this.docker.listContainers({ all: true }).then((containers) => {
+		this.docker.listContainers({ All: true }).then((containers) => {
 			const container = containers.find((container: any) => container.Names.includes('/' + runtimeName))
 			if (container) {
-				console.log('Container already exists, removing')
-				this.docker?.getContainer(container.Id).stop()
-				this.docker?.getContainer(container.Id).remove()
-			}
-		})
-
-
-		this.docker.run(containerName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, { name: runtimeName ,Env: [containerArgs], Tty: false },
-			(err: Error) => {
-				if (err) {
-					addToLog(this.containerIndex, err.message)
-					if (err.message.includes('Decklink input buffer overrun')) {
-						// Restart service if Decklink buffer is overrun:
+				console.log('Container already running, stopping')
+				this.docker?.getContainer(container.Id).inspect().then((container: any) => {
+					if (container.State.Running) {
+						this.docker?.getContainer(container.Id).stop().then(() => {
+							this.docker?.getContainer(container.Id).remove()
+						})
+					} else {
+						this.docker?.getContainer(container.Id).remove()
 					}
-					console.error('Error :', err.message)
-				}
+				})
+			} else {
+				this.docker?.run(imageName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, { name: runtimeName, Env: [containerArgs], Tty: false },
+					(err: Error) => {
+						if (err) {
+							addToLog(this.containerIndex, err.message)
+							if (err.message.includes('Decklink input buffer overrun')) {
+								// Restart service if Decklink buffer is overrun:
+							}
+							console.error('Error :', err.message)
+						}
+					}
+				).on('container', (container: any) => {
+					updatePipelineState(this.containerIndex, true, false)
+					console.log('Container :', container.id)
+					this.container = container
+				}).on('stream', (stream: any) => {
+					stream.on('data', (data: any) => {
+						addToLog(this.containerIndex, data.toString())
+						console.log('Pipeline :', this.containerIndex, 'Data: ', data.toString())
+						updatePipelineState(this.containerIndex, true, true)
+					})
+						.on('end', () => {
+							this.container.remove()
+							this.container = null
+							console.log('Encoding ended, container removed')
+							updatePipelineState(this.containerIndex, false, false)
+						})
+				})
 			}
-		).on('container', (container: any) => {
-			updatePipelineState(this.containerIndex, true, false)
-			console.log('Container :', container.id)
-			this.container = container
-		}).on('stream', (stream: any) => {
-			stream.on('data', (data: any) => {
-				console.log('Data :', data.toString())
-				updatePipelineState(this.containerIndex, true, true)
-			})
-			.on('end', () => {
-				this.container.remove()
-				this.container = null
-				console.log('Encoding ended, container removed')
-				updatePipelineState(this.containerIndex, false, false)
-			})
 		})
 	}
 
