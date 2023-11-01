@@ -5,16 +5,18 @@ import {
 	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
-import { Settings } from '../../../interface/SettingsInterface'
+import { Settings, SettingsOutputParam } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
+import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
+import { OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
 
-interface ISrtProps {
+interface SrtProps {
 	pipelineId: number
 	settings: Settings
 }
 
-const MpegTsOutputOptions: React.FC<ISrtProps> = (props) => {
+const MpegTsOutputOptions: React.FC<SrtProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
@@ -23,9 +25,8 @@ const MpegTsOutputOptions: React.FC<ISrtProps> = (props) => {
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[1])
 
 	useEffect(() => {
-		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalOutParamArr(id, []))
-		dispatch(storeSetOutputParamArr(id, ['-f', 'mpegts', 'udp://{arg0}:{arg1}?pkt_size=1316']))
+		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.MPEG_TS)))
+		dispatch(storeSetOutputParamArr(id, parseOutputParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.MPEG_TS)))
 		if (!ip) {
 			dispatch(storeSetOutputValue(id, 0, '0.0.0.0'))
 		}

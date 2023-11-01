@@ -8,6 +8,8 @@ import {
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
 import { Settings } from '../../../interface/SettingsInterface'
+import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
+import { OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
 
 const LOW_LATENCY = '800'
 const ULTRA_LOW_LATENCY = '120'
@@ -39,13 +41,9 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		// CUDA Linux:
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 
-		dispatch(storeSetGlobalOutParamArr(id, []))
-		dispatch(
-			storeSetOutputParamArr(
-				id,
-				['-adrift_threshold', '0.06', '-async', '8000', '-f', '{arg5}', 'srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}{arg4}']
-			)
-		)
+		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.SRT)))
+		dispatch(storeSetOutputParamArr(id, parseOutputParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.SRT)))
+
 
 		if (!ip) {
 			dispatch(storeSetOutputValue(id, 0, '0.0.0.0'))

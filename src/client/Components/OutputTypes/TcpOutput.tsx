@@ -8,6 +8,8 @@ import {
 import { Settings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
+import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
+import { OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
 
 interface ITcpProps {
 	pipelineId: number
@@ -30,8 +32,9 @@ const TcpOutputOptions: React.FC<ITcpProps> = (props) => {
 		// CUDA Linux:
 		//  ` -c:v h264_nvenc -preset llhq -zerolatency 1 -b:v 6000k -pix_fmt yuv420p `))
 
-		dispatch(storeSetGlobalOutParamArr(id, []))
-		dispatch(storeSetOutputParamArr(id, ['-f', 'matroska', 'tcp://{arg0}:{arg1}?{arg2}']))
+		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.TCP)))
+		dispatch(storeSetOutputParamArr(id, parseOutputParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.TCP)))
+
 
 		if (!ip) {
 			dispatch(storeSetOutputValue(id, 0, '0.0.0.0'))

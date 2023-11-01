@@ -146,6 +146,15 @@
             ]
         },
         {
+            "type": "RIST",
+            "globalOut": [],
+            "output": [
+                "-f",
+                "matroska",
+                "rist://{arg0}:{arg1}?pkt_size=1316&cname={arg2}"
+            ]
+        },
+        {
             "type": "DECKLINK",
             "globalOut": [
                 "-fflags",

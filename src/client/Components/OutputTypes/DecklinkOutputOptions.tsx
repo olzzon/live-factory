@@ -6,16 +6,17 @@ import {
 	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
-import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
+import { DEVICE_TYPES, OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
 import { RootState } from '../../main'
-import { Settings } from '../../../interface/SettingsInterface'
+import { Settings, SettingsOutputParam } from '../../../interface/SettingsInterface'
+import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
-interface IDecklinkProps {
+interface DecklinkProps {
 	pipelineId: number
 	settings: Settings
 }
 
-const DecklinkOutputOptions: React.FC<IDecklinkProps> = (props) => {
+const DecklinkOutputOptions: React.FC<DecklinkProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
@@ -27,9 +28,10 @@ const DecklinkOutputOptions: React.FC<IDecklinkProps> = (props) => {
 	)
 
 	useEffect(() => {
-		dispatch(storeSetGlobalOutParamArr(id, ['-fflags', 'nobuffer', '-flags', 'low_delay', '-probesize', '32']))
+		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.DECKLINK)))
+		dispatch(storeSetOutputParamArr(id, parseOutputParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.DECKLINK)))
+
 		dispatch(storeSetFilterParamArr(id, []))
-		dispatch(storeSetOutputParamArr(id, ['-f', 'decklink', '-pix_fmt', 'uyvy422', '{arg0}']))
 		if (!outputName) {
 			dispatch(storeSetOutputValue(id, 0, `DeckLink Quad (1)`))
 		}

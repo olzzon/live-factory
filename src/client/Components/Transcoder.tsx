@@ -43,6 +43,7 @@ import LogOutput from './LogOutput'
 import insertArgsToString from '../utils/insertArgs'
 import { Settings, GPU_TYPES } from '../../interface/SettingsInterface'
 import RistInputOptions from './InputTypes/RistInput'
+import RistOutputOptions from './OutputTypes/RistOutput'
 
 export interface Transcoder {
 	pipelineId: number
@@ -152,6 +153,7 @@ const Transcoder: React.FC<Transcoder> = (props) => {
 				<hr className="horizontal" />
 				{outputType === OUTPUT_PARAMS.DECKLINK ? <DecklinkOutputOptions pipelineId={id} settings={props.settings} /> : null}
 				{outputType === OUTPUT_PARAMS.SRT ? <SrtOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_PARAMS.RIST ? <RistOutputOptions pipelineId={id} settings={props.settings} /> : null}
 				{outputType === OUTPUT_PARAMS.MPEG_TS ? <MpegTsOutputOptions pipelineId={id} settings={props.settings} /> : null}
 				{outputType === OUTPUT_PARAMS.TCP ? <TcpOutputOptions pipelineId={id} settings={props.settings} /> : null}
 				{outputType === OUTPUT_PARAMS.RTP ? <RtpOutputOptions pipelineId={id} settings={props.settings} /> : null}

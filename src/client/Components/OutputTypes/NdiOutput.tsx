@@ -7,15 +7,17 @@ import {
 	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
-import { Settings } from '../../../interface/SettingsInterface'
+import { Settings, SettingsOutputParam } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
+import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
+import { OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
 
-interface INdiProps {
+interface NdiProps {
 	pipelineId: number
 	settings: Settings
 }
 
-const NdiOutputOptions: React.FC<INdiProps> = (props) => {
+const NdiOutputOptions: React.FC<NdiProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
@@ -23,10 +25,10 @@ const NdiOutputOptions: React.FC<INdiProps> = (props) => {
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[0])
 
 	useEffect(() => {
-		dispatch(storeSetGlobalOutParamArr(id, ['-probesize', '32']))
+		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.NDI)))
+		dispatch(storeSetOutputParamArr(id, parseOutputParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.NDI)))
 		dispatch(storeSetFilterParamArr(id, []))
 		dispatch(storeSetFilterAudioParamArr(id, []))
-		dispatch(storeSetOutputParamArr(id, ['-f', 'libndi_newtek', '-pix_fmt', 'uyvy422', '{arg0}']))
 		if (!outputName) {
 			dispatch(storeSetOutputValue(id, 0, `NDI_PIPE${id + 1}`))
 		}

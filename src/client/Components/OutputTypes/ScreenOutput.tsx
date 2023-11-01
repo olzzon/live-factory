@@ -8,6 +8,8 @@ import {
 } from '../../../interface/redux/containerActions'
 import { Settings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
+import { OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
 interface IOutProps {
 	pipelineId: number
@@ -22,9 +24,9 @@ const ScreenOutputOptions: React.FC<IOutProps> = (props) => {
 	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[0])
 
 	useEffect(() => {
-		dispatch(storeSetGlobalOutParamArr(id, []))
+		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.SCREEN)))
+		dispatch(storeSetOutputParamArr(id, parseOutputParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.SCREEN)))
 		dispatch(storeSetFilterParamArr(id, []))
-		dispatch(storeSetOutputParamArr(id, ['-pix_fmt', 'yuv420p', '-f', 'sdl', 'Live-Factory']))
 	}, [])
 
 	return (

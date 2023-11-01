@@ -28,7 +28,6 @@ export enum INPUT_PARAMS {
     RIST = 'RIST',
     UDP = 'UDP',
     TCP = 'TCP',
-    // RTP = 'RTP',
     FILE = 'FILE',
     NDI = 'NDI',
     DECKLINK = 'DECKLINK',
@@ -46,7 +45,7 @@ export interface OutputParams {
 export enum OUTPUT_PARAMS {
     NDI = 'NDI',
     SRT = 'SRT',
-    // RIST = 'RIST',
+    RIST = 'RIST',
     DECKLINK = 'DECKLINK',
     MPEG_TS = 'MPEG_TS',
     TCP = 'TCP',
