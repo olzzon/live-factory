@@ -25,7 +25,7 @@ export interface InputParams {
 export enum INPUT_PARAMS {
     COLORBAR = 'COLORBAR',
     SRT = 'SRT',
-    // RIST = 'RIST',
+    RIST = 'RIST',
     UDP = 'UDP',
     TCP = 'TCP',
     // RTP = 'RTP',

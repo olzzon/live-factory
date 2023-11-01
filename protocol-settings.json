@@ -39,6 +39,17 @@
             ]
         },
         {
+            "type": "RIST",
+            "globalIn": [
+                "-re",
+                "{hwaccel}"
+            ],
+            "input": [
+                "-i",
+                "rist://{arg0}:{arg1}?cname={arg2}"
+            ]
+        },
+        {
             "type": "UDP",
             "globalIn": [
                 "-re",

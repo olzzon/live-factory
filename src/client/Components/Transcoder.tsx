@@ -38,11 +38,11 @@ import TcpOutputOptions from './OutputTypes/TcpOutput'
 import CustomInputOptions from './InputTypes/customInput'
 import DecklinkOutputOptions from './OutputTypes/DecklinkOutputOptions'
 import RtpOutputOptions from './OutputTypes/RtpOutput'
-import RtpInputOptions from './InputTypes/RtpInput'
 import ScreenOutputOptions from './OutputTypes/ScreenOutput'
 import LogOutput from './LogOutput'
 import insertArgsToString from '../utils/insertArgs'
 import { Settings, GPU_TYPES } from '../../interface/SettingsInterface'
+import RistInputOptions from './InputTypes/RistInput'
 
 export interface Transcoder {
 	pipelineId: number
@@ -115,14 +115,15 @@ const Transcoder: React.FC<Transcoder> = (props) => {
 				</label>
 				<hr className="horizontal" />
 
-				{inputType === INPUT_PARAMS.FILE ? <FileInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_PARAMS.COLORBAR ? <ColorbarInputOptions pipelineId={id} inputParams={props.settings.inputParams}/> : null}
-				{inputType === INPUT_PARAMS.MPEG_TS ? <MpegtsInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_PARAMS.UDP ? <UdpInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_PARAMS.TCP ? <TcpInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_PARAMS.SRT ? <SrtInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_PARAMS.DECKLINK ? <DecklinkInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_PARAMS.NDI ? <NdiInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_PARAMS.FILE ? <FileInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
+				{inputType === INPUT_PARAMS.COLORBAR ? <ColorbarInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
+				{inputType === INPUT_PARAMS.MPEG_TS ? <MpegtsInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
+				{inputType === INPUT_PARAMS.UDP ? <UdpInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
+				{inputType === INPUT_PARAMS.TCP ? <TcpInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
+				{inputType === INPUT_PARAMS.SRT ? <SrtInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
+				{inputType === INPUT_PARAMS.RIST ? <RistInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
+				{inputType === INPUT_PARAMS.DECKLINK ? <DecklinkInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
+				{inputType === INPUT_PARAMS.NDI ? <NdiInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
 				{inputType === INPUT_PARAMS.CUSTOM ? <CustomInputOptions pipelineId={id} /> : null}
 			</div>
 		)

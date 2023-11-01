@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
+import { DEVICE_TYPES, INPUT_PARAMS } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
@@ -8,13 +8,15 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
-import { GPU_TYPES } from '../../../interface/SettingsInterface'
+import { GPU_TYPES, SettingsInputParam } from '../../../interface/SettingsInterface'
+import { parseGlobalInParamsToTranscoder, parseInputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
-interface IRistProps {
+interface RistProps {
 	pipelineId: number
+	inputParams: SettingsInputParam[]
 }
 
-const RistInputOptions: React.FC<IRistProps> = (props) => {
+const RistInputOptions: React.FC<RistProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
@@ -27,10 +29,14 @@ const RistInputOptions: React.FC<IRistProps> = (props) => {
 
 
 	useEffect(() => {
+		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.RIST, hwAccel)))
+		dispatch(storeSetGlobalInParamArr(id, parseGlobalInParamsToTranscoder(props.inputParams, INPUT_PARAMS.RIST, hwAccel)))
+
 		// 'rist://@123.123.123.123:8200?cname=RECEIVER01&bandwidth=2560000'
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalInParamArr(id, ['-re', ...findGpuSettings(hwAccel)]))
-		dispatch(storeSetInputParamArr(id, ['-i "rist://{arg0}:{arg1}?cname={arg2}"']))
+		//dispatch(storeSetGlobalInParamArr(id, ['-re', ...findGpuSettings(hwAccel)]))
+		//dispatch(storeSetInputParamArr(id, ['-i "rist://{arg0}:{arg1}?cname={arg2}"']))
+
 		if (!ip) {
 			dispatch(storeSetInputValue(id, 0, '0.0.0.0'))
 		}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
+import { DEVICE_TYPES, INPUT_PARAMS } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInValue,
 	storeSetGlobalInParamArr,
@@ -9,10 +9,12 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
-import { GPU_TYPES } from '../../../interface/SettingsInterface'
+import { GPU_TYPES, SettingsInputParam } from '../../../interface/SettingsInterface'
+import { parseGlobalInParamsToTranscoder, parseInputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
 interface IFileProps {
 	pipelineId: number
+	inputParams: SettingsInputParam[]
 }
 
 const FileInputOptions: React.FC<IFileProps> = (props) => {
@@ -28,8 +30,9 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 
 
 	useEffect(() => {
-		dispatch(storeSetGlobalInParamArr(id, ['-stream_loop', '{arg0}']))
-		dispatch(storeSetInputParamArr(id, ['-re', ...findGpuSettings(hwAccel), '-vsync', '0', '-i', '{arg0}{arg1}']))
+		dispatch(storeSetGlobalInParamArr(id, parseGlobalInParamsToTranscoder(props.inputParams, INPUT_PARAMS.FILE, hwAccel)))
+		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.FILE, hwAccel)))
+
 		if (!fileLoop) {
 			dispatch(storeSetGlobalInValue(id, 0, '1'))
 		}

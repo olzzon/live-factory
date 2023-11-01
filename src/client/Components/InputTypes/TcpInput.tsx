@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
+import { DEVICE_TYPES, INPUT_PARAMS } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
@@ -8,10 +8,12 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
-import { GPU_TYPES } from '../../../interface/SettingsInterface'
+import { GPU_TYPES, SettingsInputParam } from '../../../interface/SettingsInterface'
+import { parseGlobalInParamsToTranscoder, parseInputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
 interface ITcpProps {
 	pipelineId: number
+	inputParams: SettingsInputParam[]
 }
 
 const TcpInputOptions: React.FC<ITcpProps> = (props) => {
@@ -26,9 +28,9 @@ const TcpInputOptions: React.FC<ITcpProps> = (props) => {
 
 
 	useEffect(() => {
-		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalInParamArr(id, ['-re', ...findGpuSettings(hwAccel)]))
-		dispatch(storeSetInputParamArr(id, ['-i', 'tcp://{arg0}:{arg1}?{arg2}']))
+		dispatch(storeSetGlobalInParamArr(id, parseGlobalInParamsToTranscoder(props.inputParams, INPUT_PARAMS.TCP, hwAccel)))
+		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.TCP, hwAccel)))
+
 		if (!ip) {
 			dispatch(storeSetInputValue(id, 0, '0.0.0.0'))
 		}

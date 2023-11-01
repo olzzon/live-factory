@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
+import { DEVICE_TYPES, INPUT_PARAMS } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
 	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
+import { GPU_TYPES, SettingsInputParam } from '../../../interface/SettingsInterface'
+import { parseGlobalInParamsToTranscoder, parseInputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
-interface IDecklinkProps {
+interface DecklinkProps {
 	pipelineId: number
+	inputParams: SettingsInputParam[]
 }
 
-const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
+const DecklinkInputOptions: React.FC<DecklinkProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
@@ -23,11 +26,12 @@ const DecklinkInputOptions: React.FC<IDecklinkProps> = (props) => {
 	const devices = useSelector<RootState, string[]>(
 		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.DECKLINK_INPUT]?.devices || []
 	)
+	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 	useEffect(() => {
-		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
-		dispatch(storeSetGlobalInParamArr(id, ['-re']))
-		dispatch(storeSetInputParamArr(id, ['-f', 'decklink', '-i', '{arg0}', '-channels', '{arg1}', '-queue_size', '{arg2}']))
+		dispatch(storeSetGlobalInParamArr(id, parseGlobalInParamsToTranscoder(props.inputParams, INPUT_PARAMS.DECKLINK, hwAccel)))
+		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.DECKLINK, hwAccel)))
+
 		if (!decklinkInput) {
 			dispatch(storeSetInputValue(id, 0, 'DeckLink Quad (1)'))
 		}

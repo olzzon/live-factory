@@ -6,8 +6,8 @@ export interface Settings {
     allowedInputTypes: AllowedInputTypes[]
     allowedOutputTypes: AllowedOutputTypes[]
     allowedOutputEncoderTypes: AllowedOutputEncoderTypes[]
-    inputParams: InputParam[]
-    outputParams: OutputParam[]
+    inputParams: SettingsInputParam[]
+    outputParams: SettingsOutputParam[]
 }
 
 export interface NodeList {
@@ -25,13 +25,13 @@ export enum NODE_TYPES {
     DOCKER = 'DOCKER'
 }
 
-export interface InputParam {
+export interface SettingsInputParam {
     type: INPUT_PARAMS
     globalIn: string[] 
     input: string[]
 }
 
-export interface OutputParam {
+export interface SettingsOutputParam {
     type: OUTPUT_PARAMS
     globalOut: string[]
     output: string[]

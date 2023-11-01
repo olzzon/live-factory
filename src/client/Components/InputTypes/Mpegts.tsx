@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
+import { DEVICE_TYPES, INPUT_PARAMS } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
@@ -8,10 +8,12 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
-import { GPU_TYPES } from '../../../interface/SettingsInterface'
+import { GPU_TYPES, SettingsInputParam } from '../../../interface/SettingsInterface'
+import { parseGlobalInParamsToTranscoder, parseInputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
 interface IMpegtsProps {
 	pipelineId: number
+	inputParams: SettingsInputParam[]
 }
 
 const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
@@ -25,8 +27,9 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 	useEffect(() => {
-		dispatch(storeSetGlobalInParamArr(id, ['-re', '-vsync', '0', ...findGpuSettings(hwAccel)]))
-		dispatch(storeSetInputParamArr(id, ['-i udp://{arg0}:{arg1}?fifo_size={arg2}']))
+		dispatch(storeSetGlobalInParamArr(id, parseGlobalInParamsToTranscoder(props.inputParams, INPUT_PARAMS.MPEG_TS, hwAccel)))
+		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.MPEG_TS, hwAccel)))
+
 		if (!ip) {
 			dispatch(storeSetInputValue(id, 0, 'localhost'))
 		}

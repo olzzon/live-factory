@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
+import { DEVICE_TYPES, INPUT_PARAMS } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
 	storeSetInputParamArr,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
+import { GPU_TYPES, SettingsInputParam } from '../../../interface/SettingsInterface'
+import { parseGlobalInParamsToTranscoder, parseInputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
 interface IFileProps {
 	pipelineId: number
+	inputParams: SettingsInputParam[]
 }
 
 const NdiInputOptions: React.FC<IFileProps> = (props) => {
@@ -22,10 +25,12 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 	const devices = useSelector<RootState, string[]>(
 		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.NDI]?.devices || []
 	)
+	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 	useEffect(() => {
-		dispatch(storeSetGlobalInParamArr(id, []))
-		dispatch(storeSetInputParamArr(id, ['-f', 'libndi_newtek', '-i', '{arg0}']))
+		dispatch(storeSetGlobalInParamArr(id, parseGlobalInParamsToTranscoder(props.inputParams, INPUT_PARAMS.COLORBAR, hwAccel)))
+		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.COLORBAR, hwAccel)))
+
 		if (!ndiName) {
 			dispatch(storeSetInputValue(id, 0, 'HOSTNAME (NDINAME)'))
 		}

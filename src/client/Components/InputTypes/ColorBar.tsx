@@ -6,12 +6,13 @@ import {
 	storeSetInputValue
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
-import { InputParam } from '../../../interface/SettingsInterface'
+import { GPU_TYPES, SettingsInputParam } from '../../../interface/SettingsInterface'
 import { INPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { parseGlobalInParamsToTranscoder, parseInputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
 interface ColorBarProps {
 	pipelineId: number
-	inputParams: InputParam[]
+	inputParams: SettingsInputParam[]
 }
 
 const ColorbarInputOptions: React.FC<ColorBarProps> = (props) => {
@@ -20,12 +21,12 @@ const ColorbarInputOptions: React.FC<ColorBarProps> = (props) => {
 	const [collapse, setCollapse] = useState(false)
 
 	const resolution = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
+	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 	useEffect(() => {
-		const globalIn = props.inputParams.find((param) => param.type === INPUT_PARAMS.COLORBAR)?.globalIn
-		dispatch(storeSetGlobalInParamArr(id, globalIn || [' ']))
-		const input = props.inputParams.find((param) => param.type === INPUT_PARAMS.COLORBAR)?.input
-		dispatch(storeSetInputParamArr(id, input || [' ']))
+		dispatch(storeSetGlobalInParamArr(id, parseGlobalInParamsToTranscoder(props.inputParams, INPUT_PARAMS.COLORBAR, hwAccel)))
+		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.COLORBAR, hwAccel)))
+
 		if (!resolution) {
 			dispatch(storeSetInputValue(id, 0, '1920x1080'))
 		}
