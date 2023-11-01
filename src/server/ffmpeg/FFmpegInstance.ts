@@ -30,12 +30,12 @@ export class FFmepgInstance {
 
 		const argsArray = [
 			'-hide_banner',
-			...insertArgs(cmd.globalInput.param, cmd.globalInput.paramArgs),
-			...insertArgs(cmd.globalOutput.param, cmd.globalOutput.paramArgs),
-			...insertArgs(cmd.input.param, cmd.input.paramArgs),
-			...insertArgs(cmd.filter.param, cmd.filter.paramArgs),
-			...insertArgs(cmd.audioFilter.param, cmd.audioFilter.paramArgs),
-			...insertArgs(cmd.output.param, cmd.output.paramArgs)
+			...insertArgs(cmd.globalInput.param, cmd.globalInput.valueArgs),
+			...insertArgs(cmd.globalOutput.param, cmd.globalOutput.valueArgs),
+			...insertArgs(cmd.input.param, cmd.input.valueArgs),
+			...insertArgs(cmd.filter.param, cmd.filter.valueArgs),
+			...insertArgs(cmd.audioFilter.param, cmd.audioFilter.valueArgs),
+			...insertArgs(cmd.output.param, cmd.output.valueArgs)
 		]
 
 		const args: string = argsArray.join(' ')

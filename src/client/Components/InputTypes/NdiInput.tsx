@@ -21,7 +21,7 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 	const [collapse, setCollapse] = useState(false)
 
 
-	const ndiName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
+	const ndiName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
 	const devices = useSelector<RootState, string[]>(
 		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.NDI]?.devices || []
 	)

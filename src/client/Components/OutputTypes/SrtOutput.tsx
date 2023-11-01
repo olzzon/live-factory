@@ -24,12 +24,12 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[1])
-	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[2])
-	const passphrase = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[3])
-	const latency = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[4])
-	const protocol = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[5])
+	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
+	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[1])
+	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[2])
+	const passphrase = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[3])
+	const latency = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[4])
+	const protocol = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[5])
 	const [lowLatencyState, setLowLatencyState] = useState<boolean>(
 		latency?.includes(`&latency=${LOW_LATENCY}`) ? true : false
 	)

@@ -19,10 +19,10 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const globalOut = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].globalOutput.paramArgs[0])
-	const filter = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.paramArgs[0])
-	const audioFilter = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].audioFilter.paramArgs[0])
-	const output = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[0])
+	const globalOut = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].globalOutput.valueArgs[0])
+	const filter = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[0])
+	const audioFilter = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].audioFilter.valueArgs[0])
+	const output = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))

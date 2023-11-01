@@ -32,12 +32,12 @@ export class DockerInstance {
 		const imageName = this.settings.nodeList[cmd.nodeIndex].imageName
 		const ffmpegArgs = [
 			'-hide_banner',
-			...insertArgs(cmd.globalInput.param, cmd.globalInput.paramArgs),
-			...insertArgs(cmd.globalOutput.param, cmd.globalOutput.paramArgs),
-			...insertArgs(cmd.input.param, cmd.input.paramArgs),
-			...insertArgs(cmd.filter.param, cmd.filter.paramArgs),
-			...insertArgs(cmd.audioFilter.param, cmd.audioFilter.paramArgs),
-			...insertArgs(cmd.output.param, cmd.output.paramArgs)
+			...insertArgs(cmd.globalInput.param, cmd.globalInput.valueArgs),
+			...insertArgs(cmd.globalOutput.param, cmd.globalOutput.valueArgs),
+			...insertArgs(cmd.input.param, cmd.input.valueArgs),
+			...insertArgs(cmd.filter.param, cmd.filter.valueArgs),
+			...insertArgs(cmd.audioFilter.param, cmd.audioFilter.valueArgs),
+			...insertArgs(cmd.output.param, cmd.output.valueArgs)
 		]
 		
 		this.keepInstanceRunning = true
@@ -67,7 +67,7 @@ export class DockerInstance {
 				const exposedPorts = {
 					'5432/tcp': {}
 				}
-				
+
 				this.docker?.run(imageName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, {
 					ExposedPorts: exposedPorts,
 					HostConfig: hostConfig,

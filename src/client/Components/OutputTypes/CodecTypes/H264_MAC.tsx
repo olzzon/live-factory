@@ -14,9 +14,9 @@ const H264MacCodecOptions: React.FC<ICodecProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.pipelineId
 
-	const vBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.paramArgs[0])
-	const quality = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.paramArgs[2])
-	const deInterlace = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.paramArgs[3])
+	const vBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[0])
+	const quality = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[2])
+	const deInterlace = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[3])
 	const [ deinterlaceState, setDeinterlaceState ] = useState<boolean>((deInterlace === '-vf yadif_videotoolbox')? true : false)
 
 	useEffect(() => {

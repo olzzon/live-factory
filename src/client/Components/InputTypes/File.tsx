@@ -23,9 +23,9 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 	const [collapse, setCollapse] = useState(false)
 
 
-	const fileLoop = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].globalInput.paramArgs[0])
-	const filePath = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
-	const fileName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[1])
+	const fileLoop = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].globalInput.valueArgs[0])
+	const filePath = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
+	const fileName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[1])
 	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 

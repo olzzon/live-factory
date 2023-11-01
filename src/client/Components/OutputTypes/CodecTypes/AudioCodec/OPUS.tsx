@@ -14,8 +14,8 @@ const OpusCodecOptions: React.FC<ICodecProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.pipelineId
 
-	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].audioFilter.paramArgs[0])
-	const aAudioTracks = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].audioFilter.paramArgs[1])
+	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].audioFilter.valueArgs[0])
+	const aAudioTracks = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].audioFilter.valueArgs[1])
 
 	useEffect(() => {
 		dispatch(storeSetFilterAudioParamArr(id, ['-acodec', 'libopus', '-b:a', '{arg0}k']))

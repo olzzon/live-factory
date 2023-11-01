@@ -7,6 +7,8 @@ export interface Pipeline {
 	activated: boolean
 	running: boolean
     hwaccell: GPU_TYPES
+    inputPort: number | undefined
+    outputPort: number | undefined
 	globalInput: GlobalParams
 	globalOutput: GlobalParams
 	input: InputParams
@@ -19,7 +21,7 @@ export interface Pipeline {
 export interface InputParams {
     type: INPUT_PARAMS
     param: string[]
-    paramArgs: string[]
+    valueArgs: string[]
 }
 
 export enum INPUT_PARAMS {
@@ -39,7 +41,7 @@ export enum INPUT_PARAMS {
 export interface OutputParams {
     type: OUTPUT_PARAMS
     param: string[]
-    paramArgs: string[]
+    valueArgs: string[]
 }
 
 export enum OUTPUT_PARAMS {
@@ -58,7 +60,7 @@ export enum OUTPUT_PARAMS {
 export interface OutputCodecParams {
     type: OUTPUT_ENCODER
     param: string[]
-    paramArgs: string[]
+    valueArgs: string[]
 }
 
 export enum OUTPUT_ENCODER {
@@ -74,7 +76,7 @@ export enum OUTPUT_ENCODER {
 export interface OutputAudioCodecParams {
     type: OUTPUT_AUDIO_ENCODER
     param: string[]
-    paramArgs: string[]
+    valueArgs: string[]
 }
 
 export enum OUTPUT_AUDIO_ENCODER {
@@ -84,7 +86,7 @@ export enum OUTPUT_AUDIO_ENCODER {
 
 export interface GlobalParams {
     param: string[]
-    paramArgs: string[]
+    valueArgs: string[]
 }
 
 export interface DeviceList {

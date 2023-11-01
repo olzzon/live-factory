@@ -72,8 +72,8 @@ const Transcoder: React.FC<Transcoder> = (props) => {
 			dispatch(storeClearGlobalInValue(id))
 			dispatch(storeClearInputValue(id))
 		} else {
-			dispatch(storeSetGlobalInValue(id, 0, insertArgsToString(pipeline.globalInput.param, pipeline.globalInput.paramArgs)))
-			dispatch(storeSetInputValue(id, 0, insertArgsToString(pipeline.input.param, pipeline.input.paramArgs)))
+			dispatch(storeSetGlobalInValue(id, 0, insertArgsToString(pipeline.globalInput.param, pipeline.globalInput.valueArgs)))
+			dispatch(storeSetInputValue(id, 0, insertArgsToString(pipeline.input.param, pipeline.input.valueArgs)))
 		}
 		dispatch(storeSetInputType(id, event.target.value as INPUT_PARAMS))
 	}
@@ -86,10 +86,10 @@ const Transcoder: React.FC<Transcoder> = (props) => {
 			dispatch(storeClearGlobalOutValue(id))
 			dispatch(storeClearOutputValue(id))
 		} else {
-			dispatch(storeSetFilterValue(id, 0, insertArgsToString(pipeline.filter.param, pipeline.filter.paramArgs)))
-			dispatch(storeSetFilterAudioValue(id, 0, insertArgsToString(pipeline.audioFilter.param, pipeline.audioFilter.paramArgs)))
-			dispatch(storeSetGlobalOutValue(id, 0, insertArgsToString(pipeline.globalOutput.param, pipeline.globalOutput.paramArgs)))
-			dispatch(storeSetOutputValue(id, 0, insertArgsToString(pipeline.output.param, pipeline.output.paramArgs)))
+			dispatch(storeSetFilterValue(id, 0, insertArgsToString(pipeline.filter.param, pipeline.filter.valueArgs)))
+			dispatch(storeSetFilterAudioValue(id, 0, insertArgsToString(pipeline.audioFilter.param, pipeline.audioFilter.valueArgs)))
+			dispatch(storeSetGlobalOutValue(id, 0, insertArgsToString(pipeline.globalOutput.param, pipeline.globalOutput.valueArgs)))
+			dispatch(storeSetOutputValue(id, 0, insertArgsToString(pipeline.output.param, pipeline.output.valueArgs)))
 		}
 		dispatch(storeSetOutputType(id, event.target.value as OUTPUT_PARAMS))
 	}

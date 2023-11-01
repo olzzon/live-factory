@@ -21,9 +21,9 @@ const RistOutputOptions: React.FC<RistProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[1])
-	const cname = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.paramArgs[2])
+	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
+	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[1])
+	const cname = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[2])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.RIST)))
