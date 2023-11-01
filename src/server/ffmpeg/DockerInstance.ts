@@ -30,9 +30,6 @@ export class DockerInstance {
 			return
 		}
 		const imageName = this.settings.nodeList[cmd.nodeIndex].imageName
-		// Todo: Add support for docker args pr pipeline (e.g. ports for NDI and SRT)
-		const containerArgs = '-it -p 5000-9000:5000-9000'
-
 		const ffmpegArgs = [
 			'-hide_banner',
 			...insertArgs(cmd.globalInput.param, cmd.globalInput.paramArgs),
@@ -42,14 +39,14 @@ export class DockerInstance {
 			...insertArgs(cmd.audioFilter.param, cmd.audioFilter.paramArgs),
 			...insertArgs(cmd.output.param, cmd.output.paramArgs)
 		]
-
+		
 		this.keepInstanceRunning = true
 		const runtimeName = 'live-factory-' + cmd.uuid
-
+		
 		// Check if container exists:
 		console.log('Setting up docker container :', runtimeName)
 		console.log('With parameters :', ffmpegArgs)
-		this.docker.listContainers({ all: true, filters: { name: [runtimeName] }  }).then((container) => {
+		this.docker.listContainers({ all: true, filters: { name: [runtimeName] } }).then((container) => {
 			if (container.length > 0) {
 				console.log('Container already running, stopping')
 				this.docker?.getContainer(container[0].Id).inspect().then((container: any) => {
@@ -62,7 +59,21 @@ export class DockerInstance {
 					}
 				})
 			} else {
-				this.docker?.run(imageName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, { name: runtimeName, Env: [containerArgs], Tty: false },
+				// Todo: Add support for docker args pr pipeline (e.g. ports for NDI and SRT)
+				const hostConfig = {
+					PortBindings:
+						{ "5432/tcp": [{ HostPort: "5432" }] }
+				}
+				const exposedPorts = {
+					'5432/tcp': {}
+				}
+				
+				this.docker?.run(imageName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, {
+					ExposedPorts: exposedPorts,
+					HostConfig: hostConfig,
+					name: runtimeName,
+					Tty: false
+				},
 					(err: Error) => {
 						if (err) {
 							addToLog(this.containerIndex, err.message)
