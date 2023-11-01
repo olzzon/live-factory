@@ -49,11 +49,10 @@ export class DockerInstance {
 		// Check if container exists:
 		console.log('Setting up docker container :', runtimeName)
 		console.log('With parameters :', ffmpegArgs)
-		this.docker.listContainers({ All: true }).then((containers) => {
-			const container = containers.find((container: any) => container.Names.includes('/' + runtimeName))
-			if (container) {
+		this.docker.listContainers({ all: true, filters: { name: [runtimeName] }  }).then((container) => {
+			if (container.length > 0) {
 				console.log('Container already running, stopping')
-				this.docker?.getContainer(container.Id).inspect().then((container: any) => {
+				this.docker?.getContainer(container[0].Id).inspect().then((container: any) => {
 					if (container.State.Running) {
 						this.docker?.getContainer(container.Id).stop().then(() => {
 							this.docker?.getContainer(container.Id).remove()
