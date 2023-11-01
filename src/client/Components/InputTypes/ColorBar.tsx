@@ -6,12 +6,15 @@ import {
 	storeSetInputValue
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
+import { InputParam } from '../../../interface/SettingsInterface'
+import { INPUT_PARAMS } from '../../../interface/GenericInterfaces'
 
-interface IColorBarProps {
+interface ColorBarProps {
 	pipelineId: number
+	inputParams: InputParam[]
 }
 
-const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
+const ColorbarInputOptions: React.FC<ColorBarProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
@@ -19,8 +22,10 @@ const ColorbarInputOptions: React.FC<IColorBarProps> = (props) => {
 	const resolution = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.paramArgs[0])
 
 	useEffect(() => {
-		dispatch(storeSetGlobalInParamArr(id, ['-f', 'lavfi']))
-		dispatch(storeSetInputParamArr(id, ['-i', 'smptehdbars={arg0}']))
+		const globalIn = props.inputParams.find((param) => param.type === INPUT_PARAMS.COLORBAR)?.globalIn
+		dispatch(storeSetGlobalInParamArr(id, globalIn || [' ']))
+		const input = props.inputParams.find((param) => param.type === INPUT_PARAMS.COLORBAR)?.input
+		dispatch(storeSetInputParamArr(id, input || [' ']))
 		if (!resolution) {
 			dispatch(storeSetInputValue(id, 0, '1920x1080'))
 		}

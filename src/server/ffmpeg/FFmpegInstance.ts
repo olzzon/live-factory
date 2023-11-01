@@ -3,7 +3,7 @@ import { ChildProcess, ChildProcessWithoutNullStreams, spawn } from 'child_proce
 import { Pipeline } from '../../interface/GenericInterfaces'
 import insertArgs from '../utils/insertArgs'
 import { addToLog, updatePipelineState } from '../webserver/webserver'
-import { ISettings } from '../../interface/SettingsInterface'
+import { Settings } from '../../interface/SettingsInterface'
 
 // Node Modules:
 const path = require('path')
@@ -11,13 +11,13 @@ const homeDir = require('os').homedir()
 
 interface FFmpegInstanceProps {
 	containerIndex: number
-	settings: ISettings
+	settings: Settings
 }
 
 export class FFmepgInstance {
 	childProcess: ChildProcess | null = null
 	containerIndex = 0
-	settings: ISettings
+	settings: Settings
 	timeOutInstance: NodeJS.Timeout | null = null
 	keepInstanceRunning = true
 	constructor(props: FFmpegInstanceProps) {

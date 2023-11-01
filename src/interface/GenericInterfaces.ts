@@ -7,22 +7,22 @@ export interface Pipeline {
 	activated: boolean
 	running: boolean
     hwaccell: GPU_TYPES
-	globalInput: IGlobalParams
-	globalOutput: IGlobalParams
-	input: IInputParams
-	filter: IOutputCodecParams
-	audioFilter: IOutputAudioCodecParams
-	output: IOutputParams
+	globalInput: GlobalParams
+	globalOutput: GlobalParams
+	input: InputParams
+	filter: OutputCodecParams
+	audioFilter: OutputAudioCodecParams
+	output: OutputParams
     log: string[]
 }
 
-export interface IInputParams {
-    type: INPUT_TYPES
+export interface InputParams {
+    type: INPUT_PARAMS
     param: string[]
     paramArgs: string[]
 }
 
-export enum INPUT_TYPES {
+export enum INPUT_PARAMS {
     COLORBAR = 'COLORBAR',
     SRT = 'SRT',
     // RIST = 'RIST',
@@ -37,13 +37,13 @@ export enum INPUT_TYPES {
     CUSTOM = 'CUSTOM'
 }
 
-export interface IOutputParams {
-    type: OUTPUT_TYPES
+export interface OutputParams {
+    type: OUTPUT_PARAMS
     param: string[]
     paramArgs: string[]
 }
 
-export enum OUTPUT_TYPES {
+export enum OUTPUT_PARAMS {
     NDI = 'NDI',
     SRT = 'SRT',
     // RIST = 'RIST',
@@ -56,7 +56,7 @@ export enum OUTPUT_TYPES {
     CUSTOM = 'CUSTOM'
 }
 
-export interface IOutputCodecParams {
+export interface OutputCodecParams {
     type: OUTPUT_ENCODER
     param: string[]
     paramArgs: string[]
@@ -72,7 +72,7 @@ export enum OUTPUT_ENCODER {
     HEVC_NVIDIA = 'HEVC_NVIDIA',
 }
 
-export interface IOutputAudioCodecParams {
+export interface OutputAudioCodecParams {
     type: OUTPUT_AUDIO_ENCODER
     param: string[]
     paramArgs: string[]
@@ -83,12 +83,12 @@ export enum OUTPUT_AUDIO_ENCODER {
     OPUS = 'OPUS',
 }
 
-export interface IGlobalParams {
+export interface GlobalParams {
     param: string[]
     paramArgs: string[]
 }
 
-export interface IDeviceList {
+export interface DeviceList {
     type: DEVICE_TYPES
     devices: string[]
 }

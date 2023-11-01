@@ -2,12 +2,13 @@
 const fs = require('fs')
 const path = require('path')
 const homeDir = require('os').homedir()
+const params = JSON.parse(fs.readFileSync('./protocol-settings.json', 'utf-8'))
 
 const STORAGE_NAME = 'stored-setup'
 const SETTINGS_NAME = 'settings.json'
 
 import { Pipeline } from '../../interface/GenericInterfaces'
-import { GPU_TYPES, ISettings, NODE_TYPES } from '../../interface/SettingsInterface'
+import { GPU_TYPES, Settings, NODE_TYPES } from '../../interface/SettingsInterface'
 import { extractListOfInputTypes, extractListOfOutputEncoderTypes, extractListOfOutputTypes } from './createListFromTypes'
 
 export const loadPipelines = (): Pipeline[] => {
@@ -48,13 +49,16 @@ export const savePipelineList = (pipelines: Pipeline[]) => {
 }
 
 export const loadSettings = () => {
-    let settings: ISettings
+    let settings: Settings
     try {
         settings = JSON.parse(
             fs.readFileSync(
                 path.resolve(homeDir, 'live-factory', SETTINGS_NAME)
             )
         )
+        settings.inputParams = params.inputParams,
+        settings.outputParams = params.outputParams
+
     } catch (error) {
         console.error('Error loading settings. Setting up default settings')
         settings = {
@@ -65,6 +69,8 @@ export const loadSettings = () => {
             allowedInputTypes: extractListOfInputTypes(),
             allowedOutputTypes: extractListOfOutputTypes(),
             allowedOutputEncoderTypes: extractListOfOutputEncoderTypes(),
+            inputParams: params.inputParams,
+            outputParams: params.outputParams
         }
         saveSettings(settings)
         return settings
@@ -73,7 +79,7 @@ export const loadSettings = () => {
     return settings
 }
 
-export const saveSettings = (settings: ISettings) => {
+export const saveSettings = (settings: Settings) => {
     console.log('Saving settings')
     let json = JSON.stringify(settings)
     if (!fs.existsSync(path.resolve(homeDir, 'live-factory'))) {

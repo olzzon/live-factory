@@ -8,12 +8,12 @@ const httpServer = http.createServer(expressApp)
 
 import { Server } from 'socket.io'
 import { FFmepgInstance } from '../ffmpeg/FFmpegInstance'
-import { DEVICE_TYPES, IDeviceList, Pipeline } from '../../interface/GenericInterfaces'
+import { DEVICE_TYPES, DeviceList, Pipeline } from '../../interface/GenericInterfaces'
 import { loadPipelines, loadSettings, savePipelineList } from '../utils/storage'
 import { discoverNdiSources } from '../utils/discoverNdiSources'
 import { discoverDecklinkSources } from '../utils/discoverDecklinkSources'
 import { discoverDecklinkOutputs } from '../utils/discoverDecklinkOutputs'
-import { NODE_TYPES, ISettings } from '../../interface/SettingsInterface'
+import { NODE_TYPES, Settings } from '../../interface/SettingsInterface'
 import { DockerInstance } from '../ffmpeg/DockerInstance'
 import Docker from 'dockerode'
 const socketIO = new Server(httpServer)
@@ -22,8 +22,8 @@ const PORT = 1406
 let pipelines: Pipeline[] = []
 let pipelineInstances: Array<FFmepgInstance | DockerInstance | undefined> = []
 let nodeInstances: Array<Docker | null> = []
-let devices: IDeviceList[] = []
-let settings: ISettings = loadSettings()
+let devices: DeviceList[] = []
+let settings: Settings = loadSettings()
 
 devices[DEVICE_TYPES.NDI] = { type: DEVICE_TYPES.NDI, devices: ['Finding Sources...'] }
 devices[DEVICE_TYPES.DECKLINK_INPUT] = { type: DEVICE_TYPES.DECKLINK_INPUT, devices: ['Finding Inputs...'] }

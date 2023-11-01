@@ -5,13 +5,13 @@ import {
 	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
-import { ISettings } from '../../../interface/SettingsInterface'
+import { Settings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
 
 interface IRistProps {
 	pipelineId: number
-	settings: ISettings
+	settings: Settings
 }
 
 const RistOutputOptions: React.FC<IRistProps> = (props) => {

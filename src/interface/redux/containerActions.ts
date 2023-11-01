@@ -1,4 +1,4 @@
-import { Pipeline, IDeviceList, INPUT_TYPES, OUTPUT_AUDIO_ENCODER, OUTPUT_ENCODER, OUTPUT_TYPES } from '../GenericInterfaces'
+import { Pipeline, DeviceList, INPUT_PARAMS, OUTPUT_AUDIO_ENCODER, OUTPUT_ENCODER, OUTPUT_PARAMS } from '../GenericInterfaces'
 import { GPU_TYPES } from '../SettingsInterface'
 
 export const ADD_FACTORY = 'addFactory'
@@ -50,7 +50,7 @@ export const storeDuplicatePipeline = (pipelineId: number) => {
     }
 }
 
-export const storeUpdateDevicesList = (deviceTypes: IDeviceList[]) => {
+export const storeUpdateDevicesList = (deviceTypes: DeviceList[]) => {
 	return {
 		type: UPDATE_DEVICES_LIST,
 		deviceTypes: deviceTypes
@@ -160,7 +160,7 @@ export const storeClearGlobalOutValue = (pipelineId: number) => {
 	}
 }
 
-export const storeSetInputType = (pipelineId: number, inputType: INPUT_TYPES) => {
+export const storeSetInputType = (pipelineId: number, inputType: INPUT_PARAMS) => {
 	return {
 		type: SET_INPUT_TYPE,
 		pipelineId: pipelineId,
@@ -256,7 +256,7 @@ export const storeClearFilterAudioValue = (pipelineId: number) => {
 	}
 }
 
-export const storeSetOutputType = (pipelineId: number, outputType: OUTPUT_TYPES) => {
+export const storeSetOutputType = (pipelineId: number, outputType: OUTPUT_PARAMS) => {
 	return {
 		type: SET_OUTPUT_TYPE,
 		pipelineId: pipelineId,

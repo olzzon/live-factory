@@ -7,14 +7,14 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
-import { ISettings } from '../../../interface/SettingsInterface'
+import { Settings } from '../../../interface/SettingsInterface'
 
 const LOW_LATENCY = '800'
 const ULTRA_LOW_LATENCY = '120'
 
 interface ISrtProps {
 	pipelineId: number
-	settings: ISettings
+	settings: Settings
 }
 
 const SrtOutputOptions: React.FC<ISrtProps> = (props) => {

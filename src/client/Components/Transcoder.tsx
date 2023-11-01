@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { INPUT_TYPES, Pipeline, OUTPUT_TYPES } from '../../interface/GenericInterfaces'
+import { INPUT_PARAMS, Pipeline, OUTPUT_PARAMS } from '../../interface/GenericInterfaces'
 import '../styles/app.css'
 import FileInputOptions from './InputTypes/File'
 import {
@@ -42,12 +42,12 @@ import RtpInputOptions from './InputTypes/RtpInput'
 import ScreenOutputOptions from './OutputTypes/ScreenOutput'
 import LogOutput from './LogOutput'
 import insertArgsToString from '../utils/insertArgs'
-import { ISettings, GPU_TYPES } from '../../interface/SettingsInterface'
+import { Settings, GPU_TYPES } from '../../interface/SettingsInterface'
 
 export interface Transcoder {
 	pipelineId: number
 	socketClient: any
-	settings: ISettings
+	settings: Settings
 }
 
 const Transcoder: React.FC<Transcoder> = (props) => {
@@ -57,9 +57,9 @@ const Transcoder: React.FC<Transcoder> = (props) => {
 	const dispatch = useDispatch()
 
 	const pipelineName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].containerName)
-	const inputType = useSelector<RootState, INPUT_TYPES>((state) => state.ffmpeg[0].pipeline[id].input.type)
+	const inputType = useSelector<RootState, INPUT_PARAMS>((state) => state.ffmpeg[0].pipeline[id].input.type)
 	const pipeline = useSelector<RootState, Pipeline>((state) => state.ffmpeg[0].pipeline[id])
-	const outputType = useSelector<RootState, OUTPUT_TYPES>((state) => state.ffmpeg[0].pipeline[id].output.type)
+	const outputType = useSelector<RootState, OUTPUT_PARAMS>((state) => state.ffmpeg[0].pipeline[id].output.type)
 	const nodeIndex = useSelector<RootState, number>((state) => state.ffmpeg[0].pipeline[id].nodeIndex)
 
 	const handleSetPipelineType = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -67,19 +67,19 @@ const Transcoder: React.FC<Transcoder> = (props) => {
 	}
 
 	const handleSetInputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		if ((event.target.value as INPUT_TYPES) !== INPUT_TYPES.CUSTOM) {
+		if ((event.target.value as INPUT_PARAMS) !== INPUT_PARAMS.CUSTOM) {
 			dispatch(storeClearGlobalInValue(id))
 			dispatch(storeClearInputValue(id))
 		} else {
 			dispatch(storeSetGlobalInValue(id, 0, insertArgsToString(pipeline.globalInput.param, pipeline.globalInput.paramArgs)))
 			dispatch(storeSetInputValue(id, 0, insertArgsToString(pipeline.input.param, pipeline.input.paramArgs)))
 		}
-		dispatch(storeSetInputType(id, event.target.value as INPUT_TYPES))
+		dispatch(storeSetInputType(id, event.target.value as INPUT_PARAMS))
 	}
 
 	const handleSetOutputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		// ToDo: Better clearing of values:
-		if ((event.target.value as OUTPUT_TYPES) !== OUTPUT_TYPES.CUSTOM) {
+		if ((event.target.value as OUTPUT_PARAMS) !== OUTPUT_PARAMS.CUSTOM) {
 			dispatch(storeClearFilterValue(id))
 			dispatch(storeClearFilterAudioValue(id))
 			dispatch(storeClearGlobalOutValue(id))
@@ -90,7 +90,7 @@ const Transcoder: React.FC<Transcoder> = (props) => {
 			dispatch(storeSetGlobalOutValue(id, 0, insertArgsToString(pipeline.globalOutput.param, pipeline.globalOutput.paramArgs)))
 			dispatch(storeSetOutputValue(id, 0, insertArgsToString(pipeline.output.param, pipeline.output.paramArgs)))
 		}
-		dispatch(storeSetOutputType(id, event.target.value as OUTPUT_TYPES))
+		dispatch(storeSetOutputType(id, event.target.value as OUTPUT_PARAMS))
 	}
 
 	const DecoderSide = () => {
@@ -115,16 +115,15 @@ const Transcoder: React.FC<Transcoder> = (props) => {
 				</label>
 				<hr className="horizontal" />
 
-				{inputType === INPUT_TYPES.FILE ? <FileInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_TYPES.COLORBAR ? <ColorbarInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_TYPES.MPEG_TS ? <MpegtsInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_TYPES.UDP ? <UdpInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_TYPES.TCP ? <TcpInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_TYPES.RTP ? <RtpInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_TYPES.SRT ? <SrtInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_TYPES.DECKLINK ? <DecklinkInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_TYPES.NDI ? <NdiInputOptions pipelineId={id} /> : null}
-				{inputType === INPUT_TYPES.CUSTOM ? <CustomInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_PARAMS.FILE ? <FileInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_PARAMS.COLORBAR ? <ColorbarInputOptions pipelineId={id} inputParams={props.settings.inputParams}/> : null}
+				{inputType === INPUT_PARAMS.MPEG_TS ? <MpegtsInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_PARAMS.UDP ? <UdpInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_PARAMS.TCP ? <TcpInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_PARAMS.SRT ? <SrtInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_PARAMS.DECKLINK ? <DecklinkInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_PARAMS.NDI ? <NdiInputOptions pipelineId={id} /> : null}
+				{inputType === INPUT_PARAMS.CUSTOM ? <CustomInputOptions pipelineId={id} /> : null}
 			</div>
 		)
 	}
@@ -150,14 +149,14 @@ const Transcoder: React.FC<Transcoder> = (props) => {
 					</select>
 				</label>
 				<hr className="horizontal" />
-				{outputType === OUTPUT_TYPES.DECKLINK ? <DecklinkOutputOptions pipelineId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.SRT ? <SrtOutputOptions pipelineId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.MPEG_TS ? <MpegTsOutputOptions pipelineId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.TCP ? <TcpOutputOptions pipelineId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.RTP ? <RtpOutputOptions pipelineId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.NDI ? <NdiOutputOptions pipelineId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.SCREEN ? <ScreenOutputOptions pipelineId={id} settings={props.settings} /> : null}
-				{outputType === OUTPUT_TYPES.CUSTOM ? <CustomOutputOptions pipelineId={id} /> : null}
+				{outputType === OUTPUT_PARAMS.DECKLINK ? <DecklinkOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_PARAMS.SRT ? <SrtOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_PARAMS.MPEG_TS ? <MpegTsOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_PARAMS.TCP ? <TcpOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_PARAMS.RTP ? <RtpOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_PARAMS.NDI ? <NdiOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_PARAMS.SCREEN ? <ScreenOutputOptions pipelineId={id} settings={props.settings} /> : null}
+				{outputType === OUTPUT_PARAMS.CUSTOM ? <CustomOutputOptions pipelineId={id} /> : null}
 			</div>
 		)
 	}

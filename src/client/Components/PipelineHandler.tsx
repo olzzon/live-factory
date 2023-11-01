@@ -9,16 +9,16 @@ import {
 	storeUpdateDevicesList,
 	storeUpdateFullStore,
 } from '../../interface/redux/containerActions'
-import { IDeviceList, Pipeline } from '../../interface/GenericInterfaces'
+import { DeviceList, Pipeline } from '../../interface/GenericInterfaces'
 import { RootState } from '../main'
 import * as IO from '../../interface/SocketIOContants'
-import { ISettings } from '../../interface/SettingsInterface'
+import { Settings } from '../../interface/SettingsInterface'
 
 interface PipelineProps {
 	selectedPipeline: number
 	socketClient: any
 	setSelectedPipeline: any
-	settings: ISettings
+	settings: Settings
 }
 
 const PipelineHandler: React.FC<PipelineProps> = (props) => {
@@ -39,7 +39,7 @@ const PipelineHandler: React.FC<PipelineProps> = (props) => {
 					console.log('Full store', fullStore)
 				}
 			})
-			.on(IO.DEVICES_LIST, (devices: IDeviceList[]) => {
+			.on(IO.DEVICES_LIST, (devices: DeviceList[]) => {
 				dispatch(storeUpdateDevicesList(devices))
 			})
 			.on(IO.LOG_PUSH, (pipelineIndex: number, logLine: string) => {

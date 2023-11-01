@@ -2,16 +2,16 @@ import { Pipeline } from '../../interface/GenericInterfaces'
 import insertArgs from '../utils/insertArgs'
 import { addToLog, updatePipelineState } from '../webserver/webserver'
 import Docker from 'dockerode'
-import { ISettings } from '../../interface/SettingsInterface'
+import { Settings } from '../../interface/SettingsInterface'
 
 interface DockerInstanceProps {
 	pipelineIndex: number
-	settings: ISettings
+	settings: Settings
 	dockerNode: Docker | null
 }
 
 export class DockerInstance {
-	settings: ISettings
+	settings: Settings
 	docker: Docker | null
 	containerIndex: number
 	timeOutInstance: NodeJS.Timeout | null = null

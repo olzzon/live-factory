@@ -1,17 +1,17 @@
 import {
-	IDeviceList,
+	DeviceList,
 	Pipeline,
-	INPUT_TYPES,
+	INPUT_PARAMS,
 	OUTPUT_AUDIO_ENCODER,
 	OUTPUT_ENCODER,
-	OUTPUT_TYPES,
+	OUTPUT_PARAMS,
 } from '../GenericInterfaces'
 import * as CONTAINER_ACTIONS from './containerActions'
 import { GPU_TYPES } from '../SettingsInterface'
 
-export interface IFFmpegReducer {
+export interface FFmpegReducer {
 	rerender: boolean
-	deviceTypes: IDeviceList[]
+	deviceTypes: DeviceList[]
 	pipeline: Pipeline[]
 }
 
@@ -19,7 +19,7 @@ const createNewUUID = () => {
 	return Math.random().toString(36).substring(2) + Date.now().toString(36)
 }
 
-const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
+const defaultFfmpegContainerReducerState = (): FFmpegReducer => {
 	return {
 		rerender: false,
 		deviceTypes: [],
@@ -32,10 +32,10 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 				running: false,
 				globalInput: { param: [], paramArgs: [] },
 				globalOutput: { param: [], paramArgs: [] },
-				input: { type: INPUT_TYPES.COLORBAR, param: [], paramArgs: [] },
+				input: { type: INPUT_PARAMS.COLORBAR, param: [], paramArgs: [] },
 				filter: { type: OUTPUT_ENCODER.COPY, param: ['-v:c', 'copy'], paramArgs: [''] },
 				audioFilter: { type: OUTPUT_AUDIO_ENCODER.COPY, param: ['-a:c', 'copy'], paramArgs: [''] },
-				output: { type: OUTPUT_TYPES.NDI, param: [], paramArgs: [] },
+				output: { type: OUTPUT_PARAMS.NDI, param: [], paramArgs: [] },
 				log: ['log is empty'],
 				hwaccell: GPU_TYPES.NONE
 			},
@@ -43,7 +43,7 @@ const defaultFfmpegContainerReducerState = (): IFFmpegReducer => {
 	}
 }
 
-export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: any): Array<IFFmpegReducer> => {
+export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: any): Array<FFmpegReducer> => {
 	let nextState = [...state]
 
 	switch (action.type) {

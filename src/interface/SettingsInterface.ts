@@ -1,9 +1,13 @@
-export interface ISettings {
+import { INPUT_PARAMS, OUTPUT_PARAMS } from "./GenericInterfaces"
+
+export interface Settings {
     nodeList: NodeList[]
     maxActiveEncoders: number
-    allowedInputTypes: IAllowedInputTypes[]
-    allowedOutputTypes: IAllowedOutputTypes[]
-    allowedOutputEncoderTypes: IAllowedOutputEncoderTypes[]
+    allowedInputTypes: AllowedInputTypes[]
+    allowedOutputTypes: AllowedOutputTypes[]
+    allowedOutputEncoderTypes: AllowedOutputEncoderTypes[]
+    inputParams: InputParam[]
+    outputParams: OutputParam[]
 }
 
 export interface NodeList {
@@ -21,17 +25,29 @@ export enum NODE_TYPES {
     DOCKER = 'DOCKER'
 }
 
-export interface IAllowedInputTypes {
+export interface InputParam {
+    type: INPUT_PARAMS
+    globalIn: string[] 
+    input: string[]
+}
+
+export interface OutputParam {
+    type: OUTPUT_PARAMS
+    globalOut: string[]
+    output: string[]
+}
+
+export interface AllowedInputTypes {
     value: string
     label: string
 }
 
-export interface IAllowedOutputTypes {
+export interface AllowedOutputTypes {
     value: string
     label: string
 }
 
-export interface IAllowedOutputEncoderTypes {
+export interface AllowedOutputEncoderTypes {
     value: string
     label: string
 }

@@ -1,0 +1,194 @@
+{
+    "inputParams": [
+        {
+            "type": "NDI",
+            "globalIn": [],
+            "input": [
+                [
+                    "-f",
+                    "libndi_newtek",
+                    "-i",
+                    "{arg0}"
+                ]
+            ]
+        },
+        {
+            "type": "COLORBAR",
+            "globalIn": [
+                "-f",
+                "lavfi"
+            ],
+            "input": [
+                "-i",
+                "smptehdbars={arg0}"
+            ]
+        },
+        {
+            "type": "SRT",
+            "globalIn": [
+                "-re",
+                "{hwaccel}",
+                "-adrift_threshold",
+                "0.06",
+                "-async",
+                "8000"
+            ],
+            "input": [
+                "-i",
+                "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}"
+            ]
+        },
+        {
+            "type": "UDP",
+            "globalIn": [
+                "-re",
+                "-vsync",
+                "0",
+                "{hwaccel}"
+            ],
+            "input": [
+                "-i",
+                "udp://{arg0}:{arg1}?fifo_size={arg2}"
+            ]
+        },
+        {
+            "type": "TCP",
+            "globalIn": [
+                "-re",
+                "{hwaccel}"
+            ],
+            "input": [
+                "-i",
+                "tcp://{arg0}:{arg1}?{arg2}"
+            ]
+        },
+        {
+            "type": "FILE",
+            "globalIn": [
+                "-stream_loop",
+                "{arg0}"
+            ],
+            "input": [
+                "-re",
+                "{hwaccel}",
+                "-vsync",
+                "0",
+                "-i",
+                "{arg0}{arg1}"
+            ]
+        },
+        {
+            "type": "DECKLINK",
+            "globalIn": [
+                "-re"
+            ],
+            "input": [
+                "-f",
+                "decklink",
+                "-i",
+                "{arg0}",
+                "-channels",
+                "{arg1}",
+                "-queue_size",
+                "{arg2}"
+            ]
+        },
+        {
+            "type": "MPEG_TS",
+            "globalIn": [
+                "-re",
+                "-vsync",
+                "0",
+                "{hwaccel}"
+            ],
+            "input": [
+                "-i udp://{arg0}:{arg1}?fifo_size={arg2}"
+            ]
+        }
+    ],
+    "outputParams": [
+        {
+            "type": "NDI",
+            "globalOut": [
+                "-probesize",
+                "32"
+            ],
+            "output": [
+                "-f",
+                "libndi_newtek",
+                "-pix_fmt",
+                "uyvy422",
+                "{arg0}"
+            ]
+        },
+        {
+            "type": "SRT",
+            "globalOut": [],
+            "output": [
+                "-adrift_threshold",
+                "0.06",
+                "-async",
+                "8000",
+                "-f",
+                "{arg5}",
+                "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}{arg4}"
+            ]
+        },
+        {
+            "type": "DECKLINK",
+            "globalOut": [
+                "-fflags",
+                "nobuffer",
+                "-flags",
+                "low_delay",
+                "-probesize",
+                "32"
+            ],
+            "output": [
+                "-f",
+                "decklink",
+                "-pix_fmt",
+                "uyvy422",
+                "{arg0}"
+            ]
+        },
+        {
+            "type": "MPEG_TS",
+            "globalOut": [],
+            "output": [
+                "-f",
+                "mpegts",
+                "udp://{arg0}:{arg1}?pkt_size=1316"
+            ]
+        },
+        {
+            "type": "TCP",
+            "globalOut": [],
+            "output": [
+                "-f",
+                "matroska",
+                "tcp://{arg0}:{arg1}?{arg2}"
+            ]
+        },
+        {
+            "type": "RTP",
+            "globalOut": [],
+            "output": [
+                "-f",
+                "rtp",
+                "rtp://{arg0}:{arg1}"
+            ]
+        },
+        {
+            "type": "SCREEN",
+            "globalOut": [],
+            "output": [
+                "-pix_fmt",
+                "yuv420p",
+                "-f",
+                "sdl",
+                "Live-Factory"
+            ]
+        }
+    ]
+}

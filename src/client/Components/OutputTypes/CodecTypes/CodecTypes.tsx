@@ -16,11 +16,11 @@ import HevcMacCodecOptions from './HEVC_MAC'
 import HevcNvidiaCodecOptions from './HEVC_NVIDIA'
 import H264NvidiaCodecOptions from './H264_NVIDIA'
 import OpusCodecOptions from './AudioCodec/OPUS'
-import { ISettings } from '../../../../interface/SettingsInterface'
+import { Settings } from '../../../../interface/SettingsInterface'
 
 export interface IfactoryId {
 	pipelineId: number
-	settings: ISettings
+	settings: Settings
 }
 
 const CodecTypes: React.FC<IfactoryId> = (props) => {

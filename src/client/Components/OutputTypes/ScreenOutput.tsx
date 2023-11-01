@@ -6,12 +6,12 @@ import {
 	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
-import { ISettings } from '../../../interface/SettingsInterface'
+import { Settings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 
 interface IOutProps {
 	pipelineId: number
-	settings: ISettings
+	settings: Settings
 }
 
 const ScreenOutputOptions: React.FC<IOutProps> = (props) => {

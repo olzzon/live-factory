@@ -7,12 +7,12 @@ import {
 	storeSetOutputValue,
 	storeSetOutputParamArr,
 } from '../../../interface/redux/containerActions'
-import { ISettings } from '../../../interface/SettingsInterface'
+import { Settings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 
 interface INdiProps {
 	pipelineId: number
-	settings: ISettings
+	settings: Settings
 }
 
 const NdiOutputOptions: React.FC<INdiProps> = (props) => {
