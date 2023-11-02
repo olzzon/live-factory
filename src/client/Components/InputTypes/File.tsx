@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES, INPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { INPUT_PARAMS } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInValue,
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
 	storeSetInputParamArr,
+	storeSetDockerInputPorts,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
-import { findGpuSettings } from './DecoderSettings/findGpu'
 import { GPU_TYPES, SettingsInputParam } from '../../../interface/SettingsInterface'
 import { parseGlobalInParamsToTranscoder, parseInputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
@@ -32,6 +32,7 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamArr(id, parseGlobalInParamsToTranscoder(props.inputParams, INPUT_PARAMS.FILE, hwAccel)))
 		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.FILE, hwAccel)))
+		dispatch(storeSetDockerInputPorts(id, []))
 
 		if (!fileLoop) {
 			dispatch(storeSetGlobalInValue(id, 0, '1'))

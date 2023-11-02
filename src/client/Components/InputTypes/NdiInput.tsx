@@ -5,6 +5,7 @@ import {
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
 	storeSetInputParamArr,
+	storeSetDockerInputPorts,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { GPU_TYPES, SettingsInputParam } from '../../../interface/SettingsInterface'
@@ -30,6 +31,7 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamArr(id, parseGlobalInParamsToTranscoder(props.inputParams, INPUT_PARAMS.COLORBAR, hwAccel)))
 		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.COLORBAR, hwAccel)))
+		dispatch(storeSetDockerInputPorts(id, []))
 
 		if (!ndiName) {
 			dispatch(storeSetInputValue(id, 0, 'HOSTNAME (NDINAME)'))

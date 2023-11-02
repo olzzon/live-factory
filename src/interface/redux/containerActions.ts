@@ -1,4 +1,4 @@
-import { Pipeline, DeviceList, INPUT_PARAMS, OUTPUT_AUDIO_ENCODER, OUTPUT_ENCODER, OUTPUT_PARAMS } from '../GenericInterfaces'
+import { Pipeline, DeviceList, INPUT_PARAMS, OUTPUT_AUDIO_ENCODER, OUTPUT_ENCODER, OUTPUT_PARAMS, DockerPort } from '../GenericInterfaces'
 import { GPU_TYPES } from '../SettingsInterface'
 
 export const ADD_FACTORY = 'addFactory'
@@ -13,6 +13,8 @@ export const SET_CONTAINER_NAME = 'setContainerName'
 export const SET_NODE_INDEX = 'setNodeIndex'
 export const SET_CONTAINER_STATE = 'setContainerState'
 export const SET_GPU_TYPE = 'setGpuType'
+export const SET_DOCKER_INPUT_PORTS = 'setDockerInputPorts'
+export const SET_DOCKER_OUTPUT_PORTS = 'setDockerOutputPorts'
 export const SET_GLOBAL_IN_VALUE = 'setGlobalInValue'
 export const SET_GLOBAL_IN_PARAM_ARR = 'setGlobalInParamArr'
 export const CLEAR_GLOBAL_IN_VALUE = 'clearGlobalInValue'
@@ -109,6 +111,22 @@ export const storeSetGpuType = (pipelineId: number, gpuType: GPU_TYPES) => {
 		type: SET_GPU_TYPE,
 		pipelineId: pipelineId,
 		gpuType: gpuType
+	}
+}
+
+export const storeSetDockerInputPorts = (pipelineId: number, dockerPorts: DockerPort[]) => {
+	return {
+		type: SET_DOCKER_INPUT_PORTS,
+		pipelineId: pipelineId,
+		dockerPorts: dockerPorts
+	}
+}
+
+export const storeSetDockerOutputPorts = (pipelineId: number, dockerPorts: DockerPort[]) => {
+	return {
+		type: SET_DOCKER_OUTPUT_PORTS,
+		pipelineId: pipelineId,
+		dockerPorts: dockerPorts
 	}
 }
 

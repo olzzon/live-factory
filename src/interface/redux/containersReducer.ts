@@ -15,7 +15,7 @@ export interface FFmpegReducer {
 	pipeline: Pipeline[]
 }
 
-const createNewUUID = () => {
+const generateUUID = () => {
 	return Math.random().toString(36).substring(2) + Date.now().toString(36)
 }
 
@@ -27,11 +27,11 @@ const defaultFfmpegContainerReducerState = (): FFmpegReducer => {
 			{
 				containerName: 'NEW PIPE',
 				nodeIndex: 0,
-				uuid: createNewUUID(),
+				uuid: generateUUID(),
 				activated: false,
 				running: false,
-				inputPort: undefined,
-				outputPort: undefined,
+				dockerInputPorts: [],
+				dockerOutputPorts: [],
 				globalInput: { param: [], valueArgs: [] },
 				globalOutput: { param: [], valueArgs: [] },
 				input: { type: INPUT_PARAMS.COLORBAR, param: [], valueArgs: [] },
@@ -106,6 +106,12 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 			return nextState
 		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_TYPE:
 			nextState[0].pipeline[action.pipelineId].audioFilter.type = action.filterType
+			return nextState
+		case CONTAINER_ACTIONS.SET_DOCKER_INPUT_PORTS:
+			nextState[0].pipeline[action.pipelineId].dockerInputPorts = action.dockerPorts
+			return nextState
+		case CONTAINER_ACTIONS.SET_DOCKER_OUTPUT_PORTS:
+			nextState[0].pipeline[action.pipelineId].dockerOutputPorts = action.dockerPorts
 			return nextState
 		case CONTAINER_ACTIONS.SET_GLOBAL_IN_PARAM_ARR:
 			nextState[0].pipeline[action.pipelineId].globalInput.param = action.paramArr

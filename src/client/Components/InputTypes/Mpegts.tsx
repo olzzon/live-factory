@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES, INPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { INPUT_PARAMS } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
 	storeSetInputParamArr,
+	storeSetDockerInputPorts,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
-import { findGpuSettings } from './DecoderSettings/findGpu'
 import { GPU_TYPES, SettingsInputParam } from '../../../interface/SettingsInterface'
 import { parseGlobalInParamsToTranscoder, parseInputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
@@ -29,17 +29,23 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamArr(id, parseGlobalInParamsToTranscoder(props.inputParams, INPUT_PARAMS.MPEG_TS, hwAccel)))
 		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.MPEG_TS, hwAccel)))
-
+		
 		if (!ip) {
 			dispatch(storeSetInputValue(id, 0, 'localhost'))
 		}
 		if (!port) {
 			dispatch(storeSetInputValue(id, 1, '1234'))
+			dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: "1234", protocol: 'udp'}]))
 		}
 		if (!fifoSize) {
 			dispatch(storeSetInputValue(id, 2, '49152'))
 		}
 	}, [])
+
+	const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		dispatch(storeSetInputValue(id, 1, event.target.value))
+		dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: event.target.value, protocol: 'udp'}]))
+	}
 
 	return (
 		<div className={collapse ? 'options-collapse' : 'options'}>
@@ -61,7 +67,7 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={port}
-					onChange={(event) => dispatch(storeSetInputValue(id, 1, event.target.value))}
+					onChange={(event) => handlePortChange(event)}
 				/>
 			</label>
 			<label className="pipeline-label">

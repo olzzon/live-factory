@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES, INPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { INPUT_PARAMS } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
 	storeSetInputParamArr,
+	storeSetDockerInputPorts,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { findGpuSettings } from './DecoderSettings/findGpu'
@@ -42,11 +43,17 @@ const RistInputOptions: React.FC<RistProps> = (props) => {
 		}
 		if (!port) {
 			dispatch(storeSetInputValue(id, 1, '9998'))
+			dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: "1234", protocol: 'tcp'}]))
 		}
 		if (!cname) {
 			dispatch(storeSetInputValue(id, 2, 'RECEIVER01'))
 		}
 	}, [])
+
+	const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		dispatch(storeSetInputValue(id, 1, event.target.value))
+		dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: event.target.value, protocol: 'tcp'}]))
+	}
 
 	return (
 		<div className={collapse ? 'options-collapse' : 'options'}>
@@ -68,7 +75,7 @@ const RistInputOptions: React.FC<RistProps> = (props) => {
 					className="input-text"
 					type="text"
 					value={port ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputValue(id, 1, event.target.value))}
+					onChange={(event) => handlePortChange(event)}
 				/>
 			</label>
 			<label className="pipeline-label">

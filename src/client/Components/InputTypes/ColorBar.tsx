@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+	storeSetDockerInputPorts,
 	storeSetGlobalInParamArr,
 	storeSetInputParamArr,
 	storeSetInputValue
@@ -26,6 +27,7 @@ const ColorbarInputOptions: React.FC<ColorBarProps> = (props) => {
 	useEffect(() => {
 		dispatch(storeSetGlobalInParamArr(id, parseGlobalInParamsToTranscoder(props.inputParams, INPUT_PARAMS.COLORBAR, hwAccel)))
 		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.COLORBAR, hwAccel)))
+		dispatch(storeSetDockerInputPorts(id, []))
 
 		if (!resolution) {
 			dispatch(storeSetInputValue(id, 0, '1920x1080'))

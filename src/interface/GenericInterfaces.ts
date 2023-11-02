@@ -7,8 +7,8 @@ export interface Pipeline {
 	activated: boolean
 	running: boolean
     hwaccell: GPU_TYPES
-    inputPort: number | undefined
-    outputPort: number | undefined
+    dockerInputPorts: DockerPort[]
+    dockerOutputPorts: DockerPort[]
 	globalInput: GlobalParams
 	globalOutput: GlobalParams
 	input: InputParams
@@ -16,6 +16,12 @@ export interface Pipeline {
 	audioFilter: OutputAudioCodecParams
 	output: OutputParams
     log: string[]
+}
+
+export interface DockerPort {
+    ip: string
+    port: string
+    protocol: string
 }
 
 export interface InputParams {
