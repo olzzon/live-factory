@@ -5,6 +5,7 @@ import {
 	storeSetGlobalOutParamArr,
 	storeSetOutputValue,
 	storeSetOutputParamArr,
+	storeSetDockerOutputPorts,
 } from '../../../interface/redux/containerActions'
 import { Settings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
@@ -27,6 +28,8 @@ const ScreenOutputOptions: React.FC<IOutProps> = (props) => {
 		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.SCREEN)))
 		dispatch(storeSetOutputParamArr(id, parseOutputParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.SCREEN)))
 		dispatch(storeSetFilterParamArr(id, []))
+		dispatch(storeSetDockerOutputPorts(id, []))
+
 	}, [])
 
 	return (

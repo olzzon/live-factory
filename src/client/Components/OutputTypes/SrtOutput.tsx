@@ -4,6 +4,7 @@ import {
 	storeSetGlobalOutParamArr,
 	storeSetOutputValue,
 	storeSetOutputParamArr,
+	storeSetDockerOutputPorts,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
@@ -50,6 +51,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		}
 		if (!port) {
 			dispatch(storeSetOutputValue(id, 1, '9998'))
+			dispatch(storeSetDockerOutputPorts(id, [{ip: '0.0.0.0', port: '9998', protocol: 'tcp'}]))
 		}
 		if (!mode) {
 			dispatch(storeSetOutputValue(id, 2, 'listener'))
@@ -69,6 +71,11 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 		}
 
 	}, [])
+
+	const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		dispatch(storeSetOutputValue(id, 1, event.target.value))
+		dispatch(storeSetDockerOutputPorts(id, [{ip: '0.0.0.0', port: event.target.value, protocol: 'tcp'}]))
+	}
 
 	const handleSetLowLatency = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
@@ -101,7 +108,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={port ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 1, event.target.value))}
+						onChange={(event) => handlePortChange(event)}
 					/>
 				</label>
 				<label className="pipeline-label">

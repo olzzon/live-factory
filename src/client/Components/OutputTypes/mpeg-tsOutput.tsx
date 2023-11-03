@@ -4,6 +4,7 @@ import {
 	storeSetGlobalOutParamArr,
 	storeSetOutputValue,
 	storeSetOutputParamArr,
+	storeSetDockerOutputPorts,
 } from '../../../interface/redux/containerActions'
 import { Settings, SettingsOutputParam } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
@@ -27,8 +28,11 @@ const MpegTsOutputOptions: React.FC<SrtProps> = (props) => {
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.MPEG_TS)))
 		dispatch(storeSetOutputParamArr(id, parseOutputParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.MPEG_TS)))
+		dispatch(storeSetDockerOutputPorts(id, []))
+
+
 		if (!ip) {
-			dispatch(storeSetOutputValue(id, 0, '0.0.0.0'))
+			dispatch(storeSetOutputValue(id, 0, '10.20.30.40'))
 		}
 		if (!port) {
 			dispatch(storeSetOutputValue(id, 1, '1234'))

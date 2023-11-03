@@ -4,6 +4,7 @@ import {
 	storeSetGlobalOutParamArr,
 	storeSetOutputValue,
 	storeSetOutputParamArr,
+	storeSetDockerOutputPorts,
 } from '../../../interface/redux/containerActions'
 import { Settings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
@@ -41,11 +42,18 @@ const TcpOutputOptions: React.FC<ITcpProps> = (props) => {
 		}
 		if (!port) {
 			dispatch(storeSetOutputValue(id, 1, '9998'))
+			dispatch(storeSetDockerOutputPorts(id, [{ip: '0.0.0.0', port: '9998', protocol: 'tcp'}]))
 		}
 		if (!mode) {
 			dispatch(storeSetOutputValue(id, 2, 'listen'))
 		}
 	}, [])
+
+	const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		dispatch(storeSetOutputValue(id, 1, event.target.value))
+		dispatch(storeSetDockerOutputPorts(id, [{ip: '0.0.0.0', port: event.target.value, protocol: 'tcp'}]))
+	}
+
 
 	return (
 		<div>
@@ -66,7 +74,7 @@ const TcpOutputOptions: React.FC<ITcpProps> = (props) => {
 						className="input-text"
 						type="text"
 						value={port ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 1, event.target.value))}
+						onChange={(event) => handlePortChange(event)}
 					/>
 				</label>
 				<label className="pipeline-label">

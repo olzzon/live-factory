@@ -5,10 +5,11 @@ import {
 	storeSetGlobalOutParamArr,
 	storeSetOutputValue,
 	storeSetOutputParamArr,
+	storeSetDockerOutputPorts,
 } from '../../../interface/redux/containerActions'
 import { DEVICE_TYPES, OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
 import { RootState } from '../../main'
-import { Settings, SettingsOutputParam } from '../../../interface/SettingsInterface'
+import { Settings } from '../../../interface/SettingsInterface'
 import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
 interface DecklinkProps {
@@ -30,6 +31,7 @@ const DecklinkOutputOptions: React.FC<DecklinkProps> = (props) => {
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.DECKLINK)))
 		dispatch(storeSetOutputParamArr(id, parseOutputParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.DECKLINK)))
+		dispatch(storeSetDockerOutputPorts(id, []))
 
 		dispatch(storeSetFilterParamArr(id, []))
 		if (!outputName) {

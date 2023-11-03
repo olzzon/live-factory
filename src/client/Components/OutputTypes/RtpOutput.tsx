@@ -4,6 +4,7 @@ import {
 	storeSetGlobalOutParamArr,
 	storeSetOutputValue,
 	storeSetOutputParamArr,
+	storeSetDockerOutputPorts,
 } from '../../../interface/redux/containerActions'
 import { Settings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
@@ -27,6 +28,7 @@ const RtpOutputOptions: React.FC<TcpProps> = (props) => {
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.RTP)))
 		dispatch(storeSetOutputParamArr(id, parseOutputParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.RTP)))
+		dispatch(storeSetDockerOutputPorts(id, []))
 
 		if (!ip) {
 			dispatch(storeSetOutputValue(id, 0, '0.0.0.0'))

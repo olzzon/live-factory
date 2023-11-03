@@ -6,6 +6,7 @@ import {
 	storeSetGlobalOutParamArr,
 	storeSetOutputValue,
 	storeSetOutputParamArr,
+	storeSetDockerOutputPorts,
 } from '../../../interface/redux/containerActions'
 import { Settings, SettingsOutputParam } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
@@ -29,6 +30,8 @@ const NdiOutputOptions: React.FC<NdiProps> = (props) => {
 		dispatch(storeSetOutputParamArr(id, parseOutputParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.NDI)))
 		dispatch(storeSetFilterParamArr(id, []))
 		dispatch(storeSetFilterAudioParamArr(id, []))
+		dispatch(storeSetDockerOutputPorts(id, []))
+
 		if (!outputName) {
 			dispatch(storeSetOutputValue(id, 0, `NDI_PIPE${id + 1}`))
 		}

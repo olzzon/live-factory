@@ -7,6 +7,7 @@ import {
 	storeSetGlobalOutParamArr,
 	storeSetOutputValue,
 	storeSetOutputParamArr,
+	storeSetDockerOutputPorts,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 
@@ -33,6 +34,7 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 		dispatch(storeSetGlobalOutParamArr(id, ['{arg0}']))
 		dispatch(storeSetFilterParamArr(id, ['{arg0}']))
 		dispatch(storeSetOutputParamArr(id, ['{arg0}']))
+		dispatch(storeSetDockerOutputPorts(id, []))
 
 		if (!globalOut) {
 			dispatch(storeSetGlobalOutValue(id, 0, ``))
