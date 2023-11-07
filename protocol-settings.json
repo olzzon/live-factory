@@ -113,7 +113,8 @@
                 "{hwaccel}"
             ],
             "input": [
-                "-i udp://{arg0}:{arg1}?fifo_size={arg2}"
+                "-i", 
+                "udp://{arg0}:{arg1}?fifo_size={arg2}"
             ]
         }
     ],
