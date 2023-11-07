@@ -31,7 +31,7 @@ export class DockerInstance {
 		}
 		const imageName = this.settings.nodeList[cmd.nodeIndex].imageName
 		const ffmpegArgs = [
-			'-hide_banner',
+			//'-hide_banner',
 			...insertArgs(cmd.globalInput.param, cmd.globalInput.valueArgs),
 			...insertArgs(cmd.globalOutput.param, cmd.globalOutput.valueArgs),
 			...insertArgs(cmd.input.param, cmd.input.valueArgs),
