@@ -115,6 +115,22 @@ Here's the basic structure of the settings.json file:
 }
 ```
 
+## Enabling Docker API on remote machine: 
+This example is on Ubuntu:
+```
+nano /lib/systemd/system/docker.service
+```
+Find the line which starts with ExecStart and adds -H=tcp://0.0.0.0:2375 to make it look like
+ExecStart=/usr/bin/dockerd -H=fd:// -H=tcp://0.0.0.0:4333
+```
+systemctl daemon-reload
+sudo service docker restart
+```
+Test if it is working by using this command, if everything is fine below command should return a JSON
+````
+curl http://localhost:4333/images/json
+```
+
 
 # Setting up ffmpeg on your machine: 
 
