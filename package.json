@@ -1,6 +1,6 @@
 {
   "name": "live-factory",
-  "version": "0.0.1",
+  "version": "0.9",
   "description": "receiver, transmitter and transcoder for live video and audio",
   "main": "./dist/server/server.js",
   "repository": "https://github.com/olzzon/live-factory.git",
