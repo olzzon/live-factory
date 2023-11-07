@@ -59,14 +59,30 @@ export class DockerInstance {
 					}
 				})
 			} else {
-				// Todo: Add support for docker args pr pipeline (e.g. ports for NDI and SRT)
+				let bindings: {} = {}
+				let exposure: {} = {}
+				cmd.dockerInputPorts.forEach((port) => {
+					bindings = {...bindings, [`${port.port}/${port.protocol}`]: [{ HostPort: `${port.port}` }]}
+					exposure = {...exposure, [`${port.port}/${port.protocol}`]: {}}
+				})
+				cmd.dockerOutputPorts.forEach((port) => {
+					bindings = {...bindings, [`${port.port}/${port.protocol}`]: [{ HostPort: `${port.port}` }]}
+					exposure = {...exposure, [`${port.port}/${port.protocol}`]: {}}
+				})
 				const hostConfig = {
+					PortBindings: {...bindings}
+				}
+				const exposedPorts = {...exposure}
+				
+/*				Example of port bindings and exposed ports:
+				const hostConfig1 = {
 					PortBindings:
 						{ "5432/tcp": [{ HostPort: "5432" }] }
 				}
-				const exposedPorts = {
+				const exposedPorts1 = {
 					'5432/tcp': {}
 				}
+*/				
 
 				this.docker?.run(imageName || 'jrottenberg/ffmpeg', ffmpegArgs, process.stdout, {
 					ExposedPorts: exposedPorts,
