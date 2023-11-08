@@ -74,6 +74,17 @@
             ]
         },
         {
+            "type": "RTP",
+            "globalIn": [
+                "-re",
+                "{hwaccel}"
+            ],
+            "input": [
+                "-i",
+                "rtp://{arg0}:{arg1}?{arg2}"
+            ]
+        },
+        {
             "type": "FILE",
             "globalIn": [
                 "-stream_loop",

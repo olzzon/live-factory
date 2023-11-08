@@ -121,6 +121,7 @@ const Transcoder: React.FC<Transcoder> = (props) => {
 				{inputType === INPUT_PARAMS.MPEG_TS ? <MpegtsInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
 				{inputType === INPUT_PARAMS.UDP ? <UdpInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
 				{inputType === INPUT_PARAMS.TCP ? <TcpInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
+				{inputType === INPUT_PARAMS.RTP ? <TcpInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
 				{inputType === INPUT_PARAMS.SRT ? <SrtInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
 				{inputType === INPUT_PARAMS.RIST ? <RistInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}
 				{inputType === INPUT_PARAMS.DECKLINK ? <DecklinkInputOptions pipelineId={id} inputParams={props.settings.inputParams} /> : null}

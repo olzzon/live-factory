@@ -36,6 +36,7 @@ export enum INPUT_PARAMS {
     RIST = 'RIST',
     UDP = 'UDP',
     TCP = 'TCP',
+    RTP = 'RTP',
     FILE = 'FILE',
     NDI = 'NDI',
     DECKLINK = 'DECKLINK',
