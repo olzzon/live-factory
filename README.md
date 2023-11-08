@@ -13,6 +13,7 @@ It's using the dockerode package for handling this (https://www.npmjs.com/packag
 
 
 Roadmap:
+* SDP support
 * Refactor rest of the "ffmpeg command" command handling to backend, prior to API integration
 * Build Pipeline
 * REST API for external control
