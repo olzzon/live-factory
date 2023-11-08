@@ -24,6 +24,7 @@ const RtpOutputOptions: React.FC<TcpProps> = (props) => {
 
 	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[1])
+	const sdp = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[2])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.RTP)))
@@ -35,6 +36,9 @@ const RtpOutputOptions: React.FC<TcpProps> = (props) => {
 		}
 		if (!port) {
 			dispatch(storeSetOutputValue(id, 1, '9998'))
+		}
+		if (!sdp) {
+			dispatch(storeSetOutputValue(id, 2, '/tmp/sdp.sdp'))
 		}
 	}, [])
 
@@ -58,6 +62,15 @@ const RtpOutputOptions: React.FC<TcpProps> = (props) => {
 						type="text"
 						value={port ?? 'none'}
 						onChange={(event) => dispatch(storeSetOutputValue(id, 1, event.target.value))}
+					/>
+				</label>
+				<label className="pipeline-label">
+					SDP /path/file:
+					<input
+						className="input-text"
+						type="text"
+						value={sdp ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 2, event.target.value))}
 					/>
 				</label>
 			</div>
