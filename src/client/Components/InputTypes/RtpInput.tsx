@@ -21,9 +21,8 @@ const RtpInputOptions: React.FC<RtpProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
+	const sdp = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
 	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[1])
-	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[2])
 	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 
@@ -31,20 +30,15 @@ const RtpInputOptions: React.FC<RtpProps> = (props) => {
 		dispatch(storeSetGlobalInParamArr(id, parseGlobalInParamsToTranscoder(props.inputParams, INPUT_PARAMS.RTP, hwAccel)))
 		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.RTP, hwAccel)))
 		
-		if (!ip) {
-			dispatch(storeSetInputValue(id, 0, '0.0.0.0'))
+		if (!sdp) {
+			dispatch(storeSetInputValue(id, 0, '/tmp/sdp.sdp'))
 		}
 		if (!port) {
-			dispatch(storeSetInputValue(id, 1, '9998'))
 			dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: '9998', protocol: 'tcp'}]))
-		}
-		if (!mode) {
-			dispatch(storeSetInputValue(id, 2, 'listen'))
 		}
 	}, [])
 
 	const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch(storeSetInputValue(id, 1, event.target.value))
 		dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: event.target.value, protocol: 'tcp'}]))
 	}
 
@@ -55,11 +49,11 @@ const RtpInputOptions: React.FC<RtpProps> = (props) => {
 				<button className="collapse-button" onClick={() => setCollapse(!collapse)}>
 					{collapse ? `-` : `+`}
 				</button>
-				IP :
+				SDP /path/filename.sdp :
 				<input
 					className="input-text"
 					type="text"
-					value={ip ?? 'none'}
+					value={sdp ?? 'none'}
 					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
 				/>
 			</label>
@@ -70,15 +64,6 @@ const RtpInputOptions: React.FC<RtpProps> = (props) => {
 					type="text"
 					value={port ?? 'none'}
 					onChange={(event) => handlePortChange(event)}
-				/>
-			</label>
-			<label className="pipeline-label">
-				Mode (listen or nothing) :
-				<input
-					className="input-text"
-					type="text"
-					value={mode ?? 0}
-					onChange={(event) => dispatch(storeSetInputValue(id, 2, event.target.value))}
 				/>
 			</label>
 		</div>

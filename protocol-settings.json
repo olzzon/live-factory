@@ -76,12 +76,14 @@
         {
             "type": "RTP",
             "globalIn": [
+                "-protocol_whitelist", 
+                "udp,file,h264,rtp,crypto",
                 "-re",
                 "{hwaccel}"
             ],
             "input": [
                 "-i",
-                "rtp://{arg0}:{arg1}?{arg2}"
+                "{arg0}"
             ]
         },
         {
