@@ -34,11 +34,13 @@ const RtpInputOptions: React.FC<RtpProps> = (props) => {
 			dispatch(storeSetInputValue(id, 0, '/tmp/sdp.sdp'))
 		}
 		if (!port) {
+			dispatch(storeSetInputValue(id, 1, '9998'))
 			dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: '9998', protocol: 'tcp'}]))
 		}
 	}, [])
 
 	const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		dispatch(storeSetInputValue(id, 1, event.target.value))
 		dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: event.target.value, protocol: 'tcp'}]))
 	}
 
