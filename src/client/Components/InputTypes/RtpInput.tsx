@@ -39,7 +39,7 @@ const RtpInputOptions: React.FC<RtpProps> = (props) => {
 			dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: '9998', protocol: 'tcp'}]))
 		}
 		if (!mode) {
-			dispatch(storeSetInputValue(id, 2, ' '))
+			dispatch(storeSetInputValue(id, 2, 'listen'))
 		}
 	}, [])
 
