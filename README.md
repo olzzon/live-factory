@@ -9,13 +9,12 @@ You can run a local ffmpeg instance or use the docker API for controlling other 
 
 It's using the dockerode package for handling this (https://www.npmjs.com/package/dockerode)
 
-<img src="Doc/pix/live-factory-node01.png">
+<img src="Doc/pix/live-factory-aws-example.png">
 
 
 Roadmap:
-+ +Local ffmpeg support with most used protocols
-* Support for docker based ffmpeg (in progress)
-* Support for controlling multiple ffmpeg nodes (in progress) 
+* Refactor rest of the "ffmpeg command" command handling to backend, prior to API integration
+* Build Pipeline
 * REST API for external control
 * 2110 Decklink IP card support 
 * NMOS support
