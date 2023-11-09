@@ -68,14 +68,26 @@ Here's the basic structure of the settings.json file:
         {
             "name": "FFmpeg local",
             "type": "FFMPEG",
-            "path": "/usr/bin/ffmpeg"
+            "path": "/opt/homebrew/bin/ffmpeg",
+            "hwaccel": "NONE"
         },
         {
             "name": "Docker Node 01",
             "type": "DOCKER",
-            "host": "192.168.122.129",
-            "port": 4333,
-            "containerName": "jrottenberg/ffmpeg"
+            "host": "192.168.1.119",
+            "port": 4244,
+            "containerName": "jrottenberg/ffmpeg",
+            "hwaccel": "NONE",
+            "mapHostFolders": ["/tmp:/tmp"]
+        },
+        {
+            "name": "AWS Frankfurt - Node 02",
+            "type": "DOCKER",
+            "host": "10.91.92.93",
+            "port": 4243,
+            "containerName": "jrottenberg/ffmpeg:4.1-nvidia",
+            "hwaccel": "NVIDIA"
+            "mapHostFolders": ["/s3-folder:/tmp"]
         }
         .........................
     ],

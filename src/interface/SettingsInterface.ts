@@ -17,7 +17,7 @@ export interface NodeList {
     imageName?: string
     host?: string
     port?: number
-    mapHostFolders: [string]
+    mapHostFolders?: [string]
     hwaccel: GPU_TYPES
 }
 
