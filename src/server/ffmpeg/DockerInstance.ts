@@ -61,6 +61,10 @@ export class DockerInstance {
 			} else {
 				let bindings: {} = {}
 				let exposure: {} = {}
+				let folderBinds = this.settings.nodeList[cmd.nodeIndex].mapHostFolders?.map((folder) => {
+					return `${folder}`
+				}) || []
+
 				cmd.dockerInputPorts.forEach((port) => {
 					bindings = {...bindings, [`${port.port}/${port.protocol}`]: [{ HostPort: `${port.port}` }]}
 					exposure = {...exposure, [`${port.port}/${port.protocol}`]: {}}
@@ -70,7 +74,8 @@ export class DockerInstance {
 					exposure = {...exposure, [`${port.port}/${port.protocol}`]: {}}
 				})
 				const hostConfig = {
-					PortBindings: {...bindings}
+					PortBindings: {...bindings},
+					Binds: folderBinds
 				}
 				const exposedPorts = {...exposure}
 				

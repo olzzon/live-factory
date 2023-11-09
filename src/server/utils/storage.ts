@@ -64,8 +64,8 @@ export const loadSettings = () => {
         settings = {
             maxActiveEncoders: 1,
             nodeList: [{ name: 'FFmpeg local', type: NODE_TYPES.FFMPEG, path: '/usr/bin/ffmpeg', hwaccel: GPU_TYPES.NONE },
-            { name: 'Node 01 (Docker API)', type: NODE_TYPES.DOCKER, host: '192.168.211.144', port:4243, imageName: 'jrottenberg/ffmpeg', hwaccel: GPU_TYPES.NONE },
-            { name: 'Node 02 (Docker API)', type: NODE_TYPES.DOCKER, host: '192.168.211.145', port:4243, imageName: 'jrottenberg/ffmpeg:4.1-nvidia', hwaccel: GPU_TYPES.NVIDIA }],
+            { name: 'Node 01 (Docker API)', type: NODE_TYPES.DOCKER, host: '192.168.211.144', port:4243, imageName: 'jrottenberg/ffmpeg', hwaccel: GPU_TYPES.NONE, mapHostFolders: ['/tmp:/tmp'] },
+            { name: 'AWS Frankfurt - Node 02', type: NODE_TYPES.DOCKER, host: '192.168.211.145', port:4243, imageName: 'jrottenberg/ffmpeg:4.1-nvidia', hwaccel: GPU_TYPES.NVIDIA }],
             allowedInputTypes: extractListOfInputTypes(),
             allowedOutputTypes: extractListOfOutputTypes(),
             allowedOutputEncoderTypes: extractListOfOutputEncoderTypes(),

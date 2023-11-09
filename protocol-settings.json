@@ -74,6 +74,19 @@
             ]
         },
         {
+            "type": "RTP",
+            "globalIn": [
+                "-protocol_whitelist", 
+                "udp,file,h264,rtp,crypto",
+                "-re",
+                "{hwaccel}"
+            ],
+            "input": [
+                "-i",
+                "{arg0}"
+            ]
+        },
+        {
             "type": "FILE",
             "globalIn": [
                 "-stream_loop",
@@ -195,6 +208,8 @@
             "type": "RTP",
             "globalOut": [],
             "output": [
+                "-sdp_file",
+                "{arg2}",
                 "-f",
                 "rtp",
                 "rtp://{arg0}:{arg1}"
