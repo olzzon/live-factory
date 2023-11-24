@@ -44,7 +44,7 @@ const ColorbarInputOptions: React.FC<ColorBarProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={resolution.valueArg ?? 'none'}
+					value={resolution?.valueArg ?? 'none'}
 					onChange={(event) => dispatch(storeSetInputValue(id, 0, {valueArg: [event.target.value]}))}
 				/>
 			</label>

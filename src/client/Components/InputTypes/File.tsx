@@ -55,7 +55,7 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={filePath.valueArg ?? 'none'}
+					value={filePath?.valueArg ?? 'none'}
 					onChange={(event) => dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
@@ -64,7 +64,7 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={fileName.valueArg ?? 'none'}
+					value={fileName?.valueArg ?? 'none'}
 					onChange={(event) => dispatch(storeSetInputValue(id, 1, { valueArg: [event.target.value]}))}
 				/>
 			</label>
@@ -73,7 +73,7 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 				<input
 					className="input-number"
 					type="number"
-					value={fileLoop.valueArg ?? 0}
+					value={fileLoop?.valueArg ?? 0}
 					onChange={(event) => dispatch(storeSetGlobalInValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>

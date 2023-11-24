@@ -51,7 +51,7 @@ const RtpOutputOptions: React.FC<TcpProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={ip.valueArg ?? 'none'}
+						value={ip?.valueArg ?? 'none'}
 						onChange={(event) => dispatch(storeSetOutputValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
@@ -60,7 +60,7 @@ const RtpOutputOptions: React.FC<TcpProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={port.valueArg ?? 'none'}
+						value={port?.valueArg ?? 'none'}
 						onChange={(event) => dispatch(storeSetOutputValue(id, 1, { valueArg: [event.target.value]}))}
 					/>
 				</label>
@@ -69,7 +69,7 @@ const RtpOutputOptions: React.FC<TcpProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={sdp.valueArg ?? 'none'}
+						value={sdp?.valueArg ?? 'none'}
 						onChange={(event) => dispatch(storeSetOutputValue(id, 2, { valueArg: [event.target.value]}))}
 					/>
 				</label>

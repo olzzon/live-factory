@@ -98,7 +98,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={ip.valueArg ?? 'none'}
+						value={ip?.valueArg ?? 'none'}
 						onChange={(event) => dispatch(storeSetOutputValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
@@ -107,7 +107,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={port.valueArg ?? 'none'}
+						value={port?.valueArg ?? 'none'}
 						onChange={(event) => handlePortChange(event)}
 					/>
 				</label>
@@ -116,14 +116,14 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={passphrase.valueArg ?? 'none'}
+						value={passphrase?.valueArg ?? 'none'}
 						onChange={(event) => dispatch(storeSetOutputValue(id, 3, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 				<label className="pipeline-label">
 					Mode :
 					<select
-						value={mode.valueArg ?? 'none'}
+						value={mode?.valueArg ?? 'none'}
 						onChange={(event) => dispatch(storeSetOutputValue(id, 2, { valueArg: [event.target.value]}))}
 					>
 						<option value="listener">Listener</option>
@@ -142,7 +142,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 				<label className="pipeline-label">
 					Protocol :
 					<select
-						value={protocol.valueArg ?? 'mpegts'}
+						value={protocol?.valueArg ?? 'mpegts'}
 						onChange={(event) => dispatch(storeSetOutputValue(id, 5, { valueArg: [event.target.value]}))}
 					>
 						<option value="mpegts">Mpeg-Ts</option>

@@ -46,7 +46,7 @@ const NdiOutputOptions: React.FC<NdiProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={outputName.valueArg ?? 'none'}
+						value={outputName?.valueArg ?? 'none'}
 						onChange={(event) => dispatch(storeSetOutputValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>

@@ -55,7 +55,7 @@ const DecklinkOutputOptions: React.FC<DecklinkProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={outputName.valueArg ?? 'none'}
+						value={outputName?.valueArg ?? 'none'}
 						onChange={(event) => dispatch(storeSetOutputValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
@@ -79,7 +79,7 @@ const DecklinkOutputOptions: React.FC<DecklinkProps> = (props) => {
 					<input
 						className="input-number"
 						type="number"
-						value={channels.valueArg ?? 2}
+						value={channels?.valueArg ?? 2}
 						onChange={(event) => dispatch(storeSetOutputValue(id, 1, { valueArg: [event.target.value]}))}
 					/>
 				</label>

@@ -17,7 +17,7 @@ const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 	const vBandwidth = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[0])
 	const quality = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[2])
 	const deInterlace = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[3])
-	const [ deinterlaceState, setDeinterlaceState ] = useState<boolean>((deInterlace.valueArg.length > 0)? true : false)
+	const [ deinterlaceState, setDeinterlaceState ] = useState<boolean>((deInterlace?.valueArg?.length > 0)? true : false)
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
@@ -72,7 +72,7 @@ const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 				<input
 					className="input-number"
 					type="number"
-					value={vBandwidth.valueArg ?? '22000'}
+					value={vBandwidth?.valueArg ?? '22000'}
 					onChange={(event) => dispatch(storeSetFilterValue(id, 0, {valueArg: [event.target.value]}))}
 				/>
 			</label>
@@ -81,7 +81,7 @@ const HevcMacCodecOptions: React.FC<ICodecProps> = (props) => {
 				<input
 					className="input-number"
 					type="number"
-					value={quality.valueArg ?? '90'}
+					value={quality?.valueArg ?? '90'}
 					onChange={(event) => dispatch(storeSetFilterValue(id, 2, {valueArg: [event.target.value]}))}
 				/>
 			</label>

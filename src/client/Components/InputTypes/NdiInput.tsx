@@ -52,7 +52,7 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={ndiName.valueArg ?? 'none'}
+					value={ndiName?.valueArg ?? 'none'}
 					onChange={(event) => dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>

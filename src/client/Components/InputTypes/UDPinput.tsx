@@ -59,7 +59,7 @@ const UdpInputOptions: React.FC<IUdpInputProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={ip.valueArg}
+					value={ip?.valueArg}
 					onChange={(event) => dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
@@ -68,7 +68,7 @@ const UdpInputOptions: React.FC<IUdpInputProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={port.valueArg}
+					value={port?.valueArg}
 					onChange={(event) => dispatch(storeSetInputValue(id, 1, { valueArg: [event.target.value]}))}
 				/>
 			</label>
@@ -77,7 +77,7 @@ const UdpInputOptions: React.FC<IUdpInputProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={fifoSize.valueArg}
+					value={fifoSize?.valueArg}
 					onChange={(event) => dispatch(storeSetInputValue(id, 2, { valueArg: [event.target.value]}))}
 				/>
 			</label>

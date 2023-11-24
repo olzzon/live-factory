@@ -65,7 +65,7 @@ const RistInputOptions: React.FC<RistProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={ip.valueArg ?? 'none'}
+					value={ip?.valueArg ?? 'none'}
 					onChange={(event) => dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
@@ -74,7 +74,7 @@ const RistInputOptions: React.FC<RistProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={port.valueArg ?? 'none'}
+					value={port?.valueArg ?? 'none'}
 					onChange={(event) => handlePortChange(event)}
 				/>
 			</label>
@@ -83,7 +83,7 @@ const RistInputOptions: React.FC<RistProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={cname.valueArg ?? 0}
+					value={cname?.valueArg ?? 0}
 					onChange={(event) => dispatch(storeSetInputValue(id, 2, { valueArg: [event.target.value]}))}
 				/>
 			</label>

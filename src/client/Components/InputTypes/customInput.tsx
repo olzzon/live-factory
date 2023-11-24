@@ -46,7 +46,7 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={globalIn.valueArg ?? 'none'}
+					value={globalIn?.valueArg ?? 'none'}
 					onChange={(event) => dispatch(storeSetGlobalInValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
@@ -55,7 +55,7 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={input.valueArg ?? 'none'}
+					value={input?.valueArg ?? 'none'}
 					onChange={(event) => dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>

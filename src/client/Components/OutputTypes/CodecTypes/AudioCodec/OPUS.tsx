@@ -38,14 +38,14 @@ const OpusCodecOptions: React.FC<ICodecProps> = (props) => {
 				<input
 					className="input-number"
 					type="number"
-					value={aBandwidth.valueArg ?? '256'}
+					value={aBandwidth?.valueArg ?? '256'}
 					onChange={(event) => dispatch(storeSetFilterAudioValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
 			<label className="pipeline-label">
 				Audio Tracks
 				<select
-					value={aAudioTracks.valueArg || '2'}
+					value={aAudioTracks?.valueArg || '2'}
 					onChange={(e) => dispatch(storeSetFilterAudioValue(id, 1, { valueArg: [e.target.value]}))}
 				>
 					<option value="2">Stereo</option>

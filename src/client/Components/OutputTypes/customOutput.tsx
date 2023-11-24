@@ -63,7 +63,7 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={globalOut.valueArg ?? 'none'}
+						value={globalOut?.valueArg ?? 'none'}
 						onChange={(event) => dispatch(storeSetGlobalOutValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
@@ -72,7 +72,7 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={filter.valueArg ?? 'none'}
+						value={filter?.valueArg ?? 'none'}
 						onChange={(event) => dispatch(storeSetFilterValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
@@ -81,7 +81,7 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={output.valueArg ?? 'none'}
+						value={output?.valueArg ?? 'none'}
 						onChange={(event) => dispatch(storeSetOutputValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>

@@ -59,7 +59,7 @@ const DecklinkInputOptions: React.FC<DecklinkProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={decklinkInput.valueArg ?? 'DeckLink Quad (1)'}
+					value={decklinkInput?.valueArg ?? 'DeckLink Quad (1)'}
 					onChange={(event) => dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value] }))}
 				/>
 			</label>
@@ -81,7 +81,7 @@ const DecklinkInputOptions: React.FC<DecklinkProps> = (props) => {
 			<label className="pipeline-label">
 				Audio channels :
 				<select
-					value={channels.valueArg ?? 16}
+					value={channels?.valueArg ?? 16}
 					onChange={(event) => dispatch(storeSetInputValue(id, 1, { valueArg: [event.target.value] }))}
 				>
 					<option key={2} value={2}>2</option>
