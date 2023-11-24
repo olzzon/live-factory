@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES, INPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { DEVICE_TYPES, INPUT_PARAMS, ValueArg } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
@@ -22,7 +22,7 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 	const [collapse, setCollapse] = useState(false)
 
 
-	const ndiName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
+	const ndiName = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
 	const devices = useSelector<RootState, string[]>(
 		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.NDI]?.devices || []
 	)
@@ -34,12 +34,12 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 		dispatch(storeSetDockerInputPorts(id, []))
 
 		if (!ndiName) {
-			dispatch(storeSetInputValue(id, 0, 'HOSTNAME (NDINAME)'))
+			dispatch(storeSetInputValue(id, 0, { valueArg: ['HOSTNAME (NDINAME)']}))
 		}
 	}, [])
 
 	const handleSetNdiSource = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(storeSetInputValue(id, 0, event.target.value))
+		dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value]}))
 	}
 
 	return (
@@ -52,8 +52,8 @@ const NdiInputOptions: React.FC<IFileProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={ndiName ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
+					value={ndiName?.valueArg ?? 'none'}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
 			<label className="pipeline-label">

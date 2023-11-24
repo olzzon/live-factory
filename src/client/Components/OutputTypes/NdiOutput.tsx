@@ -11,7 +11,7 @@ import {
 import { Settings, SettingsOutputParam } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
-import { OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { OUTPUT_PARAMS, ValueArg } from '../../../interface/GenericInterfaces'
 
 interface NdiProps {
 	pipelineId: number
@@ -23,7 +23,7 @@ const NdiOutputOptions: React.FC<NdiProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
+	const outputName = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.NDI)))
@@ -33,7 +33,7 @@ const NdiOutputOptions: React.FC<NdiProps> = (props) => {
 		dispatch(storeSetDockerOutputPorts(id, []))
 
 		if (!outputName) {
-			dispatch(storeSetOutputValue(id, 0, `NDI_PIPE${id + 1}`))
+			dispatch(storeSetOutputValue(id, 0, { valueArg: [`NDI_PIPE${id + 1}`]}))
 		}
 	}, [])
 
@@ -46,8 +46,8 @@ const NdiOutputOptions: React.FC<NdiProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={outputName ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
+						value={outputName?.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 			</div>

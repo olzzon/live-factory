@@ -10,6 +10,7 @@ import {
 	storeSetDockerOutputPorts,
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
+import { ValueArg } from '../../../interface/GenericInterfaces'
 
 interface ISrtProps {
 	pipelineId: number
@@ -20,10 +21,10 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const globalOut = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].globalOutput.valueArgs[0])
-	const filter = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[0])
-	const audioFilter = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].audioFilter.valueArgs[0])
-	const output = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
+	const globalOut = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].globalOutput.valueArgs[0])
+	const filter = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[0])
+	const audioFilter = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].audioFilter.valueArgs[0])
+	const output = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
 
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
@@ -37,17 +38,17 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 		dispatch(storeSetDockerOutputPorts(id, []))
 
 		if (!globalOut) {
-			dispatch(storeSetGlobalOutValue(id, 0, ``))
+			dispatch(storeSetGlobalOutValue(id, 0, { valueArg: [] }))
 		}
 		if (!output) {
-			dispatch(storeSetOutputValue(id, 0, ` -f mpegts "srt://0.0.0.0:9998?pkt_size=1316&mode=listener" `))
+			dispatch(storeSetOutputValue(id, 0, { valueArg: ['-f', 'mpegts', '"srt://0.0.0.0:9998?pkt_size=1316&mode=listener"'] }))
 		}
 		if (!filter) {
 			dispatch(
 				storeSetFilterValue(
 					id,
 					0,
-					` -c:v libx264 -preset veryfast -b:v 22000k -pix_fmt yuv420p -acodec libopus -b:a 256k`
+					{ valueArg: ['-c:v', 'libx264', '-preset', 'veryfast', '-b:v', '22000k', '-pix_fmt', 'yuv420p', '-acodec', 'libopus', '-b:a 256k'] }
 				)
 			)
 		}
@@ -62,8 +63,8 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={globalOut ?? 'none'}
-						onChange={(event) => dispatch(storeSetGlobalOutValue(id, 0, event.target.value))}
+						value={globalOut?.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetGlobalOutValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -71,8 +72,8 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={filter ?? 'none'}
-						onChange={(event) => dispatch(storeSetFilterValue(id, 0, event.target.value))}
+						value={filter?.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetFilterValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -80,8 +81,8 @@ const CustomOutputOptions: React.FC<ISrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={output ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
+						value={output?.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 			</div>

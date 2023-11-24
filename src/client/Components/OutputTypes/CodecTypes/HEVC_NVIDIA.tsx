@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { storeSetFilterValue, storeSetFilterParamArr } from '../../../../interface/redux/containerActions'
 import { RootState } from '../../../main'
+import { ValueArg } from '../../../../interface/GenericInterfaces'
 
 interface ICodecProps {
 	pipelineId: number
@@ -13,11 +14,11 @@ const HevcNvidiaCodecOptions: React.FC<ICodecProps> = (props) => {
 
 	
 	
-	const vBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[0])
-	const quality = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[2])
-	const deInterlace = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[3])
-	const [ deinterlaceState, setDeinterlaceState ] = useState<boolean>((deInterlace === '-vf yadif_videotoolbox')? true : false)
-	
+	const vBandwidth = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[0])
+	const quality = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[2])
+	const deInterlace = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].filter.valueArgs[3])
+	const [ deinterlaceState, setDeinterlaceState ] = useState<boolean>((deInterlace?.valueArg?.length > 0)? true : false)
+
 	useEffect(() => {
 		//` -re -i srt://0.0.0.0:9998?pkt_size=1316&mode=listener -vcodec copy -acodec copy -strict -2 -y`))
 		// MAC M1 :
@@ -33,28 +34,28 @@ const HevcNvidiaCodecOptions: React.FC<ICodecProps> = (props) => {
 				)
 				//`  -c:v hevc_videotoolbox -b:v {arg0}k -pix_fmt yuv422p -realtime true -q:v {arg2} -acodec libopus -b:a {arg1}k `
 
-		if (!vBandwidth) {
-			dispatch(storeSetFilterValue(id, 0, `22000`))
-		}
-		if (!quality) {
-			dispatch(storeSetFilterValue(id, 2, `90`))
-		}
-		if (!deinterlaceState) {
-			dispatch(storeSetFilterValue(id, 3, ` `))
-		} else {
-			dispatch(storeSetFilterValue(id, 3, `-vf yadif_videotoolbox`))
-		}
-	}, [])
-
-	const handleSetDeInterlace = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (event.target.checked) {
-			dispatch(storeSetFilterValue(id, 3, '-vf yadif_videotoolbox'))
-			setDeinterlaceState(true)			
-		} else {
-			dispatch(storeSetFilterValue(id, 3, ''))
-			setDeinterlaceState(false)			
-		}
-	}
+				if (!vBandwidth) {
+					dispatch(storeSetFilterValue(id, 0, {valueArg: ['22000']}))
+				}
+				if (!quality) {
+					dispatch(storeSetFilterValue(id, 2, {valueArg: ['90']}))	
+				}
+				if (!deinterlaceState) {
+					dispatch(storeSetFilterValue(id, 3, {valueArg: []}))
+				} else {
+					dispatch(storeSetFilterValue(id, 3, {valueArg: ['-vf', 'yadif_cuda']}))
+				}
+			}, [])
+		
+			const handleSetDeInterlace = (event: React.ChangeEvent<HTMLInputElement>) => {
+				if (event.target.checked) {
+					dispatch(storeSetFilterValue(id, 3, {valueArg: ['-vf', 'yadif_cuda']}))
+					setDeinterlaceState(true)			
+				} else {
+					dispatch(storeSetFilterValue(id, 3, {valueArg: []}))
+					setDeinterlaceState(false)			
+				}
+			}
 
 	return (
 		<div className="options">
@@ -72,8 +73,8 @@ const HevcNvidiaCodecOptions: React.FC<ICodecProps> = (props) => {
 				<input
 					className="input-number"
 					type="number"
-					value={vBandwidth ?? '22000'}
-					onChange={(event) => dispatch(storeSetFilterValue(id, 0, event.target.value))}
+					value={vBandwidth?.valueArg ?? '22000'}
+					onChange={(event) => dispatch(storeSetFilterValue(id, 0, {valueArg: [event.target.value]}))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -81,8 +82,8 @@ const HevcNvidiaCodecOptions: React.FC<ICodecProps> = (props) => {
 				<input
 					className="input-number"
 					type="number"
-					value={quality ?? '90'}
-					onChange={(event) => dispatch(storeSetFilterValue(id, 2, event.target.value))}
+					value={quality?.valueArg ?? '90'}
+					onChange={(event) => dispatch(storeSetFilterValue(id, 2, {valueArg: [event.target.value]}))}
 				/>
 			</label>
 		</div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { INPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { INPUT_PARAMS, ValueArg } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
@@ -22,10 +22,10 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 	const [collapse, setCollapse] = useState(false)
 
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[1])
-	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[2])
-	const passphrase = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[3])
+	const ip = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
+	const port = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[1])
+	const mode = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[2])
+	const passphrase = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[3])
 	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 	useEffect(() => {
@@ -33,28 +33,28 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.SRT, hwAccel)))
 
 		if (!ip) {
-			dispatch(storeSetInputValue(id, 0, '0.0.0.0'))
+			dispatch(storeSetInputValue(id, 0, { valueArg: ['0.0.0.0']}))
 		}
 		if (!port) {
-			dispatch(storeSetInputValue(id, 1, '9998'))
+			dispatch(storeSetInputValue(id, 1, { valueArg: ['9998']}))
 			dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: '9998', protocol: 'tcp'}]))
 		}
 		if (!mode) {
-			dispatch(storeSetInputValue(id, 2, 'caller'))
+			dispatch(storeSetInputValue(id, 2, { valueArg: ['caller']}))
 		}
 		if (!passphrase) {
-			dispatch(storeSetInputValue(id, 3, '1234567890'))
+			dispatch(storeSetInputValue(id, 3, { valueArg: ['1234567890']}))
 		}
 	}, [])
 
 	const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch(storeSetInputValue(id, 1, event.target.value))
+		dispatch(storeSetInputValue(id, 1, { valueArg: [event.target.value]}))
 		dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: event.target.value, protocol: 'tcp'}]))
 	}
 
 	const handlePassPhrase = (event: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch(storeSetInputValue(id, 3, event.target.value))
-		if (passphrase.length < 10) {
+		dispatch(storeSetInputValue(id, 3, { valueArg: [event.target.value]}))
+		if (passphrase.valueArg.length < 10) {
 			dispatch(storeSetInputParamArr(id, ['-i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}"']))
 		} else {
 			dispatch(storeSetInputParamArr(id, ['-i "srt://{arg0}:{arg1}?pkt_size=1316&mode={arg2}&passphrase={arg3}"']))
@@ -71,8 +71,8 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={ip ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
+					value={ip?.valueArg ?? 'none'}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -80,7 +80,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={port ?? 'none'}
+					value={port?.valueArg ?? 'none'}
 					onChange={(event) => handlePortChange(event)}
 				/>
 			</label>
@@ -89,7 +89,7 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={passphrase ?? 'none'}
+					value={passphrase?.valueArg ?? 'none'}
 					onChange={(event) => handlePassPhrase(event)}
 				/>
 			</label>
@@ -98,8 +98,8 @@ const SrtInputOptions: React.FC<ISrtProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={mode ?? 0}
-					onChange={(event) => dispatch(storeSetInputValue(id, 2, event.target.value))}
+					value={mode?.valueArg ?? 0}
+					onChange={(event) => dispatch(storeSetInputValue(id, 2, { valueArg: [event.target.value]}))}
 				/>
 			</label>
 		</div>

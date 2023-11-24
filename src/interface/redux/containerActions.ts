@@ -1,4 +1,4 @@
-import { Pipeline, DeviceList, INPUT_PARAMS, OUTPUT_AUDIO_ENCODER, OUTPUT_ENCODER, OUTPUT_PARAMS, DockerPort } from '../GenericInterfaces'
+import { Pipeline, DeviceList, INPUT_PARAMS, OUTPUT_AUDIO_ENCODER, OUTPUT_ENCODER, OUTPUT_PARAMS, DockerPort, ValueArg } from '../GenericInterfaces'
 import { GPU_TYPES } from '../SettingsInterface'
 
 export const ADD_FACTORY = 'addFactory'
@@ -138,12 +138,12 @@ export const storeSetGlobalInParamArr = (pipelineId: number, paramArr: string[])
 	}
 }
 
-export const storeSetGlobalInValue = (pipelineId: number, paramIndex: number, param: string) => {
+export const storeSetGlobalInValue = (pipelineId: number, paramIndex: number, value: ValueArg) => {
 	return {
 		type: SET_GLOBAL_IN_VALUE,
 		pipelineId: pipelineId,
         paramIndex: paramIndex,
-		param: param,
+		value: value,
 	}
 }
 
@@ -162,12 +162,12 @@ export const storeSetGlobalOutParamArr = (pipelineId: number, paramArr: string[]
 	}
 }
 
-export const storeSetGlobalOutValue = (pipelineId: number, paramIndex: number, param: string) => {
+export const storeSetGlobalOutValue = (pipelineId: number, paramIndex: number, value: ValueArg) => {
 	return {
 		type: SET_GLOBAL_OUT_VALUE,
 		pipelineId: pipelineId,
         paramIndex: paramIndex,
-		param: param,
+		value: value,
 	}
 }
 
@@ -194,12 +194,12 @@ export const storeSetInputParamArr = (pipelineId: number, paramArr: string[]) =>
 	}
 }
 
-export const storeSetInputValue = (pipelineId: number, paramIndex: number, param: string) => {
+export const storeSetInputValue = (pipelineId: number, paramIndex: number, value: ValueArg) => {
 	return {
 		type: SET_INPUT_VALUE,
 		pipelineId: pipelineId,
         paramIndex: paramIndex,
-		param: param,
+		value: value,
 	}
 }
 
@@ -226,12 +226,12 @@ export const storeSetFilterParamArr = (pipelineId: number, paramArr: string[]) =
 	}
 }
 
-export const storeSetFilterValue = (pipelineId: number, paramIndex: number, param: string) => {
+export const storeSetFilterValue = (pipelineId: number, paramIndex: number, value: ValueArg) => {
 	return {
 		type: SET_FILTER_VALUE,
 		pipelineId: pipelineId,
         paramIndex: paramIndex,
-		param: param,
+		value: value,
 	}
 }
 
@@ -258,12 +258,12 @@ export const storeSetFilterAudioParamArr = (pipelineId: number, paramArr: string
 	}
 }
 
-export const storeSetFilterAudioValue = (pipelineId: number, paramIndex: number, param: string) => {
+export const storeSetFilterAudioValue = (pipelineId: number, paramIndex: number, value: ValueArg) => {
 	return {
 		type: SET_FILTER_AUDIO_VALUE,
 		pipelineId: pipelineId,
         paramIndex: paramIndex,
-		param: param,
+		value: value,
 	}
 }
 
@@ -290,12 +290,12 @@ export const storeSetOutputParamArr = (pipelineId: number, paramArr: string[]) =
 	}
 }
 
-export const storeSetOutputValue = (pipelineId: number, paramIndex: number, param: string) => {
+export const storeSetOutputValue = (pipelineId: number, paramIndex: number, value: ValueArg) => {
 	return {
 		type: SET_OUTPUT_VALUE,
 		pipelineId: pipelineId,
         paramIndex: paramIndex,
-		param: param,
+		value: value,
 	}
 }
 

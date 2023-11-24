@@ -6,11 +6,11 @@ import {
 	storeSetOutputParamArr,
 	storeSetDockerOutputPorts,
 } from '../../../interface/redux/containerActions'
-import { Settings, SettingsOutputParam } from '../../../interface/SettingsInterface'
+import { Settings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
 import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
-import { OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { OUTPUT_PARAMS, ValueArg } from '../../../interface/GenericInterfaces'
 
 interface SrtProps {
 	pipelineId: number
@@ -22,8 +22,8 @@ const MpegTsOutputOptions: React.FC<SrtProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[1])
+	const ip = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
+	const port = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[1])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.MPEG_TS)))
@@ -32,10 +32,10 @@ const MpegTsOutputOptions: React.FC<SrtProps> = (props) => {
 
 
 		if (!ip) {
-			dispatch(storeSetOutputValue(id, 0, '10.20.30.40'))
+			dispatch(storeSetOutputValue(id, 0, { valueArg: ['10.20.30.40']}))
 		}
 		if (!port) {
-			dispatch(storeSetOutputValue(id, 1, '1234'))
+			dispatch(storeSetOutputValue(id, 1, { valueArg: ['1234']}))
 		}
 	}, [])
 
@@ -48,8 +48,8 @@ const MpegTsOutputOptions: React.FC<SrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={ip ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
+						value={ip?.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -57,8 +57,8 @@ const MpegTsOutputOptions: React.FC<SrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={port ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 1, event.target.value))}
+						value={port?.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 1, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 			</div>

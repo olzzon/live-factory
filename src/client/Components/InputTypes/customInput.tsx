@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES } from '../../../interface/GenericInterfaces'
+import { ValueArg } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInValue,
 	storeSetGlobalInParamArr,
@@ -20,8 +20,8 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const globalIn = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].globalInput.valueArgs[0])
-	const input = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
+	const globalIn = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].globalInput.valueArgs[0])
+	const input = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
 	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 	useEffect(() => {
@@ -29,10 +29,10 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 		dispatch(storeSetInputParamArr(id, [`{arg0}`]))
 
 		if (!globalIn) {
-			dispatch(storeSetGlobalInValue(id, 0, ` -re ` + findGpuSettings(hwAccel)))
+			dispatch(storeSetGlobalInValue(id, 0, { valueArg: [`-re`, ...findGpuSettings(hwAccel)]}))
 		}
 		if (!input) {
-			dispatch(storeSetInputValue(id, 0, `  -i "srt://0.0.0.0:9998?pkt_size=1316&mode=listener" `))
+			dispatch(storeSetInputValue(id, 0, { valueArg: ['-i', '"srt://0.0.0.0:9998?pkt_size=1316&mode=listener"']}))
 		}
 	}, [])
 
@@ -46,8 +46,8 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={globalIn ?? 'none'}
-					onChange={(event) => dispatch(storeSetGlobalInValue(id, 0, event.target.value))}
+					value={globalIn?.valueArg ?? 'none'}
+					onChange={(event) => dispatch(storeSetGlobalInValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -55,8 +55,8 @@ const CustomInputOptions: React.FC<ICustomProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={input ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
+					value={input?.valueArg ?? 'none'}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
 		</div>

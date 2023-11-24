@@ -69,29 +69,16 @@ const Transcoder: React.FC<Transcoder> = (props) => {
 	}
 
 	const handleSetInputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		if ((event.target.value as INPUT_PARAMS) !== INPUT_PARAMS.CUSTOM) {
-			dispatch(storeClearGlobalInValue(id))
-			dispatch(storeClearInputValue(id))
-		} else {
-			dispatch(storeSetGlobalInValue(id, 0, insertArgsToString(pipeline.globalInput.param, pipeline.globalInput.valueArgs)))
-			dispatch(storeSetInputValue(id, 0, insertArgsToString(pipeline.input.param, pipeline.input.valueArgs)))
-		}
+		dispatch(storeClearGlobalInValue(id))
+		dispatch(storeClearInputValue(id))
 		dispatch(storeSetInputType(id, event.target.value as INPUT_PARAMS))
 	}
 
 	const handleSetOutputType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		// ToDo: Better clearing of values:
-		if ((event.target.value as OUTPUT_PARAMS) !== OUTPUT_PARAMS.CUSTOM) {
-			dispatch(storeClearFilterValue(id))
-			dispatch(storeClearFilterAudioValue(id))
-			dispatch(storeClearGlobalOutValue(id))
-			dispatch(storeClearOutputValue(id))
-		} else {
-			dispatch(storeSetFilterValue(id, 0, insertArgsToString(pipeline.filter.param, pipeline.filter.valueArgs)))
-			dispatch(storeSetFilterAudioValue(id, 0, insertArgsToString(pipeline.audioFilter.param, pipeline.audioFilter.valueArgs)))
-			dispatch(storeSetGlobalOutValue(id, 0, insertArgsToString(pipeline.globalOutput.param, pipeline.globalOutput.valueArgs)))
-			dispatch(storeSetOutputValue(id, 0, insertArgsToString(pipeline.output.param, pipeline.output.valueArgs)))
-		}
+		dispatch(storeClearFilterValue(id))
+		dispatch(storeClearFilterAudioValue(id))
+		dispatch(storeClearGlobalOutValue(id))
+		dispatch(storeClearOutputValue(id))
 		dispatch(storeSetOutputType(id, event.target.value as OUTPUT_PARAMS))
 	}
 
