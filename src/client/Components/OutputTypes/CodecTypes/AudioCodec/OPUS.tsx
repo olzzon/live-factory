@@ -5,6 +5,7 @@ import {
 	storeSetFilterAudioParamArr,
 } from '../../../../../interface/redux/containerActions'
 import { RootState } from '../../../../main'
+import { ValueArg } from '../../../../../interface/GenericInterfaces'
 
 interface ICodecProps {
 	pipelineId: number
@@ -14,17 +15,17 @@ const OpusCodecOptions: React.FC<ICodecProps> = (props) => {
 	const dispatch = useDispatch()
 	const id = props.pipelineId
 
-	const aBandwidth = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].audioFilter.valueArgs[0])
-	const aAudioTracks = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].audioFilter.valueArgs[1])
+	const aBandwidth = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].audioFilter.valueArgs[0])
+	const aAudioTracks = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].audioFilter.valueArgs[1])
 
 	useEffect(() => {
 		dispatch(storeSetFilterAudioParamArr(id, ['-acodec', 'libopus', '-b:a', '{arg0}k']))
 
 		if (!aBandwidth) {
-			dispatch(storeSetFilterAudioValue(id, 0, `256`))
+			dispatch(storeSetFilterAudioValue(id, 0, { valueArg: ['256']}))
 		}
 		if (!aAudioTracks) {
-			dispatch(storeSetFilterAudioValue(id, 1, `2`))
+			dispatch(storeSetFilterAudioValue(id, 1, { valueArg: ['2']}))
 		}
 	}, [])
 
@@ -37,15 +38,15 @@ const OpusCodecOptions: React.FC<ICodecProps> = (props) => {
 				<input
 					className="input-number"
 					type="number"
-					value={aBandwidth ?? '256'}
-					onChange={(event) => dispatch(storeSetFilterAudioValue(id, 0, event.target.value))}
+					value={aBandwidth?.valueArg ?? '256'}
+					onChange={(event) => dispatch(storeSetFilterAudioValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
 			<label className="pipeline-label">
 				Audio Tracks
 				<select
-					value={aAudioTracks || '2'}
-					onChange={(e) => dispatch(storeSetFilterAudioValue(id, 1, e.target.value))}
+					value={aAudioTracks?.valueArg || '2'}
+					onChange={(e) => dispatch(storeSetFilterAudioValue(id, 1, { valueArg: [e.target.value]}))}
 				>
 					<option value="2">Stereo</option>
 					<option value="4">4-tracks</option>

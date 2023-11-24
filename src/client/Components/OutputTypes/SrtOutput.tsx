@@ -10,7 +10,7 @@ import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
 import { Settings } from '../../../interface/SettingsInterface'
 import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
-import { OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { OUTPUT_PARAMS, ValueArg } from '../../../interface/GenericInterfaces'
 
 const LOW_LATENCY = '800'
 const ULTRA_LOW_LATENCY = '120'
@@ -25,14 +25,14 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[1])
-	const mode = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[2])
-	const passphrase = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[3])
-	const latency = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[4])
-	const protocol = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[5])
+	const ip = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
+	const port = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[1])
+	const mode = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[2])
+	const passphrase = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[3])
+	const latency = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[4])
+	const protocol = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[5])
 	const [lowLatencyState, setLowLatencyState] = useState<boolean>(
-		latency?.includes(`&latency=${LOW_LATENCY}`) ? true : false
+		latency?.valueArg.includes(`&latency=${LOW_LATENCY}`) ? true : false
 	)
 
 	useEffect(() => {
@@ -47,43 +47,43 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 
 
 		if (!ip) {
-			dispatch(storeSetOutputValue(id, 0, '0.0.0.0'))
+			dispatch(storeSetOutputValue(id, 0, { valueArg: ['0.0.0.0']}))
 		}
 		if (!port) {
-			dispatch(storeSetOutputValue(id, 1, '9998'))
+			dispatch(storeSetOutputValue(id, 1, { valueArg: ['9998']}))
 			dispatch(storeSetDockerOutputPorts(id, [{ip: '0.0.0.0', port: '9998', protocol: 'tcp'}]))
 		}
 		if (!mode) {
-			dispatch(storeSetOutputValue(id, 2, 'listener'))
+			dispatch(storeSetOutputValue(id, 2, { valueArg: ['listener']}))
 		}
 		if (!passphrase) {
-			dispatch(storeSetOutputValue(id, 3, ' '))
+			dispatch(storeSetOutputValue(id, 3, { valueArg: []}))
 		}
 		if (lowLatencyState) {
-			dispatch(storeSetOutputValue(id, 4, '&latency=' + LOW_LATENCY))
+			dispatch(storeSetOutputValue(id, 4, { valueArg: ['&latency=' + LOW_LATENCY]}))
 			dispatch(storeSetGlobalOutParamArr(id, ['-fflags nobuffer', '-flags low_delay', '-probesize 32']))
 		} else {
-			dispatch(storeSetOutputValue(id, 4, ' '))
+			dispatch(storeSetOutputValue(id, 4, { valueArg: []}))
 			dispatch(storeSetGlobalOutParamArr(id, []))
 		}
 		if (!protocol) {
-			dispatch(storeSetOutputValue(id, 5, 'mpegts'))
+			dispatch(storeSetOutputValue(id, 5, { valueArg: ['mpegts']}))
 		}
 
 	}, [])
 
 	const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch(storeSetOutputValue(id, 1, event.target.value))
+		dispatch(storeSetOutputValue(id, 1, { valueArg: [event.target.value]}))
 		dispatch(storeSetDockerOutputPorts(id, [{ip: '0.0.0.0', port: event.target.value, protocol: 'tcp'}]))
 	}
 
 	const handleSetLowLatency = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
-			dispatch(storeSetOutputValue(id, 4, '&latency=' + LOW_LATENCY))
+			dispatch(storeSetOutputValue(id, 4, { valueArg: ['&latency=' + LOW_LATENCY]}))
 			dispatch(storeSetGlobalOutParamArr(id, ['-fflags nobuffer', '-flags low_delay', '-probesize 32']))
 			setLowLatencyState(true)
 		} else {
-			dispatch(storeSetOutputValue(id, 4, ' '))
+			dispatch(storeSetOutputValue(id, 4, { valueArg: []}))
 			dispatch(storeSetGlobalOutParamArr(id, []))
 			setLowLatencyState(false)
 		}
@@ -98,8 +98,8 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={ip ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
+						value={ip?.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -107,7 +107,7 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={port ?? 'none'}
+						value={port?.valueArg ?? 'none'}
 						onChange={(event) => handlePortChange(event)}
 					/>
 				</label>
@@ -116,15 +116,15 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={passphrase ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 3, event.target.value))}
+						value={passphrase?.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 3, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 				<label className="pipeline-label">
 					Mode :
 					<select
-						value={mode ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 2, event.target.value))}
+						value={mode?.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 2, { valueArg: [event.target.value]}))}
 					>
 						<option value="listener">Listener</option>
 						<option value="caller">Caller</option>
@@ -142,8 +142,8 @@ const SrtOutputOptions: React.FC<ISrtProps> = (props) => {
 				<label className="pipeline-label">
 					Protocol :
 					<select
-						value={protocol ?? 'mpegts'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 5, event.target.value))}
+						value={protocol?.valueArg ?? 'mpegts'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 5, { valueArg: [event.target.value]}))}
 					>
 						<option value="mpegts">Mpeg-Ts</option>
 						<option value="matroska">Matroska</option>

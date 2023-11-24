@@ -8,7 +8,7 @@ import {
 } from '../../../interface/redux/containerActions'
 import { RootState } from '../../main'
 import { GPU_TYPES, SettingsInputParam } from '../../../interface/SettingsInterface'
-import { INPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { INPUT_PARAMS, ValueArg } from '../../../interface/GenericInterfaces'
 import { parseGlobalInParamsToTranscoder, parseInputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
 interface ColorBarProps {
@@ -21,7 +21,7 @@ const ColorbarInputOptions: React.FC<ColorBarProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const resolution = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
+	const resolution = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
 	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 	useEffect(() => {
@@ -30,7 +30,7 @@ const ColorbarInputOptions: React.FC<ColorBarProps> = (props) => {
 		dispatch(storeSetDockerInputPorts(id, []))
 
 		if (!resolution) {
-			dispatch(storeSetInputValue(id, 0, '1920x1080'))
+			dispatch(storeSetInputValue(id, 0, {valueArg: ['1920x1080']}))
 		}
 	}, [])
 
@@ -44,8 +44,8 @@ const ColorbarInputOptions: React.FC<ColorBarProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={resolution ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
+					value={resolution?.valueArg ?? 'none'}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, {valueArg: [event.target.value]}))}
 				/>
 			</label>
 		</div>

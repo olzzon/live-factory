@@ -10,7 +10,7 @@ import { Settings, SettingsOutputParam } from '../../../interface/SettingsInterf
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
 import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
-import { OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { OUTPUT_PARAMS, ValueArg } from '../../../interface/GenericInterfaces'
 
 interface RistProps {
 	pipelineId: number
@@ -22,28 +22,28 @@ const RistOutputOptions: React.FC<RistProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[1])
-	const cname = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[2])
+	const ip = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
+	const port = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[1])
+	const cname = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[2])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.RIST)))
 		dispatch(storeSetOutputParamArr(id, parseOutputParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.RIST)))
 
 		if (!ip) {
-			dispatch(storeSetOutputValue(id, 0, '0.0.0.0'))
+			dispatch(storeSetOutputValue(id, 0, { valueArg: ['0.0.0.0']}))
 		}
 		if (!port) {
-			dispatch(storeSetOutputValue(id, 1, '9998'))
+			dispatch(storeSetOutputValue(id, 1, { valueArg: ['9998']}))
 			dispatch(storeSetDockerOutputPorts(id, [{ip: '0.0.0.0', port: '9998', protocol: 'tcp'}]))
 		}
 		if (!cname) {
-			dispatch(storeSetOutputValue(id, 2, 'SENDER01'))
+			dispatch(storeSetOutputValue(id, 2, { valueArg: ['SENDER01']}))
 		}
 	}, [])
 
 	const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch(storeSetOutputValue(id, 1, event.target.value))
+		dispatch(storeSetOutputValue(id, 1, { valueArg: [event.target.value]}))
 		dispatch(storeSetDockerOutputPorts(id, [{ip: '0.0.0.0', port: event.target.value, protocol: 'tcp'}]))
 	}
 
@@ -56,8 +56,8 @@ const RistOutputOptions: React.FC<RistProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={ip ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
+						value={ip?.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -65,7 +65,7 @@ const RistOutputOptions: React.FC<RistProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={port ?? 'none'}
+						value={port?.valueArg ?? 'none'}
 						onChange={(event) => handlePortChange(event)}
 					/>
 				</label>
@@ -74,8 +74,8 @@ const RistOutputOptions: React.FC<RistProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={cname ?? 0}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 2, event.target.value))}
+						value={cname?.valueArg ?? 0}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 2, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 			</div>

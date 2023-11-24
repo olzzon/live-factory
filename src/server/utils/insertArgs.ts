@@ -1,7 +1,9 @@
-const insertArgs = (argArray: string[], paramArgs: string[]): string[] => {
+import { ValueArg } from "../../interface/GenericInterfaces"
+
+const insertArgs = (argArray: string[], valueArgs: ValueArg[]): string[] => {
     let returnArray = argArray
-    paramArgs.forEach((param: string, index: number) => {
-        param = param?.replace(' ', '')
+    valueArgs.forEach((value: ValueArg, index: number) => {
+        const param: string = value?.valueArg?.join(' ') || ''
         returnArray = returnArray.map((str) => str.replace(`{arg${index}}`, param))
     })
     
