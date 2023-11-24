@@ -33,7 +33,7 @@ const NdiOutputOptions: React.FC<NdiProps> = (props) => {
 		dispatch(storeSetDockerOutputPorts(id, []))
 
 		if (!outputName) {
-			dispatch(storeSetOutputValue(id, 0, { valueArg: ['"NDI_PIPE${id + 1}"']}))
+			dispatch(storeSetOutputValue(id, 0, { valueArg: [`NDI_PIPE${id + 1}`]}))
 		}
 	}, [])
 

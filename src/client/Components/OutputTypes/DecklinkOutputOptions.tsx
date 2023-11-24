@@ -35,7 +35,7 @@ const DecklinkOutputOptions: React.FC<DecklinkProps> = (props) => {
 
 		dispatch(storeSetFilterParamArr(id, []))
 		if (!outputName) {
-			dispatch(storeSetOutputValue(id, 0, { valueArg: ['"DeckLink Quad (1)"']}))
+			dispatch(storeSetOutputValue(id, 0, { valueArg: ['DeckLink Quad (1)']}))
 		}
 		if (!channels) {
 			dispatch(storeSetOutputValue(id, 1, { valueArg: ['2']}))
