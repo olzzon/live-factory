@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { INPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { INPUT_PARAMS, ValueArg } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInValue,
 	storeSetGlobalInParamArr,
@@ -23,9 +23,9 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 	const [collapse, setCollapse] = useState(false)
 
 
-	const fileLoop = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].globalInput.valueArgs[0])
-	const filePath = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
-	const fileName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[1])
+	const fileLoop = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].globalInput.valueArgs[0])
+	const filePath = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
+	const fileName = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[1])
 	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 
@@ -35,13 +35,13 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 		dispatch(storeSetDockerInputPorts(id, []))
 
 		if (!fileLoop) {
-			dispatch(storeSetGlobalInValue(id, 0, '1'))
+			dispatch(storeSetGlobalInValue(id, 0, { valueArg: ['1']}))
 		}
 		if (!filePath) {
-			dispatch(storeSetInputValue(id, 0, '/Users/olzzon/coding/live-factory/media/'))
+			dispatch(storeSetInputValue(id, 0, { valueArg: ['/Users/olzzon/coding/live-factory/media/']}))
 		}
 		if (!fileName) {
-			dispatch(storeSetInputValue(id, 1, 'HDR10Jazz.mp4'))
+			dispatch(storeSetInputValue(id, 1, { valueArg: ['HDR10Jazz.mp4']}))
 		}
 	}, [])
 
@@ -55,8 +55,8 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={filePath ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
+					value={filePath.valueArg ?? 'none'}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -64,8 +64,8 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={fileName ?? 'none'}
-					onChange={(event) => dispatch(storeSetInputValue(id, 1, event.target.value))}
+					value={fileName.valueArg ?? 'none'}
+					onChange={(event) => dispatch(storeSetInputValue(id, 1, { valueArg: [event.target.value]}))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -73,8 +73,8 @@ const FileInputOptions: React.FC<IFileProps> = (props) => {
 				<input
 					className="input-number"
 					type="number"
-					value={fileLoop ?? 0}
-					onChange={(event) => dispatch(storeSetGlobalInValue(id, 0, event.target.value))}
+					value={fileLoop.valueArg ?? 0}
+					onChange={(event) => dispatch(storeSetGlobalInValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
 		</div>

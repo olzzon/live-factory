@@ -24,10 +24,13 @@ export interface DockerPort {
     protocol: string
 }
 
+export interface ValueArg {
+    valueArg: string[]
+}
 export interface InputParams {
     type: INPUT_PARAMS
     param: string[]
-    valueArgs: string[]
+    valueArgs: ValueArg[]
 }
 
 export enum INPUT_PARAMS {
@@ -48,7 +51,7 @@ export enum INPUT_PARAMS {
 export interface OutputParams {
     type: OUTPUT_PARAMS
     param: string[]
-    valueArgs: string[]
+    valueArgs: ValueArg[]
 }
 
 export enum OUTPUT_PARAMS {
@@ -67,7 +70,7 @@ export enum OUTPUT_PARAMS {
 export interface OutputCodecParams {
     type: OUTPUT_ENCODER
     param: string[]
-    valueArgs: string[]
+    valueArgs: ValueArg[]
 }
 
 export enum OUTPUT_ENCODER {
@@ -83,7 +86,7 @@ export enum OUTPUT_ENCODER {
 export interface OutputAudioCodecParams {
     type: OUTPUT_AUDIO_ENCODER
     param: string[]
-    valueArgs: string[]
+    valueArgs: ValueArg[]
 }
 
 export enum OUTPUT_AUDIO_ENCODER {
@@ -93,7 +96,7 @@ export enum OUTPUT_AUDIO_ENCODER {
 
 export interface GlobalParams {
     param: string[]
-    valueArgs: string[]
+    valueArgs: ValueArg[]
 }
 
 export interface DeviceList {

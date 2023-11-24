@@ -10,7 +10,7 @@ import { Settings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
 import CodecTypes from './CodecTypes/CodecTypes'
 import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
-import { OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { OUTPUT_PARAMS, ValueArg } from '../../../interface/GenericInterfaces'
 
 interface TcpProps {
 	pipelineId: number
@@ -22,9 +22,9 @@ const RtpOutputOptions: React.FC<TcpProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[1])
-	const sdp = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[2])
+	const ip = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
+	const port = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[1])
+	const sdp = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[2])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.RTP)))
@@ -32,13 +32,13 @@ const RtpOutputOptions: React.FC<TcpProps> = (props) => {
 		dispatch(storeSetDockerOutputPorts(id, []))
 
 		if (!ip) {
-			dispatch(storeSetOutputValue(id, 0, '0.0.0.0'))
+			dispatch(storeSetOutputValue(id, 0, { valueArg: ['0.0.0.0']}))
 		}
 		if (!port) {
-			dispatch(storeSetOutputValue(id, 1, '9998'))
+			dispatch(storeSetOutputValue(id, 1, { valueArg: ['9998']}))
 		}
 		if (!sdp) {
-			dispatch(storeSetOutputValue(id, 2, '/tmp/sdp.sdp'))
+			dispatch(storeSetOutputValue(id, 2, { valueArg: ['/tmp/sdp.sdp']}))
 		}
 	}, [])
 
@@ -51,8 +51,8 @@ const RtpOutputOptions: React.FC<TcpProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={ip ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
+						value={ip.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -60,8 +60,8 @@ const RtpOutputOptions: React.FC<TcpProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={port ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 1, event.target.value))}
+						value={port.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 1, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 				<label className="pipeline-label">
@@ -69,8 +69,8 @@ const RtpOutputOptions: React.FC<TcpProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={sdp ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 2, event.target.value))}
+						value={sdp.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 2, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 			</div>

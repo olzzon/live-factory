@@ -35,8 +35,8 @@ const defaultFfmpegContainerReducerState = (): FFmpegReducer => {
 				globalInput: { param: [], valueArgs: [] },
 				globalOutput: { param: [], valueArgs: [] },
 				input: { type: INPUT_PARAMS.COLORBAR, param: [], valueArgs: [] },
-				filter: { type: OUTPUT_ENCODER.COPY, param: ['-v:c', 'copy'], valueArgs: [''] },
-				audioFilter: { type: OUTPUT_AUDIO_ENCODER.COPY, param: ['-a:c', 'copy'], valueArgs: [''] },
+				filter: { type: OUTPUT_ENCODER.COPY, param: ['-v:c', 'copy'], valueArgs: [] },
+				audioFilter: { type: OUTPUT_AUDIO_ENCODER.COPY, param: ['-a:c', 'copy'], valueArgs: [] },
 				output: { type: OUTPUT_PARAMS.NDI, param: [], valueArgs: [] },
 				log: ['log is empty'],
 				hwaccell: GPU_TYPES.NONE
@@ -117,55 +117,55 @@ export const ffmpeg = (state = [defaultFfmpegContainerReducerState()], action: a
 			nextState[0].pipeline[action.pipelineId].globalInput.param = action.paramArr
 			return nextState
 		case CONTAINER_ACTIONS.SET_GLOBAL_IN_VALUE:
-			nextState[0].pipeline[action.pipelineId].globalInput.valueArgs[action.paramIndex] = action.param
+			nextState[0].pipeline[action.pipelineId].globalInput.valueArgs[action.paramIndex] = action.value
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_GLOBAL_IN_VALUE:
-			nextState[0].pipeline[action.pipelineId].globalInput.valueArgs = ['']
+			nextState[0].pipeline[action.pipelineId].globalInput.valueArgs = []
 			return nextState
 		case CONTAINER_ACTIONS.SET_GLOBAL_OUT_PARAM_ARR:
 			nextState[0].pipeline[action.pipelineId].globalOutput.param = action.paramArr
 			return nextState
 		case CONTAINER_ACTIONS.SET_GLOBAL_OUT_VALUE:
-			nextState[0].pipeline[action.pipelineId].globalOutput.valueArgs[action.paramIndex] = action.param
+			nextState[0].pipeline[action.pipelineId].globalOutput.valueArgs[action.paramIndex] = action.value
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_GLOBAL_OUT_VALUE:
-			nextState[0].pipeline[action.pipelineId].globalOutput.valueArgs = ['']
+			nextState[0].pipeline[action.pipelineId].globalOutput.valueArgs = []
 			return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_PARAM_ARR:
 			nextState[0].pipeline[action.pipelineId].input.param = action.paramArr
 			return nextState
 		case CONTAINER_ACTIONS.SET_INPUT_VALUE:
-			nextState[0].pipeline[action.pipelineId].input.valueArgs[action.paramIndex] = action.param
+			nextState[0].pipeline[action.pipelineId].input.valueArgs[action.paramIndex] = action.value
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_INPUT_VALUE:
-			nextState[0].pipeline[action.pipelineId].input.valueArgs = ['']
+			nextState[0].pipeline[action.pipelineId].input.valueArgs = []
 			return nextState
 		case CONTAINER_ACTIONS.SET_FILTER_PARAM_ARR:
 			nextState[0].pipeline[action.pipelineId].filter.param = action.paramArr
 			return nextState
 		case CONTAINER_ACTIONS.SET_FILTER_VALUE:
-			nextState[0].pipeline[action.pipelineId].filter.valueArgs[action.paramIndex] = action.param
+			nextState[0].pipeline[action.pipelineId].filter.valueArgs[action.paramIndex] = action.value
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_FILTER_VALUE:
-			nextState[0].pipeline[action.pipelineId].filter.valueArgs = ['']
+			nextState[0].pipeline[action.pipelineId].filter.valueArgs = []
 			return nextState
 		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_PARAM_ARR:
 			nextState[0].pipeline[action.pipelineId].audioFilter.param = action.paramArr
 			return nextState
 		case CONTAINER_ACTIONS.SET_FILTER_AUDIO_VALUE:
-			nextState[0].pipeline[action.pipelineId].audioFilter.valueArgs[action.paramIndex] = action.param
+			nextState[0].pipeline[action.pipelineId].audioFilter.valueArgs[action.paramIndex] = action.value
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_FILTER_AUDIO_VALUE:
-			nextState[0].pipeline[action.pipelineId].audioFilter.valueArgs = ['']
+			nextState[0].pipeline[action.pipelineId].audioFilter.valueArgs = []
 			return nextState
 		case CONTAINER_ACTIONS.SET_OUTPUT_PARAM_ARR:
 			nextState[0].pipeline[action.pipelineId].output.param = action.paramArr
 			return nextState
 		case CONTAINER_ACTIONS.SET_OUTPUT_VALUE:
-			nextState[0].pipeline[action.pipelineId].output.valueArgs[action.paramIndex] = action.param
+			nextState[0].pipeline[action.pipelineId].output.valueArgs[action.paramIndex] = action.value
 			return nextState
 		case CONTAINER_ACTIONS.CLEAR_OUTPUT_VALUE:
-			nextState[0].pipeline[action.pipelineId].output.valueArgs = ['']
+			nextState[0].pipeline[action.pipelineId].output.valueArgs = []
 			return nextState
 		default:
 			return nextState

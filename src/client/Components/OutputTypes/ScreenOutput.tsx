@@ -9,7 +9,7 @@ import {
 } from '../../../interface/redux/containerActions'
 import { Settings } from '../../../interface/SettingsInterface'
 import { RootState } from '../../main'
-import { OUTPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { OUTPUT_PARAMS, ValueArg } from '../../../interface/GenericInterfaces'
 import { parseGlobalOutParamsToTranscoder, parseOutputParamsToTranscoder } from '../../utils/parseParamsToTranscoder'
 
 interface IOutProps {
@@ -22,7 +22,7 @@ const ScreenOutputOptions: React.FC<IOutProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const outputName = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
+	const outputName = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].output.valueArgs[0])
 
 	useEffect(() => {
 		dispatch(storeSetGlobalOutParamArr(id, parseGlobalOutParamsToTranscoder(props.settings.outputParams, OUTPUT_PARAMS.SCREEN)))
@@ -41,8 +41,8 @@ const ScreenOutputOptions: React.FC<IOutProps> = (props) => {
 					<input
 						className="input-text"
 						type="text"
-						value={outputName ?? 'none'}
-						onChange={(event) => dispatch(storeSetOutputValue(id, 0, event.target.value))}
+						value={outputName.valueArg ?? 'none'}
+						onChange={(event) => dispatch(storeSetOutputValue(id, 0, { valueArg: [event.target.value]}))}
 					/>
 				</label>
 			</div>

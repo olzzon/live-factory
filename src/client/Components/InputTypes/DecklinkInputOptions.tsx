@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DEVICE_TYPES, INPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { DEVICE_TYPES, INPUT_PARAMS, ValueArg } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
@@ -21,9 +21,9 @@ const DecklinkInputOptions: React.FC<DecklinkProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const decklinkInput = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
-	const channels = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[1])
-	const queue_size = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[2])
+	const decklinkInput = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
+	const channels = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[1])
+	const queue_size = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[2])
 	const devices = useSelector<RootState, string[]>(
 		(state) => state.ffmpeg[0].deviceTypes[DEVICE_TYPES.DECKLINK_INPUT]?.devices || []
 	)
@@ -35,18 +35,18 @@ const DecklinkInputOptions: React.FC<DecklinkProps> = (props) => {
 		dispatch(storeSetDockerInputPorts(id, []))
 
 		if (!decklinkInput) {
-			dispatch(storeSetInputValue(id, 0, 'DeckLink Quad (1)'))
+			dispatch(storeSetInputValue(id, 0, { valueArg: ['"DeckLink Quad (1)"'] }))
 		}
 		if (!channels) {
-			dispatch(storeSetInputValue(id, 1, '16'))
+			dispatch(storeSetInputValue(id, 1, { valueArg: ['16'] }))
 		}
 		if (!queue_size) {
-			dispatch(storeSetInputValue(id, 2, '1073741824'))
+			dispatch(storeSetInputValue(id, 2, { valueArg: ['1073741824'] }))
 		}
 	}, [])
 
 	const handleSetDecklinkInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(storeSetInputValue(id, 0, event.target.value))
+		dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value] }))
 	}
 
 	return (
@@ -59,8 +59,8 @@ const DecklinkInputOptions: React.FC<DecklinkProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={decklinkInput ?? 'DeckLink Quad (1)'}
-					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
+					value={decklinkInput.valueArg ?? 'DeckLink Quad (1)'}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value] }))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -81,8 +81,8 @@ const DecklinkInputOptions: React.FC<DecklinkProps> = (props) => {
 			<label className="pipeline-label">
 				Audio channels :
 				<select
-					value={channels ?? 16}
-					onChange={(event) => dispatch(storeSetInputValue(id, 1, event.target.value))}
+					value={channels.valueArg ?? 16}
+					onChange={(event) => dispatch(storeSetInputValue(id, 1, { valueArg: [event.target.value] }))}
 				>
 					<option key={2} value={2}>2</option>
 					<option key={4} value={4}>4</option>

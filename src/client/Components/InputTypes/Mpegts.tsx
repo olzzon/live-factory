@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { INPUT_PARAMS } from '../../../interface/GenericInterfaces'
+import { INPUT_PARAMS, ValueArg } from '../../../interface/GenericInterfaces'
 import {
 	storeSetGlobalInParamArr,
 	storeSetInputValue,
@@ -21,9 +21,9 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 	const id = props.pipelineId
 	const [collapse, setCollapse] = useState(false)
 
-	const ip = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
-	const port = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[1])
-	const fifoSize = useSelector<RootState, string>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[2])
+	const ip = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[0])
+	const port = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[1])
+	const fifoSize = useSelector<RootState, ValueArg>((state) => state.ffmpeg[0].pipeline[id].input.valueArgs[2])
 	const hwAccel = useSelector<RootState, GPU_TYPES>((state) => state.ffmpeg[0].pipeline[id].hwaccell)
 
 	useEffect(() => {
@@ -31,19 +31,19 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 		dispatch(storeSetInputParamArr(id, parseInputParamsToTranscoder(props.inputParams, INPUT_PARAMS.MPEG_TS, hwAccel)))
 		
 		if (!ip) {
-			dispatch(storeSetInputValue(id, 0, 'localhost'))
+			dispatch(storeSetInputValue(id, 0, { valueArg: ['localhost']}))
 		}
 		if (!port) {
-			dispatch(storeSetInputValue(id, 1, '1234'))
+			dispatch(storeSetInputValue(id, 1, { valueArg: ['1234']}))
 			dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: "1234", protocol: 'udp'}]))
 		}
 		if (!fifoSize) {
-			dispatch(storeSetInputValue(id, 2, '49152'))
+			dispatch(storeSetInputValue(id, 2, { valueArg: ['49152']}))
 		}
 	}, [])
 
 	const handlePortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch(storeSetInputValue(id, 1, event.target.value))
+		dispatch(storeSetInputValue(id, 1, { valueArg: [event.target.value]}))
 		dispatch(storeSetDockerInputPorts(id, [{ip: '0.0.0.0', port: event.target.value, protocol: 'udp'}]))
 	}
 
@@ -57,8 +57,8 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={ip}
-					onChange={(event) => dispatch(storeSetInputValue(id, 0, event.target.value))}
+					value={ip.valueArg}
+					onChange={(event) => dispatch(storeSetInputValue(id, 0, { valueArg: [event.target.value]}))}
 				/>
 			</label>
 			<label className="pipeline-label">
@@ -66,7 +66,7 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={port}
+					value={port.valueArg}
 					onChange={(event) => handlePortChange(event)}
 				/>
 			</label>
@@ -75,8 +75,8 @@ const MpegtsInputOptions: React.FC<IMpegtsProps> = (props) => {
 				<input
 					className="input-text"
 					type="text"
-					value={fifoSize}
-					onChange={(event) => dispatch(storeSetInputValue(id, 2, event.target.value))}
+					value={fifoSize.valueArg}
+					onChange={(event) => dispatch(storeSetInputValue(id, 2, { valueArg: [event.target.value]}))}
 				/>
 			</label>
 		</div>
