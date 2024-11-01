@@ -1,3 +1,5 @@
+## Looking for sponsors for this project
+
 # Live-factory
 GUI based Reciever - transmitter - transcoder for video and audio 
 
